@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Gimme Pictures</string>
+    <string name="sort_by">Sort by</string>
+    <string name="order_latest">Latest</string>
+    <string name="order_oldest">Oldest</string>
+    <string name="order_popular">Popular</string>
+
+    <string name="sponsored">Sponsored</string>
+
+    <string name="list_footer_load_error">Load error, check connection</string>
+    <string name="retry">Retry</string>
+
+    <string name="photos">Photos</string>
+    <string name="collections">Collections</string>
+    <string name="search">Search</string>
+</resources>

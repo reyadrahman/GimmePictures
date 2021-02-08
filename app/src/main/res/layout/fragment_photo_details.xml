@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.PhotoDetailsFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/photo_image_view"
+            android:layout_width="@dimen/indent_0dp"
+            android:layout_height="@dimen/indent_0dp"
+            android:contentDescription="@string/photos"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="4:3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@color/purple_200" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/indent_0dp"
+            android:background="@drawable/image_scrim"
+            app:layout_constraintBottom_toBottomOf="@id/photo_image_view"
+            app:layout_constraintTop_toTopOf="@id/photo_image_view" />
+
+        <LinearLayout
+            android:id="@+id/user_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/indent_16dp"
+            app:layout_constraintBottom_toBottomOf="@id/photo_image_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/user_image_view"
+                android:layout_width="@dimen/small_user_icon_size"
+                android:layout_height="@dimen/small_user_icon_size"
+                android:layout_marginStart="@dimen/indent_8dp"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/CircleImageView"
+                tools:ignore="ContentDescription"
+                tools:src="@color/pink_200" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/user_text_view"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/indent_12dp"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:visibility="visible"
+                tools:text="User Name" />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/description_text"
+            style="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/indent_16dp"
+            android:layout_marginTop="@dimen/indent_16dp"
+            android:layout_marginEnd="@dimen/indent_16dp"
+            android:maxLines="2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_container"
+            tools:text="Lorem ipsum dolor sit amet" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.core.widget.NestedScrollView>

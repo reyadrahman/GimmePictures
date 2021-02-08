@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="indent_0dp">0dp</dimen>
+    <dimen name="indent_8dp">8dp</dimen>
+    <dimen name="indent_12dp">12dp</dimen>
+    <dimen name="indent_16dp">16dp</dimen>
+    <dimen name="indent_24dp">24dp</dimen>
+
+    <dimen name="small_user_icon_size">40dp</dimen>
+    <dimen name="small_user_text_size">12sp</dimen>
+</resources>
