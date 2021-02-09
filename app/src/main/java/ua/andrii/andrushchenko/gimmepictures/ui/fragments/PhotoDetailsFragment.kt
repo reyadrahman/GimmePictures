@@ -3,12 +3,14 @@ package ua.andrii.andrushchenko.gimmepictures.ui.fragments
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,12 +72,28 @@ class PhotoDetailsFragment : Fragment(R.layout.fragment_photo_details) {
                     descriptionText.text = description
                 }
 
-                recyclerViewExif.apply {
-                    layoutManager = GridLayoutManager(requireContext(), 2)
-                    adapter = PhotoExifAdapter(requireContext()).apply { setExif(photo) }
-                }
+                txtLikes.text = "${photo.likes ?: 0}"
+                txtDownloads.text = "${photo.downloads ?: 0}"
+                txtViews.text = "${photo.views ?: 0}"
+
+                recyclerViewExif.adapter =
+                    PhotoExifAdapter(requireContext()).apply { setExif(photo) }
             }
         }
+
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_photo_details, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_share) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

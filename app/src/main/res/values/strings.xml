@@ -13,6 +13,7 @@
     <string name="photos">Photos</string>
     <string name="collections">Collections</string>
     <string name="search">Search</string>
+    <string name="share">Share</string>
 
     <string name="location_template" translatable="false">%s, %s</string>
     <string name="photo_details">Photo details</string>

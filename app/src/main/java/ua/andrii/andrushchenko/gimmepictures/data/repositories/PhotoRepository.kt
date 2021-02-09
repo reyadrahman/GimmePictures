@@ -7,6 +7,7 @@ import androidx.paging.PagingData
 import androidx.paging.liveData
 import kotlinx.coroutines.Dispatchers
 import ua.andrii.andrushchenko.gimmepictures.data.api.PhotoService
+import ua.andrii.andrushchenko.gimmepictures.data.common.PAGE_SIZE
 import ua.andrii.andrushchenko.gimmepictures.data.source.PhotosPagingSource
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.util.Result
@@ -21,7 +22,7 @@ class PhotoRepository @Inject constructor(
     fun getAllPhotos(order: PhotosPagingSource.Companion.Order): LiveData<PagingData<Photo>> =
         Pager(
             config = PagingConfig(
-                pageSize = 20,
+                pageSize = PAGE_SIZE,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { PhotosPagingSource(photoService, order) }
@@ -31,8 +32,4 @@ class PhotoRepository @Inject constructor(
         safeApiRequest(Dispatchers.IO) {
             photoService.getPhoto(photoId)
         }
-
-    fun searchPhotos(): LiveData<PagingData<Photo>> {
-        TODO()
-    }
 }

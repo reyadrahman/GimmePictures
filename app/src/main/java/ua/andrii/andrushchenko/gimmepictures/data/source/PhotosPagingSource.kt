@@ -6,6 +6,7 @@ import androidx.paging.PagingState
 import retrofit2.HttpException
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.data.api.PhotoService
+import ua.andrii.andrushchenko.gimmepictures.data.common.PAGE_SIZE
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import java.io.IOException
 
@@ -20,7 +21,7 @@ class PhotosPagingSource(
         val pageKey = params.key ?: STARTING_PAGE_INDEX
 
         return try {
-            val photos = photoService.getPhotos(pageKey, 20, order.value)
+            val photos = photoService.getPhotos(pageKey, PAGE_SIZE, order.value)
 
             LoadResult.Page(
                 data = photos,

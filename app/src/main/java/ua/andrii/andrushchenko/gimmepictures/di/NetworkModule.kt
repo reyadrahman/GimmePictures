@@ -9,6 +9,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ua.andrii.andrushchenko.gimmepictures.data.api.PhotoService
+import ua.andrii.andrushchenko.gimmepictures.data.api.SearchService
 import ua.andrii.andrushchenko.gimmepictures.data.common.BASE_URL
 import ua.andrii.andrushchenko.gimmepictures.data.common.CLIENT_ID
 import java.util.concurrent.TimeUnit
@@ -55,4 +56,8 @@ object NetworkModule {
     fun providePhotoService(retrofit: Retrofit): PhotoService =
         retrofit.create(PhotoService::class.java)
 
+    @Provides
+    @Singleton
+    fun provideSearchService(retrofit: Retrofit): SearchService =
+        retrofit.create(SearchService::class.java)
 }
