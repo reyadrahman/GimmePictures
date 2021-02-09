@@ -2,30 +2,26 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_main"
+    android:id="@+id/nav_photos"
     app:startDestination="@id/photosFragment">
 
     <fragment
         android:id="@+id/photosFragment"
         android:name="ua.andrii.andrushchenko.gimmepictures.ui.fragments.PhotosFragment"
-        android:label="fragment_photos"
-        tools:layout="@layout/fragment_photos" >
+        android:label="@string/photos"
+        tools:layout="@layout/fragment_photos">
         <action
             android:id="@+id/action_photosFragment_to_photoDetailsFragment"
             app:destination="@id/photoDetailsFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/collectionsFragment"
-        android:name="ua.andrii.andrushchenko.gimmepictures.ui.fragments.CollectionsFragment"
-        android:label="CollectionsFragment"
-        tools:layout="@layout/fragment_collections" />
+
     <fragment
         android:id="@+id/photoDetailsFragment"
         android:name="ua.andrii.andrushchenko.gimmepictures.ui.fragments.PhotoDetailsFragment"
-        android:label="PhotoDetailsFragment"
-        tools:layout="@layout/fragment_photo_details" >
+        android:label="@string/photo_details"
+        tools:layout="@layout/fragment_photo_details">
         <argument
-            android:name="photo"
-            app:argType="ua.andrii.andrushchenko.gimmepictures.models.Photo" />
+            android:name="photoId"
+            app:argType="string" />
     </fragment>
 </navigation>

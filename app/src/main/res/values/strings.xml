@@ -13,4 +13,17 @@
     <string name="photos">Photos</string>
     <string name="collections">Collections</string>
     <string name="search">Search</string>
+
+    <string name="location_template" translatable="false">%s, %s</string>
+    <string name="photo_details">Photo details</string>
+
+    <string name="camera">Camera</string>
+    <string name="aperture">Aperture</string>
+    <string name="unknown">Unknown</string>
+    <string name="focal_length">Focal length</string>
+    <string name="shutter_speed">Shutter speed</string>
+    <string name="exposure_time">Exposure time</string>
+    <string name="iso">ISO</string>
+    <string name="dimensions">Dimensions</string>
+
 </resources>

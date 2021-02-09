@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -26,8 +26,7 @@ import ua.andrii.andrushchenko.gimmepictures.ui.viewmodels.PhotoViewModel
 @AndroidEntryPoint
 class PhotosFragment : Fragment(R.layout.fragment_photos) {
 
-    //private val viewModel by viewModels<PhotoViewModel>()
-    private val viewModel by hiltNavGraphViewModels<PhotoViewModel>(R.id.nav_main)
+    private val viewModel by viewModels<PhotoViewModel>()
 
     private var _binding: FragmentPhotosBinding? = null
     private val binding get() = _binding!!
@@ -40,7 +39,7 @@ class PhotosFragment : Fragment(R.layout.fragment_photos) {
         val adapter = PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
             override fun onPhotoClick(photo: Photo) {
                 val direction =
-                    PhotosFragmentDirections.actionPhotosFragmentToPhotoDetailsFragment(photo)
+                    PhotosFragmentDirections.actionPhotosFragmentToPhotoDetailsFragment(photo.id)
                 findNavController().navigate(direction)
             }
 

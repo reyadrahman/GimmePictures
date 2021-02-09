@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/photosFragment"
+        android:id="@+id/nav_photos"
         android:icon="@drawable/ic_photo"
         android:title="@string/photos" />
 
     <item
-        android:id="@+id/collectionsFragment"
+        android:id="@+id/nav_collections"
         android:icon="@drawable/ic_collections"
         android:title="@string/collections" />
 

@@ -5,9 +5,12 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
+import kotlinx.coroutines.Dispatchers
 import ua.andrii.andrushchenko.gimmepictures.data.api.PhotoService
 import ua.andrii.andrushchenko.gimmepictures.data.source.PhotosPagingSource
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
+import ua.andrii.andrushchenko.gimmepictures.util.Result
+import ua.andrii.andrushchenko.gimmepictures.util.safeApiRequest
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,9 +27,10 @@ class PhotoRepository @Inject constructor(
             pagingSourceFactory = { PhotosPagingSource(photoService, order) }
         ).liveData
 
-    suspend fun getPhotoById(id: String): Photo {
-        TODO()
-    }
+    suspend fun getSinglePhoto(photoId: String): Result<Photo> =
+        safeApiRequest(Dispatchers.IO) {
+            photoService.getPhoto(photoId)
+        }
 
     fun searchPhotos(): LiveData<PagingData<Photo>> {
         TODO()
