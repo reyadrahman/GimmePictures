@@ -13,7 +13,6 @@ import ua.andrii.andrushchenko.gimmepictures.util.setupWithNavController
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    //private lateinit var navController: NavController
     private var currentNavController: LiveData<NavController>? = null
     private lateinit var binding: ActivityMainBinding
 
@@ -26,18 +25,6 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             setupBottomNavigationBar()
         } // Else, need to wait for onRestoreInstanceState
-
-        /*val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_main) as NavHostFragment
-        navController = navHostFragment.findNavController()
-
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.photosFragment, R.id.collectionsFragment)
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
-        binding.bottomNavigationView.setupWithNavController(navController)
-        binding.bottomNavigationView.setOnNavigationItemReselectedListener {}*/
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -69,8 +56,4 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return currentNavController?.value?.navigateUp() ?: false
     }
-
-    /*override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp() || super.onSupportNavigateUp()
-    }*/
 }

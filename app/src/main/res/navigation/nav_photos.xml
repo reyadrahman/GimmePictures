@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_photosFragment_to_photoDetailsFragment"
             app:destination="@id/photoDetailsFragment" />
+        <action
+            android:id="@+id/action_photosFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
 
     <fragment
@@ -23,5 +26,17 @@
         <argument
             android:name="photoId"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="ua.andrii.andrushchenko.gimmepictures.ui.fragments.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <argument
+            android:name="searchQuery"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_searchFragment_to_photoDetailsFragment"
+            app:destination="@id/photoDetailsFragment" />
     </fragment>
 </navigation>

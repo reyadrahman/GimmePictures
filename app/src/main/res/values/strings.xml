@@ -27,4 +27,40 @@
     <string name="iso">ISO</string>
     <string name="dimensions">Dimensions</string>
 
+    <string-array name="search_category_array">
+        <item>Photos</item>
+        <item>Collections</item>
+        <item>Users</item>
+    </string-array>
+
+    <string name="apply">Apply</string>
+    <string name="search_for">Search for:</string>
+
+    <!-- Search -->
+    <string name="no_search_results_subtitle">Try searching for something</string>
+    <string name="filter">Filter</string>
+    <string name="filter_relevance">Relevance</string>
+    <string name="filter_latest">Latest</string>
+    <string name="content_filter">Content Filter</string>
+    <string name="filter_low">Low</string>
+    <string name="filter_high">High</string>
+    <string name="orientation">Orientation</string>
+    <string name="filter_any">Any</string>
+    <string name="filter_portrait">Portrait</string>
+    <string name="filter_landscape">Landscape</string>
+    <string name="filter_square">Square</string>
+    <string name="filter_color">Color</string>
+    <string name="filter_color_any">Any</string>
+    <string name="filter_color_black_white">Black and white</string>
+    <string name="filter_color_black">Black</string>
+    <string name="filter_color_white">White</string>
+    <string name="filter_color_yellow">Yellow</string>
+    <string name="filter_color_orange">Orange</string>
+    <string name="filter_color_red">Red</string>
+    <string name="filter_color_purple">Purple</string>
+    <string name="filter_color_magenta">Magenta</string>
+    <string name="filter_color_green">Green</string>
+    <string name="filter_color_teal">Teal</string>
+    <string name="filter_color_blue">Blue</string>
+
 </resources>

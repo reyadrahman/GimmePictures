@@ -120,6 +120,8 @@ class PhotosFragment : Fragment(R.layout.fragment_photos) {
             showFilterDialog()
             return true
         } else if (item.itemId == R.id.action_search) {
+            val direction = PhotosFragmentDirections.actionPhotosFragmentToSearchFragment("")
+            findNavController().navigate(direction)
             return true
         }
         return super.onOptionsItemSelected(item)
