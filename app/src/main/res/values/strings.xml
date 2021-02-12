@@ -9,9 +9,11 @@
 
     <string name="list_footer_load_error">Load error, check connection</string>
     <string name="retry">Retry</string>
+    <string name="nothing_found">Oops, seems like nothing found</string>
 
     <string name="photos">Photos</string>
     <string name="collections">Collections</string>
+    <string name="users">Users</string>
     <string name="search">Search</string>
     <string name="share">Share</string>
 

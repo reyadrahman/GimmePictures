@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.paging.LoadState
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentSearchBinding
@@ -39,32 +39,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 showPhotoFilterDialog()
             }
 
-            ArrayAdapter.createFromResource(
-                requireContext(),
-                R.array.search_category_array,
-                android.R.layout.simple_dropdown_item_1line
-            ).also { arrayAdapter ->
-                //arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                spinnerSearchCategory.adapter = arrayAdapter
-            }
-
-            spinnerSearchCategory.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-
-                    }
-
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                    }
-                }
-
-            val adapter = PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
+            val photosAdapter = PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
                 override fun onPhotoClick(photo: Photo) {
                     val direction =
                         SearchFragmentDirections.actionSearchFragmentToPhotoDetailsFragment(photo.id)
@@ -74,11 +49,30 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 override fun onUserClick(user: User) {
 
                 }
-            })
-            recyclerView.adapter = adapter
+            }).also { adapter ->
+                adapter.addLoadStateListener { loadState ->
+                    binding.apply {
+                        recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
+                        textViewError.isVisible = loadState.source.refresh is LoadState.Error
+
+                        // empty view
+                        if (loadState.source.refresh is LoadState.NotLoading &&
+                            loadState.append.endOfPaginationReached &&
+                            adapter.itemCount < 1
+                        ) {
+                            recyclerView.isVisible = false
+                            textNothingFound.isVisible = true
+                        } else {
+                            textNothingFound.isVisible = false
+                        }
+                    }
+                }
+            }
+
+            recyclerView.adapter = photosAdapter
 
             viewModel.photoResults.observe(viewLifecycleOwner) {
-                adapter.submitData(viewLifecycleOwner.lifecycle, it)
+                photosAdapter.submitData(viewLifecycleOwner.lifecycle, it)
             }
         }
 
@@ -87,20 +81,17 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-
         inflater.inflate(R.menu.menu_search, menu)
 
         val searchItem = menu.findItem(R.id.action_search)
         val searchView = searchItem.actionView as SearchView
-
-        searchItem.expandActionView()
-
-        val searchQuery = args.searchQuery
         
+        val searchQuery = args.searchQuery
         searchView.setQuery(
             if (searchQuery.isNotBlank()) searchQuery else viewModel.query.value,
             false
         )
+        //searchView.clearFocus()
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
