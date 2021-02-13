@@ -10,6 +10,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -17,6 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentPhotoDetailsBinding
 import ua.andrii.andrushchenko.gimmepictures.ui.adapters.PhotoExifAdapter
+import ua.andrii.andrushchenko.gimmepictures.ui.adapters.PhotoTagAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.viewmodels.PhotoDetailsViewModel
 
 @AndroidEntryPoint
@@ -78,6 +80,19 @@ class PhotoDetailsFragment : Fragment(R.layout.fragment_photo_details) {
 
                 recyclerViewExif.adapter =
                     PhotoExifAdapter(requireContext()).apply { setExif(photo) }
+
+                photo.tags?.let {
+                    recyclerViewTags.adapter =
+                        PhotoTagAdapter(object : PhotoTagAdapter.OnTagClickListener {
+                            override fun onTagClicked(tag: String) {
+                                val direction = PhotoDetailsFragmentDirections
+                                    .actionPhotoDetailsFragmentToSearchFragment(tag)
+                                findNavController().navigate(direction)
+                            }
+                        }).also {
+                            it.submitList(photo.tags)
+                        }
+                }
             }
         }
 
@@ -95,5 +110,4 @@ class PhotoDetailsFragment : Fragment(R.layout.fragment_photo_details) {
         }
         return super.onOptionsItemSelected(item)
     }
-
 }

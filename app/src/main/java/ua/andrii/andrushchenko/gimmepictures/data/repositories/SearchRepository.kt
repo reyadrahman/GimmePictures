@@ -15,9 +15,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SearchRepository @Inject constructor(
-    private val searchService: SearchService
-) {
+class SearchRepository @Inject constructor(private val searchService: SearchService) {
 
     fun searchPhotos(
         query: String,

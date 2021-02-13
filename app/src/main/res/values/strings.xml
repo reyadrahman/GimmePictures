@@ -6,6 +6,7 @@
     <string name="order_popular">Popular</string>
 
     <string name="sponsored">Sponsored</string>
+    <string name="sponsored_by">Sponsored by</string>
 
     <string name="list_footer_load_error">Load error, check connection</string>
     <string name="retry">Retry</string>

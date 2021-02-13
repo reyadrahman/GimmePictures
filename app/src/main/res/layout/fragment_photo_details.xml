@@ -186,6 +186,18 @@
             tools:itemCount="6"
             tools:listitem="@layout/item_photo_exif" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_tags"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/indent_0dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recycler_view_exif"
+            tools:itemCount="6"
+            tools:listitem="@layout/item_photo_tag" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

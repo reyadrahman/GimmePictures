@@ -16,9 +16,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PhotoRepository @Inject constructor(
-    private val photoService: PhotoService
-) {
+class PhotoRepository @Inject constructor(private val photoService: PhotoService) {
     fun getAllPhotos(order: PhotosPagingSource.Companion.Order): LiveData<PagingData<Photo>> =
         Pager(
             config = PagingConfig(

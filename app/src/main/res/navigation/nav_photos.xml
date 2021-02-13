@@ -26,11 +26,15 @@
         <argument
             android:name="photoId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_photoDetailsFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/searchFragment"
-        android:name="ua.andrii.andrushchenko.gimmepictures.ui.fragments.SearchFragment"
-        tools:layout="@layout/fragment_search">
+        android:name="ua.andrii.andrushchenko.gimmepictures.ui.fragments.PhotoSearchFragment"
+        tools:layout="@layout/fragment_photo_search">
         <argument
             android:name="searchQuery"
             app:argType="string" />

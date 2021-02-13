@@ -1,13 +1,12 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.adapters
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import ua.andrii.andrushchenko.gimmepictures.R
@@ -17,47 +16,44 @@ import ua.andrii.andrushchenko.gimmepictures.models.User
 import ua.andrii.andrushchenko.gimmepictures.util.setAspectRatio
 
 class PhotosAdapter(private val listener: OnItemClickListener) :
-    PagingDataAdapter<Photo, PhotosAdapter.PhotoViewHolder>(PHOTO_COMPARATOR) {
+    BasePagedAdapter<Photo>(PHOTO_COMPARATOR) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val binding = ItemPhotoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PhotoViewHolder(binding)
+        return NewPhotoViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
-        val currentItem = getItem(position)
-        if (currentItem != null) holder.bind(currentItem)
-    }
+    inner class NewPhotoViewHolder(private val binding: ItemPhotoBinding) :
+        BaseViewHolder(binding) {
 
-    inner class PhotoViewHolder(private val binding: ItemPhotoBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(photo: Photo) {
+        @SuppressLint("SetTextI18n")
+        override fun bind(entity: Photo) {
             binding.apply {
-                photoImageView.setAspectRatio(photo.width, photo.height)
-                photoImageView.setOnClickListener { listener.onPhotoClick(photo) }
+                photoImageView.setAspectRatio(entity.width, entity.height)
+                photoImageView.setOnClickListener { listener.onPhotoClick(entity) }
 
-                photo.user?.let { user ->
+                entity.user?.let { user ->
                     userContainer.isVisible = true
                     userContainer.setOnClickListener { listener.onUserClick(user) }
                     Glide.with(itemView)
-                        .load(photo.user.profileImage?.medium)
+                        .load(entity.user.profileImage?.medium)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .error(R.drawable.ic_person)
                         .into(userImageView)
                     userTextView.text = user.name ?: "Unknown"
-                    sponsoredTextView.isVisible = photo.sponsorship != null
-                    sponsoredTextView.text = "Sponsored by ${photo.sponsorship?.sponsor?.name}"
+                    sponsoredTextView.isVisible = entity.sponsorship != null
+                    sponsoredTextView.text =
+                        "${itemView.context.getString(R.string.sponsored_by)} ${entity.sponsorship?.sponsor?.name}"
                 }
 
                 Glide.with(itemView)
-                    .load(photo.urls.regular)
-                    .placeholder(ColorDrawable(Color.parseColor(photo.color)))
+                    .load(entity.urls.regular)
+                    .placeholder(ColorDrawable(Color.parseColor(entity.color)))
                     .transition(DrawableTransitionOptions.withCrossFade())
-                    .error(ColorDrawable(Color.parseColor(photo.color)))
+                    .error(ColorDrawable(Color.parseColor(entity.color)))
                     .into(photoImageView)
 
-                userTextView.text = photo.user?.name
+                userTextView.text = entity.user?.name
             }
         }
     }

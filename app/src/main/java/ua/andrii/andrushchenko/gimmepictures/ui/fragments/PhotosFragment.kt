@@ -8,10 +8,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.viewbinding.ViewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
@@ -21,22 +21,19 @@ import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.models.User
 import ua.andrii.andrushchenko.gimmepictures.ui.adapters.PhotosAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.adapters.RecyclerViewLoadStateAdapter
+import ua.andrii.andrushchenko.gimmepictures.ui.adapters.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.viewmodels.PhotoViewModel
 
 @AndroidEntryPoint
-class PhotosFragment : Fragment(R.layout.fragment_photos) {
+class PhotosFragment : BaseRecyclerViewFragment<Photo>(R.layout.fragment_photos) {
 
-    private val viewModel by viewModels<PhotoViewModel>()
+    override var _binding: ViewBinding? = null
+    override val binding: FragmentPhotosBinding get() = _binding!! as FragmentPhotosBinding
 
-    private var _binding: FragmentPhotosBinding? = null
-    private val binding get() = _binding!!
+    override val viewModel by viewModels<PhotoViewModel>()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        _binding = FragmentPhotosBinding.bind(view)
-
-        val adapter = PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
+    override val adapter: BasePagedAdapter<Photo> =
+        PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
             override fun onPhotoClick(photo: Photo) {
                 val direction =
                     PhotosFragmentDirections.actionPhotosFragmentToPhotoDetailsFragment(photo.id)
@@ -50,20 +47,20 @@ class PhotosFragment : Fragment(R.layout.fragment_photos) {
             }
         })
 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        _binding = FragmentPhotosBinding.bind(view)
+
         binding.apply {
             recyclerView.setHasFixedSize(true)
-            recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
-                header = RecyclerViewLoadStateAdapter { adapter.retry() },
-                footer = RecyclerViewLoadStateAdapter { adapter.retry() }
-            )
 
             swipeRefreshLayout.setOnRefreshListener {
                 adapter.refresh()
             }
-        }
 
-        adapter.addLoadStateListener { loadState ->
-            binding.apply {
+            adapter.addLoadStateListener { loadState ->
                 swipeRefreshLayout.isRefreshing = loadState.refresh is LoadState.Loading
                 recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
                 textViewError.isVisible = loadState.source.refresh is LoadState.Error
@@ -79,6 +76,11 @@ class PhotosFragment : Fragment(R.layout.fragment_photos) {
                     textViewEmpty.isVisible = false
                 }*/
             }
+
+            recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
+                header = RecyclerViewLoadStateAdapter { adapter.retry() },
+                footer = RecyclerViewLoadStateAdapter { adapter.retry() }
+            )
         }
 
         viewModel.order.observe(viewLifecycleOwner) {
@@ -125,10 +127,5 @@ class PhotosFragment : Fragment(R.layout.fragment_photos) {
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
