@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,6 +22,7 @@ import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentPhotoDetailsBin
 import ua.andrii.andrushchenko.gimmepictures.ui.adapters.PhotoExifAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.adapters.PhotoTagAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.viewmodels.PhotoDetailsViewModel
+import ua.andrii.andrushchenko.gimmepictures.util.RecyclerViewSpacingItemDecoration
 
 @AndroidEntryPoint
 class PhotoDetailsFragment : Fragment(R.layout.fragment_photo_details) {
@@ -81,17 +84,31 @@ class PhotoDetailsFragment : Fragment(R.layout.fragment_photo_details) {
                 recyclerViewExif.adapter =
                     PhotoExifAdapter(requireContext()).apply { setExif(photo) }
 
-                photo.tags?.let {
-                    recyclerViewTags.adapter =
-                        PhotoTagAdapter(object : PhotoTagAdapter.OnTagClickListener {
+                photo.tags?.let { tagList ->
+                    recyclerViewTags.apply {
+                        layoutManager = LinearLayoutManager(
+                            context,
+                            RecyclerView.HORIZONTAL,
+                            false
+                        ).apply {
+                            addItemDecoration(
+                                RecyclerViewSpacingItemDecoration(
+                                    context,
+                                    R.dimen.indent_12dp,
+                                    RecyclerView.HORIZONTAL
+                                )
+                            )
+                        }
+                        adapter = PhotoTagAdapter(object : PhotoTagAdapter.OnTagClickListener {
                             override fun onTagClicked(tag: String) {
                                 val direction = PhotoDetailsFragmentDirections
                                     .actionPhotoDetailsFragmentToSearchFragment(tag)
                                 findNavController().navigate(direction)
                             }
-                        }).also {
-                            it.submitList(photo.tags)
+                        }).apply {
+                            submitList(tagList)
                         }
+                    }
                 }
             }
         }
