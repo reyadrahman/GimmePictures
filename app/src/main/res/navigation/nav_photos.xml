@@ -21,7 +21,6 @@
     <fragment
         android:id="@+id/photoDetailsFragment"
         android:name="ua.andrii.andrushchenko.gimmepictures.ui.fragments.PhotoDetailsFragment"
-        android:label="@string/photo_details"
         tools:layout="@layout/fragment_photo_details">
         <argument
             android:name="photoId"

@@ -1,203 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ui.fragments.PhotoDetailsFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fitsSystemWindows="true">
 
-        <ImageView
-            android:id="@+id/photo_image_view"
-            android:layout_width="@dimen/indent_0dp"
-            android:layout_height="@dimen/indent_0dp"
-            android:contentDescription="@string/photos"
-            android:scaleType="centerCrop"
-            app:layout_constraintDimensionRatio="4:3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@color/indigo_200" />
-
-        <FrameLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/indent_0dp"
-            android:background="@drawable/image_scrim"
-            app:layout_constraintBottom_toBottomOf="@id/photo_image_view"
-            app:layout_constraintTop_toTopOf="@id/photo_image_view" />
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:clipToPadding="false"
+            android:fitsSystemWindows="false">
 
-        <LinearLayout
-            android:id="@+id/user_container"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingStart="@dimen/indent_8dp"
-            android:paddingTop="@dimen/indent_16dp"
-            android:paddingEnd="@dimen/indent_8dp"
-            android:paddingBottom="@dimen/indent_16dp"
-            app:layout_constraintBottom_toBottomOf="@id/photo_image_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/user_image_view"
-                android:layout_width="@dimen/small_user_icon_size"
-                android:layout_height="@dimen/small_user_icon_size"
-                android:layout_marginStart="@dimen/indent_8dp"
+            <ImageView
+                android:id="@+id/photo_image_view"
+                android:layout_width="@dimen/indent_0dp"
+                android:layout_height="@dimen/indent_0dp"
+                android:contentDescription="@string/photos"
+                android:fitsSystemWindows="false"
                 android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/CircleImageView"
-                tools:ignore="ContentDescription"
-                tools:src="@color/pink_200" />
+                app:layout_constraintDimensionRatio="4:3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@color/indigo_200" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/indent_0dp"
+                android:background="@drawable/image_scrim"
+                app:layout_constraintBottom_toBottomOf="@id/photo_image_view"
+                app:layout_constraintTop_toTopOf="@id/photo_image_view" />
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:fitsSystemWindows="true"
+                android:minHeight="?attr/actionBarSize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:menu="@menu/menu_photo_details" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/user_container"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/indent_12dp"
-                android:orientation="vertical">
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/indent_8dp"
+                android:paddingTop="@dimen/indent_16dp"
+                android:paddingEnd="@dimen/indent_8dp"
+                android:paddingBottom="@dimen/indent_16dp"
+                app:layout_constraintBottom_toBottomOf="@id/photo_image_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/user_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:visibility="visible"
-                    tools:text="User Name" />
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/user_image_view"
+                    android:layout_width="@dimen/small_user_icon_size"
+                    android:layout_height="@dimen/small_user_icon_size"
+                    android:layout_marginStart="@dimen/indent_8dp"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/CircleImageView"
+                    tools:ignore="ContentDescription"
+                    tools:src="@color/pink_200" />
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/location_text"
-                    style="@style/TextAppearance.MaterialComponents.Caption"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:textColor="@color/white"
-                    android:visibility="gone"
-                    tools:text="Sumy, Ukraine"
-                    tools:visibility="visible" />
+                    android:layout_marginStart="@dimen/indent_12dp"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/user_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:visibility="visible"
+                        tools:text="User Name" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/location_text"
+                        style="@style/TextAppearance.MaterialComponents.Caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:textColor="@color/white"
+                        android:visibility="gone"
+                        tools:text="Sumy, Ukraine"
+                        tools:visibility="visible" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/description_text"
-            style="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:layout_width="@dimen/indent_0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/indent_16dp"
-            android:drawablePadding="@dimen/indent_8dp"
-            android:ellipsize="marquee"
-            android:gravity="center|start"
-            android:maxLines="2"
-            android:visibility="gone"
-            app:drawableStartCompat="@drawable/ic_description"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/user_container"
-            tools:text="Lorem ipsum dolor sit amet"
-            tools:visibility="visible" />
-
-        <View
-            android:id="@+id/divider_line_1"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginStart="@dimen/indent_16dp"
-            android:layout_marginTop="@dimen/indent_16dp"
-            android:layout_marginEnd="@dimen/indent_16dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/description_text" />
-
-        <LinearLayout
-            android:id="@+id/stats_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/indent_16dp"
-            android:layout_marginTop="@dimen/indent_16dp"
-            android:layout_marginEnd="@dimen/indent_16dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider_line_1">
-
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txt_likes"
+                android:id="@+id/description_text"
                 style="@style/TextAppearance.MaterialComponents.Subtitle2"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/indent_0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                app:drawableTopCompat="@drawable/ic_like"
-                tools:text="100" />
+                android:layout_margin="@dimen/indent_16dp"
+                android:drawablePadding="@dimen/indent_8dp"
+                android:ellipsize="marquee"
+                android:gravity="center|start"
+                android:maxLines="2"
+                android:visibility="gone"
+                app:drawableStartCompat="@drawable/ic_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/user_container"
+                tools:text="Lorem ipsum dolor sit amet"
+                tools:visibility="visible" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txt_views"
-                style="@style/TextAppearance.MaterialComponents.Subtitle2"
-                android:layout_width="wrap_content"
+            <View
+                android:id="@+id/divider_line_1"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/indent_16dp"
+                android:layout_marginTop="@dimen/indent_16dp"
+                android:layout_marginEnd="@dimen/indent_16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/description_text" />
+
+            <LinearLayout
+                android:id="@+id/stats_container"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                app:drawableTopCompat="@drawable/ic_views"
-                tools:text="100" />
+                android:layout_marginStart="@dimen/indent_16dp"
+                android:layout_marginTop="@dimen/indent_16dp"
+                android:layout_marginEnd="@dimen/indent_16dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider_line_1">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txt_downloads"
-                style="@style/TextAppearance.MaterialComponents.Subtitle2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                app:drawableTopCompat="@drawable/ic_downloads"
-                tools:text="100" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txt_likes"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    app:drawableTopCompat="@drawable/ic_like"
+                    tools:text="100" />
 
-        </LinearLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txt_views"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    app:drawableTopCompat="@drawable/ic_views"
+                    tools:text="100" />
 
-        <View
-            android:id="@+id/divider_line_2"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginStart="@dimen/indent_16dp"
-            android:layout_marginTop="@dimen/indent_16dp"
-            android:layout_marginEnd="@dimen/indent_16dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/stats_container" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txt_downloads"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    app:drawableTopCompat="@drawable/ic_downloads"
+                    tools:text="100" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_exif"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/indent_0dp"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider_line_2"
-            app:spanCount="2"
-            tools:itemCount="6"
-            tools:listitem="@layout/item_photo_exif" />
+            </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_tags"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/indent_0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recycler_view_exif"
-            tools:itemCount="6"
-            tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_photo_tag"
-            tools:orientation="horizontal" />
+            <View
+                android:id="@+id/divider_line_2"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/indent_16dp"
+                android:layout_marginTop="@dimen/indent_16dp"
+                android:layout_marginEnd="@dimen/indent_16dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/stats_container" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_exif"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/indent_0dp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider_line_2"
+                app:spanCount="2"
+                tools:itemCount="6"
+                tools:listitem="@layout/item_photo_exif" />
 
-</androidx.core.widget.NestedScrollView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_tags"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/indent_0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recycler_view_exif"
+                tools:itemCount="6"
+                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_photo_tag"
+                tools:orientation="horizontal" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -3,15 +3,17 @@ package ua.andrii.andrushchenko.gimmepictures.ui.fragments
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -23,6 +25,9 @@ import ua.andrii.andrushchenko.gimmepictures.ui.adapters.PhotoExifAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.adapters.PhotoTagAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.viewmodels.PhotoDetailsViewModel
 import ua.andrii.andrushchenko.gimmepictures.util.RecyclerViewSpacingItemDecoration
+import ua.andrii.andrushchenko.gimmepictures.util.doOnApplyWindowInsets
+import ua.andrii.andrushchenko.gimmepictures.util.setTransparentStatusBar
+import ua.andrii.andrushchenko.gimmepictures.util.toAmountReadableString
 
 @AndroidEntryPoint
 class PhotoDetailsFragment : Fragment(R.layout.fragment_photo_details) {
@@ -39,6 +44,25 @@ class PhotoDetailsFragment : Fragment(R.layout.fragment_photo_details) {
 
         viewModel.photoDetails.observe(viewLifecycleOwner) { photo ->
             binding.apply {
+                nestedScrollView.doOnApplyWindowInsets { view, _, _ -> view.updatePadding(top = 0) }
+                constraintLayout.doOnApplyWindowInsets { view, _, _ -> view.updatePadding(top = 0) }
+                photoImageView.doOnApplyWindowInsets { view, _, _ -> view.updatePadding(top = 0) }
+
+                toolbar.setOnMenuItemClickListener { item ->
+                    if (item.itemId == R.id.action_share) {
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.share),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    true
+                }
+
+                val navController = findNavController()
+                val appBarConfiguration = AppBarConfiguration(navController.graph)
+                toolbar.setupWithNavController(navController, appBarConfiguration)
+
                 photo.location?.let { location ->
                     val locationString = when {
                         location.city != null && location.country != null ->
@@ -77,9 +101,9 @@ class PhotoDetailsFragment : Fragment(R.layout.fragment_photo_details) {
                     descriptionText.text = description
                 }
 
-                txtLikes.text = "${photo.likes ?: 0}"
-                txtDownloads.text = "${photo.downloads ?: 0}"
-                txtViews.text = "${photo.views ?: 0}"
+                txtLikes.text = "${photo.likes?.toAmountReadableString() ?: 0}"
+                txtDownloads.text = "${photo.downloads?.toAmountReadableString() ?: 0}"
+                txtViews.text = "${photo.views?.toAmountReadableString() ?: 0}"
 
                 recyclerViewExif.adapter =
                     PhotoExifAdapter(requireContext()).apply { setExif(photo) }
@@ -113,10 +137,20 @@ class PhotoDetailsFragment : Fragment(R.layout.fragment_photo_details) {
             }
         }
 
-        setHasOptionsMenu(true)
+        //setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+    override fun onStart() {
+        super.onStart()
+        (requireActivity() as AppCompatActivity).setTransparentStatusBar(isTransparent = true)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (requireActivity() as AppCompatActivity).setTransparentStatusBar(isTransparent = false)
+    }
+
+    /*override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_photo_details, menu)
     }
@@ -126,5 +160,5 @@ class PhotoDetailsFragment : Fragment(R.layout.fragment_photo_details) {
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
+    }*/
 }

@@ -1,15 +1,13 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.fragments
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -19,9 +17,9 @@ import ua.andrii.andrushchenko.gimmepictures.data.source.PhotosPagingSource
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentPhotosBinding
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.models.User
+import ua.andrii.andrushchenko.gimmepictures.ui.adapters.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.adapters.PhotosAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.adapters.RecyclerViewLoadStateAdapter
-import ua.andrii.andrushchenko.gimmepictures.ui.adapters.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.viewmodels.PhotoViewModel
 
 @AndroidEntryPoint
@@ -54,6 +52,24 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>(R.layout.fragment_photos)
         _binding = FragmentPhotosBinding.bind(view)
 
         binding.apply {
+            toolbar.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.action_sort -> {
+                        showFilterDialog()
+                    }
+                    R.id.action_search -> {
+                        val direction =
+                            PhotosFragmentDirections.actionPhotosFragmentToSearchFragment("")
+                        findNavController().navigate(direction)
+                    }
+                }
+                true
+            }
+
+            val navController = findNavController()
+            val appBarConfiguration = AppBarConfiguration(navController.graph)
+            toolbar.setupWithNavController(navController, appBarConfiguration)
+
             recyclerView.setHasFixedSize(true)
 
             swipeRefreshLayout.setOnRefreshListener {
@@ -81,11 +97,14 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>(R.layout.fragment_photos)
                 header = RecyclerViewLoadStateAdapter { adapter.retry() },
                 footer = RecyclerViewLoadStateAdapter { adapter.retry() }
             )
-        }
 
-        viewModel.order.observe(viewLifecycleOwner) {
-            (requireActivity() as AppCompatActivity).supportActionBar?.title =
-                "${getString(it.titleRes)} ${getString(R.string.photos)}"
+            viewModel.order.observe(viewLifecycleOwner) {
+                toolbar.title = "${getString(it.titleRes)} ${getString(R.string.photos)}"
+            }
+
+            toolbar.setOnClickListener {
+                recyclerView.scrollToPosition(0)
+            }
         }
 
         // Populate recyclerView
@@ -93,7 +112,7 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>(R.layout.fragment_photos)
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
 
-        setHasOptionsMenu(true)
+        //setHasOptionsMenu(true)
     }
 
     private fun showFilterDialog() {
@@ -112,7 +131,7 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>(R.layout.fragment_photos)
             .show()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+    /*override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_photos, menu)
     }
@@ -127,5 +146,5 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>(R.layout.fragment_photos)
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
+    }*/
 }
