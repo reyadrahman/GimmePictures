@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.ui.viewmodels
+package ua.andrii.andrushchenko.gimmepictures.ui.photo.details
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

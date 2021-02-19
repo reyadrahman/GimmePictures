@@ -8,7 +8,7 @@ import java.io.IOException
 sealed class Result<out T> {
     data class Success<out T>(val value: T) : Result<T>()
     data class Error(val code: Int? = null, val error: String? = null) : Result<Nothing>()
-    object Loading : Result<Nothing>()
+    /*object Loading : Result<Nothing>()*/
     object NetworkError : Result<Nothing>()
 }
 

@@ -1,15 +1,15 @@
-package ua.andrii.andrushchenko.gimmepictures.ui.fragments
+package ua.andrii.andrushchenko.gimmepictures.ui.photo
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
+import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
-import androidx.viewbinding.ViewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
@@ -17,40 +17,44 @@ import ua.andrii.andrushchenko.gimmepictures.data.source.PhotosPagingSource
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentPhotosBinding
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.models.User
-import ua.andrii.andrushchenko.gimmepictures.ui.adapters.BasePagedAdapter
-import ua.andrii.andrushchenko.gimmepictures.ui.adapters.PhotosAdapter
-import ua.andrii.andrushchenko.gimmepictures.ui.adapters.RecyclerViewLoadStateAdapter
-import ua.andrii.andrushchenko.gimmepictures.ui.viewmodels.PhotoViewModel
+import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
+import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
+import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
 
 @AndroidEntryPoint
-class PhotosFragment : BaseRecyclerViewFragment<Photo>(R.layout.fragment_photos) {
+class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
 
-    override var _binding: ViewBinding? = null
-    override val binding: FragmentPhotosBinding get() = _binding!! as FragmentPhotosBinding
+    private var _binding: FragmentPhotosBinding? = null
+    private val binding get() = _binding!!
 
-    override val viewModel by viewModels<PhotoViewModel>()
+    private val viewModel by hiltNavGraphViewModels<PhotoViewModel>(R.id.nav_main)
 
     override val adapter: BasePagedAdapter<Photo> =
         PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
             override fun onPhotoClick(photo: Photo) {
                 val direction =
-                    PhotosFragmentDirections.actionPhotosFragmentToPhotoDetailsFragment(photo.id)
+                    PhotosFragmentDirections.actionNavPhotosToPhotoDetailsFragment(photoId = photo.id)
                 findNavController().navigate(direction)
             }
 
             override fun onUserClick(user: User) {
-                // TODO navigate to user details
-                Toast.makeText(requireContext(), "User ${user.name} selected", Toast.LENGTH_SHORT)
-                    .show()
+                val direction =
+                    PhotosFragmentDirections.actionNavPhotosToUsersFragment()
+                findNavController().navigate(direction)
             }
         })
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentPhotosBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        _binding = FragmentPhotosBinding.bind(view)
-
         binding.apply {
             toolbar.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
@@ -59,7 +63,10 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>(R.layout.fragment_photos)
                     }
                     R.id.action_search -> {
                         val direction =
-                            PhotosFragmentDirections.actionPhotosFragmentToSearchFragment("")
+                            PhotosFragmentDirections.actionNavPhotosToSearchFragment(
+                                searchQuery = "",
+                                parentDestinationFragmentTag = TAG
+                            )
                         findNavController().navigate(direction)
                     }
                 }
@@ -67,7 +74,8 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>(R.layout.fragment_photos)
             }
 
             val navController = findNavController()
-            val appBarConfiguration = AppBarConfiguration(navController.graph)
+            val appBarConfiguration =
+                AppBarConfiguration(setOf(R.id.nav_photos, R.id.nav_collections))
             toolbar.setupWithNavController(navController, appBarConfiguration)
 
             recyclerView.setHasFixedSize(true)
@@ -112,7 +120,11 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>(R.layout.fragment_photos)
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
 
-        //setHasOptionsMenu(true)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun showFilterDialog() {
@@ -131,20 +143,7 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>(R.layout.fragment_photos)
             .show()
     }
 
-    /*override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_photos, menu)
+    companion object {
+        const val TAG = "PhotosFragment"
     }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_sort) {
-            showFilterDialog()
-            return true
-        } else if (item.itemId == R.id.action_search) {
-            val direction = PhotosFragmentDirections.actionPhotosFragmentToSearchFragment("")
-            findNavController().navigate(direction)
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }*/
 }

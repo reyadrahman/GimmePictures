@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.ui.viewmodels
+package ua.andrii.andrushchenko.gimmepictures.ui.search
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

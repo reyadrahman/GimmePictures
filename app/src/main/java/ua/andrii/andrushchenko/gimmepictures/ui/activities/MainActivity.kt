@@ -1,19 +1,21 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.activities
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.ActivityMainBinding
-import ua.andrii.andrushchenko.gimmepictures.util.setupWithNavController
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private var currentNavController: LiveData<NavController>? = null
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_GimmePictures)
@@ -21,38 +23,21 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (savedInstanceState == null) {
-            setupBottomNavigationBar()
-        } // Else, need to wait for onRestoreInstanceState
-    }
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        navController = navHostFragment.findNavController()
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        // Now that BottomNavigationBar has restored its instance state
-        // and its selectedItemId, we can proceed with setting up the
-        // BottomNavigationBar with Navigation
-        setupBottomNavigationBar()
-    }
-
-    private fun setupBottomNavigationBar() {
-        val navGraphIds = listOf(R.navigation.nav_photos, R.navigation.nav_collections)
-
-        // Setup the bottom navigation view with a list of navigation graphs
-        val controller = binding.bottomNavigationView.setupWithNavController(
-            navGraphIds = navGraphIds,
-            fragmentManager = supportFragmentManager,
-            containerId = R.id.nav_host_fragment_main,
-            intent = intent
-        )
-
-        // Whenever the selected controller changes, setup the action bar.
-        /*controller.observe(this) { navController ->
-            setupActionBarWithNavController(navController)
-        }*/
-        currentNavController = controller
+        binding.bottomNavigationView.apply {
+            setupWithNavController(navController)
+            setOnNavigationItemReselectedListener {}
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return currentNavController?.value?.navigateUp() ?: false
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    fun toggleBottomNav(isVisible: Boolean) {
+        binding.bottomNavigationView.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 }

@@ -1,12 +1,12 @@
 package ua.andrii.andrushchenko.gimmepictures.util
 
+import android.util.TypedValue
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import ua.andrii.andrushchenko.gimmepictures.R
 
 fun AppCompatActivity.setTransparentStatusBar(isTransparent: Boolean) {
-    val regularStatusBarColor = window.statusBarColor
     if (isTransparent) {
         window.run {
             WindowCompat.setDecorFitsSystemWindows(this, false)
@@ -16,7 +16,9 @@ fun AppCompatActivity.setTransparentStatusBar(isTransparent: Boolean) {
     } else {
         window.run {
             WindowCompat.setDecorFitsSystemWindows(this, true)
-            statusBarColor = regularStatusBarColor
+            val typedValue = TypedValue()
+            theme.resolveAttribute(R.attr.colorPrimaryVariant, typedValue, true)
+            statusBarColor = typedValue.data
         }
     }
 }

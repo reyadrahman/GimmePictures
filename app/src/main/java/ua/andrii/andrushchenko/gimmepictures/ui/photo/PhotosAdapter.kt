@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.ui.adapters
+package ua.andrii.andrushchenko.gimmepictures.ui.photo
 
 import android.annotation.SuppressLint
 import android.graphics.Color
@@ -13,6 +13,7 @@ import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.ItemPhotoBinding
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.models.User
+import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.util.setAspectRatio
 
 class PhotosAdapter(private val listener: OnItemClickListener) :

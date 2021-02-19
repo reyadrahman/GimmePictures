@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.ui.fragments.dialogs
+package ua.andrii.andrushchenko.gimmepictures.ui.search.dialogs
 
 import android.app.Dialog
 import android.content.DialogInterface
@@ -16,12 +16,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.data.source.SearchPhotosPagingSource
 import ua.andrii.andrushchenko.gimmepictures.databinding.BottomSheetSearchPhotoFilterBinding
-import ua.andrii.andrushchenko.gimmepictures.ui.viewmodels.SearchViewModel
+import ua.andrii.andrushchenko.gimmepictures.ui.search.SearchViewModel
 
 @AndroidEntryPoint
 class SearchPhotoFilterDialog : BottomSheetDialogFragment() {
 
-    private val viewModel by hiltNavGraphViewModels<SearchViewModel>(R.id.nav_photos)
+    private val viewModel by hiltNavGraphViewModels<SearchViewModel>(R.id.nav_main)
     private var searchParametersChanged = false
 
     private var _binding: BottomSheetSearchPhotoFilterBinding? = null
@@ -143,8 +143,8 @@ class SearchPhotoFilterDialog : BottomSheetDialogFragment() {
         }
     }
 
-    companion object {
+    /*companion object {
         val TAG: String = SearchPhotoFilterDialog::class.java.simpleName
         fun newInstance() = SearchPhotoFilterDialog()
-    }
+    }*/
 }

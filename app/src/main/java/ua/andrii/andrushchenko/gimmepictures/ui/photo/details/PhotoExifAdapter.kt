@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.ui.adapters
+package ua.andrii.andrushchenko.gimmepictures.ui.photo.details
 
 import android.content.Context
 import android.text.SpannableStringBuilder
@@ -50,7 +50,7 @@ class PhotoExifAdapter(
             )
             pairs.add(R.string.iso to if (it.iso != null) SpannableStringBuilder(it.iso.toString()) else unknown)
             pairs.add(
-                R.string.dimensions to SpannableStringBuilder(
+                R.string.Resolution to SpannableStringBuilder(
                     "${photo.width} × ${photo.height}"
                 )
             )

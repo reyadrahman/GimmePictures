@@ -28,7 +28,7 @@
     <string name="shutter_speed">Shutter speed</string>
     <string name="exposure_time">Exposure time</string>
     <string name="iso">ISO</string>
-    <string name="dimensions">Dimensions</string>
+    <string name="Resolution">Dimensions</string>
 
     <string-array name="search_category_array">
         <item>Photos</item>

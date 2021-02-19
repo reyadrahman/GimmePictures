@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/nav_photos">
+
+    <fragment
+        android:id="@+id/nav_photos"
+        android:name="ua.andrii.andrushchenko.gimmepictures.ui.photo.PhotosFragment"
+        android:label="fragment_photos"
+        tools:layout="@layout/fragment_photos" >
+        <action
+            android:id="@+id/action_nav_photos_to_photoDetailsFragment"
+            app:destination="@id/photoDetailsFragment" />
+        <action
+            android:id="@+id/action_nav_photos_to_usersFragment"
+            app:destination="@id/usersFragment" />
+        <action
+            android:id="@+id/action_nav_photos_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_collections"
+        android:name="ua.andrii.andrushchenko.gimmepictures.ui.collection.CollectionsFragment"
+        android:label="CollectionsFragment"
+        tools:layout="@layout/fragment_collections">
+        <action
+            android:id="@+id/action_nav_collections_to_collectionPhotosFragment"
+            app:destination="@id/collectionPhotosFragment" />
+        <action
+            android:id="@+id/action_nav_collections_to_usersFragment"
+            app:destination="@id/usersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="ua.andrii.andrushchenko.gimmepictures.ui.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <argument
+            android:name="searchQuery"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue=" " />
+        <action
+            android:id="@+id/action_nav_search_to_photoDetailsFragment"
+            app:destination="@id/photoDetailsFragment" />
+        <action
+            android:id="@+id/action_nav_search_to_collectionPhotosFragment"
+            app:destination="@id/collectionPhotosFragment" />
+        <action
+            android:id="@+id/action_nav_search_to_usersFragment"
+            app:destination="@id/usersFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_searchPhotoFilterDialog"
+            app:destination="@id/searchPhotoFilterDialog" />
+        <argument
+            android:name="parentDestinationFragmentTag"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/photoDetailsFragment"
+        android:name="ua.andrii.andrushchenko.gimmepictures.ui.photo.details.PhotoDetailsFragment"
+        tools:layout="@layout/fragment_photo_details">
+        <argument
+            android:name="photoId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_photoDetailsFragment_to_fullScreenPhotoFragment"
+            app:destination="@id/fullScreenPhotoFragment" />
+        <action
+            android:id="@+id/action_photoDetailsFragment_to_nav_search"
+            app:destination="@id/searchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fullScreenPhotoFragment"
+        android:name="ua.andrii.andrushchenko.gimmepictures.ui.photo.fullscreen.FullScreenPhotoFragment"
+        android:label="fragment_fullscreen_photo"
+        tools:layout="@layout/fragment_fullscreen_photo" >
+        <argument
+            android:name="photoUrl"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/usersFragment"
+        android:name="ua.andrii.andrushchenko.gimmepictures.ui.user.UsersFragment"
+        android:label="fragment_users"
+        tools:layout="@layout/fragment_users" />
+    <fragment
+        android:id="@+id/collectionPhotosFragment"
+        android:name="ua.andrii.andrushchenko.gimmepictures.ui.collection.photos.CollectionPhotosFragment"
+        android:label="fragment_collection_photos"
+        tools:layout="@layout/fragment_collection_photos" >
+        <action
+            android:id="@+id/action_collectionPhotosFragment_to_photoDetailsFragment"
+            app:destination="@id/photoDetailsFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/searchPhotoFilterDialog"
+        android:name="ua.andrii.andrushchenko.gimmepictures.ui.search.dialogs.SearchPhotoFilterDialog"
+        android:label="bottom_sheet_search_photo_filter"
+        tools:layout="@layout/bottom_sheet_search_photo_filter" />
+</navigation>

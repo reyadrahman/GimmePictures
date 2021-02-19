@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.ui.adapters
+package ua.andrii.andrushchenko.gimmepictures.ui.base
 
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil

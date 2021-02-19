@@ -1,11 +1,10 @@
-package ua.andrii.andrushchenko.gimmepictures.ui.fragments
+package ua.andrii.andrushchenko.gimmepictures.ui.photo.details
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
@@ -21,9 +20,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentPhotoDetailsBinding
-import ua.andrii.andrushchenko.gimmepictures.ui.adapters.PhotoExifAdapter
-import ua.andrii.andrushchenko.gimmepictures.ui.adapters.PhotoTagAdapter
-import ua.andrii.andrushchenko.gimmepictures.ui.viewmodels.PhotoDetailsViewModel
+import ua.andrii.andrushchenko.gimmepictures.ui.activities.MainActivity
 import ua.andrii.andrushchenko.gimmepictures.util.RecyclerViewSpacingItemDecoration
 import ua.andrii.andrushchenko.gimmepictures.util.doOnApplyWindowInsets
 import ua.andrii.andrushchenko.gimmepictures.util.setTransparentStatusBar
@@ -60,7 +57,8 @@ class PhotoDetailsFragment : Fragment(R.layout.fragment_photo_details) {
                 }
 
                 val navController = findNavController()
-                val appBarConfiguration = AppBarConfiguration(navController.graph)
+                val appBarConfiguration =
+                    AppBarConfiguration(setOf(R.id.nav_photos, R.id.nav_collections))
                 toolbar.setupWithNavController(navController, appBarConfiguration)
 
                 photo.location?.let { location ->
@@ -118,7 +116,7 @@ class PhotoDetailsFragment : Fragment(R.layout.fragment_photo_details) {
                             addItemDecoration(
                                 RecyclerViewSpacingItemDecoration(
                                     context,
-                                    R.dimen.indent_12dp,
+                                    R.dimen.indent_8dp,
                                     RecyclerView.HORIZONTAL
                                 )
                             )
@@ -126,7 +124,10 @@ class PhotoDetailsFragment : Fragment(R.layout.fragment_photo_details) {
                         adapter = PhotoTagAdapter(object : PhotoTagAdapter.OnTagClickListener {
                             override fun onTagClicked(tag: String) {
                                 val direction = PhotoDetailsFragmentDirections
-                                    .actionPhotoDetailsFragmentToSearchFragment(tag)
+                                    .actionPhotoDetailsFragmentToNavSearch(
+                                        searchQuery = tag,
+                                        parentDestinationFragmentTag = TAG
+                                    )
                                 findNavController().navigate(direction)
                             }
                         }).apply {
@@ -136,29 +137,26 @@ class PhotoDetailsFragment : Fragment(R.layout.fragment_photo_details) {
                 }
             }
         }
-
-        //setHasOptionsMenu(true)
     }
 
     override fun onStart() {
         super.onStart()
-        (requireActivity() as AppCompatActivity).setTransparentStatusBar(isTransparent = true)
+        (requireActivity() as MainActivity).apply {
+            setTransparentStatusBar(isTransparent = true)
+            toggleBottomNav(isVisible = false)
+        }
     }
 
     override fun onStop() {
         super.onStop()
-        (requireActivity() as AppCompatActivity).setTransparentStatusBar(isTransparent = false)
-    }
-
-    /*override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_photo_details, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_share) {
-            return true
+        (requireActivity() as MainActivity).apply {
+            setTransparentStatusBar(isTransparent = false)
+            //FIXME: review this behavior to proper show/hide bottomNav
+            toggleBottomNav(isVisible = true)
         }
-        return super.onOptionsItemSelected(item)
-    }*/
+    }
+
+    companion object {
+        const val TAG = "PhotoDetailsFragment"
+    }
 }
