@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/nav_collections"
         android:name="ua.andrii.andrushchenko.gimmepictures.ui.collection.CollectionsFragment"
-        android:label="CollectionsFragment"
+        android:label="@string/collections"
         tools:layout="@layout/fragment_collections">
         <action
             android:id="@+id/action_nav_collections_to_collectionPhotosFragment"
@@ -35,13 +35,12 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="ua.andrii.andrushchenko.gimmepictures.ui.search.SearchFragment"
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
+        tools:layout="@layout/fragment_search">
         <argument
             android:name="searchQuery"
+            android:defaultValue=" "
             app:argType="string"
-            app:nullable="true"
-            android:defaultValue=" " />
+            app:nullable="true" />
         <action
             android:id="@+id/action_nav_search_to_photoDetailsFragment"
             app:destination="@id/photoDetailsFragment" />

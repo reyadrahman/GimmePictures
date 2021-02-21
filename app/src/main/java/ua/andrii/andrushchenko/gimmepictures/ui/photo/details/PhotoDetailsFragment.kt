@@ -149,11 +149,7 @@ class PhotoDetailsFragment : Fragment(R.layout.fragment_photo_details) {
 
     override fun onStop() {
         super.onStop()
-        (requireActivity() as MainActivity).apply {
-            setTransparentStatusBar(isTransparent = false)
-            //FIXME: review this behavior to proper show/hide bottomNav
-            toggleBottomNav(isVisible = true)
-        }
+        (requireActivity() as MainActivity).setTransparentStatusBar(isTransparent = false)
     }
 
     companion object {

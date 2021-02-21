@@ -17,6 +17,7 @@ import ua.andrii.andrushchenko.gimmepictures.data.source.PhotosPagingSource
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentPhotosBinding
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.models.User
+import ua.andrii.andrushchenko.gimmepictures.ui.activities.MainActivity
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
@@ -119,7 +120,11 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
         viewModel.photos.observe(viewLifecycleOwner) {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
+    }
 
+    override fun onStart() {
+        super.onStart()
+        (requireActivity() as MainActivity).toggleBottomNav(isVisible = true)
     }
 
     override fun onDestroyView() {

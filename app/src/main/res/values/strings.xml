@@ -28,18 +28,16 @@
     <string name="shutter_speed">Shutter speed</string>
     <string name="exposure_time">Exposure time</string>
     <string name="iso">ISO</string>
-    <string name="Resolution">Dimensions</string>
+    <string name="resolution">Resolution</string>
 
+    <!-- Search -->
     <string-array name="search_category_array">
         <item>Photos</item>
         <item>Collections</item>
         <item>Users</item>
     </string-array>
-
     <string name="apply">Apply</string>
     <string name="search_for">Search for:</string>
-
-    <!-- Search -->
     <string name="no_search_results_subtitle">Try searching for something</string>
     <string name="filter">Filter</string>
     <string name="filter_relevance">Relevance</string>

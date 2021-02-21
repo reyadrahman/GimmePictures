@@ -22,8 +22,6 @@ import ua.andrii.andrushchenko.gimmepictures.ui.activities.MainActivity
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.photo.PhotosAdapter
-import ua.andrii.andrushchenko.gimmepictures.ui.photo.PhotosFragment
-import ua.andrii.andrushchenko.gimmepictures.ui.photo.details.PhotoDetailsFragment
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -135,7 +133,7 @@ class SearchFragment : Fragment() {
         (requireActivity() as MainActivity).toggleBottomNav(isVisible = false)
     }
 
-    override fun onStop() {
+    /*override fun onStop() {
         super.onStop()
         val isVisible = when (args.parentDestinationFragmentTag) {
             PhotosFragment.TAG -> true
@@ -143,7 +141,7 @@ class SearchFragment : Fragment() {
             else -> true
         }
         (requireActivity() as MainActivity).toggleBottomNav(isVisible = isVisible)
-    }
+    }*/
 
     override fun onDestroyView() {
         super.onDestroyView()

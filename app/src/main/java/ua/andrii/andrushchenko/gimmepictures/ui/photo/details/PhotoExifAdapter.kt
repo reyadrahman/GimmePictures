@@ -50,7 +50,7 @@ class PhotoExifAdapter(
             )
             pairs.add(R.string.iso to if (it.iso != null) SpannableStringBuilder(it.iso.toString()) else unknown)
             pairs.add(
-                R.string.Resolution to SpannableStringBuilder(
+                R.string.resolution to SpannableStringBuilder(
                     "${photo.width} × ${photo.height}"
                 )
             )
