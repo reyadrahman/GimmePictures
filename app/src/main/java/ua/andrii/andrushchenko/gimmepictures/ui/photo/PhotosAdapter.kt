@@ -36,8 +36,8 @@ class PhotosAdapter(private val listener: OnItemClickListener) :
                 entity.user?.let { user ->
                     userContainer.isVisible = true
                     userContainer.setOnClickListener { listener.onUserClick(user) }
-                    Glide.with(itemView)
-                        .load(entity.user.profileImage?.medium)
+                    Glide.with(itemView.context)
+                        .load(entity.user.profileImage?.small)
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .error(R.drawable.ic_person)
                         .into(userImageView)
@@ -47,14 +47,12 @@ class PhotosAdapter(private val listener: OnItemClickListener) :
                         "${itemView.context.getString(R.string.sponsored_by)} ${entity.sponsorship?.sponsor?.name}"
                 }
 
-                Glide.with(itemView)
+                Glide.with(itemView.context)
                     .load(entity.urls.regular)
                     .placeholder(ColorDrawable(Color.parseColor(entity.color)))
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .error(ColorDrawable(Color.parseColor(entity.color)))
                     .into(photoImageView)
-
-                userTextView.text = entity.user?.name
             }
         }
     }

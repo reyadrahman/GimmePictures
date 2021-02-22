@@ -64,10 +64,7 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
                     }
                     R.id.action_search -> {
                         val direction =
-                            PhotosFragmentDirections.actionNavPhotosToSearchFragment(
-                                searchQuery = "",
-                                parentDestinationFragmentTag = TAG
-                            )
+                            PhotosFragmentDirections.actionNavPhotosToSearchFragment(searchQuery = "")
                         findNavController().navigate(direction)
                     }
                 }
@@ -146,9 +143,5 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
             }
             .create()
             .show()
-    }
-
-    companion object {
-        const val TAG = "PhotosFragment"
     }
 }

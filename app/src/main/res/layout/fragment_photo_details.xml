@@ -139,9 +139,11 @@
                 android:layout_marginTop="@dimen/indent_16dp"
                 android:layout_marginEnd="@dimen/indent_16dp"
                 android:background="?android:attr/listDivider"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/description_text" />
+                app:layout_constraintTop_toBottomOf="@id/description_text"
+                tools:visibility="visible" />
 
             <LinearLayout
                 android:id="@+id/stats_container"
@@ -151,9 +153,11 @@
                 android:layout_marginTop="@dimen/indent_16dp"
                 android:layout_marginEnd="@dimen/indent_16dp"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider_line_1">
+                app:layout_constraintTop_toBottomOf="@id/divider_line_1"
+                tools:visibility="visible">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txt_likes"
@@ -203,29 +207,66 @@
                 android:id="@+id/recycler_view_exif"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/indent_0dp"
+                android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/divider_line_2"
                 app:spanCount="2"
                 tools:itemCount="6"
-                tools:listitem="@layout/item_photo_exif" />
+                tools:listitem="@layout/item_photo_exif"
+                tools:visibility="visible" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_tags"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/indent_0dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/recycler_view_exif"
                 tools:itemCount="6"
                 tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_photo_tag"
-                tools:orientation="horizontal" />
+                tools:orientation="horizontal"
+                tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 
+    <ProgressBar
+        android:id="@+id/progress_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/layout_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/indent_8dp"
+            android:text="@string/list_footer_load_error"
+            app:drawableTopCompat="@drawable/ic_no_internet_connection" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_retry"
+            style="@style/GimmePictures.MaterialButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/retry" />
+
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

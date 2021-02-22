@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ua.andrii.andrushchenko.gimmepictures.data.repositories.PhotoRepository
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
@@ -12,22 +14,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PhotoDetailsViewModel @Inject constructor(
-    private val photoRepository: PhotoRepository
+    private val photoRepository: PhotoRepository,
 ) : ViewModel() {
 
-    private val _photoDetails = MutableLiveData<Photo>()
-    val photoDetails get() = _photoDetails
+    private val _result: MutableLiveData<Result<Photo>> = MutableLiveData()
+    val result get() = _result
 
     fun getPhotoDetails(photoId: String) {
         viewModelScope.launch {
-            when (val result = photoRepository.getSinglePhoto(photoId)) {
-                is Result.Success -> {
-                    _photoDetails.postValue(result.value)
-                }
-                else -> {
-
-                }
-            }
+            photoRepository.getSinglePhoto(photoId).onEach {
+                _result.postValue(it)
+            }.launchIn(viewModelScope)
         }
     }
 }
