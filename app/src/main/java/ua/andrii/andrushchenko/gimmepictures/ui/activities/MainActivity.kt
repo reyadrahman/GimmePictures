@@ -27,6 +27,17 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         navController = navHostFragment.findNavController()
 
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.nav_photos, R.id.nav_collections, R.id.nav_my_profile -> {
+                    binding.bottomNavigationView.visibility = View.VISIBLE
+                }
+                else -> {
+                    binding.bottomNavigationView.visibility = View.GONE
+                }
+            }
+        }
+
         binding.bottomNavigationView.apply {
             setupWithNavController(navController)
             setOnNavigationItemReselectedListener {}
@@ -35,9 +46,5 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
-    }
-
-    fun toggleBottomNav(isVisible: Boolean) {
-        binding.bottomNavigationView.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 }

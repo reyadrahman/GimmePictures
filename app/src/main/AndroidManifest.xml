@@ -24,6 +24,18 @@
             </intent-filter>
         </activity>
 
-    </application>
+        <activity android:name=".ui.auth.AuthActivity"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <data
+                    android:host="unsplash-auth-callback"
+                    android:scheme="gmpictures" />
 
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+    </application>
 </manifest>

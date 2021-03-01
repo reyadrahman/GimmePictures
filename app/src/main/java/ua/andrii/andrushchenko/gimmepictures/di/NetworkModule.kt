@@ -4,15 +4,18 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ua.andrii.andrushchenko.gimmepictures.data.api.PhotoService
-import ua.andrii.andrushchenko.gimmepictures.data.api.SearchService
+import ua.andrii.andrushchenko.gimmepictures.data.auth.AccessTokenInterceptor
+import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthorizationService
+import ua.andrii.andrushchenko.gimmepictures.data.common.BASE_API_URL
 import ua.andrii.andrushchenko.gimmepictures.data.common.BASE_URL
-import ua.andrii.andrushchenko.gimmepictures.data.common.CLIENT_ID
+import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotoService
+import ua.andrii.andrushchenko.gimmepictures.data.search.SearchService
+import ua.andrii.andrushchenko.gimmepictures.data.user.UserService
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -21,22 +24,9 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideHeaderInterceptor(): Interceptor =
-        Interceptor { chain ->
-            val newRequest = chain.request()
-                .newBuilder()
-                .addHeader("Content-Type", "application/json")
-                .addHeader("ACCEPT_VERSION", "v1")
-                .addHeader("Authorization", "Client-ID $CLIENT_ID")
-                .build()
-            chain.proceed(newRequest)
-        }
-
-    @Provides
-    @Singleton
-    fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient =
+    fun provideOkHttpClient(accessTokenInterceptor: AccessTokenInterceptor): OkHttpClient =
         OkHttpClient.Builder()
-            .addInterceptor(interceptor)
+            .addInterceptor(accessTokenInterceptor)
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
@@ -44,7 +34,18 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    @Named("api_url_retrofit")
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(BASE_API_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+    @Provides
+    @Singleton
+    @Named("auth_url_retrofit")
+    fun provideAuthRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
@@ -53,11 +54,21 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun providePhotoService(retrofit: Retrofit): PhotoService =
+    fun providePhotoService(@Named("api_url_retrofit") retrofit: Retrofit): PhotoService =
         retrofit.create(PhotoService::class.java)
 
     @Provides
     @Singleton
-    fun provideSearchService(retrofit: Retrofit): SearchService =
+    fun provideSearchService(@Named("api_url_retrofit") retrofit: Retrofit): SearchService =
         retrofit.create(SearchService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideUserService(@Named("api_url_retrofit") retrofit: Retrofit): UserService =
+        retrofit.create(UserService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideAuthorizationService(@Named("auth_url_retrofit") retrofit: Retrofit): AuthorizationService =
+        retrofit.create(AuthorizationService::class.java)
 }

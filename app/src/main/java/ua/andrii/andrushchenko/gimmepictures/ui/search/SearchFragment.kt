@@ -18,7 +18,6 @@ import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentSearchBinding
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.models.User
-import ua.andrii.andrushchenko.gimmepictures.ui.activities.MainActivity
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.photo.PhotosAdapter
@@ -50,7 +49,7 @@ class SearchFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
@@ -71,12 +70,17 @@ class SearchFragment : Fragment() {
                     .build()*/
 
             val navController = findNavController()
-            val appBarConfiguration =
-                AppBarConfiguration(setOf(R.id.nav_photos, R.id.nav_collections))
+            val appBarConfiguration = AppBarConfiguration(
+                setOf(
+                    R.id.nav_photos,
+                    R.id.nav_collections,
+                    R.id.nav_my_profile
+                )
+            )
             toolbar.setupWithNavController(navController, appBarConfiguration)
 
             searchTextInputLayout.editText?.apply {
-                setText(args.searchQuery)
+                setText(args.searchQuery ?: "")
                 setSelection(text.length)
             }
 
@@ -127,21 +131,6 @@ class SearchFragment : Fragment() {
             }
         }
     }
-
-    override fun onStart() {
-        super.onStart()
-        (requireActivity() as MainActivity).toggleBottomNav(isVisible = false)
-    }
-
-    /*override fun onStop() {
-        super.onStop()
-        val isVisible = when (args.parentDestinationFragmentTag) {
-            PhotosFragment.TAG -> true
-            PhotoDetailsFragment.TAG -> false
-            else -> true
-        }
-        (requireActivity() as MainActivity).toggleBottomNav(isVisible = isVisible)
-    }*/
 
     override fun onDestroyView() {
         super.onDestroyView()

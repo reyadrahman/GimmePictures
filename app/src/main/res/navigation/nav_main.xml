@@ -9,7 +9,7 @@
         android:id="@+id/nav_photos"
         android:name="ua.andrii.andrushchenko.gimmepictures.ui.photo.PhotosFragment"
         android:label="fragment_photos"
-        tools:layout="@layout/fragment_photos" >
+        tools:layout="@layout/fragment_photos">
         <action
             android:id="@+id/action_nav_photos_to_photoDetailsFragment"
             app:destination="@id/photoDetailsFragment" />
@@ -38,7 +38,7 @@
         tools:layout="@layout/fragment_search">
         <argument
             android:name="searchQuery"
-            android:defaultValue=" "
+            android:defaultValue=""
             app:argType="string"
             app:nullable="true" />
         <action
@@ -70,12 +70,15 @@
         <action
             android:id="@+id/action_photoDetailsFragment_to_usersFragment"
             app:destination="@id/usersFragment" />
+        <action
+            android:id="@+id/action_photoDetailsFragment_to_authActivity"
+            app:destination="@id/authActivity" />
     </fragment>
     <fragment
         android:id="@+id/fullScreenPhotoFragment"
         android:name="ua.andrii.andrushchenko.gimmepictures.ui.photo.fullscreen.FullScreenPhotoFragment"
         android:label="fragment_fullscreen_photo"
-        tools:layout="@layout/fragment_fullscreen_photo" >
+        tools:layout="@layout/fragment_fullscreen_photo">
         <argument
             android:name="photoUrl"
             app:argType="string" />
@@ -89,7 +92,7 @@
         android:id="@+id/collectionPhotosFragment"
         android:name="ua.andrii.andrushchenko.gimmepictures.ui.collection.photos.CollectionPhotosFragment"
         android:label="fragment_collection_photos"
-        tools:layout="@layout/fragment_collection_photos" >
+        tools:layout="@layout/fragment_collection_photos">
         <action
             android:id="@+id/action_collectionPhotosFragment_to_photoDetailsFragment"
             app:destination="@id/photoDetailsFragment" />
@@ -99,4 +102,18 @@
         android:name="ua.andrii.andrushchenko.gimmepictures.ui.search.dialogs.SearchPhotoFilterDialog"
         android:label="bottom_sheet_search_photo_filter"
         tools:layout="@layout/bottom_sheet_search_photo_filter" />
+    <fragment
+        android:id="@+id/nav_my_profile"
+        android:name="ua.andrii.andrushchenko.gimmepictures.ui.user.me.MyProfileFragment"
+        android:label="fragment_my_profile"
+        tools:layout="@layout/fragment_my_profile">
+        <action
+            android:id="@+id/action_nav_my_profile_to_authActivity"
+            app:destination="@id/authActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/authActivity"
+        android:name="ua.andrii.andrushchenko.gimmepictures.ui.auth.AuthActivity"
+        android:label="activity_auth"
+        tools:layout="@layout/activity_auth" />
 </navigation>

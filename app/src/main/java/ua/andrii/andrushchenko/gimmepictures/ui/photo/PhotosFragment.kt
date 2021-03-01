@@ -13,11 +13,10 @@ import androidx.paging.LoadState
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
-import ua.andrii.andrushchenko.gimmepictures.data.source.PhotosPagingSource
+import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotosPagingSource
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentPhotosBinding
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.models.User
-import ua.andrii.andrushchenko.gimmepictures.ui.activities.MainActivity
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
@@ -48,7 +47,7 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentPhotosBinding.inflate(inflater, container, false)
         return binding.root
@@ -57,24 +56,39 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            toolbar.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.action_sort -> {
-                        showFilterDialog()
+            toolbar.apply {
+                setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.action_sort -> {
+                            showFilterDialog()
+                        }
+                        R.id.action_search -> {
+                            val direction =
+                                PhotosFragmentDirections.actionNavPhotosToSearchFragment(searchQuery = "")
+                            findNavController().navigate(direction)
+                        }
                     }
-                    R.id.action_search -> {
-                        val direction =
-                            PhotosFragmentDirections.actionNavPhotosToSearchFragment(searchQuery = "")
-                        findNavController().navigate(direction)
-                    }
+                    true
                 }
-                true
-            }
 
-            val navController = findNavController()
-            val appBarConfiguration =
-                AppBarConfiguration(setOf(R.id.nav_photos, R.id.nav_collections))
-            toolbar.setupWithNavController(navController, appBarConfiguration)
+                val navController = findNavController()
+                val appBarConfiguration = AppBarConfiguration(
+                    setOf(
+                        R.id.nav_photos,
+                        R.id.nav_collections,
+                        R.id.nav_my_profile
+                    )
+                )
+                setupWithNavController(navController, appBarConfiguration)
+
+                setOnClickListener {
+                    recyclerView.scrollToPosition(0)
+                }
+
+                viewModel.order.observe(viewLifecycleOwner) {
+                    title = "${getString(it.titleRes)} ${getString(R.string.photos)}"
+                }
+            }
 
             recyclerView.setHasFixedSize(true)
 
@@ -103,25 +117,12 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
                 header = RecyclerViewLoadStateAdapter { adapter.retry() },
                 footer = RecyclerViewLoadStateAdapter { adapter.retry() }
             )
-
-            viewModel.order.observe(viewLifecycleOwner) {
-                toolbar.title = "${getString(it.titleRes)} ${getString(R.string.photos)}"
-            }
-
-            toolbar.setOnClickListener {
-                recyclerView.scrollToPosition(0)
-            }
         }
 
         // Populate recyclerView
         viewModel.photos.observe(viewLifecycleOwner) {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        (requireActivity() as MainActivity).toggleBottomNav(isVisible = true)
     }
 
     override fun onDestroyView() {

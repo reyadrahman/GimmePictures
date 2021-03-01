@@ -17,6 +17,7 @@
     <string name="users">Users</string>
     <string name="search">Search</string>
     <string name="share">Share</string>
+    <string name="my_profile">My profile</string>
 
     <string name="location_template" translatable="false">%s, %s</string>
     <string name="photo_details">Photo details</string>
@@ -29,6 +30,12 @@
     <string name="exposure_time">Exposure time</string>
     <string name="iso">ISO</string>
     <string name="resolution">Resolution</string>
+
+    <!--Authorization-->
+    <string name="join">Join</string>
+    <string name="login">Login</string>
+    <string name="login_successful">Login successful</string>
+    <string name="login_failed">Login failed</string>
 
     <!-- Search -->
     <string-array name="search_category_array">

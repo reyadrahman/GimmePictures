@@ -1,11 +1,10 @@
-package ua.andrii.andrushchenko.gimmepictures.data.source
+package ua.andrii.andrushchenko.gimmepictures.data.photos
 
 import androidx.annotation.StringRes
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import retrofit2.HttpException
 import ua.andrii.andrushchenko.gimmepictures.R
-import ua.andrii.andrushchenko.gimmepictures.data.api.PhotoService
 import ua.andrii.andrushchenko.gimmepictures.data.common.PAGE_SIZE
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import java.io.IOException

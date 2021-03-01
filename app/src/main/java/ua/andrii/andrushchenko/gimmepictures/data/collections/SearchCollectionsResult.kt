@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.data.models
+package ua.andrii.andrushchenko.gimmepictures.data.collections
 
 import ua.andrii.andrushchenko.gimmepictures.models.Collection
 

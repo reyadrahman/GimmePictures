@@ -14,7 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
-import ua.andrii.andrushchenko.gimmepictures.data.source.SearchPhotosPagingSource
+import ua.andrii.andrushchenko.gimmepictures.data.search.SearchPhotosPagingSource
 import ua.andrii.andrushchenko.gimmepictures.databinding.BottomSheetSearchPhotoFilterBinding
 import ua.andrii.andrushchenko.gimmepictures.ui.search.SearchViewModel
 

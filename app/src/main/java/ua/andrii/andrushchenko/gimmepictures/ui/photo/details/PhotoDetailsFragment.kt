@@ -81,21 +81,28 @@ class PhotoDetailsFragment : Fragment() {
             constraintLayout.doOnApplyWindowInsets { view, _, _ -> view.updatePadding(top = 0) }
             photoImageView.doOnApplyWindowInsets { view, _, _ -> view.updatePadding(top = 0) }
 
-            toolbar.setOnMenuItemClickListener { item ->
-                if (item.itemId == R.id.action_share) {
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.share),
-                        Toast.LENGTH_SHORT
-                    ).show()
+            toolbar.apply {
+                setOnMenuItemClickListener { item ->
+                    if (item.itemId == R.id.action_share) {
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.share),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    true
                 }
-                true
-            }
 
-            val navController = findNavController()
-            val appBarConfiguration =
-                AppBarConfiguration(setOf(R.id.nav_photos, R.id.nav_collections))
-            toolbar.setupWithNavController(navController, appBarConfiguration)
+                val navController = findNavController()
+                val appBarConfiguration = AppBarConfiguration(
+                    setOf(
+                        R.id.nav_photos,
+                        R.id.nav_collections,
+                        R.id.nav_my_profile
+                    )
+                )
+                setupWithNavController(navController, appBarConfiguration)
+            }
 
             photo.location?.let { location ->
                 val locationString = when {
@@ -197,10 +204,7 @@ class PhotoDetailsFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        (requireActivity() as MainActivity).apply {
-            setTransparentStatusBar(isTransparent = true)
-            toggleBottomNav(isVisible = false)
-        }
+        (requireActivity() as MainActivity).setTransparentStatusBar(isTransparent = true)
     }
 
     override fun onStop() {

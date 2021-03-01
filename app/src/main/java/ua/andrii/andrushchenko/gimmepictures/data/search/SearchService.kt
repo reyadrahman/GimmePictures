@@ -1,10 +1,8 @@
-package ua.andrii.andrushchenko.gimmepictures.data.api
+package ua.andrii.andrushchenko.gimmepictures.data.search
 
 import retrofit2.http.GET
 import retrofit2.http.Query
-import ua.andrii.andrushchenko.gimmepictures.data.models.SearchCollectionsResult
-import ua.andrii.andrushchenko.gimmepictures.data.models.SearchPhotosResult
-import ua.andrii.andrushchenko.gimmepictures.data.models.SearchUsersResult
+import ua.andrii.andrushchenko.gimmepictures.data.collections.SearchCollectionsResult
 
 interface SearchService {
 

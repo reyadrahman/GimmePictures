@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.data.repositories
+package ua.andrii.andrushchenko.gimmepictures.data.photos
 
 import androidx.lifecycle.LiveData
 import androidx.paging.Pager
@@ -10,9 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
-import ua.andrii.andrushchenko.gimmepictures.data.api.PhotoService
 import ua.andrii.andrushchenko.gimmepictures.data.common.PAGE_SIZE
-import ua.andrii.andrushchenko.gimmepictures.data.source.PhotosPagingSource
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.util.Result
 import ua.andrii.andrushchenko.gimmepictures.util.errorBody

@@ -6,8 +6,8 @@ import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ua.andrii.andrushchenko.gimmepictures.data.repositories.PhotoRepository
-import ua.andrii.andrushchenko.gimmepictures.data.source.PhotosPagingSource
+import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotoRepository
+import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotosPagingSource
 import javax.inject.Inject
 
 @HiltViewModel
