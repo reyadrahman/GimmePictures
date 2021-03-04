@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import dagger.hilt.android.AndroidEntryPoint
+import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentMyProfileBinding
 
 @AndroidEntryPoint
@@ -21,7 +24,7 @@ class MyProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentMyProfileBinding.inflate(inflater, container, false)
         return binding.root
@@ -30,7 +33,18 @@ class MyProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (viewModel.isAuthorized) {
-            binding.txtInfo.text = viewModel.username
+            binding.apply {
+                Glide.with(requireContext())
+                    .load(viewModel.userProfilePhotoUrl)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .error(R.drawable.ic_person)
+                    .into(userImageView)
+                txtInfo.text = viewModel.username
+
+                btnLogout.setOnClickListener {
+                    viewModel.logout()
+                }
+            }
         } else {
             val direction = MyProfileFragmentDirections.actionNavMyProfileToAuthActivity()
             findNavController().navigate(direction)

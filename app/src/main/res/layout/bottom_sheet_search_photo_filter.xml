@@ -32,7 +32,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/order_relevance_button"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/GimmePictures.Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="@dimen/indent_0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -40,7 +40,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/order_latest_button"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/GimmePictures.Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="@dimen/indent_0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -66,7 +66,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/content_filter_low_button"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/GimmePictures.Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="@dimen/indent_0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -74,7 +74,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/content_filter_high_button"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/GimmePictures.Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -159,7 +159,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/apply_button"
-            style="@style/GimmePictures.MaterialButton"
+            style="@style/GimmePictures.Widget.MaterialComponents.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/apply" />

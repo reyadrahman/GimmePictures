@@ -1,14 +1,16 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.photo.details
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isVisible
-import androidx.core.view.updatePadding
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -19,11 +21,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentPhotoDetailsBinding
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
-import ua.andrii.andrushchenko.gimmepictures.ui.activities.MainActivity
 import ua.andrii.andrushchenko.gimmepictures.util.*
 
 @AndroidEntryPoint
@@ -65,7 +68,6 @@ class PhotoDetailsFragment : Fragment() {
                 is Result.NetworkError -> {
                     displayProgressBar(isDisplayed = false)
                     displayErrorMsg(isDisplayed = true)
-                    Toast.makeText(requireContext(), "IOException", Toast.LENGTH_SHORT).show()
                 }
                 is Result.Error -> {
                     displayProgressBar(isDisplayed = false)
@@ -77,20 +79,31 @@ class PhotoDetailsFragment : Fragment() {
 
     private fun displayPhotoDetails(photo: Photo) {
         binding.apply {
-            nestedScrollView.doOnApplyWindowInsets { view, _, _ -> view.updatePadding(top = 0) }
+
+            /*nestedScrollView.doOnApplyWindowInsets { view, _, _ -> view.updatePadding(top = 0) }
             constraintLayout.doOnApplyWindowInsets { view, _, _ -> view.updatePadding(top = 0) }
-            photoImageView.doOnApplyWindowInsets { view, _, _ -> view.updatePadding(top = 0) }
+            photoImageView.doOnApplyWindowInsets { view, _, _ -> view.updatePadding(top = 0) }*/
+
+            val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
+            bottomSheetBehavior.apply {
+                isHideable = false
+                isFitToContents = false
+                halfExpandedRatio = 0.7F
+            }
 
             toolbar.apply {
                 setOnMenuItemClickListener { item ->
-                    if (item.itemId == R.id.action_share) {
-                        Toast.makeText(
-                            requireContext(),
-                            getString(R.string.share),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                    when (item.itemId) {
+                        R.id.action_share -> {
+                            sharePhoto(photo.links?.html, photo.description)
+                            true
+                        }
+                        R.id.action_open_in_browser -> {
+                            openPhotoInBrowser(photo.links?.html)
+                            true
+                        }
+                        else -> super.onOptionsItemSelected(item)
                     }
-                    true
                 }
 
                 val navController = findNavController()
@@ -98,23 +111,11 @@ class PhotoDetailsFragment : Fragment() {
                     setOf(
                         R.id.nav_photos,
                         R.id.nav_collections,
+                        R.id.nav_search,
                         R.id.nav_my_profile
                     )
                 )
                 setupWithNavController(navController, appBarConfiguration)
-            }
-
-            photo.location?.let { location ->
-                val locationString = when {
-                    location.city != null && location.country != null ->
-                        getString(R.string.location_template, location.city, location.country)
-                    location.city != null && location.country == null -> location.city
-                    location.city == null && location.country != null -> location.country
-                    else -> null
-                }
-                locationText.visibility =
-                    if (locationString.isNullOrBlank()) View.GONE else View.VISIBLE
-                locationText.text = locationString
             }
 
             // Load photo
@@ -125,32 +126,77 @@ class PhotoDetailsFragment : Fragment() {
                 .error(ColorDrawable(Color.parseColor(photo.color)))
                 .into(photoImageView)
 
+            photo.description?.let { description ->
+                descriptionTextView.apply {
+                    visibility = View.VISIBLE
+                    text = description
+                    setOnClickListener { showDescriptionDetailed(description) }
+                }
+            }
+
+            btnLike.text = "${photo.likes?.toAmountReadableString() ?: 0}"
+            setLikeButtonState(photo.liked_by_user)
+            btnLike.setOnClickListener {
+                if (viewModel.isUserAuthorized) {
+                    val likes = if (photo.liked_by_user) {
+                        viewModel.unlikePhoto(photo.id)
+                        photo.likes
+                    } else {
+                        viewModel.likePhoto(photo.id)
+                        photo.likes?.inc()
+                    }
+                    btnLike.text = "${likes?.toAmountReadableString() ?: 0}"
+                    photo.liked_by_user = photo.liked_by_user.not()
+                    setLikeButtonState(photo.liked_by_user)
+                } else {
+                    Toast.makeText(requireContext(),
+                        String.format(getString(R.string.login_prompt),
+                            getString(R.string.like_photo)),
+                        Toast.LENGTH_SHORT).show()
+                    val direction =
+                        PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToAuthActivity()
+                    findNavController().navigate(direction)
+                }
+            }
+            btnDownload.text = "${photo.downloads?.toAmountReadableString() ?: 0}"
+            txtViews.text = "${photo.views?.toAmountReadableString() ?: 0}"
+
             // Load user
             photo.user?.let { user ->
-                userContainer.isVisible = true
+                userContainer.visibility = View.VISIBLE
                 userContainer.setOnClickListener {
                     val direction =
-                        PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUsersFragment()
+                        PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment()
                     findNavController().navigate(direction)
                 }
                 Glide.with(requireContext())
-                    .load(user.profileImage?.small)
+                    .load(user.profileImage?.large)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .error(R.drawable.ic_person)
                     .into(userImageView)
                 userTextView.text = user.name ?: "Unknown"
             }
 
-            photo.description?.let { description ->
-                dividerLine1.visibility = View.VISIBLE
-                descriptionText.visibility = View.VISIBLE
-                descriptionText.text = description
+            photo.location?.let { location ->
+                val locationString = when {
+                    location.city != null && location.country != null ->
+                        getString(R.string.location_template, location.city, location.country)
+                    location.city != null && location.country == null -> location.city
+                    location.city == null && location.country != null -> location.country
+                    else -> null
+                }
+                locationText.apply {
+                    visibility =
+                        if (locationString.isNullOrBlank()) View.GONE else View.VISIBLE
+                    text = locationString
+                    setOnClickListener {
+                        openLocationInMaps(
+                            location.position?.latitude,
+                            location.position?.longitude
+                        )
+                    }
+                }
             }
-
-            statsContainer.visibility = View.VISIBLE
-            txtLikes.text = "${photo.likes?.toAmountReadableString() ?: 0}"
-            txtDownloads.text = "${photo.downloads?.toAmountReadableString() ?: 0}"
-            txtViews.text = "${photo.views?.toAmountReadableString() ?: 0}"
 
             recyclerViewExif.apply {
                 visibility = View.VISIBLE
@@ -191,25 +237,68 @@ class PhotoDetailsFragment : Fragment() {
     private fun displayProgressBar(isDisplayed: Boolean) {
         binding.apply {
             progressLoading.visibility = if (isDisplayed) View.VISIBLE else View.GONE
-            nestedScrollView.visibility = if (!isDisplayed) View.VISIBLE else View.GONE
+            bottomSheet.visibility = if (!isDisplayed) View.VISIBLE else View.GONE
         }
     }
 
     private fun displayErrorMsg(isDisplayed: Boolean) {
         binding.apply {
             layoutError.visibility = if (isDisplayed) View.VISIBLE else View.GONE
-            nestedScrollView.visibility = if (!isDisplayed) View.VISIBLE else View.GONE
+            bottomSheet.visibility = if (!isDisplayed) View.VISIBLE else View.GONE
         }
+    }
+
+    private fun setLikeButtonState(likedByUser: Boolean) {
+        binding.btnLike.apply {
+            if (likedByUser) {
+                icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_like, null)
+                setIconTintResource(R.color.red_500)
+            } else {
+                icon = ResourcesCompat.getDrawable(resources, R.drawable.ic_like_outlined, null)
+                val typedValue = TypedValue()
+                requireActivity().theme.resolveAttribute(R.attr.colorControlNormal,
+                    typedValue,
+                    true)
+                setIconTintResource(typedValue.resourceId)
+            }
+        }
+    }
+
+    private fun sharePhoto(photoLink: String?, photoDescription: String?) {
+        val share = Intent.createChooser(Intent().apply {
+            action = Intent.ACTION_SEND
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, photoLink)
+            putExtra(Intent.EXTRA_TITLE, photoDescription)
+        }, null)
+        startActivity(share)
+    }
+
+    private fun openPhotoInBrowser(photoLink: String?) {
+        CustomTabsHelper.openCustomTab(requireContext(), Uri.parse(photoLink))
+    }
+
+    private fun openLocationInMaps(latitude: Double?, longitude: Double?) {
+        val gmmIntentUri = Uri.parse("geo:$latitude,$longitude")
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        mapIntent.setPackage("com.google.android.apps.maps")
+        mapIntent.resolveActivity(requireContext().packageManager)?.let {
+            startActivity(mapIntent)
+        }
+    }
+
+    private fun showDescriptionDetailed(description: String) {
+        MaterialAlertDialogBuilder(requireContext()).setMessage(description).show()
     }
 
     override fun onStart() {
         super.onStart()
-        (requireActivity() as MainActivity).setTransparentStatusBar(isTransparent = true)
+        requireActivity().setTransparentStatusBar(isTransparent = true)
     }
 
     override fun onStop() {
         super.onStop()
-        (requireActivity() as MainActivity).setTransparentStatusBar(isTransparent = false)
+        requireActivity().setTransparentStatusBar(isTransparent = false)
     }
 
     override fun onDestroyView() {

@@ -21,6 +21,8 @@
 
     <string name="location_template" translatable="false">%s, %s</string>
     <string name="photo_details">Photo details</string>
+    <string name="open_in_browser">Open in browser</string>
+    <string name="google_maps_does_not_installed">Google Maps does not installed on this device</string>
 
     <string name="camera">Camera</string>
     <string name="aperture">Aperture</string>
@@ -30,12 +32,20 @@
     <string name="exposure_time">Exposure time</string>
     <string name="iso">ISO</string>
     <string name="resolution">Resolution</string>
+    <string name="like">Like</string>
+    <string name="download">Download</string>
+    <string name="save">Save</string>
 
     <!--Authorization-->
     <string name="join">Join</string>
     <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="login_prompt">Please login to %s</string>
+    <string name="like_photo">like photo</string>
+    <string name="save_photo">save photo</string>
     <string name="login_successful">Login successful</string>
     <string name="login_failed">Login failed</string>
+    <string name="welcome_msg">Welcome! Login to use all features of Gimme pictures</string>
 
     <!-- Search -->
     <string-array name="search_category_array">

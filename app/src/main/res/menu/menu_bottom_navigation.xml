@@ -3,17 +3,22 @@
 
     <item
         android:id="@+id/nav_photos"
-        android:icon="@drawable/ic_photo"
+        android:icon="@drawable/bottom_nav_selector_photo"
         android:title="@string/photos" />
 
     <item
         android:id="@+id/nav_collections"
-        android:icon="@drawable/ic_collections"
+        android:icon="@drawable/bottom_nav_selector_collection"
         android:title="@string/collections" />
 
     <item
+        android:id="@+id/nav_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search" />
+
+    <item
         android:id="@+id/nav_my_profile"
-        android:icon="@drawable/ic_account"
-        android:title="@string/my_profile"/>
+        android:icon="@drawable/bottom_nav_selector_account"
+        android:title="@string/my_profile" />
 
 </menu>

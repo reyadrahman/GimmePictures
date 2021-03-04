@@ -15,6 +15,7 @@ data class Photo(
     val views: Int?,
     val downloads: Int?,
     val likes: Int?,
+    var liked_by_user: Boolean,
     val description: String?,
     @SerializedName("alt_description")
     val altDescription: String?,

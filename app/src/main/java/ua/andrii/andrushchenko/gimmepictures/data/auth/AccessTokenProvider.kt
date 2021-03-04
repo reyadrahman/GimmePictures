@@ -37,7 +37,7 @@ class AccessTokenProvider @Inject constructor(@ApplicationContext context: Conte
     fun saveUserProfile(me: Me) = sharedPreferences.edit {
         putString(USERNAME_KEY, me.username)
         putString(EMAIL_KEY, me.email)
-        putString(PROFILE_PICTURE_KEY, me.profile_image?.large)
+        putString(PROFILE_PICTURE_KEY, me.profileImage?.large)
     }
 
     fun clear() = sharedPreferences.edit {

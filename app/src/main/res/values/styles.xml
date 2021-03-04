@@ -6,16 +6,53 @@
         <item name="cornerSize">50%</item>
     </style>
 
-    <style name="Widget.MaterialComponents.Button.OutlinedButton.IconOnly" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="iconPadding">0dp</item>
-        <item name="iconGravity">textStart</item>
+    <style name="MaterialImageButton">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:padding">@dimen/indent_4dp</item>
+    </style>
+
+    <style name="ToolbarPhotoDetails">
+        <item name="titleTextColor">@color/white</item>
+        <item name="subtitleTextColor">@color/white</item>
+        <item name="android:theme">@style/ToolbarOverlayPhotoDetail</item>
+    </style>
+
+    <style name="ToolbarOverlayPhotoDetail">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="actionMenuTextColor">?attr/colorOnPrimary</item>
+        <!--<item name="colorPrimary">@android:color/transparent</item>
+        <item name="colorControlNormal">?attr/colorOnPrimary</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="actionMenuTextColor">?attr/colorOnPrimary</item>
+        <item name="background">@android:color/transparent</item>-->
+    </style>
+
+    <style name="GimmePictures.Widget.MaterialComponents.Button" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/blue_200</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="rippleColor">@color/blue_200</item>
+    </style>
+
+    <style name="GimmePictures.Widget.MaterialComponents.Button.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
-        <item name="android:paddingLeft">12dp</item>
-        <item name="android:paddingRight">12dp</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
         <item name="android:minWidth">48dp</item>
         <item name="android:minHeight">48dp</item>
-        <item name="android:textColorHighlight">@color/indigo_200</item>
-        <item name="android:colorActivatedHighlight">@color/indigo_200</item>
+        <item name="android:textColor">@drawable/bottom_nav_view_icon_tint</item>
+        <item name="android:colorActivatedHighlight">@color/blue_200</item>
+        <item name="rippleColor">@color/blue_200</item>
+        <item name="strokeColor">@drawable/bottom_nav_view_icon_tint</item>
+    </style>
+
+    <style name="Widget.MaterialComponents.Button.OutlinedButton.IconOnly" parent="GimmePictures.Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="iconPadding">0dp</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconTint">@drawable/bottom_nav_view_icon_tint</item>
     </style>
 </resources>

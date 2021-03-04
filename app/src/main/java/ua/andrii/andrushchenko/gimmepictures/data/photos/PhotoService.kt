@@ -20,12 +20,12 @@ interface PhotoService {
     ): Photo
 
     @POST("photos/{id}/like")
-    suspend fun likeAPhoto(
+    suspend fun likePhoto(
         @Path("id") id: String
     ): ResponseBody
 
     @DELETE("photos/{id}/like")
-    suspend fun unlikeAPhoto(
+    suspend fun unlikePhoto(
         @Path("id") id: String
     ): Response<Unit>
 
@@ -48,7 +48,7 @@ interface PhotoService {
         @Query("exif[iso_speed_ratings]") iso_speed_ratings: Int?
     ): Photo*/
 
-    /*@GET("photos/random")
+    @GET("photos/random")
     suspend fun getRandomPhotos(
         @Query("collections") collectionsId: Int?,
         @Query("featured") featured: Boolean?,
@@ -57,7 +57,7 @@ interface PhotoService {
         @Query("orientation") orientation: String?,
         @Query("content_filter") contentFilter: String?,
         @Query("count") count: Int?
-    ): List<Photo>*/
+    ): List<Photo>
 
 
 }

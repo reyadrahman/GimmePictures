@@ -4,6 +4,6 @@ import androidx.fragment.app.Fragment
 
 abstract class BaseRecyclerViewFragment<Entity : Any> : Fragment() {
 
-    protected abstract val adapter: BasePagedAdapter<Entity>
+    protected abstract val pagedAdapter: BasePagedAdapter<Entity>
 
 }

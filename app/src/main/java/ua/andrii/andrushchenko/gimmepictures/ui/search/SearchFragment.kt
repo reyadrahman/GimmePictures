@@ -13,14 +13,16 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentSearchBinding
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
-import ua.andrii.andrushchenko.gimmepictures.models.User
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.photo.PhotosAdapter
+import ua.andrii.andrushchenko.gimmepictures.util.setupLayoutManager
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -31,17 +33,11 @@ class SearchFragment : Fragment() {
     private val args by navArgs<SearchFragmentArgs>()
     private val viewModel by hiltNavGraphViewModels<SearchViewModel>(R.id.nav_main)
 
-    private val adapter: BasePagedAdapter<Photo> =
+    private val pagedAdapter: BasePagedAdapter<Photo> =
         PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
             override fun onPhotoClick(photo: Photo) {
                 val direction =
-                    SearchFragmentDirections.actionNavSearchToPhotoDetailsFragment(photoId = photo.id)
-                findNavController().navigate(direction)
-            }
-
-            override fun onUserClick(user: User) {
-                val direction =
-                    SearchFragmentDirections.actionNavSearchToUsersFragment()
+                    SearchFragmentDirections.actionGlobalPhotoDetailsFragment(photoId = photo.id)
                 findNavController().navigate(direction)
             }
         })
@@ -74,13 +70,14 @@ class SearchFragment : Fragment() {
                 setOf(
                     R.id.nav_photos,
                     R.id.nav_collections,
+                    R.id.nav_search,
                     R.id.nav_my_profile
                 )
             )
             toolbar.setupWithNavController(navController, appBarConfiguration)
 
             searchTextInputLayout.editText?.apply {
-                setText(args.searchQuery ?: "")
+                args.searchQuery?.let { setText(it) }
                 setSelection(text.length)
             }
 
@@ -101,10 +98,10 @@ class SearchFragment : Fragment() {
             }
 
             swipeRefreshLayout.setOnRefreshListener {
-                adapter.refresh()
+                pagedAdapter.refresh()
             }
 
-            adapter.addLoadStateListener { loadState ->
+            pagedAdapter.addLoadStateListener { loadState ->
                 swipeRefreshLayout.isRefreshing = loadState.refresh is LoadState.Loading
                 recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
                 textViewError.isVisible = loadState.source.refresh is LoadState.Error
@@ -112,7 +109,7 @@ class SearchFragment : Fragment() {
                 // empty view
                 if (loadState.source.refresh is LoadState.NotLoading &&
                     loadState.append.endOfPaginationReached &&
-                    adapter.itemCount < 1
+                    pagedAdapter.itemCount < 1
                 ) {
                     recyclerView.isVisible = false
                     textNothingFound.isVisible = true
@@ -121,13 +118,24 @@ class SearchFragment : Fragment() {
                 }
             }
 
-            recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
-                header = RecyclerViewLoadStateAdapter { adapter.retry() },
-                footer = RecyclerViewLoadStateAdapter { adapter.retry() }
-            )
+            recyclerView.apply {
+                layoutManager = StaggeredGridLayoutManager(1, RecyclerView.VERTICAL).apply {
+                    gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
+                }
+
+                setupLayoutManager(
+                    resources.configuration.orientation,
+                    resources.getDimensionPixelSize(R.dimen.indent_8dp)
+                )
+
+                adapter = pagedAdapter.withLoadStateHeaderAndFooter(
+                    header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },
+                    footer = RecyclerViewLoadStateAdapter { pagedAdapter.retry() }
+                )
+            }
 
             viewModel.photoResults.observe(viewLifecycleOwner) {
-                adapter.submitData(viewLifecycleOwner.lifecycle, it)
+                pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
             }
         }
     }

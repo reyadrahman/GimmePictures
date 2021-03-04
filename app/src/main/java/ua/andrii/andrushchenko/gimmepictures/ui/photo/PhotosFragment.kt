@@ -10,16 +10,18 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotosPagingSource
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentPhotosBinding
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
-import ua.andrii.andrushchenko.gimmepictures.models.User
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
+import ua.andrii.andrushchenko.gimmepictures.util.setupLayoutManager
 
 @AndroidEntryPoint
 class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
@@ -29,17 +31,11 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
 
     private val viewModel by hiltNavGraphViewModels<PhotoViewModel>(R.id.nav_main)
 
-    override val adapter: BasePagedAdapter<Photo> =
+    override val pagedAdapter: BasePagedAdapter<Photo> =
         PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
             override fun onPhotoClick(photo: Photo) {
                 val direction =
-                    PhotosFragmentDirections.actionNavPhotosToPhotoDetailsFragment(photoId = photo.id)
-                findNavController().navigate(direction)
-            }
-
-            override fun onUserClick(user: User) {
-                val direction =
-                    PhotosFragmentDirections.actionNavPhotosToUsersFragment()
+                    PhotosFragmentDirections.actionGlobalPhotoDetailsFragment(photoId = photo.id)
                 findNavController().navigate(direction)
             }
         })
@@ -62,11 +58,6 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
                         R.id.action_sort -> {
                             showFilterDialog()
                         }
-                        R.id.action_search -> {
-                            val direction =
-                                PhotosFragmentDirections.actionNavPhotosToSearchFragment(searchQuery = "")
-                            findNavController().navigate(direction)
-                        }
                     }
                     true
                 }
@@ -76,6 +67,7 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
                     setOf(
                         R.id.nav_photos,
                         R.id.nav_collections,
+                        R.id.nav_search,
                         R.id.nav_my_profile
                     )
                 )
@@ -93,10 +85,10 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
             recyclerView.setHasFixedSize(true)
 
             swipeRefreshLayout.setOnRefreshListener {
-                adapter.refresh()
+                pagedAdapter.refresh()
             }
 
-            adapter.addLoadStateListener { loadState ->
+            pagedAdapter.addLoadStateListener { loadState ->
                 swipeRefreshLayout.isRefreshing = loadState.refresh is LoadState.Loading
                 recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
                 textViewError.isVisible = loadState.source.refresh is LoadState.Error
@@ -104,24 +96,32 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
                 // empty view
                 if (loadState.source.refresh is LoadState.NotLoading &&
                     loadState.append.endOfPaginationReached &&
-                    adapter.itemCount < 1
+                    pagedAdapter.itemCount < 1
                 ) {
                     recyclerView.isVisible = false
-                    //textViewEmpty.isVisible = true
-                } /*else {
-                    textViewEmpty.isVisible = false
-                }*/
+                }
             }
 
-            recyclerView.adapter = adapter.withLoadStateHeaderAndFooter(
-                header = RecyclerViewLoadStateAdapter { adapter.retry() },
-                footer = RecyclerViewLoadStateAdapter { adapter.retry() }
-            )
+            recyclerView.apply {
+                layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL).apply {
+                    gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
+                }
+
+                setupLayoutManager(
+                    resources.configuration.orientation,
+                    resources.getDimensionPixelSize(R.dimen.indent_8dp)
+                )
+
+                adapter = pagedAdapter.withLoadStateHeaderAndFooter(
+                    header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },
+                    footer = RecyclerViewLoadStateAdapter { pagedAdapter.retry() }
+                )
+            }
         }
 
         // Populate recyclerView
         viewModel.photos.observe(viewLifecycleOwner) {
-            adapter.submitData(viewLifecycleOwner.lifecycle, it)
+            pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
     }
 

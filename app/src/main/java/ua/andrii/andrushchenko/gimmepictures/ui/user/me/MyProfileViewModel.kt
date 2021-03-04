@@ -7,10 +7,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MyProfileViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
 
-    val username get() = authRepository.username
     val isAuthorized get() = authRepository.isAuthorized
+    val username get() = authRepository.username
+    val userProfilePhotoUrl get() = authRepository.profilePicture
+
+    fun logout() {
+        authRepository.logout()
+    }
 
 }

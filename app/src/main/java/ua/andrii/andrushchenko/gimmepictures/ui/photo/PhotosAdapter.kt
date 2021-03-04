@@ -5,14 +5,11 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.ItemPhotoBinding
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
-import ua.andrii.andrushchenko.gimmepictures.models.User
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.util.setAspectRatio
 
@@ -33,20 +30,6 @@ class PhotosAdapter(private val listener: OnItemClickListener) :
                 photoImageView.setAspectRatio(entity.width, entity.height)
                 photoImageView.setOnClickListener { listener.onPhotoClick(entity) }
 
-                entity.user?.let { user ->
-                    userContainer.isVisible = true
-                    userContainer.setOnClickListener { listener.onUserClick(user) }
-                    Glide.with(itemView.context)
-                        .load(entity.user.profileImage?.small)
-                        .transition(DrawableTransitionOptions.withCrossFade())
-                        .error(R.drawable.ic_person)
-                        .into(userImageView)
-                    userTextView.text = user.name ?: "Unknown"
-                    sponsoredTextView.isVisible = entity.sponsorship != null
-                    sponsoredTextView.text =
-                        "${itemView.context.getString(R.string.sponsored_by)} ${entity.sponsorship?.sponsor?.name}"
-                }
-
                 Glide.with(itemView.context)
                     .load(entity.urls.regular)
                     .placeholder(ColorDrawable(Color.parseColor(entity.color)))
@@ -59,7 +42,6 @@ class PhotosAdapter(private val listener: OnItemClickListener) :
 
     interface OnItemClickListener {
         fun onPhotoClick(photo: Photo)
-        fun onUserClick(user: User)
     }
 
     companion object {

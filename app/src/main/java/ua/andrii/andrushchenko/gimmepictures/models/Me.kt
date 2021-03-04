@@ -1,26 +1,42 @@
 package ua.andrii.andrushchenko.gimmepictures.models
 
+import com.google.gson.annotations.SerializedName
+
 data class Me(
     val id: String,
-    val updated_at: String,
+    @SerializedName("updatedAt")
+    val updatedAt: String,
     val username: String?,
-    val first_name: String?,
-    val last_name: String?,
-    val twitter_username: String?,
-    val portfolio_url: String?,
+    @SerializedName("first_name")
+    val firstName: String?,
+    @SerializedName("last_name")
+    val lastName: String?,
+    @SerializedName("twitter_username")
+    val twitterUsername: String?,
+    @SerializedName("portfolio_url")
+    val portfolioUrl: String?,
     val bio: String?,
     val location: String?,
     val links: Photo.Links?,
-    val profile_image: User.ProfileImage?,
-    val instagram_username: String?,
-    val total_likes: Int?,
-    val total_photos: Int?,
-    val total_collections: Int?,
+    @SerializedName("profile_image")
+    val profileImage: User.ProfileImage?,
+    @SerializedName("instagram_username")
+    val instagramUsername: String?,
+    @SerializedName("total_likes")
+    val totalLikes: Int?,
+    @SerializedName("total_photos")
+    val totalPhotos: Int?,
+    @SerializedName("total_collections")
+    val totalCollections: Int?,
     val photos: List<Photo>?,
-    val followed_by_user: Boolean?,
-    val followers_count: Int?,
-    val following_count: Int?,
+    @SerializedName("followed_by_user")
+    val followedByUser: Boolean?,
+    @SerializedName("followers_count")
+    val followersCount: Int?,
+    @SerializedName("following_count")
+    val followingCount: Int?,
     val downloads: Int?,
-    val uploads_remaining: Int?,
-    val email: String?
+    @SerializedName("uploads_remaining")
+    val uploadsRemaining: Int?,
+    val email: String?,
 )

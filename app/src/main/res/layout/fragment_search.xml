@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
-        android:background="@android:color/transparent">
+        android:stateListAnimator="@null">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -32,7 +32,7 @@
                 <androidx.appcompat.widget.AppCompatEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"
+                    android:background="@android:color/transparent"
                     android:gravity="center_vertical"
                     android:hint="@string/search"
                     android:imeOptions="actionSearch"
@@ -42,17 +42,42 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!--<androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/edit_text_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:hint="@string/search_for"
-                android:imeOptions="actionSearch"
-                android:inputType="text"
-                android:maxLines="1" />-->
-
         </com.google.android.material.appbar.MaterialToolbar>
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/search_for_toggle_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/indent_8dp"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/toggle_photos"
+                style="@style/GimmePictures.Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="@dimen/indent_0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/photos" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/toggle_collections"
+                style="@style/GimmePictures.Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="@dimen/indent_0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:text="@string/collections" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/toggle_users"
+                style="@style/GimmePictures.Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="@dimen/indent_0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/users" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -60,7 +85,7 @@
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -95,8 +120,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                android:layout_height="match_parent" />
         </FrameLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import ua.andrii.andrushchenko.gimmepictures.databinding.ItemLoadStateFooterBinding
 
 class RecyclerViewLoadStateAdapter(private val retry: () -> Unit) :
@@ -22,6 +23,8 @@ class RecyclerViewLoadStateAdapter(private val retry: () -> Unit) :
 
     override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) {
         holder.bind(loadState)
+        val layoutParams = holder.itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams
+        layoutParams.isFullSpan = true
     }
 
     inner class LoadStateViewHolder(private val binding: ItemLoadStateFooterBinding) :

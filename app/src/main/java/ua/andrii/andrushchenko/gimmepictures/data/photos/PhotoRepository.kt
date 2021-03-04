@@ -14,6 +14,7 @@ import ua.andrii.andrushchenko.gimmepictures.data.common.PAGE_SIZE
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.util.Result
 import ua.andrii.andrushchenko.gimmepictures.util.errorBody
+import ua.andrii.andrushchenko.gimmepictures.util.safeApiRequest
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -49,4 +50,25 @@ class PhotoRepository @Inject constructor(private val photoService: PhotoService
             }
         }
     }
+
+    suspend fun getRandomPhoto(
+        collectionId: Int? = null,
+        featured: Boolean = false,
+        username: String? = null,
+        query: String? = null,
+        orientation: String? = null,
+        contentFilter: String? = null,
+    ): Result<Photo> = safeApiRequest {
+        photoService.getRandomPhotos(collectionId,
+            featured,
+            username,
+            query,
+            orientation,
+            contentFilter,
+            count = 1).first()
+    }
+
+    suspend fun likePhoto(id: String) = safeApiRequest { photoService.likePhoto(id) }
+
+    suspend fun unlikePhoto(id: String) = safeApiRequest { photoService.unlikePhoto(id) }
 }

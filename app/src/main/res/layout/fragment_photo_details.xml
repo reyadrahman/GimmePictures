@@ -4,214 +4,204 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context=".ui.photo.details.PhotoDetailsFragment">
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nested_scroll_view"
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/photo_image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:fitsSystemWindows="true">
+        android:elevation="@dimen/indent_0dp" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:stateListAnimator="@null">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/ToolbarOverlayPhotoDetail"
+            app:menu="@menu/menu_photo_details" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/drawable_round_shape"
+        android:elevation="@dimen/indent_12dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="@dimen/bottom_sheet_collapsed_size"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <LinearLayout
             android:id="@+id/constraint_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:animateLayoutChanges="true"
-            android:clipToPadding="false"
-            android:fitsSystemWindows="false">
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/photo_image_view"
-                android:layout_width="@dimen/indent_0dp"
-                android:layout_height="@dimen/indent_0dp"
-                android:contentDescription="@string/photos"
-                android:fitsSystemWindows="false"
-                android:scaleType="centerCrop"
-                app:layout_constraintDimensionRatio="4:3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@color/indigo_200" />
-
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/indent_0dp"
-                android:background="@drawable/image_scrim"
-                app:layout_constraintBottom_toBottomOf="@id/photo_image_view"
-                app:layout_constraintTop_toTopOf="@id/photo_image_view" />
+                android:layout_height="@dimen/bottom_sheet_collapsed_size"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="0dp"
+                <View
+                    android:id="@+id/drag_tag_indicator"
+                    android:layout_width="40dp"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="@dimen/indent_8dp"
+                    android:layout_marginBottom="@dimen/indent_8dp"
+                    android:background="@color/gray_400" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txt_views"
+                        style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|start"
+                        android:drawablePadding="@dimen/indent_4dp"
+                        android:gravity="center|start"
+                        android:padding="@dimen/indent_16dp"
+                        android:textColor="?attr/colorOnBackground"
+                        app:drawableStartCompat="@drawable/ic_views"
+                        app:drawableTint="?attr/colorOnBackground"
+                        tools:text="100" />
+
+                    <LinearLayout
+                        android:id="@+id/action_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|end"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/txt_views"
+                        app:layout_constraintTop_toBottomOf="@id/drag_tag_indicator">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_like"
+                            style="@style/GimmePictures.Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="?attr/colorControlNormal"
+                            app:icon="@drawable/ic_like_outlined"
+                            app:iconTint="?attr/colorControlNormal"
+                            tools:text="100" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_download"
+                            style="@style/GimmePictures.Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/indent_8dp"
+                            android:layout_marginEnd="@dimen/indent_8dp"
+                            android:textColor="?attr/colorControlNormal"
+                            app:icon="@drawable/ic_download_outlined"
+                            app:iconTint="?attr/colorControlNormal"
+                            tools:text="100" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_bookmark"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton.IconOnly"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/indent_8dp"
+                            app:icon="@drawable/ic_bookmark_outlined"
+                            app:iconTint="?attr/colorControlNormal" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/description_text_view"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:fitsSystemWindows="true"
-                android:minHeight="?attr/actionBarSize"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:menu="@menu/menu_photo_details" />
+                android:drawablePadding="@dimen/indent_8dp"
+                android:ellipsize="end"
+                android:gravity="center|start"
+                android:maxLines="1"
+                android:padding="@dimen/indent_16dp"
+                android:textColor="?attr/colorOnBackground"
+                android:visibility="gone"
+                app:drawableStartCompat="@drawable/ic_description"
+                app:drawableTint="?attr/colorOnBackground"
+                tools:text="Lorem ipsum dolor sit amet"
+                tools:visibility="visible" />
 
             <LinearLayout
                 android:id="@+id/user_container"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/indent_8dp"
-                android:paddingTop="@dimen/indent_16dp"
+                android:paddingTop="@dimen/indent_8dp"
                 android:paddingEnd="@dimen/indent_8dp"
-                android:paddingBottom="@dimen/indent_16dp"
-                app:layout_constraintBottom_toBottomOf="@id/photo_image_view"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="parent">
+                android:paddingBottom="@dimen/indent_8dp"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/user_image_view"
-                    android:layout_width="@dimen/small_user_icon_size"
-                    android:layout_height="@dimen/small_user_icon_size"
-                    android:layout_marginStart="@dimen/indent_8dp"
+                    android:layout_width="@dimen/medium_user_icon_size"
+                    android:layout_height="@dimen/medium_user_icon_size"
+                    android:layout_marginEnd="@dimen/indent_8dp"
                     android:scaleType="centerCrop"
                     app:shapeAppearanceOverlay="@style/CircleImageView"
                     tools:ignore="ContentDescription"
                     tools:src="@color/pink_200" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/user_text_view"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/indent_12dp"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/user_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:singleLine="true"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:visibility="visible"
-                        tools:text="User Name" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/location_text"
-                        style="@style/TextAppearance.MaterialComponents.Caption"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:maxLines="2"
-                        android:textColor="@color/white"
-                        android:visibility="gone"
-                        tools:text="Sumy, Ukraine"
-                        tools:visibility="visible" />
-
-                </LinearLayout>
+                    android:layout_gravity="center"
+                    android:singleLine="true"
+                    android:textColor="?attr/colorControlNormal"
+                    android:textSize="@dimen/big_user_text_size"
+                    android:visibility="visible"
+                    tools:text="Andrii Andrushchenko" />
 
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/description_text"
+                android:id="@+id/location_text"
                 style="@style/TextAppearance.MaterialComponents.Subtitle2"
-                android:layout_width="@dimen/indent_0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/indent_16dp"
-                android:drawablePadding="@dimen/indent_8dp"
-                android:ellipsize="marquee"
-                android:gravity="center|start"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/indent_8dp"
+                android:ellipsize="end"
+                android:gravity="center"
                 android:maxLines="2"
+                android:padding="@dimen/indent_8dp"
+                android:textColor="?attr/colorControlNormal"
                 android:visibility="gone"
-                app:drawableStartCompat="@drawable/ic_description"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/user_container"
-                tools:text="Lorem ipsum dolor sit amet"
+                app:drawableStartCompat="@drawable/ic_location"
+                tools:text="Sumy, Ukraine"
                 tools:visibility="visible" />
-
-            <View
-                android:id="@+id/divider_line_1"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginStart="@dimen/indent_16dp"
-                android:layout_marginTop="@dimen/indent_16dp"
-                android:layout_marginEnd="@dimen/indent_16dp"
-                android:background="?android:attr/listDivider"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/description_text"
-                tools:visibility="visible" />
-
-            <LinearLayout
-                android:id="@+id/stats_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/indent_16dp"
-                android:layout_marginTop="@dimen/indent_16dp"
-                android:layout_marginEnd="@dimen/indent_16dp"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider_line_1"
-                tools:visibility="visible">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txt_likes"
-                    style="@style/TextAppearance.MaterialComponents.Subtitle2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    app:drawableTopCompat="@drawable/ic_like"
-                    tools:text="100" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txt_views"
-                    style="@style/TextAppearance.MaterialComponents.Subtitle2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    app:drawableTopCompat="@drawable/ic_views"
-                    tools:text="100" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txt_downloads"
-                    style="@style/TextAppearance.MaterialComponents.Subtitle2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    app:drawableTopCompat="@drawable/ic_downloads"
-                    tools:text="100" />
-
-            </LinearLayout>
-
-            <View
-                android:id="@+id/divider_line_2"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginStart="@dimen/indent_16dp"
-                android:layout_marginTop="@dimen/indent_16dp"
-                android:layout_marginEnd="@dimen/indent_16dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/stats_container" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_exif"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/indent_0dp"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider_line_2"
                 app:spanCount="2"
                 tools:itemCount="6"
                 tools:listitem="@layout/item_photo_exif"
@@ -220,18 +210,17 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_tags"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/indent_0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/indent_12dp"
+                android:layout_marginEnd="@dimen/indent_12dp"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recycler_view_exif"
                 tools:itemCount="6"
                 tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_photo_tag"
                 tools:orientation="horizontal"
                 tools:visibility="visible" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 
