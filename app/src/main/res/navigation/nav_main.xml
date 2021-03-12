@@ -9,7 +9,11 @@
         android:id="@+id/nav_photos"
         android:name="ua.andrii.andrushchenko.gimmepictures.ui.photo.PhotosFragment"
         android:label="fragment_photos"
-        tools:layout="@layout/fragment_photos"/>
+        tools:layout="@layout/fragment_photos">
+        <action
+            android:id="@+id/action_nav_photos_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_collections"
         android:name="ua.andrii.andrushchenko.gimmepictures.ui.collection.CollectionsFragment"
@@ -20,7 +24,7 @@
             app:destination="@id/collectionPhotosFragment" />
     </fragment>
     <fragment
-        android:id="@+id/nav_search"
+        android:id="@+id/searchFragment"
         android:name="ua.andrii.andrushchenko.gimmepictures.ui.search.SearchFragment"
         tools:layout="@layout/fragment_search">
         <argument
@@ -46,14 +50,14 @@
             android:name="photoId"
             app:argType="string" />
         <action
-            android:id="@+id/action_photoDetailsFragment_to_nav_search"
-            app:destination="@id/nav_search" />
+            android:id="@+id/action_photoDetailsFragment_to_userDetailsFragment"
+            app:destination="@id/userDetailsFragment" />
+        <action
+            android:id="@+id/action_photoDetailsFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
         <action
             android:id="@+id/action_photoDetailsFragment_to_authActivity"
             app:destination="@id/authActivity" />
-        <action
-            android:id="@+id/action_photoDetailsFragment_to_userDetailsFragment"
-            app:destination="@id/userDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/userDetailsFragment"
@@ -76,14 +80,14 @@
         <action
             android:id="@+id/action_nav_my_profile_to_authActivity"
             app:destination="@id/authActivity"
-            app:popUpTo="@id/nav_photos"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@id/nav_photos" />
     </fragment>
-    <activity
-        android:id="@+id/authActivity"
-        android:name="ua.andrii.andrushchenko.gimmepictures.ui.auth.AuthActivity"
-        tools:layout="@layout/activity_auth" />
     <action
         android:id="@+id/action_global_photoDetailsFragment"
         app:destination="@id/photoDetailsFragment" />
+    <activity
+        android:id="@+id/authActivity"
+        android:name="ua.andrii.andrushchenko.gimmepictures.ui.auth.AuthActivity"
+        android:label="activity_auth"
+        tools:layout="@layout/activity_auth" />
 </navigation>

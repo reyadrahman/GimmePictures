@@ -33,7 +33,7 @@ class MyProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (viewModel.isAuthorized) {
-            binding.apply {
+            with(binding) {
                 Glide.with(requireContext())
                     .load(viewModel.userProfilePhotoUrl)
                     .transition(DrawableTransitionOptions.withCrossFade())

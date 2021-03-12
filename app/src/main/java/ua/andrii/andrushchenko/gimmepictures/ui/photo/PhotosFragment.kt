@@ -21,7 +21,7 @@ import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
-import ua.andrii.andrushchenko.gimmepictures.util.setupLayoutManager
+import ua.andrii.andrushchenko.gimmepictures.util.recyclerview.setupLayoutManager
 
 @AndroidEntryPoint
 class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
@@ -51,12 +51,17 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.apply {
+        with(binding) {
             toolbar.apply {
                 setOnMenuItemClickListener { item ->
                     when (item.itemId) {
                         R.id.action_sort -> {
                             showFilterDialog()
+                        }
+                        R.id.action_search -> {
+                            val direction =
+                                PhotosFragmentDirections.actionNavPhotosToSearchFragment(null)
+                            findNavController().navigate(direction)
                         }
                     }
                     true
@@ -67,7 +72,6 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
                     setOf(
                         R.id.nav_photos,
                         R.id.nav_collections,
-                        R.id.nav_search,
                         R.id.nav_my_profile
                     )
                 )
@@ -135,14 +139,15 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
             enumValues<PhotosPagingSource.Companion.Order>().map { getString(it.titleRes) }
                 .toTypedArray()
         val currentSelection = viewModel.order.value?.ordinal ?: 0
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(getString(R.string.sort_by))
-            .setSingleChoiceItems(orderOptions, currentSelection) { dialog, which ->
+        MaterialAlertDialogBuilder(requireContext()).run {
+            setTitle(getString(R.string.sort_by))
+            setSingleChoiceItems(orderOptions, currentSelection) { dialog, which ->
                 if (which != currentSelection) viewModel.orderPhotosBy(which)
                 dialog.dismiss()
                 binding.recyclerView.scrollToPosition(0)
             }
-            .create()
-            .show()
+            create()
+            show()
+        }
     }
 }

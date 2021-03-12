@@ -15,7 +15,7 @@ import jp.wasabeef.glide.transformations.SupportRSBlurTransformation
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepository.Companion.unsplashAuthCallback
 import ua.andrii.andrushchenko.gimmepictures.databinding.ActivityAuthBinding
-import ua.andrii.andrushchenko.gimmepictures.util.CustomTabsHelper
+import ua.andrii.andrushchenko.gimmepictures.util.customtabs.CustomTabsHelper
 import ua.andrii.andrushchenko.gimmepictures.util.Result
 
 @AndroidEntryPoint
@@ -29,17 +29,19 @@ class AuthActivity : AppCompatActivity() {
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.backgroundPhoto.observe(this) { photo ->
-            Glide.with(this)
-                .load(photo.urls.small)
-                .transition(DrawableTransitionOptions.withCrossFade(350))
-                .apply(RequestOptions.bitmapTransform(SupportRSBlurTransformation()))
-                .into(binding.bgImage)
-                .clearOnDetach()
-        }
+        with(binding) {
+            viewModel.backgroundPhoto.observe(this@AuthActivity) { photo ->
+                Glide.with(this@AuthActivity)
+                    .load(photo.urls.small)
+                    .transition(DrawableTransitionOptions.withCrossFade(350))
+                    .apply(RequestOptions.bitmapTransform(SupportRSBlurTransformation()))
+                    .into(bgImage)
+                    .clearOnDetach()
+            }
 
-        binding.btnLogin.setOnClickListener {
-            openUnsplashLoginTab()
+            btnLogin.setOnClickListener {
+                openUnsplashLoginTab()
+            }
         }
     }
 

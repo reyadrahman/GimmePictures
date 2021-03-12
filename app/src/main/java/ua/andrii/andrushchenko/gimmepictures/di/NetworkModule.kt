@@ -11,6 +11,7 @@ import ua.andrii.andrushchenko.gimmepictures.data.auth.AccessTokenInterceptor
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthorizationService
 import ua.andrii.andrushchenko.gimmepictures.data.common.BASE_API_URL
 import ua.andrii.andrushchenko.gimmepictures.data.common.BASE_URL
+import ua.andrii.andrushchenko.gimmepictures.data.download.DownloadService
 import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotoService
 import ua.andrii.andrushchenko.gimmepictures.data.search.SearchService
 import ua.andrii.andrushchenko.gimmepictures.data.user.UserService
@@ -66,6 +67,11 @@ object NetworkModule {
     @Singleton
     fun provideUserService(@Named("api_url_retrofit") retrofit: Retrofit): UserService =
         retrofit.create(UserService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideDownloadService(@Named("api_url_retrofit") retrofit: Retrofit): DownloadService =
+        retrofit.create(DownloadService::class.java)
 
     @Provides
     @Singleton

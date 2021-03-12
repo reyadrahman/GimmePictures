@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.util
+package ua.andrii.andrushchenko.gimmepictures.util.recyclerview
 
 import android.content.Context
 import android.graphics.Rect

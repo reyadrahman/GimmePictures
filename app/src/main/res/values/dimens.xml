@@ -8,14 +8,14 @@
     <dimen name="indent_12dp">12dp</dimen>
     <dimen name="indent_16dp">16dp</dimen>
     <dimen name="indent_24dp">24dp</dimen>
+    <dimen name="indent_48dp">48dp</dimen>
 
     <dimen name="small_user_icon_size">40dp</dimen>
     <dimen name="medium_user_icon_size">60dp</dimen>
     <dimen name="big_user_icon_size">85dp</dimen>
-    <dimen name="small_user_text_size">12sp</dimen>
+    <dimen name="small_user_text_size">14sp</dimen>
     <dimen name="big_user_text_size">20sp</dimen>
     <dimen name="text_size_14sp">14sp</dimen>
 
-    <dimen name="bottom_sheet_collapsed_size">86dp</dimen>
-    <dimen name="bottom_sheet_expanded_size">450dp</dimen>
+    <dimen name="bottom_sheet_collapsed_size">70dp</dimen>
 </resources>

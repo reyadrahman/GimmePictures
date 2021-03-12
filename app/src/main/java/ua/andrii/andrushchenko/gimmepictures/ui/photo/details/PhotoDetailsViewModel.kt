@@ -11,6 +11,7 @@ import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepository
 import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotoRepository
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.util.Result
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,4 +36,6 @@ class PhotoDetailsViewModel @Inject constructor(
     fun likePhoto(id: String) = viewModelScope.launch { photoRepository.likePhoto(id) }
 
     fun unlikePhoto(id: String) = viewModelScope.launch { photoRepository.unlikePhoto(id) }
+
+    var downloadWorkUUID: UUID? = null
 }

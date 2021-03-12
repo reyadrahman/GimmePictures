@@ -22,7 +22,7 @@ import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.photo.PhotosAdapter
-import ua.andrii.andrushchenko.gimmepictures.util.setupLayoutManager
+import ua.andrii.andrushchenko.gimmepictures.util.recyclerview.setupLayoutManager
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -54,7 +54,7 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.apply {
+        with(binding) {
             /*val materialShapeDrawable = toolbar.background as MaterialShapeDrawable
             materialShapeDrawable.shapeAppearanceModel =
                 materialShapeDrawable.shapeAppearanceModel
@@ -70,7 +70,6 @@ class SearchFragment : Fragment() {
                 setOf(
                     R.id.nav_photos,
                     R.id.nav_collections,
-                    R.id.nav_search,
                     R.id.nav_my_profile
                 )
             )
@@ -132,6 +131,7 @@ class SearchFragment : Fragment() {
                     header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },
                     footer = RecyclerViewLoadStateAdapter { pagedAdapter.retry() }
                 )
+
             }
 
             viewModel.photoResults.observe(viewLifecycleOwner) {

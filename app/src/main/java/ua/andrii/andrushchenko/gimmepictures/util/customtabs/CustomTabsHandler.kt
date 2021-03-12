@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.util
+package ua.andrii.andrushchenko.gimmepictures.util.customtabs
 
 import android.content.ActivityNotFoundException
 import android.content.Context

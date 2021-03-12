@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.util
+package ua.andrii.andrushchenko.gimmepictures.util.customtabs
 
 import android.content.Context
 import android.content.Intent

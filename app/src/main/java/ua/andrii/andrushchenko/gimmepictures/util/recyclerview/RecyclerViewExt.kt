@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.util
+package ua.andrii.andrushchenko.gimmepictures.util.recyclerview
 
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import androidx.recyclerview.widget.RecyclerView

@@ -2,227 +2,42 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
+    android:fitsSystemWindows="true"
     tools:context=".ui.photo.details.PhotoDetailsFragment">
 
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/photo_image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:elevation="@dimen/indent_0dp" />
+        android:elevation="@dimen/indent_0dp"
+        android:fitsSystemWindows="true" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
+        android:fitsSystemWindows="false"
         android:stateListAnimator="@null">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/image_scrim"
+            android:fitsSystemWindows="false"
             android:theme="@style/ToolbarOverlayPhotoDetail"
             app:menu="@menu/menu_photo_details" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/bottom_sheet"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/drawable_round_shape"
-        android:elevation="@dimen/indent_12dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:behavior_hideable="false"
-        app:behavior_peekHeight="@dimen/bottom_sheet_collapsed_size"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-
-        <LinearLayout
-            android:id="@+id/constraint_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/bottom_sheet_collapsed_size"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <View
-                    android:id="@+id/drag_tag_indicator"
-                    android:layout_width="40dp"
-                    android:layout_height="3dp"
-                    android:layout_marginTop="@dimen/indent_8dp"
-                    android:layout_marginBottom="@dimen/indent_8dp"
-                    android:background="@color/gray_400" />
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/txt_views"
-                        style="@style/TextAppearance.MaterialComponents.Subtitle2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center|start"
-                        android:drawablePadding="@dimen/indent_4dp"
-                        android:gravity="center|start"
-                        android:padding="@dimen/indent_16dp"
-                        android:textColor="?attr/colorOnBackground"
-                        app:drawableStartCompat="@drawable/ic_views"
-                        app:drawableTint="?attr/colorOnBackground"
-                        tools:text="100" />
-
-                    <LinearLayout
-                        android:id="@+id/action_layout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center|end"
-                        android:orientation="horizontal"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/txt_views"
-                        app:layout_constraintTop_toBottomOf="@id/drag_tag_indicator">
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_like"
-                            style="@style/GimmePictures.Widget.MaterialComponents.Button.OutlinedButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="?attr/colorControlNormal"
-                            app:icon="@drawable/ic_like_outlined"
-                            app:iconTint="?attr/colorControlNormal"
-                            tools:text="100" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_download"
-                            style="@style/GimmePictures.Widget.MaterialComponents.Button.OutlinedButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/indent_8dp"
-                            android:layout_marginEnd="@dimen/indent_8dp"
-                            android:textColor="?attr/colorControlNormal"
-                            app:icon="@drawable/ic_download_outlined"
-                            app:iconTint="?attr/colorControlNormal"
-                            tools:text="100" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_bookmark"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton.IconOnly"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/indent_8dp"
-                            app:icon="@drawable/ic_bookmark_outlined"
-                            app:iconTint="?attr/colorControlNormal" />
-
-                    </LinearLayout>
-
-                </FrameLayout>
-
-            </LinearLayout>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/description_text_view"
-                style="@style/TextAppearance.MaterialComponents.Subtitle2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/indent_8dp"
-                android:ellipsize="end"
-                android:gravity="center|start"
-                android:maxLines="1"
-                android:padding="@dimen/indent_16dp"
-                android:textColor="?attr/colorOnBackground"
-                android:visibility="gone"
-                app:drawableStartCompat="@drawable/ic_description"
-                app:drawableTint="?attr/colorOnBackground"
-                tools:text="Lorem ipsum dolor sit amet"
-                tools:visibility="visible" />
-
-            <LinearLayout
-                android:id="@+id/user_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/indent_8dp"
-                android:paddingTop="@dimen/indent_8dp"
-                android:paddingEnd="@dimen/indent_8dp"
-                android:paddingBottom="@dimen/indent_8dp"
-                android:visibility="gone"
-                tools:visibility="visible">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/user_image_view"
-                    android:layout_width="@dimen/medium_user_icon_size"
-                    android:layout_height="@dimen/medium_user_icon_size"
-                    android:layout_marginEnd="@dimen/indent_8dp"
-                    android:scaleType="centerCrop"
-                    app:shapeAppearanceOverlay="@style/CircleImageView"
-                    tools:ignore="ContentDescription"
-                    tools:src="@color/pink_200" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/user_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:singleLine="true"
-                    android:textColor="?attr/colorControlNormal"
-                    android:textSize="@dimen/big_user_text_size"
-                    android:visibility="visible"
-                    tools:text="Andrii Andrushchenko" />
-
-            </LinearLayout>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/location_text"
-                style="@style/TextAppearance.MaterialComponents.Subtitle2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/indent_8dp"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="2"
-                android:padding="@dimen/indent_8dp"
-                android:textColor="?attr/colorControlNormal"
-                android:visibility="gone"
-                app:drawableStartCompat="@drawable/ic_location"
-                tools:text="Sumy, Ukraine"
-                tools:visibility="visible" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_exif"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="2"
-                tools:itemCount="6"
-                tools:listitem="@layout/item_photo_exif"
-                tools:visibility="visible" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_tags"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/indent_12dp"
-                android:layout_marginEnd="@dimen/indent_12dp"
-                android:visibility="gone"
-                tools:itemCount="6"
-                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_photo_tag"
-                tools:orientation="horizontal"
-                tools:visibility="visible" />
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
+    <include
+        android:id="@+id/bottom_sheet_layout"
+        layout="@layout/bottom_sheet_photo_details" />
 
     <ProgressBar
         android:id="@+id/progress_loading"

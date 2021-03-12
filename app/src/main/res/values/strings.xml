@@ -1,29 +1,27 @@
 <resources>
     <string name="app_name">Gimme Pictures</string>
+
+    <!--Navigation destinations-->
+    <string name="photos">Photos</string>
+    <string name="collections">Collections</string>
+    <string name="my_profile">My profile</string>
+    <string name="users">Users</string>
+    <string name="search">Search</string>
+
+    <!--Photo fragment-->
     <string name="sort_by">Sort by</string>
     <string name="order_latest">Latest</string>
     <string name="order_oldest">Oldest</string>
     <string name="order_popular">Popular</string>
 
-    <string name="sponsored">Sponsored</string>
-    <string name="sponsored_by">Sponsored by</string>
+    <!--<string name="sponsored">Sponsored</string>
+    <string name="sponsored_by">Sponsored by</string>-->
 
-    <string name="list_footer_load_error">Load error, check connection</string>
-    <string name="retry">Retry</string>
-    <string name="nothing_found">Oops, seems like nothing found</string>
-
-    <string name="photos">Photos</string>
-    <string name="collections">Collections</string>
-    <string name="users">Users</string>
-    <string name="search">Search</string>
-    <string name="share">Share</string>
-    <string name="my_profile">My profile</string>
-
-    <string name="location_template" translatable="false">%s, %s</string>
+    <!--Photo details-->
     <string name="photo_details">Photo details</string>
+    <string name="location_template" translatable="false">%s, %s</string>
     <string name="open_in_browser">Open in browser</string>
-    <string name="google_maps_does_not_installed">Google Maps does not installed on this device</string>
-
+    <string name="share">Share</string>
     <string name="camera">Camera</string>
     <string name="aperture">Aperture</string>
     <string name="unknown">Unknown</string>
@@ -55,7 +53,7 @@
     </string-array>
     <string name="apply">Apply</string>
     <string name="search_for">Search for:</string>
-    <string name="no_search_results_subtitle">Try searching for something</string>
+
     <string name="filter">Filter</string>
     <string name="filter_relevance">Relevance</string>
     <string name="filter_latest">Latest</string>
@@ -80,5 +78,33 @@
     <string name="filter_color_green">Green</string>
     <string name="filter_color_teal">Teal</string>
     <string name="filter_color_blue">Blue</string>
+
+    <!--Error messages-->
+    <string name="list_footer_load_error">Load error, check connection</string>
+    <string name="nothing_found">Oops, seems like nothing found</string>
+    <string name="retry">Retry</string>
+    <string name="gmaps_does_not_installed">Google Maps does not installed on this device</string>
+    <string name="no_search_results_subtitle">Try searching for something</string>
+
+    <!--Notification related-->
+    <string name="download_notification_channel_name">Downloads</string>
+    <string name="download_notification_channel_description">All download notifications will be appear here</string>
+
+    <!--Download feature-->
+    <string name="download_complete">Download complete</string>
+    <string name="download_error">Download error</string>
+    <string name="cancel">Cancel</string>
+    <string name="select_image_quality">Select image size</string>
+    <string name="image_size_raw">Raw size</string>
+    <string name="image_size_full">Full size</string>
+    <string name="image_size_regular">Regular size</string>
+    <string name="image_size_small">Small size</string>
+    <string name="image_size_thumb">Thumb size</string>
+
+    <!--File related-->
+    <string name="file_exists_title">File already exists</string>
+    <string name="file_exists_msg">Would you like to download it one more time?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 </resources>

@@ -1,24 +1,30 @@
 package ua.andrii.andrushchenko.gimmepictures.util
 
+import androidx.annotation.StringRes
+import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import java.util.*
 
-enum class PhotoQuality {
-    RAW, FULL, REGULAR, SMALL, THUMB
+enum class PhotoSize(@StringRes val stringId: Int) {
+    RAW(R.string.image_size_raw),
+    FULL(R.string.image_size_full),
+    REGULAR(R.string.image_size_regular),
+    SMALL(R.string.image_size_small),
+    THUMB(R.string.image_size_thumb)
 }
 
-fun getPhotoUrl(photo: Photo, quality: PhotoQuality?): String {
-    return when (quality) {
-        PhotoQuality.RAW -> photo.urls.raw
-        PhotoQuality.FULL -> photo.urls.full
-        PhotoQuality.REGULAR -> photo.urls.regular
-        PhotoQuality.SMALL -> photo.urls.small
-        PhotoQuality.THUMB -> photo.urls.thumb
+fun getPhotoUrl(photo: Photo, size: PhotoSize?): String {
+    return when (size) {
+        PhotoSize.RAW -> photo.urls.raw
+        PhotoSize.FULL -> photo.urls.full
+        PhotoSize.REGULAR -> photo.urls.regular
+        PhotoSize.SMALL -> photo.urls.small
+        PhotoSize.THUMB -> photo.urls.thumb
         else -> photo.urls.regular
     }
 }
 
 val Photo.fileName: String
-    get() = "${
+    get() = "${this.id}+${
         this.user?.name?.toLowerCase(Locale.ROOT)?.replace(" ", "_")
-    }_${this.id}_unsplash.jpg"
+    }+unsplash.jpg"

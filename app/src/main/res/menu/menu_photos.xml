@@ -8,10 +8,10 @@
         android:title="@string/sort_by"
         app:showAsAction="ifRoom|collapseActionView" />
 
-    <!--<item
+    <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
         android:title="@string/search"
-        app:showAsAction="ifRoom|collapseActionView" />-->
+        app:showAsAction="ifRoom|collapseActionView" />
 
 </menu>
