@@ -1,5 +1,6 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.user.me
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -33,13 +34,18 @@ class MyProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (viewModel.isAuthorized) {
+            viewModel.obtainProfile()
             with(binding) {
-                Glide.with(requireContext())
-                    .load(viewModel.userProfilePhotoUrl)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .error(R.drawable.ic_person)
-                    .into(userImageView)
-                txtInfo.text = viewModel.username
+                viewModel.me.observe(viewLifecycleOwner) { me ->
+                    Glide.with(requireContext())
+                        .load(me.profileImage?.large)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .error(R.drawable.ic_person)
+                        .into(userImageView)
+
+                    @SuppressLint("SetTextI18n")
+                    txtUsername.text = "${me.firstName} ${me.lastName}"
+                }
 
                 btnLogout.setOnClickListener {
                     viewModel.logout()

@@ -7,16 +7,16 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.glide.transformations.SupportRSBlurTransformation
+import ua.andrii.andrushchenko.gimmepictures.GlideApp
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepository.Companion.unsplashAuthCallback
 import ua.andrii.andrushchenko.gimmepictures.databinding.ActivityAuthBinding
-import ua.andrii.andrushchenko.gimmepictures.util.customtabs.CustomTabsHelper
 import ua.andrii.andrushchenko.gimmepictures.util.Result
+import ua.andrii.andrushchenko.gimmepictures.util.customtabs.CustomTabsHelper
 
 @AndroidEntryPoint
 class AuthActivity : AppCompatActivity() {
@@ -31,7 +31,7 @@ class AuthActivity : AppCompatActivity() {
 
         with(binding) {
             viewModel.backgroundPhoto.observe(this@AuthActivity) { photo ->
-                Glide.with(this@AuthActivity)
+                GlideApp.with(this@AuthActivity)
                     .load(photo.urls.small)
                     .transition(DrawableTransitionOptions.withCrossFade(350))
                     .apply(RequestOptions.bitmapTransform(SupportRSBlurTransformation()))

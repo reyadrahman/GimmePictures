@@ -1,13 +1,12 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.photo
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import ua.andrii.andrushchenko.gimmepictures.GlideApp
 import ua.andrii.andrushchenko.gimmepictures.databinding.ItemPhotoBinding
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
@@ -18,19 +17,19 @@ class PhotosAdapter(private val listener: OnItemClickListener) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val binding = ItemPhotoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return NewPhotoViewHolder(binding)
+        return PhotoViewHolder(binding)
     }
 
-    inner class NewPhotoViewHolder(private val binding: ItemPhotoBinding) :
-        BaseViewHolder(binding) {
+    inner class PhotoViewHolder(private val binding: ItemPhotoBinding) : BaseViewHolder(binding) {
 
-        @SuppressLint("SetTextI18n")
         override fun bind(entity: Photo) {
-            binding.apply {
-                photoImageView.setAspectRatio(entity.width, entity.height)
-                photoImageView.setOnClickListener { listener.onPhotoClick(entity) }
+            with(binding) {
+                photoImageView.apply {
+                    setAspectRatio(entity.width, entity.height)
+                    setOnClickListener { listener.onPhotoClick(entity) }
+                }
 
-                Glide.with(itemView.context)
+                GlideApp.with(itemView.context)
                     .load(entity.urls.regular)
                     .placeholder(ColorDrawable(Color.parseColor(entity.color)))
                     .transition(DrawableTransitionOptions.withCrossFade())

@@ -8,6 +8,7 @@
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/drawable/bottom_nav_selector_collection.xml" value="0.2774358974358974" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/drawable/bottom_nav_selector_photo.xml" value="0.2978515625" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/drawable/bottom_nav_view_icon_tint.xml" value="0.8" />
+        <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/drawable/collection_cover_photo_scrim.xml" value="0.2740740740740741" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/drawable/drawable_round_shape.xml" value="0.2774358974358974" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/drawable/ic_account.xml" value="0.2774358974358974" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/drawable/ic_account_filled.xml" value="0.2774358974358974" />
@@ -24,6 +25,7 @@
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/drawable/ic_like.xml" value="0.28177083333333336" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/drawable/ic_like_outlined.xml" value="0.2774358974358974" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/drawable/ic_location.xml" value="0.2774358974358974" />
+        <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/drawable/ic_logout_outlined.xml" value="0.27685185185185185" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/drawable/ic_person.xml" value="0.2774358974358974" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/drawable/ic_photo.xml" value="0.2774358974358974" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/drawable/ic_photo_filled.xml" value="0.175" />
@@ -40,15 +42,17 @@
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/layout/fragment_auth.xml" value="0.265625" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/layout/fragment_collection_photos.xml" value="0.265625" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/layout/fragment_collections.xml" value="0.23425925925925925" />
-        <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/layout/fragment_my_profile.xml" value="0.265625" />
+        <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/layout/fragment_my_profile.xml" value="0.264" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/layout/fragment_photo_details.xml" value="0.2328767123287671" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/layout/fragment_photo_search.xml" value="0.8" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/layout/fragment_photos.xml" value="0.23703703703703705" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/layout/fragment_search.xml" value="0.264" />
+        <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/layout/item_collection.xml" value="0.265625" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/layout/item_load_state_footer.xml" value="0.25092592592592594" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/layout/item_photo.xml" value="0.25092592592592594" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/layout/item_photo_tag.xml" value="0.8" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/menu/menu_bottom_navigation.xml" value="0.24074074074074073" />
+        <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/menu/menu_collections.xml" value="0.265625" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/menu/menu_photo_details.xml" value="0.23981481481481481" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/menu/menu_photos.xml" value="0.23981481481481481" />
         <entry key="..\:/Users/Andrew/AndroidStudioProjects/GimmePictures/app/src/main/res/menu/menu_search.xml" value="0.8" />

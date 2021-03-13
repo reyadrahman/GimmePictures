@@ -9,6 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AccessTokenInterceptor
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthorizationService
+import ua.andrii.andrushchenko.gimmepictures.data.collection.CollectionsService
 import ua.andrii.andrushchenko.gimmepictures.data.common.BASE_API_URL
 import ua.andrii.andrushchenko.gimmepictures.data.common.BASE_URL
 import ua.andrii.andrushchenko.gimmepictures.data.download.DownloadService
@@ -57,6 +58,11 @@ object NetworkModule {
     @Singleton
     fun providePhotoService(@Named("api_url_retrofit") retrofit: Retrofit): PhotoService =
         retrofit.create(PhotoService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCollectionService(@Named("api_url_retrofit") retrofit: Retrofit): CollectionsService =
+        retrofit.create(CollectionsService::class.java)
 
     @Provides
     @Singleton

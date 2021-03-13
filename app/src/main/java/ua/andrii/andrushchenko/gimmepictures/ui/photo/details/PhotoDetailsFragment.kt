@@ -19,11 +19,11 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import ua.andrii.andrushchenko.gimmepictures.GlideApp
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentPhotoDetailsBinding
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
@@ -35,8 +35,8 @@ import ua.andrii.andrushchenko.gimmepictures.worker.DownloadWorker
 @AndroidEntryPoint
 class PhotoDetailsFragment : Fragment() {
 
-    private val viewModel by viewModels<PhotoDetailsViewModel>()
-    private val args by navArgs<PhotoDetailsFragmentArgs>()
+    private val viewModel: PhotoDetailsViewModel by viewModels()
+    private val args: PhotoDetailsFragmentArgs by navArgs()
 
     private var _binding: FragmentPhotoDetailsBinding? = null
     private val binding get() = _binding!!
@@ -148,7 +148,7 @@ class PhotoDetailsFragment : Fragment() {
             }
 
             // Load photo
-            Glide.with(requireContext())
+            GlideApp.with(requireContext())
                 .load(photo.urls.regular)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .error(ColorDrawable(Color.parseColor(photo.color)))
@@ -213,7 +213,7 @@ class PhotoDetailsFragment : Fragment() {
                         PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment()
                     findNavController().navigate(direction)
                 }
-                Glide.with(requireContext())
+                GlideApp.with(requireContext())
                     .load(user.profileImage?.medium)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .error(R.drawable.ic_person)

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/collection_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:layout_marginBottom="@dimen/indent_12dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:padding="@dimen/indent_16dp"
+    app:cardCornerRadius="@dimen/indent_8dp"
+    app:cardElevation="@dimen/indent_0dp"
+    tools:ignore="UnusedAttribute">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/collection_cover_photo_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        tools:src="@color/blue_200" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/collection_cover_photo_scrim" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/collection_name"
+        style="@style/TextAppearance.MaterialComponents.Headline3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@color/white"
+        app:fontFamily="@font/dancing_script"
+        tools:text="@string/collections" />
+
+</com.google.android.material.card.MaterialCardView>

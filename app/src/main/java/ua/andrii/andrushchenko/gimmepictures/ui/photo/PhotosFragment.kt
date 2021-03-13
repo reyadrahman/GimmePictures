@@ -29,7 +29,7 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
     private var _binding: FragmentPhotosBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by hiltNavGraphViewModels<PhotoViewModel>(R.id.nav_main)
+    private val viewModel: PhotoViewModel by hiltNavGraphViewModels(R.id.nav_main)
 
     override val pagedAdapter: BasePagedAdapter<Photo> =
         PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
@@ -86,8 +86,6 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
                 }
             }
 
-            recyclerView.setHasFixedSize(true)
-
             swipeRefreshLayout.setOnRefreshListener {
                 pagedAdapter.refresh()
             }
@@ -107,6 +105,7 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
             }
 
             recyclerView.apply {
+                setHasFixedSize(true)
                 layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL).apply {
                     gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
                 }

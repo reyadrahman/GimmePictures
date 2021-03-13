@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_nav_collections_to_collectionPhotosFragment"
             app:destination="@id/collectionPhotosFragment" />
+        <action
+            android:id="@+id/action_nav_collections_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"

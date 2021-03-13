@@ -17,4 +17,14 @@ class GimmePicturesApp : Application(), Configuration.Provider {
             .setWorkerFactory(workerFactory)
             .build()
 
+    override fun onLowMemory() {
+        super.onLowMemory()
+        GlideApp.get(this).clearMemory()
+    }
+
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        GlideApp.get(this).trimMemory(level)
+    }
+
 }

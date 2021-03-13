@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.ui.activities
+package ua.andrii.andrushchenko.gimmepictures.ui.main
 
 import android.os.Bundle
 import android.view.View

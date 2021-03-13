@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.data.photos
+package ua.andrii.andrushchenko.gimmepictures.data.collection
 
 import androidx.annotation.StringRes
 import retrofit2.HttpException
@@ -6,25 +6,29 @@ import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.data.base.BasePagingSource
 import ua.andrii.andrushchenko.gimmepictures.data.common.PAGE_SIZE
 import ua.andrii.andrushchenko.gimmepictures.data.common.STARTING_PAGE_INDEX
-import ua.andrii.andrushchenko.gimmepictures.models.Photo
+import ua.andrii.andrushchenko.gimmepictures.models.Collection
 import java.io.IOException
 
-class PhotosPagingSource(
-    private val photoService: PhotoService,
+class CollectionsPagingSource(
+    private val collectionsService: CollectionsService,
     private val order: Order
-) : BasePagingSource<Photo>() {
+) : BasePagingSource<Collection>() {
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Photo> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Collection> {
         val pageKey = params.key ?: STARTING_PAGE_INDEX
 
         return try {
-            val photos = photoService.getPhotos(pageKey, PAGE_SIZE, order.value)
+            val collections: List<Collection> = when (order) {
+                Order.ALL -> collectionsService.getAllCollections(pageKey, PAGE_SIZE)
+                Order.FEATURED -> collectionsService.getFeaturedCollections(pageKey, PAGE_SIZE)
+            }
 
             LoadResult.Page(
-                data = photos,
+                data = collections,
                 prevKey = if (pageKey == STARTING_PAGE_INDEX) null else pageKey - 1,
-                nextKey = if (photos.isEmpty()) null else pageKey + 1
+                nextKey = if (collections.isEmpty()) null else pageKey + 1
             )
+
         } catch (exception: IOException) {
             LoadResult.Error(exception)
         } catch (exception: HttpException) {
@@ -34,9 +38,8 @@ class PhotosPagingSource(
 
     companion object {
         enum class Order(@StringRes val titleRes: Int, val value: String) {
-            LATEST(R.string.order_latest, "latest"),
-            OLDEST(R.string.order_oldest, "oldest"),
-            POPULAR(R.string.order_popular, "popular")
+            ALL(R.string.order_all, "all"),
+            FEATURED(R.string.order_featured, "featured")
         }
     }
 }

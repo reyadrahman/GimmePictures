@@ -13,6 +13,8 @@
     <string name="order_latest">Latest</string>
     <string name="order_oldest">Oldest</string>
     <string name="order_popular">Popular</string>
+    <string name="order_all">All</string>
+    <string name="order_featured">Featured</string>
 
     <!--<string name="sponsored">Sponsored</string>
     <string name="sponsored_by">Sponsored by</string>-->
