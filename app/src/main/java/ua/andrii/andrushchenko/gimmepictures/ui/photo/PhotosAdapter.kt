@@ -35,6 +35,7 @@ class PhotosAdapter(private val listener: OnItemClickListener) :
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .error(ColorDrawable(Color.parseColor(entity.color)))
                     .into(photoImageView)
+                    .clearOnDetach()
             }
         }
     }

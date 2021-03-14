@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
@@ -22,7 +22,7 @@ import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.photo.PhotosAdapter
-import ua.andrii.andrushchenko.gimmepictures.util.recyclerview.setupLayoutManager
+import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManager
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -30,8 +30,8 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
-    private val args by navArgs<SearchFragmentArgs>()
-    private val viewModel by hiltNavGraphViewModels<SearchViewModel>(R.id.nav_main)
+    private val args: SearchFragmentArgs by navArgs()
+    private val viewModel: SearchViewModel by viewModels()
 
     private val pagedAdapter: BasePagedAdapter<Photo> =
         PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
@@ -53,7 +53,6 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         with(binding) {
             /*val materialShapeDrawable = toolbar.background as MaterialShapeDrawable
             materialShapeDrawable.shapeAppearanceModel =
@@ -82,7 +81,7 @@ class SearchFragment : Fragment() {
 
             searchTextInputLayout.editText?.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    binding.recyclerView.scrollToPosition(0)
+                    recyclerView.scrollToPosition(0)
                     viewModel.updateQuery(searchTextInputLayout.editText?.text.toString())
                     searchTextInputLayout.editText?.clearFocus()
                     return@setOnEditorActionListener true
@@ -118,11 +117,9 @@ class SearchFragment : Fragment() {
             }
 
             recyclerView.apply {
-                layoutManager = StaggeredGridLayoutManager(1, RecyclerView.VERTICAL).apply {
-                    gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
-                }
-
-                setupLayoutManager(
+                setHasFixedSize(true)
+                layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
+                setupStaggeredGridLayoutManager(
                     resources.configuration.orientation,
                     resources.getDimensionPixelSize(R.dimen.indent_8dp)
                 )

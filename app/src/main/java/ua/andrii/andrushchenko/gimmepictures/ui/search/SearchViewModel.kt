@@ -1,22 +1,21 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.search
 
-import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ua.andrii.andrushchenko.gimmepictures.data.search.SearchRepository
 import ua.andrii.andrushchenko.gimmepictures.data.search.SearchPhotosPagingSource
+import ua.andrii.andrushchenko.gimmepictures.data.search.SearchRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val searchRepository: SearchRepository,
-    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _query = savedStateHandle.getLiveData(CURRENT_QUERY, DEFAULT_QUERY)
+    private val _query: MutableLiveData<String> = MutableLiveData()
     val query get() = _query
 
     var order = SearchPhotosPagingSource.Companion.Order.RELEVANT
@@ -31,10 +30,4 @@ class SearchViewModel @Inject constructor(
     fun updateQuery(query: String) = _query.postValue(query)
 
     fun filterPhotoSearch() = _query.postValue(_query.value)
-
-    companion object {
-        private const val CURRENT_QUERY = "current_query"
-        private const val DEFAULT_QUERY = ""
-    }
-
 }

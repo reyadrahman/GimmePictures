@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/settings_appearance">
+        <ListPreference app:key="theme"
+            app:title="@string/theme"
+            app:entries="@array/theme_options"
+            app:entryValues="@array/theme_values"
+            app:defaultValue="@string/default_theme_value"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_quality">
+        <ListPreference app:key="load_quality"
+            app:title="@string/select_image_quality"
+            app:entries="@array/quality_options"
+            app:entryValues="@array/quality_values"
+            app:defaultValue="@string/default_load_quality_value"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <Preference app:key="clear_cache"
+        app:title="@string/clear_cache" />
+
+</PreferenceScreen>

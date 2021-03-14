@@ -29,7 +29,6 @@ import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentPhotoDetailsBin
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.util.*
 import ua.andrii.andrushchenko.gimmepictures.util.customtabs.CustomTabsHelper
-import ua.andrii.andrushchenko.gimmepictures.util.recyclerview.RecyclerViewSpacingItemDecoration
 import ua.andrii.andrushchenko.gimmepictures.worker.DownloadWorker
 
 @AndroidEntryPoint
@@ -153,6 +152,7 @@ class PhotoDetailsFragment : Fragment() {
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .error(ColorDrawable(Color.parseColor(photo.color)))
                 .into(photoImageView)
+                .clearOnDetach()
 
             //bottomSheetLayout.bottomSheetHeader.setBackgroundColor(Color.parseColor(photo.color))
 
@@ -218,6 +218,7 @@ class PhotoDetailsFragment : Fragment() {
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .error(R.drawable.ic_person)
                     .into(bottomSheetLayout.userImageView)
+                    .clearOnDetach()
                 bottomSheetLayout.userTextView.text = user.name ?: "Unknown"
             }
 
@@ -254,10 +255,9 @@ class PhotoDetailsFragment : Fragment() {
                         false
                     ).apply {
                         addItemDecoration(
-                            RecyclerViewSpacingItemDecoration(
-                                context,
-                                R.dimen.indent_8dp,
-                                RecyclerView.HORIZONTAL
+                            LinearLayoutSpacingDecoration(
+                                margin = resources.getDimensionPixelSize(R.dimen.indent_8dp),
+                                orientation = RecyclerView.HORIZONTAL
                             )
                         )
                     }

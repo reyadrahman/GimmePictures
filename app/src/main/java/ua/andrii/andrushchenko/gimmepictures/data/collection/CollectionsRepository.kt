@@ -5,16 +5,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
-import retrofit2.HttpException
 import ua.andrii.andrushchenko.gimmepictures.data.common.PAGE_SIZE
 import ua.andrii.andrushchenko.gimmepictures.models.Collection
-import ua.andrii.andrushchenko.gimmepictures.util.Result
-import ua.andrii.andrushchenko.gimmepictures.util.errorBody
-import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,7 +22,7 @@ class CollectionsRepository @Inject constructor(private val collectionsService: 
             pagingSourceFactory = { CollectionsPagingSource(collectionsService, order) }
         ).liveData
 
-    fun getSingleCollection(id: Int): Flow<Result<Collection>> = flow {
+    /*fun getSingleCollection(id: Int): Flow<Result<Collection>> = flow {
         emit(Result.Loading)
         try {
             val result: Collection
@@ -49,5 +41,5 @@ class CollectionsRepository @Inject constructor(private val collectionsService: 
                 else -> emit(Result.Error(null, throwable.message))
             }
         }
-    }
+    }*/
 }

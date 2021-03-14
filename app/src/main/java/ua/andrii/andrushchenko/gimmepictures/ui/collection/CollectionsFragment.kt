@@ -21,7 +21,7 @@ import ua.andrii.andrushchenko.gimmepictures.models.Collection
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
-import ua.andrii.andrushchenko.gimmepictures.util.recyclerview.RecyclerViewSpacingItemDecoration
+import ua.andrii.andrushchenko.gimmepictures.util.setupLinearLayoutManager
 
 @AndroidEntryPoint
 class CollectionsFragment : BaseRecyclerViewFragment<Collection>() {
@@ -108,12 +108,10 @@ class CollectionsFragment : BaseRecyclerViewFragment<Collection>() {
             recyclerView.apply {
                 setHasFixedSize(true)
 
-                addItemDecoration(
-                    RecyclerViewSpacingItemDecoration(
-                        context,
-                        R.dimen.indent_8dp,
-                        RecyclerView.VERTICAL
-                    )
+                setupLinearLayoutManager(
+                    resources.getDimensionPixelSize(R.dimen.indent_8dp),
+                    resources.getDimensionPixelSize(R.dimen.indent_48dp),
+                    RecyclerView.VERTICAL
                 )
 
                 adapter = pagedAdapter.withLoadStateHeaderAndFooter(

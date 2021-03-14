@@ -42,6 +42,7 @@ class MyProfileFragment : Fragment() {
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .error(R.drawable.ic_person)
                         .into(userImageView)
+                        .clearOnDetach()
 
                     @SuppressLint("SetTextI18n")
                     txtUsername.text = "${me.firstName} ${me.lastName}"

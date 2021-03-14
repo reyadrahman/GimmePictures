@@ -2,14 +2,10 @@ package ua.andrii.andrushchenko.gimmepictures.util
 
 import android.app.Activity
 import android.os.Build
-import android.util.TypedValue
 import android.view.View
 import android.view.WindowManager
-import androidx.core.content.ContextCompat
-import androidx.core.view.WindowCompat
-import ua.andrii.andrushchenko.gimmepictures.R
 
-fun Activity.setTransparentStatusBar(isTransparent: Boolean) {
+/*fun Activity.setTransparentStatusBar(isTransparent: Boolean) {
     if (isTransparent) {
         window.run {
             WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -24,7 +20,7 @@ fun Activity.setTransparentStatusBar(isTransparent: Boolean) {
             statusBarColor = typedValue.data
         }
     }
-}
+}*/
 
 fun Activity.transparentStatusBar(isTransparent: Boolean, isFullscreen: Boolean) {
     if (isTransparent) {
@@ -38,8 +34,8 @@ fun Activity.transparentStatusBar(isTransparent: Boolean, isFullscreen: Boolean)
             decorView.systemUiVisibility = uiOptions
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                        or View.SYSTEM_UI_FLAG_VISIBLE)
+                window.decorView.systemUiVisibility = (/*View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                        or */View.SYSTEM_UI_FLAG_VISIBLE)
             }
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         }

@@ -23,7 +23,7 @@
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/collection_cover_photo_scrim"
+        android:background="@drawable/cover_photo_scrim"
         app:layout_constraintBottom_toBottomOf="@id/bg_image"
         app:layout_constraintEnd_toEndOf="@id/bg_image"
         app:layout_constraintStart_toStartOf="@id/bg_image"

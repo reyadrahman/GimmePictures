@@ -108,5 +108,43 @@
     <string name="file_exists_msg">Would you like to download it one more time?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    
+    <!--Settings-->
+    <string name="settings_quality">Image quality</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="clear_cache">Clear cache</string>
+    <string name="theme">Theme</string>
+    <!--Quality-->
+    <string-array name="quality_options">
+        <item>@string/image_size_raw</item>
+        <item>@string/image_size_full</item>
+        <item>@string/image_size_regular</item>
+        <item>@string/image_size_small</item>
+        <item>@string/image_size_thumb</item>
+    </string-array>
+    <string-array name="quality_values">
+        <item>raw</item>
+        <item>full</item>
+        <item>regular</item>
+        <item>small</item>
+        <item>thumb</item>
+    </string-array>
+    <string name="default_load_quality_value" translatable="false">regular</string>
+
+    <!--Theme-->
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_system_default">System default</string>
+    <string-array name="theme_options">
+        <item>@string/theme_light</item>
+        <item>@string/theme_dark</item>
+        <item>@string/theme_system_default</item>
+    </string-array>
+    <string-array name="theme_values">
+        <item>light</item>
+        <item>dark</item>
+        <item>system</item>
+    </string-array>
+    <string name="default_theme_value" translatable="false">system</string>
 
 </resources>

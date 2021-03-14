@@ -32,6 +32,7 @@ class CollectionsAdapter(private val listener: OnItemClickListener) :
                     .transition(DrawableTransitionOptions.withCrossFade())
                     /*.apply(RequestOptions.bitmapTransform(BlurTransformation(25, 3)))*/
                     .into(collectionCoverPhotoImageView)
+                    .clearOnDetach()
 
                 collectionName.text = entity.title
             }

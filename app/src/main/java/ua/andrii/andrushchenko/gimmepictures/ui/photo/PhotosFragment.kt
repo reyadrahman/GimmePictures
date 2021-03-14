@@ -21,7 +21,7 @@ import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
-import ua.andrii.andrushchenko.gimmepictures.util.recyclerview.setupLayoutManager
+import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManager
 
 @AndroidEntryPoint
 class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
@@ -106,11 +106,8 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
 
             recyclerView.apply {
                 setHasFixedSize(true)
-                layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL).apply {
-                    gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
-                }
-
-                setupLayoutManager(
+                layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
+                setupStaggeredGridLayoutManager(
                     resources.configuration.orientation,
                     resources.getDimensionPixelSize(R.dimen.indent_8dp)
                 )

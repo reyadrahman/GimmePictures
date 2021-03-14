@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.FrameLayout
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,11 +21,23 @@ import ua.andrii.andrushchenko.gimmepictures.ui.search.SearchViewModel
 @AndroidEntryPoint
 class SearchPhotoFilterDialog : BottomSheetDialogFragment() {
 
-    private val viewModel by hiltNavGraphViewModels<SearchViewModel>(R.id.nav_main)
-    private var searchParametersChanged = false
-
     private var _binding: BottomSheetSearchPhotoFilterBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: SearchViewModel by viewModels(
+        ownerProducer = { requireParentFragment().childFragmentManager.primaryNavigationFragment!! }
+    )
+
+    private var searchParametersChanged = false
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View {
+        _binding = BottomSheetSearchPhotoFilterBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bottomSheetDialog = super.onCreateDialog(savedInstanceState)
@@ -42,24 +54,14 @@ class SearchPhotoFilterDialog : BottomSheetDialogFragment() {
         return bottomSheetDialog
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = BottomSheetSearchPhotoFilterBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val orderButtonId = when (viewModel.order) {
-            SearchPhotosPagingSource.Companion.Order.RELEVANT -> R.id.order_relevance_button
-            else -> R.id.order_latest_button
-        }
-
-        binding.apply {
+        with(binding) {
+            val orderButtonId = when (viewModel.order) {
+                SearchPhotosPagingSource.Companion.Order.RELEVANT -> R.id.order_relevance_button
+                else -> R.id.order_latest_button
+            }
             orderByToggleGroup.check(orderButtonId)
             orderByToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
                 if (isChecked) {
@@ -142,9 +144,4 @@ class SearchPhotoFilterDialog : BottomSheetDialogFragment() {
             viewModel.filterPhotoSearch()
         }
     }
-
-    /*companion object {
-        val TAG: String = SearchPhotoFilterDialog::class.java.simpleName
-        fun newInstance() = SearchPhotoFilterDialog()
-    }*/
 }
