@@ -7,6 +7,7 @@ import androidx.paging.PagingData
 import androidx.paging.liveData
 import ua.andrii.andrushchenko.gimmepictures.data.common.PAGE_SIZE
 import ua.andrii.andrushchenko.gimmepictures.models.Collection
+import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,23 +23,32 @@ class CollectionsRepository @Inject constructor(private val collectionsService: 
             pagingSourceFactory = { CollectionsPagingSource(collectionsService, order) }
         ).liveData
 
-    /*fun getSingleCollection(id: Int): Flow<Result<Collection>> = flow {
-        emit(Result.Loading)
+    fun getCollectionPhotos(collectionId: Int): LiveData<PagingData<Photo>> =
+        Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { CollectionPhotosPagingSource(collectionsService, collectionId) }
+        ).liveData
+
+    /*fun getSingleCollection(id: Int): Flow<ApiCallResult<Collection>> = flow {
+        emit(ApiCallResult.Loading)
         try {
             val result: Collection
             withContext(Dispatchers.IO) {
                 result = collectionsService.getCollection(id)
             }
-            emit(Result.Success(result))
+            emit(ApiCallResult.Success(result))
         } catch (throwable: Throwable) {
             when (throwable) {
-                is IOException -> emit(Result.NetworkError)
+                is IOException -> emit(ApiCallResult.NetworkError)
                 is HttpException -> {
                     val code = throwable.code()
                     val errorResponse = throwable.errorBody
-                    emit(Result.Error(code, errorResponse))
+                    emit(ApiCallResult.Error(code, errorResponse))
                 }
-                else -> emit(Result.Error(null, throwable.message))
+                else -> emit(ApiCallResult.Error(null, throwable.message))
             }
         }
     }*/

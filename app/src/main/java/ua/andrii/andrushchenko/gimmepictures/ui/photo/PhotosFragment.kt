@@ -63,6 +63,11 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
                                 PhotosFragmentDirections.actionNavPhotosToSearchFragment(null)
                             findNavController().navigate(direction)
                         }
+                        R.id.action_settings -> {
+                            val direction =
+                                PhotosFragmentDirections.actionNavPhotosToSettingsFragment()
+                            findNavController().navigate(direction)
+                        }
                     }
                     true
                 }
@@ -78,7 +83,7 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
                 setupWithNavController(navController, appBarConfiguration)
 
                 setOnClickListener {
-                    recyclerView.scrollToPosition(0)
+                    photoListingLayout.recyclerView.scrollToPosition(0)
                 }
 
                 viewModel.order.observe(viewLifecycleOwner) {
@@ -86,25 +91,28 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
                 }
             }
 
-            swipeRefreshLayout.setOnRefreshListener {
+            photoListingLayout.swipeRefreshLayout.setOnRefreshListener {
                 pagedAdapter.refresh()
             }
 
             pagedAdapter.addLoadStateListener { loadState ->
-                swipeRefreshLayout.isRefreshing = loadState.refresh is LoadState.Loading
-                recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
-                textViewError.isVisible = loadState.source.refresh is LoadState.Error
+                photoListingLayout.swipeRefreshLayout.isRefreshing =
+                    loadState.refresh is LoadState.Loading
+                photoListingLayout.recyclerView.isVisible =
+                    loadState.source.refresh is LoadState.NotLoading
+                photoListingLayout.textViewError.isVisible =
+                    loadState.source.refresh is LoadState.Error
 
                 // empty view
                 if (loadState.source.refresh is LoadState.NotLoading &&
                     loadState.append.endOfPaginationReached &&
                     pagedAdapter.itemCount < 1
                 ) {
-                    recyclerView.isVisible = false
+                    photoListingLayout.recyclerView.isVisible = false
                 }
             }
 
-            recyclerView.apply {
+            photoListingLayout.recyclerView.apply {
                 setHasFixedSize(true)
                 layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
                 setupStaggeredGridLayoutManager(
@@ -140,7 +148,7 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
             setSingleChoiceItems(orderOptions, currentSelection) { dialog, which ->
                 if (which != currentSelection) viewModel.orderPhotosBy(which)
                 dialog.dismiss()
-                binding.recyclerView.scrollToPosition(0)
+                binding.photoListingLayout.recyclerView.scrollToPosition(0)
             }
             create()
             show()

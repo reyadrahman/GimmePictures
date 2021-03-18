@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepository
 import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotoRepository
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
-import ua.andrii.andrushchenko.gimmepictures.util.Result
+import ua.andrii.andrushchenko.gimmepictures.util.ApiCallResult
 import java.util.*
 import javax.inject.Inject
 
@@ -20,13 +20,13 @@ class PhotoDetailsViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    private val _result: MutableLiveData<Result<Photo>> = MutableLiveData()
-    val result get() = _result
+    private val _apiCallResult: MutableLiveData<ApiCallResult<Photo>> = MutableLiveData()
+    val apiCallResult get() = _apiCallResult
 
     fun getPhotoDetails(photoId: String) {
         viewModelScope.launch {
             photoRepository.getSinglePhoto(photoId).onEach {
-                _result.postValue(it)
+                _apiCallResult.postValue(it)
             }.launchIn(viewModelScope)
         }
     }

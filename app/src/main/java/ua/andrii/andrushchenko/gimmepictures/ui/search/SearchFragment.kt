@@ -22,6 +22,8 @@ import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.photo.PhotosAdapter
+import ua.andrii.andrushchenko.gimmepictures.util.focusAndShowKeyboard
+import ua.andrii.andrushchenko.gimmepictures.util.hideKeyboard
 import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManager
 
 @AndroidEntryPoint
@@ -74,19 +76,39 @@ class SearchFragment : Fragment() {
             )
             toolbar.setupWithNavController(navController, appBarConfiguration)
 
-            searchTextInputLayout.editText?.apply {
-                args.searchQuery?.let { setText(it) }
-                setSelection(text.length)
+            val selectedCategoryId = when (viewModel.selectedCategory) {
+                SearchViewModel.SearchCategory.PHOTOS -> R.id.toggle_photos
+                SearchViewModel.SearchCategory.COLLECTIONS -> R.id.toggle_collections
+                else -> R.id.toggle_users
             }
 
-            searchTextInputLayout.editText?.setOnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    recyclerView.scrollToPosition(0)
-                    viewModel.updateQuery(searchTextInputLayout.editText?.text.toString())
-                    searchTextInputLayout.editText?.clearFocus()
-                    return@setOnEditorActionListener true
+            searchForToggleGroup.check(selectedCategoryId)
+
+            searchTextInputLayout.editText?.apply {
+                if (viewModel.query.value.isNullOrBlank()) {
+                    val searchQuery = args.searchQuery
+                    if (!searchQuery.isNullOrBlank()) {
+                        setText(searchQuery)
+                        viewModel.updateQuery(searchQuery)
+                    }
+                } else {
+                    setText(viewModel.query.value)
                 }
-                return@setOnEditorActionListener false
+                setSelection(text.length)
+
+                setOnEditorActionListener { _, actionId, _ ->
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                        viewModel.updateQuery(searchTextInputLayout.editText?.text.toString())
+                        searchPhotosListingLayout.recyclerView.scrollToPosition(0)
+                        searchTextInputLayout.editText?.hideKeyboard()
+                        return@setOnEditorActionListener true
+                    }
+                    return@setOnEditorActionListener false
+                }
+
+                if (text.isNullOrBlank()) {
+                    focusAndShowKeyboard()
+                }
             }
 
             fabFilter.setOnClickListener {
@@ -95,28 +117,31 @@ class SearchFragment : Fragment() {
                 findNavController().navigate(direction)
             }
 
-            swipeRefreshLayout.setOnRefreshListener {
+            searchPhotosListingLayout.swipeRefreshLayout.setOnRefreshListener {
                 pagedAdapter.refresh()
             }
 
             pagedAdapter.addLoadStateListener { loadState ->
-                swipeRefreshLayout.isRefreshing = loadState.refresh is LoadState.Loading
-                recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
-                textViewError.isVisible = loadState.source.refresh is LoadState.Error
+                searchPhotosListingLayout.swipeRefreshLayout.isRefreshing =
+                    loadState.refresh is LoadState.Loading
+                searchPhotosListingLayout.recyclerView.isVisible =
+                    loadState.source.refresh is LoadState.NotLoading
+                searchPhotosListingLayout.textViewError.isVisible =
+                    loadState.source.refresh is LoadState.Error
 
                 // empty view
                 if (loadState.source.refresh is LoadState.NotLoading &&
                     loadState.append.endOfPaginationReached &&
                     pagedAdapter.itemCount < 1
                 ) {
-                    recyclerView.isVisible = false
-                    textNothingFound.isVisible = true
+                    searchPhotosListingLayout.recyclerView.isVisible = false
+                    searchPhotosListingLayout.textViewEmpty.isVisible = true
                 } else {
-                    textNothingFound.isVisible = false
+                    searchPhotosListingLayout.textViewEmpty.isVisible = false
                 }
             }
 
-            recyclerView.apply {
+            searchPhotosListingLayout.recyclerView.apply {
                 setHasFixedSize(true)
                 layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
                 setupStaggeredGridLayoutManager(

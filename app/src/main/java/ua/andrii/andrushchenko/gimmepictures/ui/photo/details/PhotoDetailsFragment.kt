@@ -56,22 +56,22 @@ class PhotoDetailsFragment : Fragment() {
         }
 
         viewModel.getPhotoDetails(args.photoId)
-        viewModel.result.observe(viewLifecycleOwner) { result ->
+        viewModel.apiCallResult.observe(viewLifecycleOwner) { result ->
             when (result) {
-                is Result.Loading -> {
+                is ApiCallResult.Loading -> {
                     displayErrorMsg(isDisplayed = false)
                     displayProgressBar(isDisplayed = true)
                 }
-                is Result.Success -> {
+                is ApiCallResult.Success -> {
                     displayProgressBar(isDisplayed = false)
                     displayErrorMsg(isDisplayed = false)
                     displayPhotoDetails(result.value)
                 }
-                is Result.NetworkError -> {
+                is ApiCallResult.NetworkError -> {
                     displayProgressBar(isDisplayed = false)
                     displayErrorMsg(isDisplayed = true)
                 }
-                is Result.Error -> {
+                is ApiCallResult.Error -> {
                     displayProgressBar(isDisplayed = false)
                     displayErrorMsg(isDisplayed = true)
                 }

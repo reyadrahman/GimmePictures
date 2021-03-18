@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,7 +36,8 @@ class CollectionsFragment : BaseRecyclerViewFragment<Collection>() {
         CollectionsAdapter(object : CollectionsAdapter.OnItemClickListener {
             override fun onCollectionClick(collection: Collection) {
                 val direction =
-                    CollectionsFragmentDirections.actionNavCollectionsToCollectionPhotosFragment()
+                    CollectionsFragmentDirections.actionNavCollectionsToCollectionDetailsFragment(
+                        collection = collection)
                 findNavController().navigate(direction)
             }
         })
@@ -64,6 +66,11 @@ class CollectionsFragment : BaseRecyclerViewFragment<Collection>() {
                                     null)
                             findNavController().navigate(direction)
                         }
+                        R.id.action_settings -> {
+                            val direction =
+                                CollectionsFragmentDirections.actionNavCollectionsToSettingsFragment()
+                            findNavController().navigate(direction)
+                        }
                     }
                     true
                 }
@@ -79,7 +86,7 @@ class CollectionsFragment : BaseRecyclerViewFragment<Collection>() {
                 setupWithNavController(navController, appBarConfiguration)
 
                 setOnClickListener {
-                    recyclerView.scrollToPosition(0)
+                    collectionsListingLayout.recyclerView.scrollToPosition(0)
                 }
 
                 viewModel.order.observe(viewLifecycleOwner) {
@@ -87,27 +94,31 @@ class CollectionsFragment : BaseRecyclerViewFragment<Collection>() {
                 }
             }
 
-            swipeRefreshLayout.setOnRefreshListener {
+            collectionsListingLayout.swipeRefreshLayout.setOnRefreshListener {
                 pagedAdapter.refresh()
             }
 
             pagedAdapter.addLoadStateListener { loadState ->
-                swipeRefreshLayout.isRefreshing = loadState.refresh is LoadState.Loading
-                recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
-                textViewError.isVisible = loadState.source.refresh is LoadState.Error
+                collectionsListingLayout.swipeRefreshLayout.isRefreshing =
+                    loadState.refresh is LoadState.Loading
+                collectionsListingLayout.recyclerView.isVisible =
+                    loadState.source.refresh is LoadState.NotLoading
+                collectionsListingLayout.textViewError.isVisible =
+                    loadState.source.refresh is LoadState.Error
 
                 // empty view
                 if (loadState.source.refresh is LoadState.NotLoading &&
                     loadState.append.endOfPaginationReached &&
                     pagedAdapter.itemCount < 1
                 ) {
-                    recyclerView.isVisible = false
+                    collectionsListingLayout.recyclerView.isVisible = false
                 }
             }
 
-            recyclerView.apply {
+            collectionsListingLayout.recyclerView.apply {
                 setHasFixedSize(true)
 
+                layoutManager = LinearLayoutManager(requireContext())
                 setupLinearLayoutManager(
                     resources.getDimensionPixelSize(R.dimen.indent_8dp),
                     resources.getDimensionPixelSize(R.dimen.indent_48dp),
@@ -141,7 +152,7 @@ class CollectionsFragment : BaseRecyclerViewFragment<Collection>() {
             setSingleChoiceItems(orderOptions, currentSelection) { dialog, which ->
                 if (which != currentSelection) viewModel.orderCollectionsBy(which)
                 dialog.dismiss()
-                binding.recyclerView.scrollToPosition(0)
+                binding.collectionsListingLayout.recyclerView.scrollToPosition(0)
             }
             create()
             show()

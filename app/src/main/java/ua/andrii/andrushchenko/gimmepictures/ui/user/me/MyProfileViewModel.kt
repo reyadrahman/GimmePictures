@@ -9,7 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepository
 import ua.andrii.andrushchenko.gimmepictures.models.Me
 import javax.inject.Inject
-import ua.andrii.andrushchenko.gimmepictures.util.Result
+import ua.andrii.andrushchenko.gimmepictures.util.ApiCallResult
 
 @HiltViewModel
 class MyProfileViewModel @Inject constructor(
@@ -25,7 +25,7 @@ class MyProfileViewModel @Inject constructor(
 
     fun obtainProfile() = viewModelScope.launch {
         val result = authRepository.getMe()
-        if (result is Result.Success) {
+        if (result is ApiCallResult.Success) {
             _me.postValue(result.value)
         }
     }

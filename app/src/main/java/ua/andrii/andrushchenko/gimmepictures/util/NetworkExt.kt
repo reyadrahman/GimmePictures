@@ -6,29 +6,29 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 
-sealed class Result<out T> {
-    data class Success<out T>(val value: T) : Result<T>()
-    data class Error(val code: Int? = null, val error: String? = null) : Result<Nothing>()
-    object NetworkError : Result<Nothing>()
-    object Loading : Result<Nothing>()
+sealed class ApiCallResult<out T> {
+    data class Success<out T>(val value: T) : ApiCallResult<T>()
+    data class Error(val code: Int? = null, val error: String? = null) : ApiCallResult<Nothing>()
+    object NetworkError : ApiCallResult<Nothing>()
+    object Loading : ApiCallResult<Nothing>()
 }
 
 suspend fun <T> safeApiRequest(
     dispatcher: CoroutineDispatcher = Dispatchers.IO,
     request: suspend () -> T,
-): Result<T> {
+): ApiCallResult<T> {
     return withContext(dispatcher) {
         try {
-            Result.Success(request.invoke())
+            ApiCallResult.Success(request.invoke())
         } catch (throwable: Throwable) {
             when (throwable) {
-                is IOException -> Result.NetworkError
+                is IOException -> ApiCallResult.NetworkError
                 is HttpException -> {
                     val code = throwable.code()
                     val errorResponse = throwable.errorBody
-                    Result.Error(code, errorResponse)
+                    ApiCallResult.Error(code, errorResponse)
                 }
-                else -> Result.Error(null, throwable.message)
+                else -> ApiCallResult.Error(null, throwable.message)
             }
         }
     }

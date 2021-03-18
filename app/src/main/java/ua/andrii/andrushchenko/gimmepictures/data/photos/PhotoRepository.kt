@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import ua.andrii.andrushchenko.gimmepictures.data.common.PAGE_SIZE
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
-import ua.andrii.andrushchenko.gimmepictures.util.Result
+import ua.andrii.andrushchenko.gimmepictures.util.ApiCallResult
 import ua.andrii.andrushchenko.gimmepictures.util.errorBody
 import ua.andrii.andrushchenko.gimmepictures.util.safeApiRequest
 import java.io.IOException
@@ -30,23 +30,23 @@ class PhotoRepository @Inject constructor(private val photoService: PhotoService
             pagingSourceFactory = { PhotosPagingSource(photoService, order) }
         ).liveData
 
-    suspend fun getSinglePhoto(photoId: String): Flow<Result<Photo>> = flow {
-        emit(Result.Loading)
+    suspend fun getSinglePhoto(photoId: String): Flow<ApiCallResult<Photo>> = flow {
+        emit(ApiCallResult.Loading)
         try {
             val result: Photo
             withContext(Dispatchers.IO) {
                 result = photoService.getPhoto(photoId)
             }
-            emit(Result.Success(result))
+            emit(ApiCallResult.Success(result))
         } catch (throwable: Throwable) {
             when (throwable) {
-                is IOException -> emit(Result.NetworkError)
+                is IOException -> emit(ApiCallResult.NetworkError)
                 is HttpException -> {
                     val code = throwable.code()
                     val errorResponse = throwable.errorBody
-                    emit(Result.Error(code, errorResponse))
+                    emit(ApiCallResult.Error(code, errorResponse))
                 }
-                else -> emit(Result.Error(null, throwable.message))
+                else -> emit(ApiCallResult.Error(null, throwable.message))
             }
         }
     }
@@ -58,7 +58,7 @@ class PhotoRepository @Inject constructor(private val photoService: PhotoService
         query: String? = null,
         orientation: String? = null,
         contentFilter: String? = null,
-    ): Result<Photo> = safeApiRequest {
+    ): ApiCallResult<Photo> = safeApiRequest {
         photoService.getRandomPhotos(collectionId,
             featured,
             username,

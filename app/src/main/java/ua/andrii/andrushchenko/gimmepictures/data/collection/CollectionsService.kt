@@ -3,6 +3,7 @@ package ua.andrii.andrushchenko.gimmepictures.data.collection
 import retrofit2.Response
 import retrofit2.http.*
 import ua.andrii.andrushchenko.gimmepictures.models.Collection
+import ua.andrii.andrushchenko.gimmepictures.models.Photo
 
 interface CollectionsService {
 
@@ -17,6 +18,13 @@ interface CollectionsService {
         @Query("page") page: Int?,
         @Query("per_page") per_page: Int?
     ): List<Collection>
+
+    @GET("collections/{id}/photos")
+    suspend fun getCollectionPhotos(
+        @Path("id") id: Int,
+        @Query("page") page: Int?,
+        @Query("per_page") per_page: Int?
+    ): List<Photo>
 
     @GET("collections/{id}")
     suspend fun getCollection(

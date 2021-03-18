@@ -1,6 +1,8 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.auth
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -15,7 +17,7 @@ import ua.andrii.andrushchenko.gimmepictures.GlideApp
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepository.Companion.unsplashAuthCallback
 import ua.andrii.andrushchenko.gimmepictures.databinding.ActivityAuthBinding
-import ua.andrii.andrushchenko.gimmepictures.util.Result
+import ua.andrii.andrushchenko.gimmepictures.util.ApiCallResult
 import ua.andrii.andrushchenko.gimmepictures.util.customtabs.CustomTabsHelper
 
 @AndroidEntryPoint
@@ -28,11 +30,15 @@ class AuthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         with(binding) {
+            toolbar.setNavigationOnClickListener { finish() }
             viewModel.backgroundPhoto.observe(this@AuthActivity) { photo ->
                 GlideApp.with(this@AuthActivity)
                     .load(photo.urls.small)
+                    .placeholder(ColorDrawable(Color.parseColor(photo.color)))
                     .transition(DrawableTransitionOptions.withCrossFade(350))
                     .apply(RequestOptions.bitmapTransform(SupportRSBlurTransformation()))
                     .into(bgImage)
@@ -52,17 +58,17 @@ class AuthActivity : AppCompatActivity() {
                 uri.getQueryParameter("code")?.let { code ->
                     viewModel.getAccessToken(code).observe(this) {
                         when (it) {
-                            is Result.Loading -> {
+                            is ApiCallResult.Loading -> {
                                 binding.authProgress.visibility = View.VISIBLE
                             }
-                            is Result.Success -> {
+                            is ApiCallResult.Success -> {
                                 binding.authProgress.visibility = View.GONE
                                 Toast.makeText(this,
                                     getString(R.string.login_successful),
                                     Toast.LENGTH_SHORT).show()
                                 finish()
                             }
-                            is Result.Error, Result.NetworkError -> {
+                            is ApiCallResult.Error, ApiCallResult.NetworkError -> {
                                 binding.authProgress.visibility = View.GONE
                                 Toast.makeText(this,
                                     getString(R.string.login_failed),

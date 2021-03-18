@@ -4,7 +4,7 @@ import ua.andrii.andrushchenko.gimmepictures.data.common.CLIENT_ID
 import ua.andrii.andrushchenko.gimmepictures.data.common.CLIENT_SECRET
 import ua.andrii.andrushchenko.gimmepictures.data.user.UserService
 import ua.andrii.andrushchenko.gimmepictures.models.Me
-import ua.andrii.andrushchenko.gimmepictures.util.Result
+import ua.andrii.andrushchenko.gimmepictures.util.ApiCallResult
 import ua.andrii.andrushchenko.gimmepictures.util.safeApiRequest
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -24,7 +24,7 @@ class AuthRepository @Inject constructor(
                 "&scope=public+read_user+write_user+read_photos+write_photos" +
                 "+write_likes+write_followers+read_collections+write_collections"
 
-    suspend fun getAccessToken(code: String): Result<AccessToken> {
+    suspend fun getAccessToken(code: String): ApiCallResult<AccessToken> {
         val result = safeApiRequest {
             authorizationService.getAccessToken(
                 CLIENT_ID,
@@ -35,19 +35,19 @@ class AuthRepository @Inject constructor(
             )
         }
 
-        if (result is Result.Success) {
+        if (result is ApiCallResult.Success) {
             accessTokenProvider.saveAccessToken(result.value)
         }
 
         return result
     }
 
-    suspend fun getMe(): Result<Me> {
+    suspend fun getMe(): ApiCallResult<Me> {
         val result = safeApiRequest {
             userService.getUserPrivateProfile()
         }
 
-        if (result is Result.Success) {
+        if (result is ApiCallResult.Success) {
             accessTokenProvider.saveUserProfile(result.value)
         }
 
@@ -63,14 +63,14 @@ class AuthRepository @Inject constructor(
         instagramUsername: String?,
         location: String?,
         bio: String?,
-    ): Result<Me> {
+    ): ApiCallResult<Me> {
         val result = safeApiRequest {
             userService.updateUserPrivateProfile(
                 username, firstName, lastName, email, url, instagramUsername, location, bio
             )
         }
 
-        if (result is Result.Success) {
+        if (result is ApiCallResult.Success) {
             accessTokenProvider.saveUserProfile(result.value)
         }
 

@@ -95,9 +95,11 @@ dependencies {
 
     // OkHttp
     implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
-    //implementation 'com.squareup.okhttp3:logging-interceptor:4.7.2'
 
+    // Preferences
     implementation "androidx.preference:preference-ktx:$preferenceVersion"
+
+    // Custom tabs
     implementation "androidx.browser:browser:$browserVersion"
 
     // Zoom photo view

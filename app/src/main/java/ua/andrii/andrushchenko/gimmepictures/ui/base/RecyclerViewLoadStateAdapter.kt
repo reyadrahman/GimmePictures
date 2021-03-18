@@ -37,7 +37,7 @@ class RecyclerViewLoadStateAdapter(private val retry: () -> Unit) :
         }
 
         fun bind(loadState: LoadState) {
-            binding.apply {
+            with(binding) {
                 progressBar.isVisible = loadState is LoadState.Loading
                 buttonRetry.isVisible = loadState !is LoadState.Loading
                 layoutError.isVisible = loadState !is LoadState.Loading

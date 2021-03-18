@@ -92,13 +92,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/color_filter_dropdown_menu"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            style="@style/GimmePictures.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/indent_16dp"
-            app:boxStrokeColor="@color/indigo_200"
-            app:boxStrokeWidth="@dimen/indent_1dp"
-            app:boxStrokeWidthFocused="@dimen/indent_1dp">
+            android:layout_marginBottom="@dimen/indent_16dp">
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
@@ -159,7 +156,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/apply_button"
-            style="@style/GimmePictures.Widget.MaterialComponents.Button"
+            style="@style/GimmePictures.Widget.MaterialComponents.ButtonColored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/apply" />

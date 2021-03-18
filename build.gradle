@@ -2,7 +2,7 @@
 buildscript {
     ext {
         kotlin_version = "1.4.30"
-        navigationVersion = '2.3.3'
+        navigationVersion = '2.3.4'
         hiltVersion = '2.31.2-alpha'
     }
     repositories {
@@ -12,7 +12,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.0-alpha09'
+        classpath 'com.android.tools.build:gradle:7.0.0-alpha10'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
@@ -50,11 +50,11 @@ ext {
     glideVersion = '4.12.0'
     glideTransformationsVersion = '4.1.0'
     hiltViewModels = '1.0.0-alpha03'
-    hiltNavigationFragmentVersion = '1.0.0-alpha03'
-    hiltWorkVersion = '1.0.0-alpha03'
+    hiltNavigationFragmentVersion = '1.0.0-beta01'
+    hiltWorkVersion = '1.0.0-beta01'
     junitVersion = '4.13.1'
-    ktxVersion = '1.5.0-beta02'
-    pagingVersion = '3.0.0-beta01'
+    ktxVersion = '1.5.0-beta03'
+    pagingVersion = '3.0.0-beta02'
     retrofitVersion = '2.9.0'
     testExtJunitVersion = '1.1.2'
     roomVersion = '2.3.0-beta01'

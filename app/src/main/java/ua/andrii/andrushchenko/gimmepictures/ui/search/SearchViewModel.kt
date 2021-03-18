@@ -12,8 +12,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val searchRepository: SearchRepository,
+    private val searchRepository: SearchRepository
 ) : ViewModel() {
+
+    enum class SearchCategory {
+        PHOTOS, COLLECTIONS, USERS
+    }
+
+    var selectedCategory: SearchCategory = SearchCategory.PHOTOS
 
     private val _query: MutableLiveData<String> = MutableLiveData()
     val query get() = _query

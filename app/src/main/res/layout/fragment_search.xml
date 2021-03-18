@@ -48,7 +48,7 @@
             android:id="@+id/search_for_toggle_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/indent_8dp"
+            android:padding="@dimen/indent_4dp"
             app:selectionRequired="true"
             app:singleSelection="true">
 
@@ -81,49 +81,9 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_nothing_found"
-                style="@style/TextAppearance.MaterialComponents.Subtitle2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:drawablePadding="@dimen/indent_8dp"
-                android:gravity="center"
-                android:text="@string/nothing_found"
-                android:visibility="invisible"
-                app:drawableTopCompat="@drawable/ic_nothing_found"
-                tools:visibility="visible" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_view_error"
-                style="@style/TextAppearance.MaterialComponents.Subtitle2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:drawablePadding="@dimen/indent_8dp"
-                android:gravity="center"
-                android:text="@string/list_footer_load_error"
-                android:visibility="invisible"
-                app:drawableTopCompat="@drawable/ic_no_internet_connection"
-                tools:visibility="invisible" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </FrameLayout>
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <include
+        android:id="@+id/search_photos_listing_layout"
+        layout="@layout/listing_layout" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_filter"
