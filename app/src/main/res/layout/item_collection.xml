@@ -22,7 +22,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/cover_photo_scrim" />
+        android:background="@color/black_transparent_55" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/collection_name"

@@ -32,8 +32,8 @@
 
         <activity
             android:name=".ui.main.MainActivity"
-            android:exported="true"
-            android:theme="@style/GimmePictures.SplashTheme">
+            android:theme="@style/GimmePictures.SplashTheme"
+            android:windowSoftInputMode="adjustResize">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

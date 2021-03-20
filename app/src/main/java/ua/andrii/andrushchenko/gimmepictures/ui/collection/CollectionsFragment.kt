@@ -45,7 +45,7 @@ class CollectionsFragment : BaseRecyclerViewFragment<Collection>() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCollectionsBinding.inflate(inflater, container, false)
         return binding.root

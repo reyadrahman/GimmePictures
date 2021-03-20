@@ -3,6 +3,9 @@ package ua.andrii.andrushchenko.gimmepictures.ui.main
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -10,6 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.ActivityMainBinding
+import ua.andrii.andrushchenko.gimmepictures.util.setTransparentStatusBar
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -31,14 +35,25 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.nav_photos, R.id.nav_collections, R.id.nav_my_profile -> {
                     binding.bottomNavigationView.visibility = View.VISIBLE
+                    setTransparentStatusBar(isTransparent = false)
+                }
+                R.id.photoDetailsFragment -> {
+                    setTransparentStatusBar(isTransparent = true)
+                    binding.bottomNavigationView.visibility = View.GONE
                 }
                 else -> {
                     binding.bottomNavigationView.visibility = View.GONE
+                    setTransparentStatusBar(isTransparent = false)
                 }
             }
         }
 
         binding.bottomNavigationView.apply {
+            ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
+                view.updatePadding(bottom = WindowInsetsCompat.Type.navigationBars())
+                insets
+            }
+
             setupWithNavController(navController)
             setOnNavigationItemReselectedListener {}
         }

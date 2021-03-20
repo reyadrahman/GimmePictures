@@ -10,6 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -55,7 +57,11 @@ class PhotoDetailsFragment : Fragment() {
             viewModel.getPhotoDetails(args.photoId)
         }
 
-        viewModel.getPhotoDetails(args.photoId)
+        // Request data only if the fragment has been created at the first time
+        if (savedInstanceState == null) {
+            viewModel.getPhotoDetails(args.photoId)
+        }
+
         viewModel.apiCallResult.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is ApiCallResult.Loading -> {
@@ -107,6 +113,11 @@ class PhotoDetailsFragment : Fragment() {
                     )
                 )
                 setupWithNavController(navController, appBarConfiguration)
+            }
+
+            ViewCompat.setOnApplyWindowInsetsListener(bottomSheetLayout.root) { view, insets ->
+                view.updatePadding(bottom = WindowInsetsCompat.Type.systemBars())
+                insets
             }
 
             val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout.bottomSheet)
@@ -301,7 +312,7 @@ class PhotoDetailsFragment : Fragment() {
     }
 
     private fun downloadPhoto(photo: Photo) {
-        if (hasWritePermission(requireContext())) {
+        if (hasWritePermission()) {
             val sizeOptions = enumValues<PhotoSize>().map { getString(it.stringId) }.toTypedArray()
             MaterialAlertDialogBuilder(requireContext()).run {
                 setTitle(getString(R.string.select_image_quality))
@@ -363,18 +374,6 @@ class PhotoDetailsFragment : Fragment() {
 
     private fun showDescriptionDetailed(description: String) {
         MaterialAlertDialogBuilder(requireContext()).setMessage(description).show()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        //requireActivity().setTransparentStatusBar(isTransparent = true)
-        requireActivity().transparentStatusBar(isTransparent = true, isFullscreen = false)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        //requireActivity().setTransparentStatusBar(isTransparent = false)
-        requireActivity().transparentStatusBar(isTransparent = false, isFullscreen = false)
     }
 
     override fun onDestroyView() {

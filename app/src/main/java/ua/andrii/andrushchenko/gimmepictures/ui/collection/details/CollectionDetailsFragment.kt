@@ -32,13 +32,12 @@ class CollectionDetailsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val args: CollectionDetailsFragmentArgs by navArgs()
-
     private val viewModel: CollectionDetailsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCollectionDetailsBinding.inflate(inflater, container, false)
         return binding.root
@@ -68,26 +67,6 @@ class CollectionDetailsFragment : Fragment() {
                 setupWithNavController(navController, appBarConfiguration)
 
                 title = args.collection.title
-            }
-
-            with(args.collection) {
-                description?.let { description ->
-                    descriptionTextView.apply {
-                        visibility = View.VISIBLE
-                        text = description
-                    }
-                }
-
-                @SuppressLint("SetTextI18n")
-                userNameTextView.text = "${
-                    totalPhotos.toAmountReadableString()
-                } ${
-                    getString(R.string.photos)
-                } ${
-                    getString(R.string.curated_by)
-                } ${
-                    user?.username
-                }"
             }
 
             collectionPhotosListingLayout.swipeRefreshLayout.setOnRefreshListener {
@@ -124,10 +103,35 @@ class CollectionDetailsFragment : Fragment() {
                     footer = RecyclerViewLoadStateAdapter { pagedAdapter.retry() }
                 )
             }
-        }
 
-        viewModel.getCollectionPhotos(args.collection.id).observe(viewLifecycleOwner) {
-            pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
+            with(args.collection) {
+                description?.let { description ->
+                    descriptionTextView.apply {
+                        visibility = View.VISIBLE
+                        text = description
+                    }
+                }
+
+                @SuppressLint("SetTextI18n")
+                userNameTextView.text = "${
+                    totalPhotos.toAmountReadableString()
+                } ${
+                    getString(R.string.photos)
+                } ${
+                    getString(R.string.curated_by)
+                } ${
+                    user?.username
+                }"
+
+                // Request data only if the fragment has been created at the first time
+                if (savedInstanceState == null) {
+                    viewModel.getCollectionPhotos(id)
+                }
+
+                viewModel.collectionPhotos.observe(viewLifecycleOwner) {
+                    pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
+                }
+            }
         }
     }
 
@@ -135,9 +139,4 @@ class CollectionDetailsFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-    /*companion object {
-        private const val TAG = "CollectionDetailsFrag"
-    }*/
-
 }
