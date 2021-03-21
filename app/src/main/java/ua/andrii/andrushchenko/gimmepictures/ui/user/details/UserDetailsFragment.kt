@@ -1,5 +1,7 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.user.details
 
-import androidx.fragment.app.Fragment
+import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentUserDetailsBinding
+import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseFragment
 
-class UserDetailsFragment : Fragment()
+class UserDetailsFragment :
+    BaseFragment<FragmentUserDetailsBinding>(FragmentUserDetailsBinding::inflate)

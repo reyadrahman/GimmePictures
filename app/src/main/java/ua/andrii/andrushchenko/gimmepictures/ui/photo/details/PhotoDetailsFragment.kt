@@ -6,14 +6,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -21,35 +16,23 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import ua.andrii.andrushchenko.gimmepictures.GlideApp
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentPhotoDetailsBinding
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
+import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseFragment
 import ua.andrii.andrushchenko.gimmepictures.util.*
 import ua.andrii.andrushchenko.gimmepictures.util.customtabs.CustomTabsHelper
 import ua.andrii.andrushchenko.gimmepictures.worker.DownloadWorker
 
 @AndroidEntryPoint
-class PhotoDetailsFragment : Fragment() {
+class PhotoDetailsFragment :
+    BaseFragment<FragmentPhotoDetailsBinding>(FragmentPhotoDetailsBinding::inflate) {
 
     private val viewModel: PhotoDetailsViewModel by viewModels()
     private val args: PhotoDetailsFragmentArgs by navArgs()
-
-    private var _binding: FragmentPhotoDetailsBinding? = null
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        _binding = FragmentPhotoDetailsBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -115,11 +98,6 @@ class PhotoDetailsFragment : Fragment() {
                 setupWithNavController(navController, appBarConfiguration)
             }
 
-            ViewCompat.setOnApplyWindowInsetsListener(bottomSheetLayout.root) { view, insets ->
-                view.updatePadding(bottom = WindowInsetsCompat.Type.systemBars())
-                insets
-            }
-
             val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout.bottomSheet)
             bottomSheetBehavior.addBottomSheetCallback(object :
                 BottomSheetBehavior.BottomSheetCallback() {
@@ -158,12 +136,10 @@ class PhotoDetailsFragment : Fragment() {
             }
 
             // Load photo
-            GlideApp.with(requireContext())
-                .load(photo.urls.regular)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .error(ColorDrawable(Color.parseColor(photo.color)))
-                .into(photoImageView)
-                .clearOnDetach()
+            photoImageView.loadImage(
+                url = photo.urls.regular,
+                placeholderColorDrawable = ColorDrawable(Color.parseColor(photo.color))
+            )
 
             //bottomSheetLayout.bottomSheetHeader.setBackgroundColor(Color.parseColor(photo.color))
 
@@ -224,12 +200,10 @@ class PhotoDetailsFragment : Fragment() {
                         PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment()
                     findNavController().navigate(direction)
                 }
-                GlideApp.with(requireContext())
-                    .load(user.profileImage?.medium)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .error(R.drawable.ic_person)
-                    .into(bottomSheetLayout.userImageView)
-                    .clearOnDetach()
+                bottomSheetLayout.userImageView.loadImage(
+                    url = user.profileImage?.medium,
+                    placeholderColorDrawable = null
+                )
                 bottomSheetLayout.userTextView.text = user.name ?: "Unknown"
             }
 
@@ -374,10 +348,5 @@ class PhotoDetailsFragment : Fragment() {
 
     private fun showDescriptionDetailed(description: String) {
         MaterialAlertDialogBuilder(requireContext()).setMessage(description).show()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

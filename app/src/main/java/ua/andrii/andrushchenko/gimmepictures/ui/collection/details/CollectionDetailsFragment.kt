@@ -2,11 +2,8 @@ package ua.andrii.andrushchenko.gimmepictures.ui.collection.details
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -20,33 +17,22 @@ import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentCollectionDetailsBinding
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
+import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
+import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.photo.PhotosAdapter
 import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManager
 import ua.andrii.andrushchenko.gimmepictures.util.toAmountReadableString
 
 @AndroidEntryPoint
-class CollectionDetailsFragment : Fragment() {
-
-    private var _binding: FragmentCollectionDetailsBinding? = null
-    private val binding get() = _binding!!
+class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollectionDetailsBinding>(
+    FragmentCollectionDetailsBinding::inflate) {
 
     private val args: CollectionDetailsFragmentArgs by navArgs()
     private val viewModel: CollectionDetailsViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentCollectionDetailsBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val pagedAdapter = PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
+    override val pagedAdapter: BasePagedAdapter<Photo> =
+        PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
             override fun onPhotoClick(photo: Photo) {
                 val direction =
                     CollectionDetailsFragmentDirections.actionGlobalPhotoDetailsFragment(photoId = photo.id)
@@ -54,6 +40,8 @@ class CollectionDetailsFragment : Fragment() {
             }
         })
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         with(binding) {
             toolbar.apply {
                 val navController = findNavController()
@@ -133,10 +121,5 @@ class CollectionDetailsFragment : Fragment() {
                 }
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

@@ -1,9 +1,7 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.photo
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.fragment.findNavController
@@ -24,10 +22,8 @@ import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapte
 import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManager
 
 @AndroidEntryPoint
-class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
-
-    private var _binding: FragmentPhotosBinding? = null
-    private val binding get() = _binding!!
+class PhotosFragment :
+    BaseRecyclerViewFragment<Photo, FragmentPhotosBinding>(FragmentPhotosBinding::inflate) {
 
     private val viewModel: PhotoViewModel by hiltNavGraphViewModels(R.id.nav_main)
 
@@ -39,15 +35,6 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
                 findNavController().navigate(direction)
             }
         })
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        _binding = FragmentPhotosBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -131,11 +118,6 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo>() {
         viewModel.photos.observe(viewLifecycleOwner) {
             pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun showFilterDialog() {

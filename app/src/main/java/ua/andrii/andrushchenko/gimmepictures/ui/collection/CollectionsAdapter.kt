@@ -1,13 +1,14 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.collection
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import ua.andrii.andrushchenko.gimmepictures.GlideApp
 import ua.andrii.andrushchenko.gimmepictures.databinding.ItemCollectionBinding
 import ua.andrii.andrushchenko.gimmepictures.models.Collection
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
+import ua.andrii.andrushchenko.gimmepictures.util.loadImage
 
 class CollectionsAdapter(private val listener: OnItemClickListener) :
     BasePagedAdapter<Collection>(COLLECTION_COMPARATOR) {
@@ -27,12 +28,17 @@ class CollectionsAdapter(private val listener: OnItemClickListener) :
                     listener.onCollectionClick(entity)
                 }
 
-                GlideApp.with(root.context)
+                /*GlideApp.with(root.context)
                     .load(entity.coverPhoto?.urls?.small)
                     .transition(DrawableTransitionOptions.withCrossFade())
-                    /*.apply(RequestOptions.bitmapTransform(BlurTransformation(25, 3)))*/
+                    *//*.apply(RequestOptions.bitmapTransform(BlurTransformation(25, 3)))*//*
                     .into(collectionCoverPhotoImageView)
-                    .clearOnDetach()
+                    .clearOnDetach()*/
+
+                collectionCoverPhotoImageView.loadImage(
+                    url = entity.coverPhoto?.urls?.small,
+                    placeholderColorDrawable = ColorDrawable(Color.parseColor(entity.coverPhoto?.color))
+                )
 
                 collectionName.text = entity.title
             }

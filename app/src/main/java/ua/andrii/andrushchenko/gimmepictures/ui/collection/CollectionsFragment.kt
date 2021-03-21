@@ -1,9 +1,7 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.collection
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -25,10 +23,8 @@ import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapte
 import ua.andrii.andrushchenko.gimmepictures.util.setupLinearLayoutManager
 
 @AndroidEntryPoint
-class CollectionsFragment : BaseRecyclerViewFragment<Collection>() {
-
-    private var _binding: FragmentCollectionsBinding? = null
-    private val binding get() = _binding!!
+class CollectionsFragment :
+    BaseRecyclerViewFragment<Collection, FragmentCollectionsBinding>(FragmentCollectionsBinding::inflate) {
 
     private val viewModel: CollectionsViewModel by viewModels()
 
@@ -41,15 +37,6 @@ class CollectionsFragment : BaseRecyclerViewFragment<Collection>() {
                 findNavController().navigate(direction)
             }
         })
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentCollectionsBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -135,11 +122,6 @@ class CollectionsFragment : BaseRecyclerViewFragment<Collection>() {
                 pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun showFilterDialog() {

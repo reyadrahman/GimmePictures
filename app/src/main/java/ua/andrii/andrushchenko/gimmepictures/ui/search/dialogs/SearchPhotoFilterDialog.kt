@@ -1,58 +1,29 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.search.dialogs
 
-import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.FrameLayout
 import androidx.fragment.app.viewModels
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.data.search.SearchPhotosPagingSource
 import ua.andrii.andrushchenko.gimmepictures.databinding.BottomSheetSearchPhotoFilterBinding
+import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseBottomSheetDialogFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.search.SearchViewModel
 
 @AndroidEntryPoint
-class SearchPhotoFilterDialog : BottomSheetDialogFragment() {
-
-    private var _binding: BottomSheetSearchPhotoFilterBinding? = null
-    private val binding get() = _binding!!
+class SearchPhotoFilterDialog :
+    BaseBottomSheetDialogFragment<BottomSheetSearchPhotoFilterBinding>(
+        BottomSheetSearchPhotoFilterBinding::inflate
+    ) {
 
     private val viewModel: SearchViewModel by viewModels(
         ownerProducer = { requireParentFragment().childFragmentManager.primaryNavigationFragment!! }
     )
 
     private var searchParametersChanged = false
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        _binding = BottomSheetSearchPhotoFilterBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val bottomSheetDialog = super.onCreateDialog(savedInstanceState)
-
-        bottomSheetDialog.setOnShowListener {
-            val bottomSheet = bottomSheetDialog
-                .findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
-            BottomSheetBehavior.from(bottomSheet).apply {
-                skipCollapsed = true
-                state = BottomSheetBehavior.STATE_EXPANDED
-            }
-        }
-
-        return bottomSheetDialog
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -131,11 +102,6 @@ class SearchPhotoFilterDialog : BottomSheetDialogFragment() {
 
             applyButton.setOnClickListener { dismiss() }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onDismiss(dialog: DialogInterface) {

@@ -9,16 +9,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestOptions
 import dagger.hilt.android.AndroidEntryPoint
-import jp.wasabeef.glide.transformations.SupportRSBlurTransformation
-import ua.andrii.andrushchenko.gimmepictures.GlideApp
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepository.Companion.unsplashAuthCallback
 import ua.andrii.andrushchenko.gimmepictures.databinding.ActivityAuthBinding
 import ua.andrii.andrushchenko.gimmepictures.util.ApiCallResult
 import ua.andrii.andrushchenko.gimmepictures.util.customtabs.CustomTabsHelper
+import ua.andrii.andrushchenko.gimmepictures.util.loadBlurredImage
 
 @AndroidEntryPoint
 class AuthActivity : AppCompatActivity() {
@@ -36,13 +33,17 @@ class AuthActivity : AppCompatActivity() {
         with(binding) {
             toolbar.setNavigationOnClickListener { finish() }
             viewModel.backgroundPhoto.observe(this@AuthActivity) { photo ->
-                GlideApp.with(this@AuthActivity)
+                /*GlideApp.with(this@AuthActivity)
                     .load(photo.urls.small)
                     .placeholder(ColorDrawable(Color.parseColor(photo.color)))
                     .transition(DrawableTransitionOptions.withCrossFade(350))
                     .apply(RequestOptions.bitmapTransform(SupportRSBlurTransformation()))
                     .into(bgImage)
-                    .clearOnDetach()
+                    .clearOnDetach()*/
+                bgImage.loadBlurredImage(
+                    url = photo.urls.small,
+                    placeholderColorDrawable = ColorDrawable(Color.parseColor(photo.color))
+                )
             }
 
             btnLogin.setOnClickListener {

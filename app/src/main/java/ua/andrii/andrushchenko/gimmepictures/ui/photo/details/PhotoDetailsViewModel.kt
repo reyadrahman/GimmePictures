@@ -17,13 +17,11 @@ import javax.inject.Inject
 @HiltViewModel
 class PhotoDetailsViewModel @Inject constructor(
     private val photoRepository: PhotoRepository,
-    private val authRepository: AuthRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val _apiCallResult: MutableLiveData<ApiCallResult<Photo>> = MutableLiveData()
     val apiCallResult get() = _apiCallResult
-
-
 
     fun getPhotoDetails(photoId: String) {
         viewModelScope.launch {
