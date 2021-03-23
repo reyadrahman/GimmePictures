@@ -1,37 +1,36 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.user.me
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepository
 import ua.andrii.andrushchenko.gimmepictures.models.Me
-import javax.inject.Inject
 import ua.andrii.andrushchenko.gimmepictures.util.ApiCallResult
+import javax.inject.Inject
 
 @HiltViewModel
 class MyProfileViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    val isAuthorized get() = authRepository.isAuthorized
-    val username get() = authRepository.username
-    val userProfilePhotoUrl get() = authRepository.profilePicture
+    private val _isUserAuthorized = MutableLiveData(authRepository.isAuthorized)
+    val isUserAuthorized get() = _isUserAuthorized
 
-    private val _me: MutableLiveData<Me> = MutableLiveData()
-    val me: LiveData<Me> get() = _me
+    private val _apiCallResult: MutableLiveData<ApiCallResult<Me>> = MutableLiveData()
+    val apiCallResult get() = _apiCallResult
 
-    fun obtainProfile() = viewModelScope.launch {
-        val result = authRepository.getMe()
-        if (result is ApiCallResult.Success) {
-            _me.postValue(result.value)
-        }
+    fun obtainMyProfile() = viewModelScope.launch {
+        authRepository.getMyProfile().onEach {
+            _apiCallResult.postValue(it)
+        }.launchIn(viewModelScope)
     }
 
     fun logout() {
         authRepository.logout()
+        _isUserAuthorized.postValue(false)
     }
-
 }

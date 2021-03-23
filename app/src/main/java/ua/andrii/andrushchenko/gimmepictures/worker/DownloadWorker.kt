@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.FileProvider
@@ -22,6 +23,7 @@ import okhttp3.ResponseBody
 import okio.BufferedSink
 import okio.buffer
 import okio.sink
+import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.data.download.DownloadService
 import ua.andrii.andrushchenko.gimmepictures.util.*
 import java.io.File
@@ -32,7 +34,7 @@ class DownloadWorker @AssistedInject constructor(
     @Assisted private val appContext: Context,
     @Assisted workerParams: WorkerParameters,
     private val downloadService: DownloadService,
-    private val notificationHelper: NotificationHelper,
+    private val notificationHelper: NotificationHelper
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -76,8 +78,11 @@ class DownloadWorker @AssistedInject constructor(
                 inputData.getString(KEY_PHOTO_ID)?.let {
                     safeApiRequest(Dispatchers.IO) { downloadService.trackDownload(it) }
                 }
+                Toast.makeText(appContext,
+                    appContext.resources.getString(R.string.download_complete),
+                    Toast.LENGTH_SHORT).show()
             } else {
-                onError(fileName, Exception("Failed writing to file"), /*STATUS_FAILED,*/ true)
+                onError(fileName, Exception("Failed writing to file"), true)
             }
 
         } catch (e: CancellationException) {
@@ -99,15 +104,9 @@ class DownloadWorker @AssistedInject constructor(
     private fun onError(
         fileName: String,
         exception: Exception,
-        // status: Int,
         showNotification: Boolean,
     ) {
         Log.e(TAG, "onError: ${exception.message}")
-        /*val localIntent = Intent(ACTION_DOWNLOAD_COMPLETE).apply {
-            putExtra(DOWNLOAD_STATUS, status)
-        }
-        LocalBroadcastManager.getInstance(context).sendBroadcast(localIntent)*/
-
         if (showNotification) {
             notificationHelper.showDownloadErrorNotification(fileName)
         }
@@ -118,14 +117,6 @@ class DownloadWorker @AssistedInject constructor(
         uri: Uri,
     ) {
         Log.i(TAG, "onSuccess: $fileName - $uri")
-
-        /*val localIntent = Intent(ACTION_DOWNLOAD_COMPLETE).apply {
-            putExtra(DOWNLOAD_STATUS, STATUS_SUCCESSFUL)
-            putExtra(DATA_ACTION, downloadAction)
-            putExtra(DATA_URI, uri)
-        }
-        LocalBroadcastManager.getInstance(context).sendBroadcast(localIntent)*/
-
         notificationHelper.showDownloadCompleteNotification(fileName, uri)
     }
 
@@ -232,7 +223,7 @@ class DownloadWorker @AssistedInject constructor(
             context: Context,
             url: String,
             fileName: String,
-            photoId: String?
+            photoId: String?,
         ): UUID {
             val inputData = workDataOf(
                 KEY_INPUT_URL to url,

@@ -33,13 +33,6 @@ class AuthActivity : AppCompatActivity() {
         with(binding) {
             toolbar.setNavigationOnClickListener { finish() }
             viewModel.backgroundPhoto.observe(this@AuthActivity) { photo ->
-                /*GlideApp.with(this@AuthActivity)
-                    .load(photo.urls.small)
-                    .placeholder(ColorDrawable(Color.parseColor(photo.color)))
-                    .transition(DrawableTransitionOptions.withCrossFade(350))
-                    .apply(RequestOptions.bitmapTransform(SupportRSBlurTransformation()))
-                    .into(bgImage)
-                    .clearOnDetach()*/
                 bgImage.loadBlurredImage(
                     url = photo.urls.small,
                     placeholderColorDrawable = ColorDrawable(Color.parseColor(photo.color))

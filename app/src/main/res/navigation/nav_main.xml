@@ -54,6 +54,7 @@
     <fragment
         android:id="@+id/photoDetailsFragment"
         android:name="ua.andrii.andrushchenko.gimmepictures.ui.photo.details.PhotoDetailsFragment"
+        android:label="@string/photo"
         tools:layout="@layout/fragment_photo_details">
         <argument
             android:name="photoId"
@@ -85,6 +86,9 @@
             android:id="@+id/action_nav_my_profile_to_authActivity"
             app:destination="@id/authActivity"
             app:popUpTo="@id/nav_photos" />
+        <action
+            android:id="@+id/action_nav_my_profile_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <action
         android:id="@+id/action_global_photoDetailsFragment"

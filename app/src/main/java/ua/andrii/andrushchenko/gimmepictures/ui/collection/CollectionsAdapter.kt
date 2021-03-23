@@ -24,22 +24,13 @@ class CollectionsAdapter(private val listener: OnItemClickListener) :
 
         override fun bind(entity: Collection) {
             with(binding) {
-                collectionCoverPhotoImageView.setOnClickListener {
-                    listener.onCollectionClick(entity)
+                collectionCoverPhotoImageView.apply {
+                    loadImage(
+                        url = entity.coverPhoto?.urls?.small,
+                        placeholderColorDrawable = ColorDrawable(Color.parseColor(entity.coverPhoto?.color))
+                    )
+                    setOnClickListener { listener.onCollectionClick(entity) }
                 }
-
-                /*GlideApp.with(root.context)
-                    .load(entity.coverPhoto?.urls?.small)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    *//*.apply(RequestOptions.bitmapTransform(BlurTransformation(25, 3)))*//*
-                    .into(collectionCoverPhotoImageView)
-                    .clearOnDetach()*/
-
-                collectionCoverPhotoImageView.loadImage(
-                    url = entity.coverPhoto?.urls?.small,
-                    placeholderColorDrawable = ColorDrawable(Color.parseColor(entity.coverPhoto?.color))
-                )
-
                 collectionName.text = entity.title
             }
         }

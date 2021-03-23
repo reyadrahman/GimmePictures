@@ -57,17 +57,10 @@ class LinearLayoutSpacingDecoration(
         outRect: Rect,
         view: View,
         parent: RecyclerView,
-        state: RecyclerView.State,
+        state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
         val position = parent.getChildAdapterPosition(view)
-        /*outRect.apply {
-            left = margin
-            right = margin
-            bottom = margin
-            top = if (position == 0) margin else 0
-        }*/
-
         if (orientation == RecyclerView.VERTICAL) {
             outRect.apply {
                 top = if (position == 0) margin else 0

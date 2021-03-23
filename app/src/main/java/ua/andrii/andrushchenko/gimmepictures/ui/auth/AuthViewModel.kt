@@ -29,12 +29,7 @@ class AuthViewModel @Inject constructor(
 
     fun getAccessToken(code: String) = liveData(viewModelScope.coroutineContext) {
         emit(ApiCallResult.Loading)
-
         val accessTokenResult = authRepository.getAccessToken(code)
-        if (accessTokenResult is ApiCallResult.Success) {
-            authRepository.getMe()
-        }
-
         emit(accessTokenResult)
     }
 }

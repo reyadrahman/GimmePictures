@@ -24,21 +24,12 @@ class PhotosAdapter(private val listener: OnItemClickListener) :
             with(binding) {
                 photoImageView.apply {
                     setAspectRatio(entity.width, entity.height)
+                    loadImage(
+                        url = entity.urls.regular,
+                        placeholderColorDrawable = ColorDrawable(Color.parseColor(entity.color))
+                    )
                     setOnClickListener { listener.onPhotoClick(entity) }
                 }
-
-                /*GlideApp.with(itemView.context)
-                    .load(entity.urls.regular)
-                    .placeholder(ColorDrawable(Color.parseColor(entity.color)))
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .error(ColorDrawable(Color.parseColor(entity.color)))
-                    .into(photoImageView)
-                    .clearOnDetach()*/
-
-                photoImageView.loadImage(
-                    url = entity.urls.regular,
-                    placeholderColorDrawable = ColorDrawable(Color.parseColor(entity.color))
-                )
             }
         }
     }

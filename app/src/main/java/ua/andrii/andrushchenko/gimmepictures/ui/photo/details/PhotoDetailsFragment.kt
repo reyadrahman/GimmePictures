@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -70,15 +69,9 @@ class PhotoDetailsFragment :
 
     private fun displayPhotoDetails(photo: Photo) {
         with(binding) {
-            photoImageView.doOnApplyWindowInsets { view, _, _ -> view.updatePadding(top = 0) }
-
             toolbar.apply {
                 setOnMenuItemClickListener { item ->
                     when (item.itemId) {
-                        R.id.action_share -> {
-                            sharePhoto(photo.links?.html, photo.description)
-                            true
-                        }
                         R.id.action_open_in_browser -> {
                             openPhotoInBrowser(photo.links?.html)
                             true
@@ -99,40 +92,8 @@ class PhotoDetailsFragment :
             }
 
             val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout.bottomSheet)
-            bottomSheetBehavior.addBottomSheetCallback(object :
-                BottomSheetBehavior.BottomSheetCallback() {
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    when (newState) {
-                        BottomSheetBehavior.STATE_HIDDEN -> toolbar.visibility = View.GONE
-                        else -> toolbar.visibility = View.VISIBLE
-                    }
-                }
-
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                    bottomSheetLayout.btnBottomSheetExpandCollapse.rotation = -180f * slideOffset
-                }
-            })
-
-            bottomSheetLayout.btnBottomSheetExpandCollapse.setOnClickListener {
-                bottomSheetBehavior.state =
-                    if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED)
-                        BottomSheetBehavior.STATE_COLLAPSED
-                    else
-                        BottomSheetBehavior.STATE_EXPANDED
-            }
-
-            photoImageView.setOnClickListener {
-                when (bottomSheetBehavior.state) {
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                    }
-                    BottomSheetBehavior.STATE_COLLAPSED -> {
-                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-                    }
-                    else -> {
-                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                    }
-                }
+            btnInfo.setOnClickListener {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             }
 
             // Load photo
@@ -141,10 +102,8 @@ class PhotoDetailsFragment :
                 placeholderColorDrawable = ColorDrawable(Color.parseColor(photo.color))
             )
 
-            //bottomSheetLayout.bottomSheetHeader.setBackgroundColor(Color.parseColor(photo.color))
-
             photo.description?.let { description ->
-                bottomSheetLayout.descriptionTextView.apply {
+                descriptionTextView.apply {
                     visibility = View.VISIBLE
                     text = description
                     setOnClickListener { showDescriptionDetailed(description) }
@@ -152,7 +111,7 @@ class PhotoDetailsFragment :
             }
 
             setLikeButtonState(photo.liked_by_user)
-            bottomSheetLayout.btnLike.setOnClickListener {
+            btnLike.setOnClickListener {
                 if (viewModel.isUserAuthorized) {
                     if (photo.liked_by_user) {
                         viewModel.unlikePhoto(photo.id)
@@ -172,7 +131,11 @@ class PhotoDetailsFragment :
                 }
             }
 
-            bottomSheetLayout.btnDownload.setOnClickListener {
+            btnShare.setOnClickListener {
+                sharePhoto(photo.links?.html, photo.description)
+            }
+
+            btnDownload.setOnClickListener {
                 if (requireContext().fileExists(photo.fileName)) {
                     MaterialAlertDialogBuilder(requireContext()).run {
                         setTitle(R.string.file_exists_title)
@@ -181,7 +144,6 @@ class PhotoDetailsFragment :
                         setNegativeButton(R.string.no, null)
                         show()
                     }
-
                 } else {
                     downloadPhoto(photo)
                 }
@@ -194,17 +156,25 @@ class PhotoDetailsFragment :
 
             // Load user
             photo.user?.let { user ->
-                bottomSheetLayout.userContainer.visibility = View.VISIBLE
-                bottomSheetLayout.userContainer.setOnClickListener {
-                    val direction =
-                        PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment()
-                    findNavController().navigate(direction)
+                userImageView.apply {
+                    loadImage(
+                        url = user.profileImage?.medium,
+                        placeholderColorDrawable = null
+                    )
+                    setOnClickListener {
+                        val direction =
+                            PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment()
+                        findNavController().navigate(direction)
+                    }
                 }
-                bottomSheetLayout.userImageView.loadImage(
-                    url = user.profileImage?.medium,
-                    placeholderColorDrawable = null
-                )
-                bottomSheetLayout.userTextView.text = user.name ?: "Unknown"
+                userTextView.apply {
+                    text = user.name ?: "Unknown"
+                    setOnClickListener {
+                        val direction =
+                            PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment()
+                        findNavController().navigate(direction)
+                    }
+                }
             }
 
             photo.location?.let { location ->
@@ -215,7 +185,7 @@ class PhotoDetailsFragment :
                     location.city == null && location.country != null -> location.country
                     else -> null
                 }
-                bottomSheetLayout.locationText.apply {
+                locationText.apply {
                     visibility =
                         if (locationString.isNullOrBlank()) View.GONE else View.VISIBLE
                     text = locationString
@@ -261,26 +231,15 @@ class PhotoDetailsFragment :
     }
 
     private fun displayProgressBar(isDisplayed: Boolean) {
-        with(binding) {
-            progressLoading.visibility = if (isDisplayed) View.VISIBLE else View.GONE
-            toolbar.visibility = if (!isDisplayed) View.VISIBLE else View.GONE
-            photoImageView.visibility = if (!isDisplayed) View.VISIBLE else View.GONE
-            bottomSheetLayout.bottomSheet.visibility = if (!isDisplayed) View.VISIBLE else View.GONE
-        }
+        binding.progressLoading.visibility = if (isDisplayed) View.VISIBLE else View.GONE
     }
 
     private fun displayErrorMsg(isDisplayed: Boolean) {
-        with(binding) {
-            //FIXME: rewrite it cause it weird and ugly
-            toolbar.visibility = View.VISIBLE
-            layoutError.visibility = if (isDisplayed) View.VISIBLE else View.GONE
-            photoImageView.visibility = if (!isDisplayed) View.VISIBLE else View.GONE
-            bottomSheetLayout.bottomSheet.visibility = if (!isDisplayed) View.VISIBLE else View.GONE
-        }
+        binding.layoutError.visibility = if (isDisplayed) View.VISIBLE else View.GONE
     }
 
     private fun setLikeButtonState(likedByUser: Boolean) {
-        binding.bottomSheetLayout.btnLike.setImageResource(
+        binding.btnLike.setImageResource(
             if (likedByUser) R.drawable.ic_like else R.drawable.ic_like_outlined
         )
     }
@@ -314,12 +273,6 @@ class PhotoDetailsFragment :
             requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, requestCode = 0)
         }
     }
-
-    /*private fun cancelDownload() {
-        viewModel.downloadWorkUUID?.let {
-            WorkManager.getInstance(requireContext()).cancelWorkById(it)
-        }
-    }*/
 
     private fun sharePhoto(photoLink: String?, photoDescription: String?) {
         val share = Intent.createChooser(Intent().apply {

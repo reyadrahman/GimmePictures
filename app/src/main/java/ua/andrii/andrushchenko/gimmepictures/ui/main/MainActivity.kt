@@ -13,7 +13,6 @@ import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.ActivityMainBinding
-import ua.andrii.andrushchenko.gimmepictures.util.setTransparentStatusBar
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -35,15 +34,9 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.nav_photos, R.id.nav_collections, R.id.nav_my_profile -> {
                     binding.bottomNavigationView.visibility = View.VISIBLE
-                    setTransparentStatusBar(isTransparent = false)
-                }
-                R.id.photoDetailsFragment -> {
-                    setTransparentStatusBar(isTransparent = true)
-                    binding.bottomNavigationView.visibility = View.GONE
                 }
                 else -> {
                     binding.bottomNavigationView.visibility = View.GONE
-                    setTransparentStatusBar(isTransparent = false)
                 }
             }
         }
