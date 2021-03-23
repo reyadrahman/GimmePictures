@@ -7,7 +7,7 @@ import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotoRepository
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import javax.inject.Inject
 import kotlinx.coroutines.launch
-import ua.andrii.andrushchenko.gimmepictures.util.ApiCallResult
+import ua.andrii.andrushchenko.gimmepictures.util.BackendCallResult
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
@@ -20,7 +20,7 @@ class AuthViewModel @Inject constructor(
         val liveData = MutableLiveData<Photo>()
         viewModelScope.launch {
             val result = photoRepository.getRandomPhoto(featured = true)
-            if (result is ApiCallResult.Success) liveData.value = result.value
+            if (result is BackendCallResult.Success) liveData.value = result.value
         }
         return@lazy liveData
     }
@@ -28,7 +28,7 @@ class AuthViewModel @Inject constructor(
     val backgroundPhoto: LiveData<Photo> get() = _backgroundPhoto
 
     fun getAccessToken(code: String) = liveData(viewModelScope.coroutineContext) {
-        emit(ApiCallResult.Loading)
+        emit(BackendCallResult.Loading)
         val accessTokenResult = authRepository.getAccessToken(code)
         emit(accessTokenResult)
     }

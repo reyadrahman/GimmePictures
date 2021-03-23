@@ -2,17 +2,14 @@ package ua.andrii.andrushchenko.gimmepictures.data.auth
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
-import retrofit2.HttpException
 import ua.andrii.andrushchenko.gimmepictures.data.common.CLIENT_ID
 import ua.andrii.andrushchenko.gimmepictures.data.common.CLIENT_SECRET
 import ua.andrii.andrushchenko.gimmepictures.data.user.UserService
 import ua.andrii.andrushchenko.gimmepictures.models.Me
-import ua.andrii.andrushchenko.gimmepictures.util.ApiCallResult
-import ua.andrii.andrushchenko.gimmepictures.util.errorBody
-import ua.andrii.andrushchenko.gimmepictures.util.safeApiRequest
-import java.io.IOException
+import ua.andrii.andrushchenko.gimmepictures.util.BackendCallResult
+import ua.andrii.andrushchenko.gimmepictures.util.backendRequest
+import ua.andrii.andrushchenko.gimmepictures.util.backendRequestFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,7 +17,7 @@ import javax.inject.Singleton
 class AuthRepository @Inject constructor(
     private val accessTokenProvider: AccessTokenProvider,
     private val authorizationService: AuthorizationService,
-    private val userService: UserService
+    private val userService: UserService,
 ) {
     val loginUrl: String
         get() = "https://unsplash.com/oauth/authorize" +
@@ -30,8 +27,8 @@ class AuthRepository @Inject constructor(
                 "&scope=public+read_user+write_user+read_photos+write_photos" +
                 "+write_likes+write_followers+read_collections+write_collections"
 
-    suspend fun getAccessToken(code: String): ApiCallResult<AccessToken> {
-        val result = safeApiRequest {
+    suspend fun getAccessToken(code: String): BackendCallResult<AccessToken> {
+        val result = backendRequest {
             authorizationService.getAccessToken(
                 CLIENT_ID,
                 CLIENT_SECRET,
@@ -41,32 +38,19 @@ class AuthRepository @Inject constructor(
             )
         }
 
-        if (result is ApiCallResult.Success) {
+        if (result is BackendCallResult.Success) {
             accessTokenProvider.saveAccessToken(result.value)
         }
 
         return result
     }
 
-    suspend fun getMyProfile(): Flow<ApiCallResult<Me>> = flow {
-        emit(ApiCallResult.Loading)
-        try {
-            val result: Me
-            withContext(Dispatchers.IO) {
-                result = userService.getUserPrivateProfile()
-            }
-            emit(ApiCallResult.Success(result))
-        } catch (throwable: Throwable) {
-            when (throwable) {
-                is IOException -> emit(ApiCallResult.NetworkError)
-                is HttpException -> {
-                    val code = throwable.code()
-                    val errorResponse = throwable.errorBody
-                    emit(ApiCallResult.Error(code, errorResponse))
-                }
-                else -> emit(ApiCallResult.Error(null, throwable.message))
-            }
+    suspend fun getMyProfile(): Flow<BackendCallResult<Me>> = backendRequestFlow {
+        val result: Me
+        withContext(Dispatchers.IO) {
+            result = userService.getUserPrivateProfile()
         }
+        return@backendRequestFlow result
     }
 
     suspend fun updateMe(
@@ -77,28 +61,15 @@ class AuthRepository @Inject constructor(
         url: String?,
         instagramUsername: String?,
         location: String?,
-        bio: String?
-    ): Flow<ApiCallResult<Me>> = flow {
-        emit(ApiCallResult.Loading)
-        try {
-            val result: Me
-            withContext(Dispatchers.IO) {
-                result = userService.updateUserPrivateProfile(
-                    username, firstName, lastName, email, url, instagramUsername, location, bio
-                )
-            }
-            emit(ApiCallResult.Success(result))
-        } catch (throwable: Throwable) {
-            when (throwable) {
-                is IOException -> emit(ApiCallResult.NetworkError)
-                is HttpException -> {
-                    val code = throwable.code()
-                    val errorResponse = throwable.errorBody
-                    emit(ApiCallResult.Error(code, errorResponse))
-                }
-                else -> emit(ApiCallResult.Error(null, throwable.message))
-            }
+        bio: String?,
+    ): Flow<BackendCallResult<Me>> = backendRequestFlow {
+        val result: Me
+        withContext(Dispatchers.IO) {
+            result = userService.updateUserPrivateProfile(
+                username, firstName, lastName, email, url, instagramUsername, location, bio
+            )
         }
+        return@backendRequestFlow result
     }
 
     val isAuthorized: Boolean

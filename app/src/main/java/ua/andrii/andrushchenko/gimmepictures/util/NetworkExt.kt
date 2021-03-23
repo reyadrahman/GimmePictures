@@ -1,35 +1,50 @@
 package ua.andrii.andrushchenko.gimmepictures.util
 
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 
-sealed class ApiCallResult<out T> {
-    data class Success<out T>(val value: T) : ApiCallResult<T>()
-    data class Error(val code: Int? = null, val error: String? = null) : ApiCallResult<Nothing>()
-    object NetworkError : ApiCallResult<Nothing>()
-    object Loading : ApiCallResult<Nothing>()
+sealed class BackendCallResult<out T> {
+    object Loading : BackendCallResult<Nothing>()
+    data class Success<out T>(val value: T) : BackendCallResult<T>()
+    data class Error(val code: Int? = null, val error: String? = null) : BackendCallResult<Nothing>()
+    object NetworkError : BackendCallResult<Nothing>()
 }
 
-suspend fun <T> safeApiRequest(
-    dispatcher: CoroutineDispatcher = Dispatchers.IO,
-    request: suspend () -> T,
-): ApiCallResult<T> {
-    return withContext(dispatcher) {
+suspend fun <T> backendRequest(request: suspend () -> T): BackendCallResult<T> =
+    withContext(Dispatchers.IO) {
         try {
-            ApiCallResult.Success(request.invoke())
+            BackendCallResult.Success(request.invoke())
         } catch (throwable: Throwable) {
             when (throwable) {
-                is IOException -> ApiCallResult.NetworkError
+                is IOException -> BackendCallResult.NetworkError
                 is HttpException -> {
                     val code = throwable.code()
                     val errorResponse = throwable.errorBody
-                    ApiCallResult.Error(code, errorResponse)
+                    BackendCallResult.Error(code, errorResponse)
                 }
-                else -> ApiCallResult.Error(null, throwable.message)
+                else -> BackendCallResult.Error(null, throwable.message)
             }
+        }
+    }
+
+suspend fun <T> backendRequestFlow(fetchData: suspend () -> T): Flow<BackendCallResult<T>> = flow {
+    emit(BackendCallResult.Loading)
+    try {
+        val result = fetchData.invoke()
+        emit(BackendCallResult.Success(result))
+    } catch (throwable: Throwable) {
+        when (throwable) {
+            is IOException -> emit(BackendCallResult.NetworkError)
+            is HttpException -> {
+                val code = throwable.code()
+                val errorResponse = throwable.errorBody
+                emit(BackendCallResult.Error(code, errorResponse))
+            }
+            else -> emit(BackendCallResult.Error(null, throwable.message))
         }
     }
 }

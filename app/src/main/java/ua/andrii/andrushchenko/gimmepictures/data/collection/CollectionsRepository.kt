@@ -31,25 +31,4 @@ class CollectionsRepository @Inject constructor(private val collectionsService: 
             ),
             pagingSourceFactory = { CollectionPhotosPagingSource(collectionsService, collectionId) }
         ).liveData
-
-    /*fun getSingleCollection(id: Int): Flow<ApiCallResult<Collection>> = flow {
-        emit(ApiCallResult.Loading)
-        try {
-            val result: Collection
-            withContext(Dispatchers.IO) {
-                result = collectionsService.getCollection(id)
-            }
-            emit(ApiCallResult.Success(result))
-        } catch (throwable: Throwable) {
-            when (throwable) {
-                is IOException -> emit(ApiCallResult.NetworkError)
-                is HttpException -> {
-                    val code = throwable.code()
-                    val errorResponse = throwable.errorBody
-                    emit(ApiCallResult.Error(code, errorResponse))
-                }
-                else -> emit(ApiCallResult.Error(null, throwable.message))
-            }
-        }
-    }*/
 }

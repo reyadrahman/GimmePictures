@@ -44,22 +44,22 @@ class PhotoDetailsFragment :
             viewModel.getPhotoDetails(args.photoId)
         }
 
-        viewModel.apiCallResult.observe(viewLifecycleOwner) { result ->
+        viewModel.backendCallResult.observe(viewLifecycleOwner) { result ->
             when (result) {
-                is ApiCallResult.Loading -> {
+                is BackendCallResult.Loading -> {
                     displayErrorMsg(isDisplayed = false)
                     displayProgressBar(isDisplayed = true)
                 }
-                is ApiCallResult.Success -> {
+                is BackendCallResult.Success -> {
                     displayProgressBar(isDisplayed = false)
                     displayErrorMsg(isDisplayed = false)
                     displayPhotoDetails(result.value)
                 }
-                is ApiCallResult.NetworkError -> {
+                is BackendCallResult.NetworkError -> {
                     displayProgressBar(isDisplayed = false)
                     displayErrorMsg(isDisplayed = true)
                 }
-                is ApiCallResult.Error -> {
+                is BackendCallResult.Error -> {
                     displayProgressBar(isDisplayed = false)
                     displayErrorMsg(isDisplayed = true)
                 }

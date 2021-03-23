@@ -13,7 +13,7 @@ import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentMyProfileBinding
 import ua.andrii.andrushchenko.gimmepictures.models.Me
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseFragment
-import ua.andrii.andrushchenko.gimmepictures.util.ApiCallResult
+import ua.andrii.andrushchenko.gimmepictures.util.BackendCallResult
 import ua.andrii.andrushchenko.gimmepictures.util.loadImage
 import ua.andrii.andrushchenko.gimmepictures.util.toAmountReadableString
 
@@ -30,20 +30,20 @@ class MyProfileFragment :
                     obtainMyProfile()
                     apiCallResult.observe(viewLifecycleOwner) { result ->
                         when (result) {
-                            is ApiCallResult.Loading -> {
+                            is BackendCallResult.Loading -> {
                                 //displayErrorMsg(isDisplayed = false)
                                 displayProgressBar(isDisplayed = true)
                             }
-                            is ApiCallResult.Success -> {
+                            is BackendCallResult.Success -> {
                                 displayProgressBar(isDisplayed = false)
                                 //displayErrorMsg(isDisplayed = false)
                                 displayUserAccount(result.value)
                             }
-                            is ApiCallResult.NetworkError -> {
+                            is BackendCallResult.NetworkError -> {
                                 displayProgressBar(isDisplayed = false)
                                 //displayErrorMsg(isDisplayed = true)
                             }
-                            is ApiCallResult.Error -> {
+                            is BackendCallResult.Error -> {
                                 displayProgressBar(isDisplayed = false)
                                 //displayErrorMsg(isDisplayed = true)
                             }

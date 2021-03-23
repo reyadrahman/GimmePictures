@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepository
 import ua.andrii.andrushchenko.gimmepictures.models.Me
-import ua.andrii.andrushchenko.gimmepictures.util.ApiCallResult
+import ua.andrii.andrushchenko.gimmepictures.util.BackendCallResult
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,12 +20,12 @@ class MyProfileViewModel @Inject constructor(
     private val _isUserAuthorized = MutableLiveData(authRepository.isAuthorized)
     val isUserAuthorized get() = _isUserAuthorized
 
-    private val _apiCallResult: MutableLiveData<ApiCallResult<Me>> = MutableLiveData()
-    val apiCallResult get() = _apiCallResult
+    private val _backendCallResult: MutableLiveData<BackendCallResult<Me>> = MutableLiveData()
+    val apiCallResult get() = _backendCallResult
 
     fun obtainMyProfile() = viewModelScope.launch {
         authRepository.getMyProfile().onEach {
-            _apiCallResult.postValue(it)
+            _backendCallResult.postValue(it)
         }.launchIn(viewModelScope)
     }
 

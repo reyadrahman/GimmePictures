@@ -34,7 +34,7 @@ class DownloadWorker @AssistedInject constructor(
     @Assisted private val appContext: Context,
     @Assisted workerParams: WorkerParameters,
     private val downloadService: DownloadService,
-    private val notificationHelper: NotificationHelper
+    private val notificationHelper: NotificationHelper,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -76,11 +76,13 @@ class DownloadWorker @AssistedInject constructor(
             if (uri != null) {
                 onSuccess(fileName, uri)
                 inputData.getString(KEY_PHOTO_ID)?.let {
-                    safeApiRequest(Dispatchers.IO) { downloadService.trackDownload(it) }
+                    backendRequest { downloadService.trackDownload(it) }
                 }
-                Toast.makeText(appContext,
-                    appContext.resources.getString(R.string.download_complete),
-                    Toast.LENGTH_SHORT).show()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(appContext,
+                        appContext.resources.getString(R.string.download_complete),
+                        Toast.LENGTH_SHORT).show()
+                }
             } else {
                 onError(fileName, Exception("Failed writing to file"), true)
             }
