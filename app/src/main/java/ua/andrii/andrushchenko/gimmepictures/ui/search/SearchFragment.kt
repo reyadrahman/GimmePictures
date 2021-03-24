@@ -1,28 +1,28 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.search
 
+import android.content.Context
 import android.os.Bundle
+import android.util.SparseArray
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import androidx.paging.LoadState
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentSearchBinding
-import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseFragment
-import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
-import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
-import ua.andrii.andrushchenko.gimmepictures.ui.photo.PhotosAdapter
+import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.util.focusAndShowKeyboard
 import ua.andrii.andrushchenko.gimmepictures.util.hideKeyboard
-import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManager
+import java.lang.IllegalStateException
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
@@ -30,28 +30,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
     private val args: SearchFragmentArgs by navArgs()
     private val viewModel: SearchViewModel by viewModels()
 
-    private val pagedAdapter: BasePagedAdapter<Photo> =
-        PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
-            override fun onPhotoClick(photo: Photo) {
-                val direction =
-                    SearchFragmentDirections.actionGlobalPhotoDetailsFragment(photoId = photo.id)
-                findNavController().navigate(direction)
-            }
-        })
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            /*val materialShapeDrawable = toolbar.background as MaterialShapeDrawable
-            materialShapeDrawable.shapeAppearanceModel =
-                materialShapeDrawable.shapeAppearanceModel
-                    .toBuilder()
-                    .setAllCorners(
-                        CornerFamily.ROUNDED,
-                        resources.getDimension(R.dimen.indent_16dp)
-                    )
-                    .build()*/
-
             val navController = findNavController()
             val appBarConfiguration = AppBarConfiguration(
                 setOf(
@@ -61,14 +42,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                 )
             )
             toolbar.setupWithNavController(navController, appBarConfiguration)
-
-            val selectedCategoryId = when (viewModel.selectedCategory) {
-                SearchViewModel.SearchCategory.PHOTOS -> R.id.toggle_photos
-                SearchViewModel.SearchCategory.COLLECTIONS -> R.id.toggle_collections
-                else -> R.id.toggle_users
-            }
-
-            searchForToggleGroup.check(selectedCategoryId)
 
             searchTextInputLayout.editText?.apply {
                 if (viewModel.query.value.isNullOrBlank()) {
@@ -85,7 +58,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                 setOnEditorActionListener { _, actionId, _ ->
                     if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                         viewModel.updateQuery(searchTextInputLayout.editText?.text.toString())
-                        searchPhotosListingLayout.recyclerView.scrollToPosition(0)
+                        //searchPhotosListingLayout.recyclerView.scrollToPosition(0)
                         searchTextInputLayout.editText?.hideKeyboard()
                         return@setOnEditorActionListener true
                     }
@@ -102,49 +75,61 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                     SearchFragmentDirections.actionSearchFragmentToSearchPhotoFilterDialog()
                 findNavController().navigate(direction)
             }
-
-            searchPhotosListingLayout.swipeRefreshLayout.setOnRefreshListener {
-                pagedAdapter.refresh()
-            }
-
-            pagedAdapter.addLoadStateListener { loadState ->
-                searchPhotosListingLayout.swipeRefreshLayout.isRefreshing =
-                    loadState.refresh is LoadState.Loading
-                searchPhotosListingLayout.recyclerView.isVisible =
-                    loadState.source.refresh is LoadState.NotLoading
-                searchPhotosListingLayout.textViewError.isVisible =
-                    loadState.source.refresh is LoadState.Error
-
-                // empty view
-                if (loadState.source.refresh is LoadState.NotLoading &&
-                    loadState.append.endOfPaginationReached &&
-                    pagedAdapter.itemCount < 1
-                ) {
-                    searchPhotosListingLayout.recyclerView.isVisible = false
-                    searchPhotosListingLayout.textViewEmpty.isVisible = true
-                } else {
-                    searchPhotosListingLayout.textViewEmpty.isVisible = false
-                }
-            }
-
-            searchPhotosListingLayout.recyclerView.apply {
-                setHasFixedSize(true)
-                layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
-                setupStaggeredGridLayoutManager(
-                    resources.configuration.orientation,
-                    resources.getDimensionPixelSize(R.dimen.indent_8dp)
-                )
-
-                adapter = pagedAdapter.withLoadStateHeaderAndFooter(
-                    header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },
-                    footer = RecyclerViewLoadStateAdapter { pagedAdapter.retry() }
-                )
-
-            }
-
-            viewModel.photoResults.observe(viewLifecycleOwner) {
-                pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
-            }
         }
     }
 }
+
+private class SearchFragmentPagerAdapter(
+    private val context: Context,
+    private val fragment: Fragment
+) : FragmentStateAdapter(fragment) {
+
+    private val fragmentTags = SparseArray<String>()
+
+    enum class SearchFragment(val titleRes: Int) {
+        PHOTO(R.string.photos),
+        COLLECTION(R.string.collections),
+        USER(R.string.users)
+    }
+
+    //fun getItemType(position: Int) = SearchFragment.values()[position]
+
+    override fun getItemCount(): Int = 3
+
+    override fun createFragment(position: Int): Fragment {
+        return when (position) {
+            0 -> PhotoFragment()
+            1 -> CollectionsFragment()
+            2 -> UsersFragment()
+            else -> throw IllegalStateException("PagerAdapter position is not correct $position")
+        }
+    }
+
+    /*override fun getItem(position: Int): Fragment {
+        return when (getItemType(position)) {
+            SearchFragment.PHOTO -> PhotoFragment()
+            SearchFragment.COLLECTION -> CollectionsFragment()
+            SearchFragment.USER -> UsersFragment()
+        }
+    }
+
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
+        val fragment = super.instantiateItem(container, position)
+        (fragment as? Fragment)?.tag?.let { fragmentTags.put(position, it) }
+        return fragment
+    }
+
+    override fun getPageTitle(position: Int) = context.getString(getItemType(position).titleRes)
+
+    override fun getCount() = SearchFragment.values().size*/
+}
+
+/*val materialShapeDrawable = toolbar.background as MaterialShapeDrawable
+            materialShapeDrawable.shapeAppearanceModel =
+                materialShapeDrawable.shapeAppearanceModel
+                    .toBuilder()
+                    .setAllCorners(
+                        CornerFamily.ROUNDED,
+                        resources.getDimension(R.dimen.indent_16dp)
+                    )
+                    .build()*/

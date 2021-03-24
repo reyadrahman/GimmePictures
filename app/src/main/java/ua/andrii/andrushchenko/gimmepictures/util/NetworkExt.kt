@@ -5,13 +5,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
-import java.io.IOException
 
 sealed class BackendCallResult<out T> {
     object Loading : BackendCallResult<Nothing>()
     data class Success<out T>(val value: T) : BackendCallResult<T>()
     data class Error(val code: Int? = null, val error: String? = null) : BackendCallResult<Nothing>()
-    object NetworkError : BackendCallResult<Nothing>()
 }
 
 suspend fun <T> backendRequest(request: suspend () -> T): BackendCallResult<T> =
@@ -20,7 +18,6 @@ suspend fun <T> backendRequest(request: suspend () -> T): BackendCallResult<T> =
             BackendCallResult.Success(request.invoke())
         } catch (throwable: Throwable) {
             when (throwable) {
-                is IOException -> BackendCallResult.NetworkError
                 is HttpException -> {
                     val code = throwable.code()
                     val errorResponse = throwable.errorBody
@@ -38,7 +35,6 @@ suspend fun <T> backendRequestFlow(fetchData: suspend () -> T): Flow<BackendCall
         emit(BackendCallResult.Success(result))
     } catch (throwable: Throwable) {
         when (throwable) {
-            is IOException -> emit(BackendCallResult.NetworkError)
             is HttpException -> {
                 val code = throwable.code()
                 val errorResponse = throwable.errorBody

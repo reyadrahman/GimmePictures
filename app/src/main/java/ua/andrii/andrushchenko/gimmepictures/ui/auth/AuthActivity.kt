@@ -62,7 +62,7 @@ class AuthActivity : AppCompatActivity() {
                                     Toast.LENGTH_SHORT).show()
                                 finish()
                             }
-                            is BackendCallResult.Error, BackendCallResult.NetworkError -> {
+                            is BackendCallResult.Error -> {
                                 binding.authProgress.visibility = View.GONE
                                 Toast.makeText(this,
                                     getString(R.string.login_failed),

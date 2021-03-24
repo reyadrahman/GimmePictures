@@ -1,15 +1,13 @@
 package ua.andrii.andrushchenko.gimmepictures.data.search
 
 import androidx.annotation.StringRes
-import androidx.paging.PagingSource
-import androidx.paging.PagingState
 import retrofit2.HttpException
 import ua.andrii.andrushchenko.gimmepictures.R
+import ua.andrii.andrushchenko.gimmepictures.data.base.BasePagingSource
 import ua.andrii.andrushchenko.gimmepictures.data.common.PAGE_SIZE
+import ua.andrii.andrushchenko.gimmepictures.data.common.STARTING_PAGE_INDEX
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import java.io.IOException
-
-private const val STARTING_PAGE_INDEX = 1
 
 class SearchPhotosPagingSource(
     private val searchService: SearchService,
@@ -19,7 +17,7 @@ class SearchPhotosPagingSource(
     private val contentFilter: ContentFilter,
     private val color: Color,
     private val orientation: Orientation
-) : PagingSource<Int, Photo>() {
+) : BasePagingSource<Photo>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Photo> {
         val pageKey = params.key ?: STARTING_PAGE_INDEX
@@ -49,13 +47,7 @@ class SearchPhotosPagingSource(
         } catch (exception: HttpException) {
             LoadResult.Error(exception)
         }
-
     }
-
-    override fun getRefreshKey(state: PagingState<Int, Photo>): Int =
-        state.anchorPosition?.let { position ->
-            state.closestPageToPosition(position)?.prevKey
-        } ?: STARTING_PAGE_INDEX
 
     companion object {
         enum class Order(val value: String) {

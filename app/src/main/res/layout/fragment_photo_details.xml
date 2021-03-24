@@ -18,12 +18,14 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/GimmePictures.ToolbarOverlay"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
             app:menu="@menu/menu_photo_details"
             app:popupTheme="@style/GimmePictures.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/content_photo_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="@dimen/indent_16dp"
@@ -34,12 +36,15 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/user_container"
+                android:id="@+id/user_contain1er"
                 android:layout_width="@dimen/indent_0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center|start"
                 android:orientation="horizontal"
-                android:padding="@dimen/indent_16dp"
+                android:paddingStart="@dimen/indent_16dp"
+                android:paddingTop="@dimen/indent_8dp"
+                android:paddingEnd="@dimen/indent_16dp"
+                android:paddingBottom="@dimen/indent_8dp"
                 app:layout_constraintEnd_toStartOf="@id/btn_info"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -49,9 +54,9 @@
                     android:layout_width="@dimen/small_user_icon_size"
                     android:layout_height="@dimen/small_user_icon_size"
                     android:layout_marginEnd="@dimen/indent_8dp"
+                    android:contentDescription="@string/user_photo"
                     android:scaleType="centerCrop"
                     app:shapeAppearanceOverlay="@style/CircleImageView"
-                    tools:ignore="ContentDescription"
                     tools:src="@color/pink_200" />
 
                 <LinearLayout
@@ -94,7 +99,7 @@
                 android:padding="@dimen/indent_16dp"
                 app:layout_constraintBottom_toTopOf="@id/photo_image_view"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/user_container"
+                app:layout_constraintStart_toEndOf="@id/user_contain1er"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_info_outlined"
                 app:tint="?attr/colorOnBackground" />
@@ -102,10 +107,12 @@
             <com.github.chrisbanes.photoview.PhotoView
                 android:id="@+id/photo_image_view"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="450dp"
                 android:layout_gravity="center"
                 app:layout_constraintBottom_toTopOf="@id/description_text_view"
-                app:layout_constraintTop_toBottomOf="@id/user_container"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/user_contain1er"
                 tools:src="@color/blue_200" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -136,8 +143,10 @@
                 style="@style/MaterialImageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/indent_16dp"
+                android:layout_marginTop="@dimen/indent_8dp"
+                android:layout_marginBottom="@dimen/indent_8dp"
                 android:contentDescription="@string/like_photo"
-                android:padding="@dimen/indent_16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/description_text_view"
                 app:srcCompat="@drawable/ic_like_outlined"
@@ -148,8 +157,10 @@
                 style="@style/MaterialImageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/indent_8dp"
+                android:layout_marginTop="@dimen/indent_8dp"
+                android:layout_marginBottom="@dimen/indent_8dp"
                 android:contentDescription="@string/share"
-                android:padding="@dimen/indent_16dp"
                 app:layout_constraintStart_toEndOf="@id/btn_like"
                 app:layout_constraintTop_toBottomOf="@id/description_text_view"
                 app:srcCompat="@drawable/ic_share"
@@ -160,8 +171,10 @@
                 style="@style/MaterialImageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/indent_8dp"
+                android:layout_marginEnd="@dimen/indent_8dp"
+                android:layout_marginBottom="@dimen/indent_8dp"
                 android:contentDescription="@string/download"
-                android:padding="@dimen/indent_16dp"
                 app:layout_constraintEnd_toStartOf="@id/btn_bookmark"
                 app:layout_constraintTop_toBottomOf="@id/description_text_view"
                 app:srcCompat="@drawable/ic_download_outlined"
@@ -172,19 +185,38 @@
                 style="@style/MaterialImageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/indent_8dp"
+                android:layout_marginEnd="@dimen/indent_16dp"
+                android:layout_marginBottom="@dimen/indent_8dp"
                 android:contentDescription="@string/save"
-                android:padding="@dimen/indent_16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/description_text_view"
                 app:srcCompat="@drawable/ic_bookmark_outlined"
                 app:tint="?attr/colorOnBackground" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/indent_8dp"
+                android:layout_marginEnd="@dimen/indent_8dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_like"
+                tools:itemCount="6"
+                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_photo_tag"
+                tools:orientation="horizontal"
+                tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
     <include
         android:id="@+id/bottom_sheet_layout"
-        layout="@layout/bottom_sheet_photo_details" />
+        layout="@layout/bottom_sheet_photo_details"
+        tools:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/progress_loading"

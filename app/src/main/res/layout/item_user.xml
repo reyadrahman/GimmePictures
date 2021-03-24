@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/indent_16dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/user_image_view"
+        android:layout_width="@dimen/medium_user_icon_size"
+        android:layout_height="@dimen/medium_user_icon_size"
+        android:layout_marginEnd="@dimen/indent_8dp"
+        android:contentDescription="@string/user_photo"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/CircleImageView"
+        tools:src="@color/pink_200" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/user_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:singleLine="true"
+        android:textColor="?attr/colorOnBackground"
+        android:textSize="@dimen/big_user_text_size"
+        android:visibility="visible"
+        tools:text="Andrii Andrushchenko" />
+
+</LinearLayout>

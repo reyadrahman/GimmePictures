@@ -24,6 +24,15 @@ class MyProfileFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val navController = findNavController()
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_photos,
+                R.id.nav_collections,
+                R.id.nav_my_profile
+            )
+        )
+        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
         with(viewModel) {
             isUserAuthorized.observe(viewLifecycleOwner) { isAuthorized ->
                 if (isAuthorized) {
@@ -38,10 +47,6 @@ class MyProfileFragment :
                                 displayProgressBar(isDisplayed = false)
                                 //displayErrorMsg(isDisplayed = false)
                                 displayUserAccount(result.value)
-                            }
-                            is BackendCallResult.NetworkError -> {
-                                displayProgressBar(isDisplayed = false)
-                                //displayErrorMsg(isDisplayed = true)
                             }
                             is BackendCallResult.Error -> {
                                 displayProgressBar(isDisplayed = false)
@@ -75,16 +80,6 @@ class MyProfileFragment :
                         else -> super.onOptionsItemSelected(item)
                     }
                 }
-
-                val navController = findNavController()
-                val appBarConfiguration = AppBarConfiguration(
-                    setOf(
-                        R.id.nav_photos,
-                        R.id.nav_collections,
-                        R.id.nav_my_profile
-                    )
-                )
-                setupWithNavController(navController, appBarConfiguration)
                 title = me.username
             }
 

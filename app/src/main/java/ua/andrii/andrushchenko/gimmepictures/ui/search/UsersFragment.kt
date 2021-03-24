@@ -1,0 +1,80 @@
+package ua.andrii.andrushchenko.gimmepictures.ui.search
+
+import android.os.Bundle
+import android.view.View
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
+import androidx.paging.LoadState
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import ua.andrii.andrushchenko.gimmepictures.R
+import ua.andrii.andrushchenko.gimmepictures.databinding.ListingLayoutBinding
+import ua.andrii.andrushchenko.gimmepictures.models.User
+import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
+import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
+import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
+import ua.andrii.andrushchenko.gimmepictures.util.setupLinearLayoutManager
+
+class UsersFragment :
+    BaseRecyclerViewFragment<User, ListingLayoutBinding>(ListingLayoutBinding::inflate) {
+
+    private val viewModel: SearchViewModel by viewModels(
+        ownerProducer = { requireParentFragment().childFragmentManager.primaryNavigationFragment!! }
+    )
+
+    override val pagedAdapter: BasePagedAdapter<User> =
+        UsersAdapter(object : UsersAdapter.OnItemClickListener {
+            override fun onUserClick(user: User) {
+
+            }
+        })
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        with(binding) {
+            swipeRefreshLayout.setOnRefreshListener {
+                pagedAdapter.refresh()
+            }
+
+            pagedAdapter.addLoadStateListener { loadState ->
+                swipeRefreshLayout.isRefreshing =
+                    loadState.refresh is LoadState.Loading
+                recyclerView.isVisible =
+                    loadState.source.refresh is LoadState.NotLoading
+                textViewError.isVisible =
+                    loadState.source.refresh is LoadState.Error
+
+                // empty view
+                if (loadState.source.refresh is LoadState.NotLoading &&
+                    loadState.append.endOfPaginationReached &&
+                    pagedAdapter.itemCount < 1
+                ) {
+                    recyclerView.isVisible = false
+                    textViewEmpty.isVisible = true
+                } else {
+                    textViewEmpty.isVisible = false
+                }
+            }
+
+            recyclerView.apply {
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(requireContext())
+                setupLinearLayoutManager(
+                    resources.getDimensionPixelSize(R.dimen.indent_8dp),
+                    resources.getDimensionPixelSize(R.dimen.indent_48dp),
+                    RecyclerView.VERTICAL
+                )
+
+                adapter = pagedAdapter.withLoadStateHeaderAndFooter(
+                    header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },
+                    footer = RecyclerViewLoadStateAdapter { pagedAdapter.retry() }
+                )
+
+            }
+
+            viewModel.usersResult.observe(viewLifecycleOwner) {
+                pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
+            }
+        }
+    }
+}

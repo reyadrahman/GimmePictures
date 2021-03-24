@@ -52,6 +52,7 @@ dependencies {
     implementation "com.google.android.material:material:$materialDesignVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
+    implementation 'androidx.viewpager2:viewpager2:1.1.0-alpha01'
 
     // Tests
     testImplementation "junit:junit:$junitVersion"

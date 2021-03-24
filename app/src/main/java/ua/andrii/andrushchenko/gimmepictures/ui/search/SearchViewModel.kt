@@ -15,15 +15,10 @@ class SearchViewModel @Inject constructor(
     private val searchRepository: SearchRepository
 ) : ViewModel() {
 
-    enum class SearchCategory {
-        PHOTOS, COLLECTIONS, USERS
-    }
-
-    var selectedCategory: SearchCategory = SearchCategory.PHOTOS
-
     private val _query: MutableLiveData<String> = MutableLiveData()
     val query get() = _query
 
+    // Photo search filter params
     var order = SearchPhotosPagingSource.Companion.Order.RELEVANT
     var contentFilter = SearchPhotosPagingSource.Companion.ContentFilter.LOW
     var color = SearchPhotosPagingSource.Companion.Color.ANY
@@ -31,6 +26,14 @@ class SearchViewModel @Inject constructor(
 
     val photoResults = _query.switchMap { query ->
         searchRepository.searchPhotos(query, order, null, contentFilter, color, orientation)
+    }.cachedIn(viewModelScope)
+
+    val collectionResults = _query.switchMap { query ->
+        searchRepository.searchCollections(query)
+    }.cachedIn(viewModelScope)
+
+    val usersResult = _query.switchMap { query ->
+        searchRepository.searchUsers(query)
     }.cachedIn(viewModelScope)
 
     fun updateQuery(query: String) = _query.postValue(query)

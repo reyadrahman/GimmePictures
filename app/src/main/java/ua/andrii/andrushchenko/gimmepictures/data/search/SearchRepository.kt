@@ -21,7 +21,7 @@ class SearchRepository @Inject constructor(private val searchService: SearchServ
         collections: String?,
         contentFilter: SearchPhotosPagingSource.Companion.ContentFilter,
         color: SearchPhotosPagingSource.Companion.Color,
-        orientation: SearchPhotosPagingSource.Companion.Orientation
+        orientation: SearchPhotosPagingSource.Companion.Orientation,
     ): LiveData<PagingData<Photo>> =
         Pager(
             config = PagingConfig(
@@ -41,11 +41,21 @@ class SearchRepository @Inject constructor(private val searchService: SearchServ
             }
         ).liveData
 
-    fun searchCollections(): LiveData<PagingData<Collection>> {
-        TODO()
-    }
+    fun searchCollections(query: String): LiveData<PagingData<Collection>> =
+        Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { SearchCollectionsPagingSource(searchService, query) }
+        ).liveData
 
-    fun searchUsers(): LiveData<PagingData<User>> {
-        TODO()
-    }
+    fun searchUsers(query: String): LiveData<PagingData<User>> =
+        Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { SearchUsersPagingSource(searchService, query) }
+        ).liveData
 }

@@ -8,7 +8,6 @@
     android:background="@drawable/drawable_round_shape"
     app:behavior_fitToContents="true"
     app:behavior_hideable="true"
-    app:behavior_peekHeight="@dimen/indent_0dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <LinearLayout
@@ -21,22 +20,23 @@
             android:layout_width="25dp"
             android:layout_height="3dp"
             android:layout_margin="@dimen/indent_8dp"
-            android:background="?attr/colorOnSurface"/>
+            android:background="?attr/colorOnSurface" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="@dimen/indent_8dp">
+            android:padding="@dimen/indent_16dp"
+            android:weightSum="3">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txt_views"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:drawableTop="@drawable/ic_views"
-                android:gravity="center"
+                android:drawableStart="@drawable/ic_views"
+                android:drawablePadding="@dimen/indent_8dp"
                 tools:text="100" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -44,8 +44,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:drawableTop="@drawable/ic_likes"
-                android:gravity="center"
+                android:drawableStart="@drawable/ic_likes"
+                android:drawablePadding="@dimen/indent_8dp"
                 tools:text="100" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -53,8 +53,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:drawableTop="@drawable/ic_downloads"
-                android:gravity="center"
+                android:drawableStart="@drawable/ic_downloads"
+                android:drawablePadding="@dimen/indent_8dp"
                 tools:text="100" />
 
         </LinearLayout>
@@ -67,17 +67,6 @@
             app:spanCount="2"
             tools:itemCount="6"
             tools:listitem="@layout/item_photo_exif" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_tags"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            tools:itemCount="6"
-            tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_photo_tag"
-            tools:orientation="horizontal"
-            tools:visibility="visible" />
 
     </LinearLayout>
 

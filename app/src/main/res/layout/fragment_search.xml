@@ -9,8 +9,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
-        android:stateListAnimator="@null">
+        android:animateLayoutChanges="true">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -44,46 +43,23 @@
 
         </com.google.android.material.appbar.MaterialToolbar>
 
-        <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/search_for_toggle_group"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/indent_4dp"
-            app:selectionRequired="true"
-            app:singleSelection="true">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/toggle_photos"
-                style="@style/GimmePictures.Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="@dimen/indent_0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/photos" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/toggle_collections"
-                style="@style/GimmePictures.Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="@dimen/indent_0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:text="@string/collections" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/toggle_users"
-                style="@style/GimmePictures.Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="@dimen/indent_0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/users" />
-
-        </com.google.android.material.button.MaterialButtonToggleGroup>
+            android:layoutDirection="ltr"
+            app:tabGravity="fill"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include
-        android:id="@+id/search_photos_listing_layout"
-        layout="@layout/listing_layout" />
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_filter"
@@ -91,6 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
         android:layout_margin="@dimen/indent_16dp"
+        android:backgroundTint="@color/blue_200"
         android:contentDescription="@string/sort_by"
         android:text="@string/filter"
         app:icon="@drawable/ic_sort" />

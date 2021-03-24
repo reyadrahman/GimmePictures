@@ -33,65 +33,109 @@ class PhotoDetailsFragment :
     private val viewModel: PhotoDetailsViewModel by viewModels()
     private val args: PhotoDetailsFragmentArgs by navArgs()
 
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.btnRetry.setOnClickListener {
-            viewModel.getPhotoDetails(args.photoId)
-        }
+        with(binding) {
+            val navController = findNavController()
+            val appBarConfiguration = AppBarConfiguration(
+                setOf(
+                    R.id.nav_photos,
+                    R.id.nav_collections,
+                    R.id.nav_my_profile
+                )
+            )
+            toolbar.setupWithNavController(navController, appBarConfiguration)
+            btnRetry.setOnClickListener { viewModel.getPhotoDetails(args.photoId) }
 
-        // Request data only if the fragment has been created at the first time
-        if (savedInstanceState == null) {
-            viewModel.getPhotoDetails(args.photoId)
-        }
+            bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout.bottomSheet)
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
-        viewModel.backendCallResult.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is BackendCallResult.Loading -> {
-                    displayErrorMsg(isDisplayed = false)
-                    displayProgressBar(isDisplayed = true)
-                }
-                is BackendCallResult.Success -> {
-                    displayProgressBar(isDisplayed = false)
-                    displayErrorMsg(isDisplayed = false)
-                    displayPhotoDetails(result.value)
-                }
-                is BackendCallResult.NetworkError -> {
-                    displayProgressBar(isDisplayed = false)
-                    displayErrorMsg(isDisplayed = true)
-                }
-                is BackendCallResult.Error -> {
-                    displayProgressBar(isDisplayed = false)
-                    displayErrorMsg(isDisplayed = true)
+            // Request data only if the fragment has been created at the first time
+            if (savedInstanceState == null) {
+                viewModel.getPhotoDetails(args.photoId)
+            }
+
+            viewModel.backendCallResult.observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is BackendCallResult.Loading -> {
+                        progressLoading.visibility = View.VISIBLE
+                        contentPhotoDetails.visibility = View.GONE
+                        layoutError.visibility = View.GONE
+                    }
+                    is BackendCallResult.Success -> {
+                        layoutError.visibility = View.GONE
+                        progressLoading.visibility = View.GONE
+                        contentPhotoDetails.visibility = View.VISIBLE
+                        setupPhotoDetails(result.value)
+                    }
+                    is BackendCallResult.Error -> {
+                        layoutError.visibility = View.VISIBLE
+                        progressLoading.visibility = View.GONE
+                        contentPhotoDetails.visibility = View.GONE
+                    }
                 }
             }
         }
     }
 
-    private fun displayPhotoDetails(photo: Photo) {
+    private fun setupPhotoDetails(photo: Photo) {
         with(binding) {
-            toolbar.apply {
-                setOnMenuItemClickListener { item ->
-                    when (item.itemId) {
-                        R.id.action_open_in_browser -> {
-                            openPhotoInBrowser(photo.links?.html)
-                            true
-                        }
-                        else -> super.onOptionsItemSelected(item)
+            toolbar.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.action_open_in_browser -> {
+                        openPhotoInBrowser(photo.links?.html)
+                        true
                     }
+                    else -> super.onOptionsItemSelected(item)
                 }
-
-                val navController = findNavController()
-                val appBarConfiguration = AppBarConfiguration(
-                    setOf(
-                        R.id.nav_photos,
-                        R.id.nav_collections,
-                        R.id.nav_my_profile
-                    )
-                )
-                setupWithNavController(navController, appBarConfiguration)
             }
 
-            val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout.bottomSheet)
+            // Setup user
+            photo.user?.let { user ->
+                userImageView.apply {
+                    loadImage(
+                        url = user.profileImage?.medium,
+                        placeholderColorDrawable = null
+                    )
+                    setOnClickListener {
+                        val direction =
+                            PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment()
+                        findNavController().navigate(direction)
+                    }
+                }
+                userTextView.apply {
+                    text = user.name ?: "Unknown"
+                    setOnClickListener {
+                        val direction =
+                            PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment()
+                        findNavController().navigate(direction)
+                    }
+                }
+            }
+
+            photo.location?.let { location ->
+                val locationString = when {
+                    location.city != null && location.country != null ->
+                        getString(R.string.location_template, location.city, location.country)
+                    location.city != null && location.country == null -> location.city
+                    location.city == null && location.country != null -> location.country
+                    else -> null
+                }
+                locationText.apply {
+                    visibility =
+                        if (locationString.isNullOrBlank()) View.GONE else View.VISIBLE
+                    text = locationString
+                    setOnClickListener {
+                        openLocationInMaps(
+                            location.position?.latitude,
+                            location.position?.longitude
+                        )
+                    }
+                }
+            }
+
             btnInfo.setOnClickListener {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             }
@@ -149,60 +193,8 @@ class PhotoDetailsFragment :
                 }
             }
 
-            bottomSheetLayout.txtViews.text = "${photo.views?.toAmountReadableString() ?: 0}"
-            bottomSheetLayout.txtLikes.text = "${photo.likes?.toAmountReadableString() ?: 0}"
-            bottomSheetLayout.txtDownloads.text =
-                "${photo.downloads?.toAmountReadableString() ?: 0}"
-
-            // Load user
-            photo.user?.let { user ->
-                userImageView.apply {
-                    loadImage(
-                        url = user.profileImage?.medium,
-                        placeholderColorDrawable = null
-                    )
-                    setOnClickListener {
-                        val direction =
-                            PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment()
-                        findNavController().navigate(direction)
-                    }
-                }
-                userTextView.apply {
-                    text = user.name ?: "Unknown"
-                    setOnClickListener {
-                        val direction =
-                            PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment()
-                        findNavController().navigate(direction)
-                    }
-                }
-            }
-
-            photo.location?.let { location ->
-                val locationString = when {
-                    location.city != null && location.country != null ->
-                        getString(R.string.location_template, location.city, location.country)
-                    location.city != null && location.country == null -> location.city
-                    location.city == null && location.country != null -> location.country
-                    else -> null
-                }
-                locationText.apply {
-                    visibility =
-                        if (locationString.isNullOrBlank()) View.GONE else View.VISIBLE
-                    text = locationString
-                    setOnClickListener {
-                        openLocationInMaps(
-                            location.position?.latitude,
-                            location.position?.longitude
-                        )
-                    }
-                }
-            }
-
-            bottomSheetLayout.recyclerViewExif.adapter =
-                PhotoExifAdapter(requireContext()).apply { setExif(photo) }
-
             photo.tags?.let { tagList ->
-                bottomSheetLayout.recyclerViewTags.apply {
+                recyclerViewTags.apply {
                     visibility = View.VISIBLE
                     layoutManager = LinearLayoutManager(
                         context,
@@ -227,15 +219,15 @@ class PhotoDetailsFragment :
                     }
                 }
             }
+
+            bottomSheetLayout.txtViews.text = "${photo.views?.toAmountReadableString() ?: 0}"
+            bottomSheetLayout.txtLikes.text = "${photo.likes?.toAmountReadableString() ?: 0}"
+            bottomSheetLayout.txtDownloads.text =
+                "${photo.downloads?.toAmountReadableString() ?: 0}"
+
+            bottomSheetLayout.recyclerViewExif.adapter =
+                PhotoExifAdapter(requireContext()).apply { setExif(photo) }
         }
-    }
-
-    private fun displayProgressBar(isDisplayed: Boolean) {
-        binding.progressLoading.visibility = if (isDisplayed) View.VISIBLE else View.GONE
-    }
-
-    private fun displayErrorMsg(isDisplayed: Boolean) {
-        binding.layoutError.visibility = if (isDisplayed) View.VISIBLE else View.GONE
     }
 
     private fun setLikeButtonState(likedByUser: Boolean) {
