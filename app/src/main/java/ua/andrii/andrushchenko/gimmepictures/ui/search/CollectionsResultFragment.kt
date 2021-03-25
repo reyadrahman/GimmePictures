@@ -15,25 +15,25 @@ import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.collection.CollectionsAdapter
-import ua.andrii.andrushchenko.gimmepictures.ui.collection.CollectionsFragmentDirections
 import ua.andrii.andrushchenko.gimmepictures.util.setupLinearLayoutManager
 
-class CollectionsFragment :
+class CollectionsResultFragment :
     BaseRecyclerViewFragment<Collection, ListingLayoutBinding>(ListingLayoutBinding::inflate) {
 
-    private val viewModel: SearchViewModel by viewModels(
-        ownerProducer = { requireParentFragment().childFragmentManager.primaryNavigationFragment!! }
-    )
+    private val viewModel: SearchViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
     override val pagedAdapter: BasePagedAdapter<Collection> =
         CollectionsAdapter(object : CollectionsAdapter.OnItemClickListener {
             override fun onCollectionClick(collection: Collection) {
                 val direction =
-                    CollectionsFragmentDirections.actionNavCollectionsToCollectionDetailsFragment(
+                    SearchFragmentDirections.actionSearchFragmentToCollectionDetailsFragment(
                         collection = collection)
-                findNavController().navigate(direction)
+                requireParentFragment().findNavController().navigate(direction)
             }
         })
+
+    override val rv: RecyclerView
+        get() = binding.recyclerView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,7 +45,7 @@ class CollectionsFragment :
             pagedAdapter.addLoadStateListener { loadState ->
                 swipeRefreshLayout.isRefreshing =
                     loadState.refresh is LoadState.Loading
-                recyclerView.isVisible =
+                rv.isVisible =
                     loadState.source.refresh is LoadState.NotLoading
                 textViewError.isVisible =
                     loadState.source.refresh is LoadState.Error
@@ -55,29 +55,29 @@ class CollectionsFragment :
                     loadState.append.endOfPaginationReached &&
                     pagedAdapter.itemCount < 1
                 ) {
-                    recyclerView.isVisible = false
+                    rv.isVisible = false
                 }
             }
+        }
 
-            recyclerView.apply {
-                setHasFixedSize(true)
+        rv.apply {
+            setHasFixedSize(true)
 
-                layoutManager = LinearLayoutManager(requireContext())
-                setupLinearLayoutManager(
-                    resources.getDimensionPixelSize(R.dimen.indent_8dp),
-                    resources.getDimensionPixelSize(R.dimen.indent_48dp),
-                    RecyclerView.VERTICAL
-                )
+            layoutManager = LinearLayoutManager(requireContext())
+            setupLinearLayoutManager(
+                resources.getDimensionPixelSize(R.dimen.indent_8dp),
+                resources.getDimensionPixelSize(R.dimen.indent_48dp),
+                RecyclerView.VERTICAL
+            )
 
-                adapter = pagedAdapter.withLoadStateHeaderAndFooter(
-                    header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },
-                    footer = RecyclerViewLoadStateAdapter { pagedAdapter.retry() }
-                )
-            }
+            adapter = pagedAdapter.withLoadStateHeaderAndFooter(
+                header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },
+                footer = RecyclerViewLoadStateAdapter { pagedAdapter.retry() }
+            )
+        }
 
-            viewModel.collectionResults.observe(viewLifecycleOwner) {
-                pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
-            }
+        viewModel.collectionResults.observe(viewLifecycleOwner) {
+            pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
     }
 }

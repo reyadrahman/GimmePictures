@@ -4,6 +4,7 @@
     <dimen name="indent_1dp">1dp</dimen>
     <dimen name="indent_2dp">2dp</dimen>
     <dimen name="indent_4dp">4dp</dimen>
+    <dimen name="indent_6dp">6dp</dimen>
     <dimen name="indent_8dp">8dp</dimen>
     <dimen name="indent_12dp">12dp</dimen>
     <dimen name="indent_16dp">16dp</dimen>
@@ -14,7 +15,7 @@
     <dimen name="medium_user_icon_size">60dp</dimen>
     <dimen name="big_user_icon_size">150dp</dimen>
     <dimen name="small_user_text_size">16sp</dimen>
-    <dimen name="big_user_text_size">20sp</dimen>
+    <dimen name="big_user_text_size">18sp</dimen>
     <dimen name="text_size_14sp">14sp</dimen>
 
     <dimen name="bottom_sheet_collapsed_size">70dp</dimen>

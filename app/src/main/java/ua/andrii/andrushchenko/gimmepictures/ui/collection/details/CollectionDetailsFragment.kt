@@ -40,6 +40,9 @@ class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollec
             }
         })
 
+    override val rv: RecyclerView
+        get() = binding.collectionPhotosListingLayout.recyclerView
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
@@ -53,6 +56,7 @@ class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollec
                     )
                 )
                 setupWithNavController(navController, appBarConfiguration)
+                setOnClickListener { scrollRecyclerViewToTop() }
 
                 title = args.collection.title
             }
@@ -64,7 +68,7 @@ class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollec
             pagedAdapter.addLoadStateListener { loadState ->
                 collectionPhotosListingLayout.swipeRefreshLayout.isRefreshing =
                     loadState.refresh is LoadState.Loading
-                collectionPhotosListingLayout.recyclerView.isVisible =
+                rv.isVisible =
                     loadState.source.refresh is LoadState.NotLoading
                 collectionPhotosListingLayout.textViewError.isVisible =
                     loadState.source.refresh is LoadState.Error
@@ -74,22 +78,8 @@ class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollec
                     loadState.append.endOfPaginationReached &&
                     pagedAdapter.itemCount < 1
                 ) {
-                    collectionPhotosListingLayout.recyclerView.isVisible = false
+                    rv.isVisible = false
                 }
-            }
-
-            collectionPhotosListingLayout.recyclerView.apply {
-                setHasFixedSize(true)
-                layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
-                setupStaggeredGridLayoutManager(
-                    resources.configuration.orientation,
-                    resources.getDimensionPixelSize(R.dimen.indent_8dp)
-                )
-
-                adapter = pagedAdapter.withLoadStateHeaderAndFooter(
-                    header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },
-                    footer = RecyclerViewLoadStateAdapter { pagedAdapter.retry() }
-                )
             }
 
             with(args.collection) {
@@ -120,6 +110,19 @@ class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollec
                     pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
                 }
             }
+        }
+        rv.apply {
+            setHasFixedSize(true)
+            layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
+            setupStaggeredGridLayoutManager(
+                resources.configuration.orientation,
+                resources.getDimensionPixelSize(R.dimen.indent_8dp)
+            )
+
+            adapter = pagedAdapter.withLoadStateHeaderAndFooter(
+                header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },
+                footer = RecyclerViewLoadStateAdapter { pagedAdapter.retry() }
+            )
         }
     }
 }

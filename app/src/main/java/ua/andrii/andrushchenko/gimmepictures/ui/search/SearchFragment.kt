@@ -1,20 +1,18 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.search
 
-import android.content.Context
 import android.os.Bundle
-import android.util.SparseArray
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentSearchBinding
@@ -22,7 +20,6 @@ import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.util.focusAndShowKeyboard
 import ua.andrii.andrushchenko.gimmepictures.util.hideKeyboard
-import java.lang.IllegalStateException
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
@@ -70,6 +67,36 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                 }
             }
 
+            viewPager.adapter = SearchFragmentPagerAdapter(this@SearchFragment)
+            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                tab.text = when (position) {
+                    0 -> getString(R.string.photos)
+                    1 -> getString(R.string.collections)
+                    2 -> getString(R.string.users)
+                    else -> throw java.lang.IllegalStateException("PagerAdapter position is not correct $position")
+                }
+            }.attach()
+            tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {}
+                override fun onTabUnselected(tab: TabLayout.Tab?) {}
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                    val fragment =
+                        childFragmentManager.findFragmentByTag("f${viewPager.currentItem}") as BaseRecyclerViewFragment<*, *>
+                    fragment.scrollRecyclerViewToTop()
+                }
+            })
+
+            viewModel.query.observe(viewLifecycleOwner) { currentQuery ->
+                if (viewPager.currentItem == 0 && !currentQuery.isNullOrBlank()) fabFilter.show() else fabFilter.hide()
+            }
+
+            viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    if (position == 0 && !viewModel.query.value.isNullOrBlank()) fabFilter.show() else fabFilter.hide()
+                }
+            })
+
             fabFilter.setOnClickListener {
                 val direction =
                     SearchFragmentDirections.actionSearchFragmentToSearchPhotoFilterDialog()
@@ -79,49 +106,18 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
     }
 }
 
-private class SearchFragmentPagerAdapter(
-    private val context: Context,
-    private val fragment: Fragment
-) : FragmentStateAdapter(fragment) {
-
-    private val fragmentTags = SparseArray<String>()
-
-    enum class SearchFragment(val titleRes: Int) {
-        PHOTO(R.string.photos),
-        COLLECTION(R.string.collections),
-        USER(R.string.users)
-    }
-
-    //fun getItemType(position: Int) = SearchFragment.values()[position]
+private class SearchFragmentPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = 3
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> PhotoFragment()
-            1 -> CollectionsFragment()
-            2 -> UsersFragment()
+            0 -> PhotosResultFragment()
+            1 -> CollectionsResultFragment()
+            2 -> UsersResultsFragment()
             else -> throw IllegalStateException("PagerAdapter position is not correct $position")
         }
     }
-
-    /*override fun getItem(position: Int): Fragment {
-        return when (getItemType(position)) {
-            SearchFragment.PHOTO -> PhotoFragment()
-            SearchFragment.COLLECTION -> CollectionsFragment()
-            SearchFragment.USER -> UsersFragment()
-        }
-    }
-
-    override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val fragment = super.instantiateItem(container, position)
-        (fragment as? Fragment)?.tag?.let { fragmentTags.put(position, it) }
-        return fragment
-    }
-
-    override fun getPageTitle(position: Int) = context.getString(getItemType(position).titleRes)
-
-    override fun getCount() = SearchFragment.values().size*/
 }
 
 /*val materialShapeDrawable = toolbar.background as MaterialShapeDrawable

@@ -38,6 +38,9 @@ class CollectionsFragment :
             }
         })
 
+    override val rv: RecyclerView
+        get() = binding.collectionsListingLayout.recyclerView
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
@@ -73,7 +76,8 @@ class CollectionsFragment :
                 setupWithNavController(navController, appBarConfiguration)
 
                 setOnClickListener {
-                    collectionsListingLayout.recyclerView.scrollToPosition(0)
+                    scrollRecyclerViewToTop()
+                    //collectionsListingLayout.recyclerView.scrollToPosition(0)
                 }
 
                 viewModel.order.observe(viewLifecycleOwner) {
@@ -88,7 +92,7 @@ class CollectionsFragment :
             pagedAdapter.addLoadStateListener { loadState ->
                 collectionsListingLayout.swipeRefreshLayout.isRefreshing =
                     loadState.refresh is LoadState.Loading
-                collectionsListingLayout.recyclerView.isVisible =
+                rv.isVisible =
                     loadState.source.refresh is LoadState.NotLoading
                 collectionsListingLayout.textViewError.isVisible =
                     loadState.source.refresh is LoadState.Error
@@ -98,29 +102,27 @@ class CollectionsFragment :
                     loadState.append.endOfPaginationReached &&
                     pagedAdapter.itemCount < 1
                 ) {
-                    collectionsListingLayout.recyclerView.isVisible = false
+                    rv.isVisible = false
                 }
             }
+        }
+        rv.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(requireContext())
+            setupLinearLayoutManager(
+                resources.getDimensionPixelSize(R.dimen.indent_8dp),
+                resources.getDimensionPixelSize(R.dimen.indent_48dp),
+                RecyclerView.VERTICAL
+            )
 
-            collectionsListingLayout.recyclerView.apply {
-                setHasFixedSize(true)
+            adapter = pagedAdapter.withLoadStateHeaderAndFooter(
+                header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },
+                footer = RecyclerViewLoadStateAdapter { pagedAdapter.retry() }
+            )
+        }
 
-                layoutManager = LinearLayoutManager(requireContext())
-                setupLinearLayoutManager(
-                    resources.getDimensionPixelSize(R.dimen.indent_8dp),
-                    resources.getDimensionPixelSize(R.dimen.indent_48dp),
-                    RecyclerView.VERTICAL
-                )
-
-                adapter = pagedAdapter.withLoadStateHeaderAndFooter(
-                    header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },
-                    footer = RecyclerViewLoadStateAdapter { pagedAdapter.retry() }
-                )
-            }
-
-            viewModel.collections.observe(viewLifecycleOwner) {
-                pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
-            }
+        viewModel.collections.observe(viewLifecycleOwner) {
+            pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
     }
 

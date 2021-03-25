@@ -19,21 +19,22 @@ import ua.andrii.andrushchenko.gimmepictures.ui.photo.PhotosAdapter
 import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManager
 
 @AndroidEntryPoint
-class PhotoFragment :
+class PhotosResultFragment :
     BaseRecyclerViewFragment<Photo, ListingLayoutBinding>(ListingLayoutBinding::inflate) {
 
-    private val viewModel: SearchViewModel by viewModels(
-        ownerProducer = { requireParentFragment().childFragmentManager.primaryNavigationFragment!! }
-    )
+    private val viewModel: SearchViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
     override val pagedAdapter: BasePagedAdapter<Photo> =
         PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
             override fun onPhotoClick(photo: Photo) {
                 val direction =
                     SearchFragmentDirections.actionGlobalPhotoDetailsFragment(photoId = photo.id)
-                findNavController().navigate(direction)
+                requireParentFragment().findNavController().navigate(direction)
             }
         })
+
+    override val rv: RecyclerView
+        get() = binding.recyclerView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,7 +47,7 @@ class PhotoFragment :
             pagedAdapter.addLoadStateListener { loadState ->
                 swipeRefreshLayout.isRefreshing =
                     loadState.refresh is LoadState.Loading
-                recyclerView.isVisible =
+                rv.isVisible =
                     loadState.source.refresh is LoadState.NotLoading
                 textViewError.isVisible =
                     loadState.source.refresh is LoadState.Error
@@ -56,31 +57,27 @@ class PhotoFragment :
                     loadState.append.endOfPaginationReached &&
                     pagedAdapter.itemCount < 1
                 ) {
-                    recyclerView.isVisible = false
-                    textViewEmpty.isVisible = true
-                } else {
-                    textViewEmpty.isVisible = false
+                    rv.isVisible = false
                 }
             }
+        }
 
-            recyclerView.apply {
-                setHasFixedSize(true)
-                layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
-                setupStaggeredGridLayoutManager(
-                    resources.configuration.orientation,
-                    resources.getDimensionPixelSize(R.dimen.indent_8dp)
-                )
+        rv.apply {
+            setHasFixedSize(true)
+            layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
+            setupStaggeredGridLayoutManager(
+                resources.configuration.orientation,
+                resources.getDimensionPixelSize(R.dimen.indent_8dp)
+            )
 
-                adapter = pagedAdapter.withLoadStateHeaderAndFooter(
-                    header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },
-                    footer = RecyclerViewLoadStateAdapter { pagedAdapter.retry() }
-                )
+            adapter = pagedAdapter.withLoadStateHeaderAndFooter(
+                header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },
+                footer = RecyclerViewLoadStateAdapter { pagedAdapter.retry() }
+            )
+        }
 
-            }
-
-            viewModel.photoResults.observe(viewLifecycleOwner) {
-                pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
-            }
+        viewModel.photoResults.observe(viewLifecycleOwner) {
+            pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
     }
 }

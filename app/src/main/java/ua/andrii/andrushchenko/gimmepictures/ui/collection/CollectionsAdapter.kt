@@ -25,10 +25,12 @@ class CollectionsAdapter(private val listener: OnItemClickListener) :
         override fun bind(entity: Collection) {
             with(binding) {
                 collectionCoverPhotoImageView.apply {
-                    loadImage(
-                        url = entity.coverPhoto?.urls?.small,
-                        placeholderColorDrawable = ColorDrawable(Color.parseColor(entity.coverPhoto?.color))
-                    )
+                    entity.coverPhoto?.let { coverPhoto ->
+                        loadImage(
+                            url = entity.coverPhoto.urls.small,
+                            placeholderColorDrawable = ColorDrawable(Color.parseColor(coverPhoto.color))
+                        )
+                    }
                     setOnClickListener { listener.onCollectionClick(entity) }
                 }
                 collectionName.text = entity.title

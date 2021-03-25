@@ -36,6 +36,9 @@ class PhotosFragment :
             }
         })
 
+    override val rv: RecyclerView
+        get() = binding.photoListingLayout.recyclerView
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
@@ -70,7 +73,8 @@ class PhotosFragment :
                 setupWithNavController(navController, appBarConfiguration)
 
                 setOnClickListener {
-                    photoListingLayout.recyclerView.scrollToPosition(0)
+                    scrollRecyclerViewToTop()
+                    //photoListingLayout.recyclerView.scrollToPosition(0)
                 }
 
                 viewModel.order.observe(viewLifecycleOwner) {
@@ -85,7 +89,7 @@ class PhotosFragment :
             pagedAdapter.addLoadStateListener { loadState ->
                 photoListingLayout.swipeRefreshLayout.isRefreshing =
                     loadState.refresh is LoadState.Loading
-                photoListingLayout.recyclerView.isVisible =
+                rv.isVisible =
                     loadState.source.refresh is LoadState.NotLoading
                 photoListingLayout.textViewError.isVisible =
                     loadState.source.refresh is LoadState.Error
@@ -95,25 +99,24 @@ class PhotosFragment :
                     loadState.append.endOfPaginationReached &&
                     pagedAdapter.itemCount < 1
                 ) {
-                    photoListingLayout.recyclerView.isVisible = false
+                    rv.isVisible = false
                 }
-            }
-
-            photoListingLayout.recyclerView.apply {
-                setHasFixedSize(true)
-                layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
-                setupStaggeredGridLayoutManager(
-                    resources.configuration.orientation,
-                    resources.getDimensionPixelSize(R.dimen.indent_8dp)
-                )
-
-                adapter = pagedAdapter.withLoadStateHeaderAndFooter(
-                    header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },
-                    footer = RecyclerViewLoadStateAdapter { pagedAdapter.retry() }
-                )
             }
         }
 
+        rv.apply {
+            setHasFixedSize(true)
+            layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
+            setupStaggeredGridLayoutManager(
+                resources.configuration.orientation,
+                resources.getDimensionPixelSize(R.dimen.indent_8dp)
+            )
+
+            adapter = pagedAdapter.withLoadStateHeaderAndFooter(
+                header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },
+                footer = RecyclerViewLoadStateAdapter { pagedAdapter.retry() }
+            )
+        }
         // Populate recyclerView
         viewModel.photos.observe(viewLifecycleOwner) {
             pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
@@ -130,7 +133,8 @@ class PhotosFragment :
             setSingleChoiceItems(orderOptions, currentSelection) { dialog, which ->
                 if (which != currentSelection) viewModel.orderPhotosBy(which)
                 dialog.dismiss()
-                binding.photoListingLayout.recyclerView.scrollToPosition(0)
+                scrollRecyclerViewToTop()
+                //binding.photoListingLayout.recyclerView.scrollToPosition(0)
             }
             create()
             show()

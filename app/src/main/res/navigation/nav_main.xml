@@ -45,11 +45,11 @@
             android:id="@+id/action_searchFragment_to_searchPhotoFilterDialog"
             app:destination="@id/searchPhotoFilterDialog" />
         <action
-            android:id="@+id/action_nav_search_to_userDetailsFragment"
-            app:destination="@id/userDetailsFragment" />
-        <action
             android:id="@+id/action_searchFragment_to_collectionDetailsFragment"
             app:destination="@id/collectionDetailsFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_userDetailsFragment"
+            app:destination="@id/userDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/photoDetailsFragment"
