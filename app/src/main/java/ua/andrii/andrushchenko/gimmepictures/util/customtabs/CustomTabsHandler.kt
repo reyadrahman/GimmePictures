@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import androidx.browser.customtabs.CustomTabsIntent
 
 class CustomTabsHelper {
@@ -38,12 +37,10 @@ class CustomTabsHelper {
             if (packageName == null) {
                 launchFallback(context, uri)
             } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    customTabsIntent.intent.putExtra(
-                        Intent.EXTRA_REFERRER,
-                        Uri.parse("${Intent.URI_ANDROID_APP_SCHEME}//${context.packageName}")
-                    )
-                }
+                customTabsIntent.intent.putExtra(
+                    Intent.EXTRA_REFERRER,
+                    Uri.parse("${Intent.URI_ANDROID_APP_SCHEME}//${context.packageName}")
+                )
                 customTabsIntent.intent.setPackage(packageName)
 
                 try {

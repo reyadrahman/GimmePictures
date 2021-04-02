@@ -53,11 +53,6 @@ class PhotosFragment :
                                 PhotosFragmentDirections.actionNavPhotosToSearchFragment(null)
                             findNavController().navigate(direction)
                         }
-                        R.id.action_settings -> {
-                            val direction =
-                                PhotosFragmentDirections.actionNavPhotosToSettingsFragment()
-                            findNavController().navigate(direction)
-                        }
                     }
                     true
                 }
@@ -67,7 +62,7 @@ class PhotosFragment :
                     setOf(
                         R.id.nav_photos,
                         R.id.nav_collections,
-                        R.id.nav_my_profile
+                        R.id.nav_account
                     )
                 )
                 setupWithNavController(navController, appBarConfiguration)

@@ -25,7 +25,7 @@ class PhotosAdapter(private val listener: OnItemClickListener) :
                 photoImageView.apply {
                     setAspectRatio(entity.width, entity.height)
                     loadImage(
-                        url = entity.urls.regular,
+                        url = entity.urls.small,
                         placeholderColorDrawable = ColorDrawable(Color.parseColor(entity.color))
                     )
                     setOnClickListener { listener.onPhotoClick(entity) }

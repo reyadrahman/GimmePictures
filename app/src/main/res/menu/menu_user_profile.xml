@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_user_portfolio"
+        android:icon="@drawable/ic_work_outline"
+        android:title="@string/portfolio_hint"
+        app:showAsAction="ifRoom|collapseActionView" />
+
+</menu>

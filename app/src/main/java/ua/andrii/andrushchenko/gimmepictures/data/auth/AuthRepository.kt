@@ -1,15 +1,11 @@
 package ua.andrii.andrushchenko.gimmepictures.data.auth
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
 import ua.andrii.andrushchenko.gimmepictures.data.common.CLIENT_ID
 import ua.andrii.andrushchenko.gimmepictures.data.common.CLIENT_SECRET
 import ua.andrii.andrushchenko.gimmepictures.data.user.UserService
 import ua.andrii.andrushchenko.gimmepictures.models.Me
-import ua.andrii.andrushchenko.gimmepictures.util.BackendCallResult
+import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 import ua.andrii.andrushchenko.gimmepictures.util.backendRequest
-import ua.andrii.andrushchenko.gimmepictures.util.backendRequestFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -27,7 +23,7 @@ class AuthRepository @Inject constructor(
                 "&scope=public+read_user+write_user+read_photos+write_photos" +
                 "+write_likes+write_followers+read_collections+write_collections"
 
-    suspend fun getAccessToken(code: String): BackendCallResult<AccessToken> {
+    suspend fun getAccessToken(code: String): BackendResult<AccessToken> {
         val result = backendRequest {
             authorizationService.getAccessToken(
                 CLIENT_ID,
@@ -38,19 +34,23 @@ class AuthRepository @Inject constructor(
             )
         }
 
-        if (result is BackendCallResult.Success) {
+        if (result is BackendResult.Success) {
             accessTokenProvider.saveAccessToken(result.value)
         }
 
         return result
     }
 
-    suspend fun getMyProfile(): Flow<BackendCallResult<Me>> = backendRequestFlow {
-        val result: Me
-        withContext(Dispatchers.IO) {
-            result = userService.getUserPrivateProfile()
+    suspend fun getMyProfile(): BackendResult<Me> {
+        val result = backendRequest {
+            userService.getUserPrivateProfile()
         }
-        return@backendRequestFlow result
+
+        if (result is BackendResult.Success) {
+            accessTokenProvider.saveUserProfileInfo(result.value)
+        }
+
+        return result
     }
 
     suspend fun updateMe(
@@ -62,18 +62,49 @@ class AuthRepository @Inject constructor(
         instagramUsername: String?,
         location: String?,
         bio: String?,
-    ): Flow<BackendCallResult<Me>> = backendRequestFlow {
-        val result: Me
-        withContext(Dispatchers.IO) {
-            result = userService.updateUserPrivateProfile(
+    ): BackendResult<Me> {
+        val result = backendRequest {
+            userService.updateUserPrivateProfile(
                 username, firstName, lastName, email, url, instagramUsername, location, bio
             )
         }
-        return@backendRequestFlow result
+
+        if (result is BackendResult.Success) {
+            accessTokenProvider.saveUserProfileInfo(result.value)
+        }
+
+        return result
     }
 
     val isAuthorized: Boolean
         get() = accessTokenProvider.isAuthorized
+
+    val userNickname: String?
+        get() = accessTokenProvider.userNickname
+
+    val userFistName: String?
+        get() = accessTokenProvider.userFirstName
+
+    val userLastName: String?
+        get() = accessTokenProvider.userLastName
+
+    val userProfilePhotoUrl: String?
+        get() = accessTokenProvider.userProfilePhotoUrl
+
+    val userEmail: String?
+        get() = accessTokenProvider.userEmail
+
+    val userPortfolioLink: String?
+        get() = accessTokenProvider.userPortfolioLink
+
+    val userInstagramUsername: String?
+        get() = accessTokenProvider.userInstagramUsername
+
+    val userLocation: String?
+        get() = accessTokenProvider.userLocation
+
+    val userBio: String?
+        get() = accessTokenProvider.userBio
 
     fun logout() = accessTokenProvider.clear()
 

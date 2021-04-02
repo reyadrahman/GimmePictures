@@ -14,13 +14,13 @@ class CollectionDetailsViewModel @Inject constructor(
     private val collectionsRepository: CollectionsRepository,
 ) : ViewModel() {
 
-    private val _collectionPhotos: MutableLiveData<Int> = MutableLiveData()
+    private val collectionId: MutableLiveData<Int> = MutableLiveData()
 
-    val collectionPhotos = _collectionPhotos.switchMap { collectionId ->
+    val collectionPhotos = collectionId.switchMap { collectionId ->
         collectionsRepository.getCollectionPhotos(collectionId).cachedIn(viewModelScope)
     }
 
     fun getCollectionPhotos(collectionId: Int) {
-        _collectionPhotos.postValue(collectionId)
+        this.collectionId.postValue(collectionId)
     }
 }

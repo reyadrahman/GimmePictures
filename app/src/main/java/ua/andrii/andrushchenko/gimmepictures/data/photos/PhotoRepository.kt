@@ -5,14 +5,10 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
 import ua.andrii.andrushchenko.gimmepictures.data.common.PAGE_SIZE
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
-import ua.andrii.andrushchenko.gimmepictures.util.BackendCallResult
+import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 import ua.andrii.andrushchenko.gimmepictures.util.backendRequest
-import ua.andrii.andrushchenko.gimmepictures.util.backendRequestFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -27,12 +23,8 @@ class PhotoRepository @Inject constructor(private val photoService: PhotoService
             pagingSourceFactory = { PhotosPagingSource(photoService, order) }
         ).liveData
 
-    suspend fun getSinglePhoto(photoId: String): Flow<BackendCallResult<Photo>> = backendRequestFlow {
-        val result: Photo
-        withContext(Dispatchers.IO) {
-            result = photoService.getPhoto(photoId)
-        }
-        return@backendRequestFlow result
+    suspend fun getSinglePhoto(photoId: String): BackendResult<Photo> = backendRequest {
+        photoService.getPhoto(photoId)
     }
 
     suspend fun getRandomPhoto(
@@ -41,8 +33,8 @@ class PhotoRepository @Inject constructor(private val photoService: PhotoService
         username: String? = null,
         query: String? = null,
         orientation: String? = null,
-        contentFilter: String? = null,
-    ): BackendCallResult<Photo> = backendRequest {
+        contentFilter: String? = null
+    ): BackendResult<Photo> = backendRequest {
         photoService.getRandomPhotos(collectionId,
             featured,
             username,

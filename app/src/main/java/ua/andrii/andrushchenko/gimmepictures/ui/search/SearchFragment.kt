@@ -35,7 +35,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                 setOf(
                     R.id.nav_photos,
                     R.id.nav_collections,
-                    R.id.nav_my_profile
+                    R.id.nav_account
                 )
             )
             toolbar.setupWithNavController(navController, appBarConfiguration)
@@ -73,16 +73,17 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                     0 -> getString(R.string.photos)
                     1 -> getString(R.string.collections)
                     2 -> getString(R.string.users)
-                    else -> throw java.lang.IllegalStateException("PagerAdapter position is not correct $position")
+                    else -> throw IllegalStateException("PagerAdapter position is not correct $position")
                 }
             }.attach()
             tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {}
                 override fun onTabUnselected(tab: TabLayout.Tab?) {}
                 override fun onTabReselected(tab: TabLayout.Tab?) {
-                    val fragment =
-                        childFragmentManager.findFragmentByTag("f${viewPager.currentItem}") as BaseRecyclerViewFragment<*, *>
-                    fragment.scrollRecyclerViewToTop()
+                    val fragment = childFragmentManager.findFragmentByTag(
+                        "f${viewPager.currentItem}"
+                    ) as? BaseRecyclerViewFragment<*, *>
+                    fragment?.scrollRecyclerViewToTop()
                 }
             })
 
@@ -110,14 +111,13 @@ private class SearchFragmentPagerAdapter(fragment: Fragment) : FragmentStateAdap
 
     override fun getItemCount(): Int = 3
 
-    override fun createFragment(position: Int): Fragment {
-        return when (position) {
+    override fun createFragment(position: Int): Fragment =
+        when (position) {
             0 -> PhotosResultFragment()
             1 -> CollectionsResultFragment()
             2 -> UsersResultsFragment()
             else -> throw IllegalStateException("PagerAdapter position is not correct $position")
         }
-    }
 }
 
 /*val materialShapeDrawable = toolbar.background as MaterialShapeDrawable

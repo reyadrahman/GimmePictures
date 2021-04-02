@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="GimmePictures.TabLayout" parent="Widget.Design.TabLayout">
-        <item name="tabIndicatorColor">@color/blue_700</item>
+    <style name="GimmePictures.TabLayout" parent="Widget.MaterialComponents.TabLayout.Colored">
+        <item name="android:backgroundTint">?attr/colorPrimaryVariant</item>
+        <item name="tabIndicatorColor">?attr/colorOnBackground</item>
         <item name="tabIndicatorHeight">@dimen/indent_2dp</item>
         <item name="tabPaddingStart">@dimen/indent_6dp</item>
         <item name="tabPaddingEnd">@dimen/indent_6dp</item>
         <item name="tabBackground">?attr/selectableItemBackground</item>
         <item name="tabTextAppearance">@style/GimmePictures.AppTabTextAppearance</item>
-        <item name="tabSelectedTextColor">@color/blue_700</item>
+        <item name="tabSelectedTextColor">?attr/colorOnBackground</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabMaxWidth">@dimen/indent_0dp</item>
+        <item name="android:layoutDirection">ltr</item>
     </style>
 
     <style name="GimmePictures.AppTabTextAppearance" parent="TextAppearance.Design.Tab">
@@ -41,6 +46,17 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="GimmePictures.IndefiniteProgressBar" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:indeterminateTint">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="GimmePictures.ExtendedFloatingActionButton" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+        <item name="iconTint">?attr/colorPrimary</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:backgroundTint">?attr/colorOnPrimary</item>
+        <item name="android:layout_margin">@dimen/indent_16dp</item>
+    </style>
+
     <style name="MaterialImageButton">
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
@@ -48,34 +64,21 @@
         <item name="android:padding">@dimen/indent_8dp</item>
     </style>
 
-    <style name="ToolbarPhotoDetails">
-        <item name="titleTextColor">@color/white</item>
-        <item name="subtitleTextColor">@color/white</item>
-        <item name="android:theme">@style/ToolbarOverlayPhotoDetail</item>
-    </style>
-
-    <style name="ToolbarOverlayPhotoDetail">
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="windowActionBarOverlay">true</item>
-        <item name="actionMenuTextColor">@color/white</item>
-        <item name="colorControlNormal">@color/white</item>
-        <!--<item name="colorPrimary">@android:color/transparent</item>
-        <item name="colorControlNormal">?attr/colorOnPrimary</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="actionMenuTextColor">?attr/colorOnPrimary</item>
-        <item name="background">@android:color/transparent</item>-->
-    </style>
-
     <style name="GimmePictures.Widget.MaterialComponents.ButtonColored" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundTint">@color/blue_200</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="rippleColor">@color/blue_200</item>
+        <item name="backgroundTint">?attr/colorOnPrimary</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="rippleColor">?attr/colorOnPrimary</item>
     </style>
 
     <style name="GimmePictures.Widget.MaterialComponents.ButtonPrimaryColor" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">?attr/colorOnPrimary</item>
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="rippleColor">?attr/colorPrimary</item>
+    </style>
+
+    <style name="GimmePictures.MaterialButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">?attr/colorOnPrimary</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
     </style>
 
     <style name="GimmePictures.Widget.MaterialComponents.Button.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
@@ -86,8 +89,8 @@
         <item name="android:minWidth">48dp</item>
         <item name="android:minHeight">48dp</item>
         <item name="android:textColor">@drawable/bottom_nav_view_icon_tint</item>
-        <item name="android:colorActivatedHighlight">@color/blue_200</item>
-        <item name="rippleColor">@color/blue_200</item>
+        <item name="android:colorActivatedHighlight">?attr/colorOnPrimary</item>
+        <item name="rippleColor">?attr/colorOnPrimary</item>
         <item name="strokeColor">@drawable/bottom_nav_view_icon_tint</item>
     </style>
 
@@ -98,7 +101,7 @@
     </style>
 
     <style name="GimmePictures.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
-        <item name="boxStrokeColor">@color/blue_200</item>
+        <item name="boxStrokeColor">?attr/colorOnPrimary</item>
         <item name="boxStrokeWidth">@dimen/indent_1dp</item>
         <item name="boxStrokeWidthFocused">@dimen/indent_2dp</item>
     </style>

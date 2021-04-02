@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.ui.search
+package ua.andrii.andrushchenko.gimmepictures.ui.user
 
 import android.os.Bundle
 import android.view.View
@@ -8,26 +8,28 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.ListingLayoutBinding
-import ua.andrii.andrushchenko.gimmepictures.models.User
+import ua.andrii.andrushchenko.gimmepictures.models.Collection
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
+import ua.andrii.andrushchenko.gimmepictures.ui.collection.CollectionsAdapter
 import ua.andrii.andrushchenko.gimmepictures.util.setupLinearLayoutManager
 
-class UsersResultsFragment :
-    BaseRecyclerViewFragment<User, ListingLayoutBinding>(ListingLayoutBinding::inflate) {
+@AndroidEntryPoint
+class UserCollectionsFragment : BaseRecyclerViewFragment<Collection, ListingLayoutBinding>(
+    ListingLayoutBinding::inflate) {
 
-    private val viewModel: SearchViewModel by viewModels(ownerProducer = { requireParentFragment() })
+    private val viewModel: UserDetailsViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
-    override val pagedAdapter: BasePagedAdapter<User> =
-        UsersAdapter(object : UsersAdapter.OnItemClickListener {
-            override fun onUserClick(user: User) {
-                user.username?.let {
-                    val direction = SearchFragmentDirections.actionSearchFragmentToUserDetailsFragment(it)
-                    requireParentFragment().findNavController().navigate(direction)
-                }
+    override val pagedAdapter: BasePagedAdapter<Collection> =
+        CollectionsAdapter(object : CollectionsAdapter.OnItemClickListener {
+            override fun onCollectionClick(collection: Collection) {
+                val direction =
+                    UserDetailsFragmentDirections.actionUserDetailsFragmentToCollectionDetailsFragment(collection)
+                requireParentFragment().findNavController().navigate(direction)
             }
         })
 
@@ -74,7 +76,7 @@ class UsersResultsFragment :
             )
         }
 
-        viewModel.usersResult.observe(viewLifecycleOwner) {
+        viewModel.userCollections.observe(viewLifecycleOwner) {
             pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
     }

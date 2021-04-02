@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.ui.search
+package ua.andrii.andrushchenko.gimmepictures.ui.user
 
 import android.os.Bundle
 import android.view.View
@@ -6,28 +6,30 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.ListingLayoutBinding
-import ua.andrii.andrushchenko.gimmepictures.models.User
+import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
-import ua.andrii.andrushchenko.gimmepictures.util.setupLinearLayoutManager
+import ua.andrii.andrushchenko.gimmepictures.ui.photo.PhotosAdapter
+import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManager
 
-class UsersResultsFragment :
-    BaseRecyclerViewFragment<User, ListingLayoutBinding>(ListingLayoutBinding::inflate) {
+@AndroidEntryPoint
+class UserLikedPhotosFragment : BaseRecyclerViewFragment<Photo, ListingLayoutBinding>(
+    ListingLayoutBinding::inflate) {
 
-    private val viewModel: SearchViewModel by viewModels(ownerProducer = { requireParentFragment() })
+    private val viewModel: UserDetailsViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
-    override val pagedAdapter: BasePagedAdapter<User> =
-        UsersAdapter(object : UsersAdapter.OnItemClickListener {
-            override fun onUserClick(user: User) {
-                user.username?.let {
-                    val direction = SearchFragmentDirections.actionSearchFragmentToUserDetailsFragment(it)
-                    requireParentFragment().findNavController().navigate(direction)
-                }
+    override val pagedAdapter: BasePagedAdapter<Photo> =
+        PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
+            override fun onPhotoClick(photo: Photo) {
+                val direction =
+                    UserDetailsFragmentDirections.actionGlobalPhotoDetailsFragment(photoId = photo.id)
+                requireParentFragment().findNavController().navigate(direction)
             }
         })
 
@@ -61,11 +63,10 @@ class UsersResultsFragment :
 
         rv.apply {
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(requireContext())
-            setupLinearLayoutManager(
-                resources.getDimensionPixelSize(R.dimen.indent_8dp),
-                resources.getDimensionPixelSize(R.dimen.indent_48dp),
-                RecyclerView.VERTICAL
+            layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
+            setupStaggeredGridLayoutManager(
+                resources.configuration.orientation,
+                resources.getDimensionPixelSize(R.dimen.indent_8dp)
             )
 
             adapter = pagedAdapter.withLoadStateHeaderAndFooter(
@@ -74,7 +75,7 @@ class UsersResultsFragment :
             )
         }
 
-        viewModel.usersResult.observe(viewLifecycleOwner) {
+        viewModel.userLikedPhotos.observe(viewLifecycleOwner) {
             pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
     }

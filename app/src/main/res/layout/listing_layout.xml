@@ -37,7 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
+        tools:visibility="gone" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_view_empty"
@@ -53,6 +53,6 @@
         app:layout_constraintStart_toStartOf="@+id/swipe_refresh_layout"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/nothing_found"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

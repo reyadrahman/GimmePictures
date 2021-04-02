@@ -1,34 +1,32 @@
 package ua.andrii.andrushchenko.gimmepictures.util
 
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 
-sealed class BackendCallResult<out T> {
-    object Loading : BackendCallResult<Nothing>()
-    data class Success<out T>(val value: T) : BackendCallResult<T>()
-    data class Error(val code: Int? = null, val error: String? = null) : BackendCallResult<Nothing>()
+sealed class BackendResult<out T> {
+    object Loading : BackendResult<Nothing>()
+    data class Success<out T>(val value: T) : BackendResult<T>()
+    data class Error(val code: Int? = null, val error: String? = null) : BackendResult<Nothing>()
 }
 
-suspend fun <T> backendRequest(request: suspend () -> T): BackendCallResult<T> =
+suspend fun <T> backendRequest(request: suspend () -> T): BackendResult<T> =
     withContext(Dispatchers.IO) {
         try {
-            BackendCallResult.Success(request.invoke())
+            BackendResult.Success(request.invoke())
         } catch (throwable: Throwable) {
             when (throwable) {
                 is HttpException -> {
                     val code = throwable.code()
                     val errorResponse = throwable.errorBody
-                    BackendCallResult.Error(code, errorResponse)
+                    BackendResult.Error(code, errorResponse)
                 }
-                else -> BackendCallResult.Error(null, throwable.message)
+                else -> BackendResult.Error(null, throwable.message)
             }
         }
     }
 
-suspend fun <T> backendRequestFlow(fetchData: suspend () -> T): Flow<BackendCallResult<T>> = flow {
+/*suspend fun <T> backendRequestFlow(fetchData: suspend () -> T): Flow<BackendCallResult<T>> = flow {
     emit(BackendCallResult.Loading)
     try {
         val result = fetchData.invoke()
@@ -43,7 +41,7 @@ suspend fun <T> backendRequestFlow(fetchData: suspend () -> T): Flow<BackendCall
             else -> emit(BackendCallResult.Error(null, throwable.message))
         }
     }
-}
+}*/
 
 val HttpException.errorBody: String?
     get() = try {

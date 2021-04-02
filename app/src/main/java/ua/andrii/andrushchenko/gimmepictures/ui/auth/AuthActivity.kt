@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepository.Companion.unsplashAuthCallback
 import ua.andrii.andrushchenko.gimmepictures.databinding.ActivityAuthBinding
-import ua.andrii.andrushchenko.gimmepictures.util.BackendCallResult
+import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 import ua.andrii.andrushchenko.gimmepictures.util.customtabs.CustomTabsHelper
 import ua.andrii.andrushchenko.gimmepictures.util.loadBlurredImage
 
@@ -52,17 +52,17 @@ class AuthActivity : AppCompatActivity() {
                 uri.getQueryParameter("code")?.let { code ->
                     viewModel.getAccessToken(code).observe(this) {
                         when (it) {
-                            is BackendCallResult.Loading -> {
+                            is BackendResult.Loading -> {
                                 binding.authProgress.visibility = View.VISIBLE
                             }
-                            is BackendCallResult.Success -> {
+                            is BackendResult.Success -> {
                                 binding.authProgress.visibility = View.GONE
                                 Toast.makeText(this,
                                     getString(R.string.login_successful),
                                     Toast.LENGTH_SHORT).show()
                                 finish()
                             }
-                            is BackendCallResult.Error -> {
+                            is BackendResult.Error -> {
                                 binding.authProgress.visibility = View.GONE
                                 Toast.makeText(this,
                                     getString(R.string.login_failed),

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.account.AccountFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/indent_16dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_login"
+                style="@style/GimmePictures.Widget.MaterialComponents.ButtonPrimaryColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/login"
+                android:visibility="visible"
+                tools:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/user_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/user_image_view"
+                        android:layout_width="@dimen/medium_user_icon_size"
+                        android:layout_height="@dimen/medium_user_icon_size"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0"
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/CircleImageView"
+                        tools:ignore="ContentDescription"
+                        tools:src="@color/pink_200" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/indent_8dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txt_user_nickname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="@dimen/big_user_text_size"
+                            tools:text="\@and_rulik" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txt_username"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="@dimen/big_user_text_size"
+                            android:textStyle="bold"
+                            tools:text="Andrii Andrushchenko" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txt_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/text_size_14sp"
+                            android:visibility="gone"
+                            tools:text="aw.andrushchenko@gmail.com"
+                            tools:visibility="visible" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/indent_8dp"
+                    android:layout_marginBottom="@dimen/indent_8dp"
+                    android:background="@color/black" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btn_show_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_views"
+                    android:drawablePadding="@dimen/indent_8dp"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/indent_16dp"
+                    android:text="@string/show_profile"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textSize="14sp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btn_edit_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_outline_edit"
+                    android:drawablePadding="@dimen/indent_8dp"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/indent_16dp"
+                    android:text="@string/edit_profile"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textSize="14sp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btn_logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_logout_outlined"
+                    android:drawablePadding="@dimen/indent_8dp"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/indent_16dp"
+                    android:text="@string/logout"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/indent_8dp"
+                android:layout_marginBottom="@dimen/indent_8dp"
+                android:background="@color/black" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_settings_outlined"
+                android:drawablePadding="@dimen/indent_8dp"
+                android:gravity="center_vertical"
+                android:padding="@dimen/indent_16dp"
+                android:text="@string/settings"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="14sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btn_about"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_info_outlined"
+                android:drawablePadding="@dimen/indent_8dp"
+                android:gravity="center_vertical"
+                android:padding="@dimen/indent_16dp"
+                android:text="@string/about"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/layout_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/indent_8dp"
+            android:text="@string/list_footer_load_error"
+            app:drawableTopCompat="@drawable/ic_no_internet_connection" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_retry"
+            style="@style/GimmePictures.MaterialButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/retry" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

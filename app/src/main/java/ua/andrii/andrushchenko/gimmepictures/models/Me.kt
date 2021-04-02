@@ -38,5 +38,5 @@ data class Me(
     val downloads: Int?,
     @SerializedName("uploads_remaining")
     val uploadsRemaining: Int?,
-    val email: String?,
+    val email: String?
 )

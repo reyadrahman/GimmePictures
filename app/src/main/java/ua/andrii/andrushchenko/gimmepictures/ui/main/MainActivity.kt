@@ -32,12 +32,10 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.nav_photos, R.id.nav_collections, R.id.nav_my_profile -> {
-                    binding.bottomNavigationView.visibility = View.VISIBLE
-                }
-                else -> {
-                    binding.bottomNavigationView.visibility = View.GONE
-                }
+                R.id.nav_photos,
+                R.id.nav_collections,
+                R.id.nav_account -> binding.bottomNavigationView.visibility = View.VISIBLE
+                else -> binding.bottomNavigationView.visibility = View.GONE
             }
         }
 

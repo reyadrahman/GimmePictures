@@ -52,7 +52,7 @@ class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollec
                     setOf(
                         R.id.nav_photos,
                         R.id.nav_collections,
-                        R.id.nav_my_profile
+                        R.id.nav_account
                     )
                 )
                 setupWithNavController(navController, appBarConfiguration)

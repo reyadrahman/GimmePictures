@@ -56,11 +56,6 @@ class CollectionsFragment :
                                     null)
                             findNavController().navigate(direction)
                         }
-                        R.id.action_settings -> {
-                            val direction =
-                                CollectionsFragmentDirections.actionNavCollectionsToSettingsFragment()
-                            findNavController().navigate(direction)
-                        }
                     }
                     true
                 }
@@ -70,14 +65,13 @@ class CollectionsFragment :
                     setOf(
                         R.id.nav_photos,
                         R.id.nav_collections,
-                        R.id.nav_my_profile
+                        R.id.nav_account
                     )
                 )
                 setupWithNavController(navController, appBarConfiguration)
 
                 setOnClickListener {
                     scrollRecyclerViewToTop()
-                    //collectionsListingLayout.recyclerView.scrollToPosition(0)
                 }
 
                 viewModel.order.observe(viewLifecycleOwner) {

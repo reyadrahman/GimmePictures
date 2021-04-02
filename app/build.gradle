@@ -6,13 +6,13 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'dagger.hilt.android.plugin'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "ua.andrii.andrushchenko.gimmepictures"
-        minSdkVersion 23
-        targetSdkVersion 30
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -52,7 +52,7 @@ dependencies {
     implementation "com.google.android.material:material:$materialDesignVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
-    implementation 'androidx.viewpager2:viewpager2:1.1.0-alpha01'
+    implementation "androidx.viewpager2:viewpager2:$viewPager2Version"
 
     // Tests
     testImplementation "junit:junit:$junitVersion"
@@ -110,7 +110,6 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$workRuntimeVersion"
     implementation "androidx.hilt:hilt-work:$hiltWorkVersion"
     kapt "androidx.hilt:hilt-compiler:$hiltWorkVersion"
-
 
     //Room
     /*implementation "androidx.room:room-runtime:$roomVersion"

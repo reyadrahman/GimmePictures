@@ -43,7 +43,7 @@ class PhotoDetailsFragment :
                 setOf(
                     R.id.nav_photos,
                     R.id.nav_collections,
-                    R.id.nav_my_profile
+                    R.id.nav_account
                 )
             )
             toolbar.setupWithNavController(navController, appBarConfiguration)
@@ -52,31 +52,25 @@ class PhotoDetailsFragment :
             bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout.bottomSheet)
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
-            // Request data only if the fragment has been created at the first time
+            // Request data only once
             if (savedInstanceState == null) {
                 viewModel.getPhotoDetails(args.photoId)
             }
 
-            viewModel.backendCallResult.observe(viewLifecycleOwner) { result ->
-                when (result) {
-                    is BackendCallResult.Loading -> {
-                        progressLoading.visibility = View.VISIBLE
-                        contentPhotoDetails.visibility = View.GONE
-                        layoutError.visibility = View.GONE
-                    }
-                    is BackendCallResult.Success -> {
-                        layoutError.visibility = View.GONE
-                        progressLoading.visibility = View.GONE
-                        contentPhotoDetails.visibility = View.VISIBLE
-                        setupPhotoDetails(result.value)
-                    }
-                    is BackendCallResult.Error -> {
-                        layoutError.visibility = View.VISIBLE
-                        progressLoading.visibility = View.GONE
-                        contentPhotoDetails.visibility = View.GONE
-                    }
-                }
+            viewModel.error.observe(viewLifecycleOwner) {
+                toggleErrorLayout(it)
             }
+
+            viewModel.photo.observe(viewLifecycleOwner) {
+                setupPhotoDetails(it)
+            }
+        }
+    }
+
+    private fun toggleErrorLayout(isVisible: Boolean) {
+        with(binding) {
+            contentPhotoDetails.visibility = if (isVisible) View.GONE else View.VISIBLE
+            layoutError.visibility = if (isVisible) View.VISIBLE else View.GONE
         }
     }
 
@@ -100,17 +94,21 @@ class PhotoDetailsFragment :
                         placeholderColorDrawable = null
                     )
                     setOnClickListener {
-                        val direction =
-                            PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment()
-                        findNavController().navigate(direction)
+                        user.username?.let {
+                            val direction =
+                                PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment(it)
+                            findNavController().navigate(direction)
+                        }
                     }
                 }
                 userTextView.apply {
                     text = user.name ?: "Unknown"
                     setOnClickListener {
-                        val direction =
-                            PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment()
-                        findNavController().navigate(direction)
+                        user.username?.let {
+                            val direction =
+                                PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment(it)
+                            findNavController().navigate(direction)
+                        }
                     }
                 }
             }

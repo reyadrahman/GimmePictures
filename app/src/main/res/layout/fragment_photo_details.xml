@@ -36,7 +36,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/user_contain1er"
+                android:id="@+id/user_container"
                 android:layout_width="@dimen/indent_0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center|start"
@@ -99,7 +99,7 @@
                 android:padding="@dimen/indent_16dp"
                 app:layout_constraintBottom_toTopOf="@id/photo_image_view"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/user_contain1er"
+                app:layout_constraintStart_toEndOf="@id/user_container"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_info_outlined"
                 app:tint="?attr/colorOnBackground" />
@@ -112,7 +112,7 @@
                 app:layout_constraintBottom_toTopOf="@id/description_text_view"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/user_contain1er"
+                app:layout_constraintTop_toBottomOf="@id/user_container"
                 tools:src="@color/blue_200" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -217,13 +217,6 @@
         android:id="@+id/bottom_sheet_layout"
         layout="@layout/bottom_sheet_photo_details"
         tools:visibility="gone" />
-
-    <ProgressBar
-        android:id="@+id/progress_loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/layout_error"
