@@ -1,42 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_height="wrap_content"
     tools:context=".ui.account.dialogs.EditProfileDialog">
 
-    <FrameLayout
-        android:layout_width="match_parent"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/edit_profile_title"
+        android:layout_width="@dimen/indent_0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/indent_8dp"
-        android:layout_weight="0">
+        android:fontFamily="sans-serif-medium"
+        android:paddingStart="@dimen/indent_24dp"
+        android:paddingTop="@dimen/indent_16dp"
+        android:paddingEnd="@dimen/indent_24dp"
+        android:paddingBottom="@dimen/indent_16dp"
+        android:text="@string/edit_profile"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@id/btn_save"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/save_button"
-            style="@style/GimmePictures.MaterialButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="@dimen/indent_16dp"
-            android:text="@string/save" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancel_button"
-            style="@style/GimmePictures.Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|start"
-            android:layout_marginStart="@dimen/indent_16dp"
-            android:text="@string/cancel" />
-
-    </FrameLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_save"
+        style="@style/GimmePictures.MaterialButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/indent_8dp"
+        android:text="@string/save"
+        app:layout_constraintBottom_toBottomOf="@id/edit_profile_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/indent_0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_profile_title">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,6 +77,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
                     android:singleLine="true" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -175,4 +177,4 @@
 
     </androidx.core.widget.NestedScrollView>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

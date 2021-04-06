@@ -11,9 +11,7 @@ import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(
-    application: Application,
-) : AndroidViewModel(application) {
+class SettingsViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
 
     private val _glideCacheSize: MutableLiveData<Long> by lazy {
         val liveData: MutableLiveData<Long> = MutableLiveData(0L)

@@ -100,7 +100,7 @@ class SearchPhotoFilterDialog :
                 }
             }
 
-            applyButton.setOnClickListener { dismiss() }
+            btnApply.setOnClickListener { dismiss() }
         }
     }
 

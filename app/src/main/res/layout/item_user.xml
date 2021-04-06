@@ -5,6 +5,8 @@
     android:id="@+id/user_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:gravity="center"
     android:orientation="horizontal"
     android:padding="@dimen/indent_16dp">
 
@@ -13,20 +15,38 @@
         android:layout_width="@dimen/medium_user_icon_size"
         android:layout_height="@dimen/medium_user_icon_size"
         android:layout_marginEnd="@dimen/indent_8dp"
+        android:layout_weight="0"
         android:contentDescription="@string/user_photo"
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/CircleImageView"
-        tools:src="@color/pink_200" />
+        tools:src="@color/gray_400" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/user_name_text_view"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:singleLine="true"
-        android:textColor="?attr/colorOnBackground"
-        android:textSize="@dimen/big_user_text_size"
-        android:visibility="visible"
-        tools:text="Andrii Andrushchenko" />
+        android:layout_marginStart="@dimen/indent_8dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/user_nick_name_text_view"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|top|start"
+            tools:text="\@and_rulik" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/user_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|start"
+            android:singleLine="true"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="@dimen/big_user_text_size"
+            android:visibility="visible"
+            tools:text="Andrii Andrushchenko" />
+
+    </LinearLayout>
 
 </LinearLayout>

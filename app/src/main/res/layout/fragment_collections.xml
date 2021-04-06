@@ -14,8 +14,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:theme="@style/GimmePictures.ToolbarOverlay"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:menu="@menu/menu_default" />
+            app:menu="@menu/menu_default"
+            app:popupTheme="@style/GimmePictures.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

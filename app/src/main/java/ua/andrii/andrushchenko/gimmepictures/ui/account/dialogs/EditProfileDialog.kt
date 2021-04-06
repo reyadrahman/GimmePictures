@@ -187,7 +187,7 @@ class EditProfileDialog :
                 bioTextInputLayout.editText?.setText(userBio)
             }
 
-            saveButton.setOnClickListener { dismiss() }
+            btnSave.setOnClickListener { dismiss() }
         }
     }
 

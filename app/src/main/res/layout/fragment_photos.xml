@@ -8,21 +8,30 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:theme="@style/GimmePictures.ToolbarOverlay"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:menu="@menu/menu_default" />
+            app:menu="@menu/menu_default"
+            app:popupTheme="@style/GimmePictures.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <include
         android:id="@+id/photo_listing_layout"
         layout="@layout/listing_layout" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_photo"
+        style="@style/GimmePictures.FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:contentDescription="@string/add_photo"
+        android:src="@drawable/ic_outline_add_photo" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

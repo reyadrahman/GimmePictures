@@ -34,7 +34,7 @@ class DownloadWorker @AssistedInject constructor(
     @Assisted private val appContext: Context,
     @Assisted workerParams: WorkerParameters,
     private val downloadService: DownloadService,
-    private val notificationHelper: NotificationHelper
+    private val notificationHelper: NotificationHelper,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -58,7 +58,7 @@ class DownloadWorker @AssistedInject constructor(
         url: String,
         fileName: String,
         downloadNotificationId: Int,
-        notificationBuilder: NotificationCompat.Builder
+        notificationBuilder: NotificationCompat.Builder,
     ) = withContext(Dispatchers.IO) {
         try {
             val responseBody = downloadService.downloadFile(url)
@@ -84,7 +84,7 @@ class DownloadWorker @AssistedInject constructor(
                         Toast.LENGTH_SHORT).show()
                 }
             } else {
-                onError(fileName, Exception("Failed writing to file"), true)
+                onError(fileName, Exception("Failed to write to file"), true)
             }
 
         } catch (e: CancellationException) {
@@ -97,7 +97,7 @@ class DownloadWorker @AssistedInject constructor(
     private suspend fun onProgress(
         notificationId: Int,
         builder: NotificationCompat.Builder,
-        progress: Int
+        progress: Int,
     ) {
         setForeground(ForegroundInfo(notificationId,
             notificationHelper.updateProgressNotification(builder, progress).build()))
@@ -106,7 +106,7 @@ class DownloadWorker @AssistedInject constructor(
     private fun onError(
         fileName: String,
         exception: Exception,
-        showNotification: Boolean
+        showNotification: Boolean,
     ) {
         Log.e(TAG, "onError: ${exception.message}")
         if (showNotification) {
@@ -116,7 +116,7 @@ class DownloadWorker @AssistedInject constructor(
 
     private fun onSuccess(
         fileName: String,
-        uri: Uri
+        uri: Uri,
     ) {
         Log.i(TAG, "onSuccess: $fileName - $uri")
         notificationHelper.showDownloadCompleteNotification(fileName, uri)
@@ -126,7 +126,7 @@ class DownloadWorker @AssistedInject constructor(
     private fun ResponseBody.saveImage(
         context: Context,
         fileName: String,
-        onProgress: ((Int) -> Unit)?
+        onProgress: ((Int) -> Unit)?,
     ): Uri? {
         val values = ContentValues().apply {
             put(MediaStore.Images.Media.DISPLAY_NAME, fileName)
@@ -163,7 +163,7 @@ class DownloadWorker @AssistedInject constructor(
     private fun ResponseBody.saveImageLegacy(
         context: Context,
         fileName: String,
-        onProgress: ((Int) -> Unit)?
+        onProgress: ((Int) -> Unit)?,
     ): Uri? {
         val path = File(GIMME_PICTURES_LEGACY_PATH)
 
@@ -190,7 +190,7 @@ class DownloadWorker @AssistedInject constructor(
 
     private fun ResponseBody.writeToSink(
         sink: BufferedSink,
-        onProgress: ((Int) -> Unit)?
+        onProgress: ((Int) -> Unit)?,
     ): Boolean {
         val fileSize = contentLength()
 
@@ -231,8 +231,7 @@ class DownloadWorker @AssistedInject constructor(
                 KEY_OUTPUT_FILE_NAME to fileName,
                 KEY_PHOTO_ID to photoId
             )
-            val request = OneTimeWorkRequestBuilder<DownloadWorker>()
-                .setInputData(inputData).build()
+            val request = OneTimeWorkRequestBuilder<DownloadWorker>().setInputData(inputData).build()
             WorkManager.getInstance(context).enqueue(request)
             return request.id
         }

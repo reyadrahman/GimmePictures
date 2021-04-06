@@ -1,9 +1,12 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.account
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,13 +15,22 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentAccountBinding
+import ua.andrii.andrushchenko.gimmepictures.ui.auth.AuthActivity
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseFragment
+import ua.andrii.andrushchenko.gimmepictures.ui.settings.SettingsActivity
 import ua.andrii.andrushchenko.gimmepictures.util.loadImage
 
 @AndroidEntryPoint
 class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBinding::inflate) {
 
     private val viewModel: AccountViewModel by viewModels()
+
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                viewModel.notifyUserAuthorizationSuccessful()
+            }
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,20 +49,14 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBind
             viewModel.isUserAuthorized.observe(viewLifecycleOwner) { isAuthorized ->
                 toggleUserActionsPanel(isAuthorized)
                 if (isAuthorized) {
-                    userImageView.loadImage(
-                        url = viewModel.userProfilePhotoUrl,
-                        placeholderColorDrawable = null
-                    )
-                    txtUserNickname.text = viewModel.userNickname
-                    @SuppressLint("SetTextI18n")
-                    txtUsername.text = "${viewModel.userFirstName} ${viewModel.userLastName}"
-                    txtEmail.text = viewModel.userEmail
+                    setupUserInfo()
                 }
             }
 
             btnLogin.setOnClickListener {
-                val direction = AccountFragmentDirections.actionNavAccountToAuthActivity()
-                findNavController().navigate(direction)
+                Intent(requireContext(), AuthActivity::class.java).also {
+                    resultLauncher.launch(it)
+                }
             }
 
             btnShowProfile.setOnClickListener {
@@ -72,9 +78,12 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBind
             }
 
             btnSettings.setOnClickListener {
-                val direction =
+                /*val direction =
                     AccountFragmentDirections.actionNavAccountToSettingsFragment()
-                findNavController().navigate(direction)
+                findNavController().navigate(direction)*/
+                Intent(requireContext(), SettingsActivity::class.java).also {
+                    startActivity(it)
+                }
             }
 
             btnAbout.setOnClickListener {
@@ -85,9 +94,28 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBind
         }
     }
 
+    @SuppressLint("SetTextI18n")
+    private fun setupUserInfo() {
+        with(binding) {
+            userImageView.loadImage(
+                url = viewModel.userProfilePhotoUrl,
+                placeholderColorDrawable = null
+            )
+            txtUsername.text =
+                "${viewModel.userFirstName} ${viewModel.userLastName} (@${viewModel.userNickname})"
+            viewModel.userEmail?.let {
+                txtEmail.apply {
+                    visibility = View.VISIBLE
+                    text = viewModel.userEmail
+                }
+            }
+        }
+    }
+
     private fun toggleUserActionsPanel(isVisible: Boolean) {
         with(binding) {
             btnLogin.visibility = if (isVisible) View.GONE else View.VISIBLE
+            txtLoginHint.visibility = if (isVisible) View.GONE else View.VISIBLE
             userContainer.visibility = if (isVisible) View.VISIBLE else View.GONE
         }
     }

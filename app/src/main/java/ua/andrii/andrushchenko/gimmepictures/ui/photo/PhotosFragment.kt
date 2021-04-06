@@ -1,5 +1,6 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.photo
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -19,6 +20,7 @@ import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
+import ua.andrii.andrushchenko.gimmepictures.util.customtabs.CustomTabsHelper
 import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManager
 
 @AndroidEntryPoint
@@ -97,6 +99,10 @@ class PhotosFragment :
                     rv.isVisible = false
                 }
             }
+
+            fabAddPhoto.setOnClickListener {
+                openAddPhotoTab()
+            }
         }
 
         rv.apply {
@@ -111,11 +117,38 @@ class PhotosFragment :
                 header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },
                 footer = RecyclerViewLoadStateAdapter { pagedAdapter.retry() }
             )
+
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (dy > 0) {
+                        // Scroll Down
+                        if (binding.fabAddPhoto.isShown) {
+                            binding.fabAddPhoto.hide()
+                        }
+                    } else if (dy < 0) {
+                        // Scroll Up
+                        if (!binding.fabAddPhoto.isShown) {
+                            binding.fabAddPhoto.show()
+                        }
+                    }
+                }
+            })
         }
+
         // Populate recyclerView
         viewModel.photos.observe(viewLifecycleOwner) {
             pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
+    }
+
+    private fun openAddPhotoTab() {
+        val uri = if (viewModel.isAuthorized) {
+            Uri.parse(getString(R.string.unsplash_add_photo_authorized_url))
+        } else {
+            Uri.parse(getString(R.string.unsplash_add_photo_unauthorized_url))
+        }
+        CustomTabsHelper.openCustomTab(requireContext(), uri)
     }
 
     private fun showFilterDialog() {
@@ -129,7 +162,6 @@ class PhotosFragment :
                 if (which != currentSelection) viewModel.orderPhotosBy(which)
                 dialog.dismiss()
                 scrollRecyclerViewToTop()
-                //binding.photoListingLayout.recyclerView.scrollToPosition(0)
             }
             create()
             show()

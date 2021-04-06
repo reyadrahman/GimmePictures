@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Gimme Pictures</string>
+    <string name="unsplash_join_url">https://unsplash.com/join</string>
+    <string name="delete">Delete</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="unsplash_add_photo_authorized_url">https://unsplash.com/submit</string>
+    <string name="unsplash_add_photo_unauthorized_url">https://unsplash.com/?modal=%7B%22tag%22%3A%22Login%22%2C%22value%22%3A%7B%22tag%22%3A%22SubmitAPhoto%22%2C%22value%22%3A%7B%7D%7D%7D</string>
 
     <!--Navigation destinations-->
     <string name="photos">Photos</string>
@@ -10,6 +15,7 @@
     <string name="search">Search</string>
 
     <!--Photo fragment-->
+    <string name="add_photo">Add photo</string>
     <string name="sort_by">Sort by</string>
     <string name="order_latest">Latest</string>
     <string name="order_oldest">Oldest</string>
@@ -20,9 +26,12 @@
     <!--<string name="sponsored">Sponsored</string>
     <string name="sponsored_by">Sponsored by</string>-->
 
+    <string name="add_account">Add account</string>
+
     <!--Photo details-->
     <string name="photo">Photo</string>
     <string name="photo_details">Photo details</string>
+    <string name="see_photo_info">See photo info</string>
     <string name="location_template" translatable="false">%s, %s</string>
     <string name="open_in_browser">Open in browser</string>
     <string name="share">Share</string>
@@ -41,6 +50,11 @@
     <!--Collection details-->
     <string name="curated_by">curated by</string>
     <string name="collection_details">Collection details</string>
+    <string name="edit_collection">Edit collection</string>
+    <string name="create_new_collection">Create new collection</string>
+    <string name="make_private">Make private</string>
+    <string name="collection_name_hint">Name</string>
+    <string name="collection_description_hint">Description (optional)</string>
 
     <!--User details-->
     <string name="user_details">User details</string>
@@ -66,6 +80,7 @@
     <string name="user_authorization_title">User authorization</string>
     <string name="join">Join</string>
     <string name="login">Login</string>
+    <string name="add_account_hint">Add an account to use all features of Gimme Pictures</string>
     <string name="logout">Logout</string>
     <string name="logout_confirmation">Are you sure want to logout?</string>
     <string name="login_prompt">Please login to %s</string>
@@ -85,6 +100,7 @@
     <string name="search_for">Search for:</string>
 
     <string name="filter">Filter</string>
+    <string name="filter_photos">Photos filter</string>
     <string name="filter_relevance">Relevance</string>
     <string name="filter_latest">Latest</string>
     <string name="content_filter">Content Filter</string>

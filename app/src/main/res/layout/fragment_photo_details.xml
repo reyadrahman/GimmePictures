@@ -37,7 +37,7 @@
 
             <LinearLayout
                 android:id="@+id/user_container"
-                android:layout_width="@dimen/indent_0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center|start"
                 android:orientation="horizontal"
@@ -45,7 +45,7 @@
                 android:paddingTop="@dimen/indent_8dp"
                 android:paddingEnd="@dimen/indent_16dp"
                 android:paddingBottom="@dimen/indent_8dp"
-                app:layout_constraintEnd_toStartOf="@id/btn_info"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -57,7 +57,7 @@
                     android:contentDescription="@string/user_photo"
                     android:scaleType="centerCrop"
                     app:shapeAppearanceOverlay="@style/CircleImageView"
-                    tools:src="@color/pink_200" />
+                    tools:src="@color/gray_400" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -90,53 +90,26 @@
 
             </LinearLayout>
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/btn_info"
-                style="@style/MaterialImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/photo_details"
-                android:padding="@dimen/indent_16dp"
-                app:layout_constraintBottom_toTopOf="@id/photo_image_view"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/user_container"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_info_outlined"
-                app:tint="?attr/colorOnBackground" />
-
             <com.github.chrisbanes.photoview.PhotoView
                 android:id="@+id/photo_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="450dp"
                 android:layout_gravity="center"
-                app:layout_constraintBottom_toTopOf="@id/description_text_view"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/user_container"
-                tools:src="@color/blue_200" />
+                tools:src="@color/gray_400" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/description_text_view"
-                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_photo_info"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="@dimen/indent_0dp"
                 android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/indent_8dp"
-                android:ellipsize="end"
-                android:gravity="center|start"
-                android:maxLines="1"
-                android:paddingStart="@dimen/indent_16dp"
-                android:paddingTop="@dimen/indent_8dp"
-                android:paddingEnd="@dimen/indent_16dp"
-                android:paddingBottom="@dimen/indent_8dp"
-                android:textColor="?attr/colorOnBackground"
-                android:visibility="gone"
-                app:drawableStartCompat="@drawable/ic_description"
-                app:drawableTint="?attr/colorOnBackground"
+                android:text="@string/see_photo_info"
+                android:textColor="?attr/colorOnPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/photo_image_view"
-                tools:text="Lorem ipsum dolor sit amet"
-                tools:visibility="visible" />
+                app:layout_constraintTop_toBottomOf="@id/photo_image_view" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/btn_like"
@@ -148,7 +121,7 @@
                 android:layout_marginBottom="@dimen/indent_8dp"
                 android:contentDescription="@string/like_photo"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/description_text_view"
+                app:layout_constraintTop_toBottomOf="@id/btn_photo_info"
                 app:srcCompat="@drawable/ic_like_outlined"
                 app:tint="?attr/colorOnBackground" />
 
@@ -162,7 +135,7 @@
                 android:layout_marginBottom="@dimen/indent_8dp"
                 android:contentDescription="@string/share"
                 app:layout_constraintStart_toEndOf="@id/btn_like"
-                app:layout_constraintTop_toBottomOf="@id/description_text_view"
+                app:layout_constraintTop_toBottomOf="@id/btn_photo_info"
                 app:srcCompat="@drawable/ic_share"
                 app:tint="?attr/colorOnBackground" />
 
@@ -176,7 +149,7 @@
                 android:layout_marginBottom="@dimen/indent_8dp"
                 android:contentDescription="@string/download"
                 app:layout_constraintEnd_toStartOf="@id/btn_bookmark"
-                app:layout_constraintTop_toBottomOf="@id/description_text_view"
+                app:layout_constraintTop_toBottomOf="@id/btn_photo_info"
                 app:srcCompat="@drawable/ic_download_outlined"
                 app:tint="?attr/colorOnBackground" />
 
@@ -190,7 +163,7 @@
                 android:layout_marginBottom="@dimen/indent_8dp"
                 android:contentDescription="@string/save"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/description_text_view"
+                app:layout_constraintTop_toBottomOf="@id/btn_photo_info"
                 app:srcCompat="@drawable/ic_bookmark_outlined"
                 app:tint="?attr/colorOnBackground" />
 
@@ -209,8 +182,8 @@
                 tools:listitem="@layout/item_photo_tag"
                 tools:orientation="horizontal"
                 tools:visibility="visible" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.core.widget.NestedScrollView>
 
     <include

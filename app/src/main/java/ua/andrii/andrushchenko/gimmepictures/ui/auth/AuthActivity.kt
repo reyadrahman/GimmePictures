@@ -42,6 +42,10 @@ class AuthActivity : AppCompatActivity() {
             btnLogin.setOnClickListener {
                 openUnsplashLoginTab()
             }
+
+            btnJoin.setOnClickListener {
+                openUnsplashJoinTab()
+            }
         }
     }
 
@@ -60,6 +64,7 @@ class AuthActivity : AppCompatActivity() {
                                 Toast.makeText(this,
                                     getString(R.string.login_successful),
                                     Toast.LENGTH_SHORT).show()
+                                setResult(RESULT_OK)
                                 finish()
                             }
                             is BackendResult.Error -> {
@@ -67,6 +72,7 @@ class AuthActivity : AppCompatActivity() {
                                 Toast.makeText(this,
                                     getString(R.string.login_failed),
                                     Toast.LENGTH_SHORT).show()
+                                setResult(RESULT_CANCELED)
                                 finish()
                             }
                         }
@@ -75,6 +81,8 @@ class AuthActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun openUnsplashJoinTab() = openCustomTab(getString(R.string.unsplash_join_url))
 
     private fun openUnsplashLoginTab() = openCustomTab(viewModel.loginUrl)
 

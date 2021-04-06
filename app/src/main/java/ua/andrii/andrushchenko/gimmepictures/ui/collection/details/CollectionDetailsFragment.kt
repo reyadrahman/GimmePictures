@@ -25,8 +25,7 @@ import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManage
 import ua.andrii.andrushchenko.gimmepictures.util.toAmountReadableString
 
 @AndroidEntryPoint
-class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollectionDetailsBinding>(
-    FragmentCollectionDetailsBinding::inflate) {
+class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollectionDetailsBinding>(FragmentCollectionDetailsBinding::inflate) {
 
     private val args: CollectionDetailsFragmentArgs by navArgs()
     private val viewModel: CollectionDetailsViewModel by viewModels()
@@ -57,8 +56,47 @@ class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollec
                 )
                 setupWithNavController(navController, appBarConfiguration)
                 setOnClickListener { scrollRecyclerViewToTop() }
+            }
 
-                title = args.collection.title
+            if (savedInstanceState == null) {
+                viewModel.setCollection(args.collection)
+            }
+
+            viewModel.collection.observe(viewLifecycleOwner) { collection ->
+                toolbar.title = collection.title
+
+                collection.description?.let { description ->
+                    descriptionTextView.apply {
+                        visibility = View.VISIBLE
+                        text = description
+                    }
+                }
+
+                @SuppressLint("SetTextI18n")
+                userNameTextView.text = "${
+                    collection.totalPhotos.toAmountReadableString()
+                } ${
+                    getString(R.string.photos).apply { first().toLowerCase() }
+                } ${
+                    getString(R.string.curated_by)
+                } ${
+                    collection.user?.username
+                }"
+
+                if (viewModel.isUserAuthorized && viewModel.isOwnCollection) {
+                    fabEditCollection.apply {
+                        visibility = View.VISIBLE
+                        setOnClickListener {
+                            val direction = CollectionDetailsFragmentDirections
+                                .actionCollectionDetailsFragmentToEditCollectionDialogFragment(collection)
+                            findNavController().navigate(direction)
+                        }
+                    }
+                }
+            }
+
+            viewModel.isDeleted.observe(viewLifecycleOwner) { isDeleted ->
+                if (isDeleted) findNavController().navigateUp()
             }
 
             collectionPhotosListingLayout.swipeRefreshLayout.setOnRefreshListener {
@@ -82,47 +120,23 @@ class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollec
                 }
             }
 
-            with(args.collection) {
-                description?.let { description ->
-                    descriptionTextView.apply {
-                        visibility = View.VISIBLE
-                        text = description
-                    }
-                }
+            rv.apply {
+                setHasFixedSize(true)
+                layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
+                setupStaggeredGridLayoutManager(
+                    resources.configuration.orientation,
+                    resources.getDimensionPixelSize(R.dimen.indent_8dp)
+                )
 
-                @SuppressLint("SetTextI18n")
-                userNameTextView.text = "${
-                    totalPhotos.toAmountReadableString()
-                } ${
-                    getString(R.string.photos)
-                } ${
-                    getString(R.string.curated_by)
-                } ${
-                    user?.username
-                }"
-
-                // Request data only if the fragment has been created at the first time
-                if (savedInstanceState == null) {
-                    viewModel.getCollectionPhotos(id)
-                }
-
-                viewModel.collectionPhotos.observe(viewLifecycleOwner) {
-                    pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
-                }
+                adapter = pagedAdapter.withLoadStateHeaderAndFooter(
+                    header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },
+                    footer = RecyclerViewLoadStateAdapter { pagedAdapter.retry() }
+                )
             }
         }
-        rv.apply {
-            setHasFixedSize(true)
-            layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
-            setupStaggeredGridLayoutManager(
-                resources.configuration.orientation,
-                resources.getDimensionPixelSize(R.dimen.indent_8dp)
-            )
 
-            adapter = pagedAdapter.withLoadStateHeaderAndFooter(
-                header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },
-                footer = RecyclerViewLoadStateAdapter { pagedAdapter.retry() }
-            )
+        viewModel.collectionPhotos.observe(viewLifecycleOwner) {
+            pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
     }
 }

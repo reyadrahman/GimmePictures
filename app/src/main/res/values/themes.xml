@@ -16,7 +16,7 @@
         <item name="android:navigationBarColor">?attr/colorPrimary</item>
         <!-- Customize your theme here. -->
         <item name="materialAlertDialogTheme">@style/MaterialAlertDialog</item>
-        <item name="preferenceTheme">@style/PrefsTheme</item>
+        <!--<item name="preferenceTheme">@style/PrefsTheme</item>-->
     </style>
 
     <style name="GimmePictures.SplashTheme" parent="Theme.GimmePictures">

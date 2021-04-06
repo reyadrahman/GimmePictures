@@ -8,6 +8,8 @@ import androidx.paging.liveData
 import ua.andrii.andrushchenko.gimmepictures.data.common.PAGE_SIZE
 import ua.andrii.andrushchenko.gimmepictures.models.Collection
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
+import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
+import ua.andrii.andrushchenko.gimmepictures.util.backendRequest
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -31,4 +33,17 @@ class CollectionsRepository @Inject constructor(private val collectionsService: 
             ),
             pagingSourceFactory = { CollectionPhotosPagingSource(collectionsService, collectionId) }
         ).liveData
+
+    suspend fun updateCollection(
+        id: Int,
+        title: String?,
+        description: String?,
+        isPrivate: Boolean
+    ): BackendResult<Collection> = backendRequest {
+        collectionsService.updateCollection(id, title, description, isPrivate)
+    }
+
+    suspend fun deleteCollection(id: Int): BackendResult<Unit> = backendRequest {
+        collectionsService.deleteCollection(id)
+    }
 }

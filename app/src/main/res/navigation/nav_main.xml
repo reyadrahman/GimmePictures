@@ -30,17 +30,11 @@
     <fragment
         android:id="@+id/nav_account"
         android:name="ua.andrii.andrushchenko.gimmepictures.ui.account.AccountFragment"
-        android:label="fragment_account"
+        android:label="@string/account_and_settings"
         tools:layout="@layout/fragment_account">
         <action
             android:id="@+id/action_nav_account_to_editProfileDialog"
             app:destination="@id/editProfileDialog" />
-        <action
-            android:id="@+id/action_nav_account_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
-        <action
-            android:id="@+id/action_nav_account_to_authActivity"
-            app:destination="@id/authActivity" />
         <action
             android:id="@+id/action_nav_account_to_userDetailsFragment"
             app:destination="@id/userDetailsFragment" />
@@ -78,9 +72,6 @@
         <action
             android:id="@+id/action_photoDetailsFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
-        <action
-            android:id="@+id/action_photoDetailsFragment_to_authActivity"
-            app:destination="@id/authActivity" />
     </fragment>
     <fragment
         android:id="@+id/userDetailsFragment"
@@ -101,15 +92,6 @@
     <action
         android:id="@+id/action_global_photoDetailsFragment"
         app:destination="@id/photoDetailsFragment" />
-    <activity
-        android:id="@+id/authActivity"
-        android:name="ua.andrii.andrushchenko.gimmepictures.ui.auth.AuthActivity"
-        android:label="activity_auth"
-        tools:layout="@layout/activity_auth" />
-    <fragment
-        android:id="@+id/settingsFragment"
-        android:name="ua.andrii.andrushchenko.gimmepictures.ui.settings.SettingsFragment"
-        android:label="SettingsFragment" />
     <fragment
         android:id="@+id/collectionDetailsFragment"
         android:name="ua.andrii.andrushchenko.gimmepictures.ui.collection.details.CollectionDetailsFragment"
@@ -117,11 +99,23 @@
         <argument
             android:name="collection"
             app:argType="ua.andrii.andrushchenko.gimmepictures.models.Collection" />
+        <action
+            android:id="@+id/action_collectionDetailsFragment_to_editCollectionDialogFragment"
+            app:destination="@id/editCollectionDialogFragment" />
     </fragment>
     <dialog
         android:id="@+id/editProfileDialog"
         android:name="ua.andrii.andrushchenko.gimmepictures.ui.account.dialogs.EditProfileDialog"
         android:label="bottom_sheet_edit_my_profile"
         tools:layout="@layout/bottom_sheet_edit_my_profile" />
+    <dialog
+        android:id="@+id/editCollectionDialogFragment"
+        android:name="ua.andrii.andrushchenko.gimmepictures.ui.collection.details.EditCollectionDialogFragment"
+        android:label="bottom_sheet_edit_collection"
+        tools:layout="@layout/bottom_sheet_edit_collection" >
+        <argument
+            android:name="collection"
+            app:argType="ua.andrii.andrushchenko.gimmepictures.models.Collection" />
+    </dialog>
 
 </navigation>

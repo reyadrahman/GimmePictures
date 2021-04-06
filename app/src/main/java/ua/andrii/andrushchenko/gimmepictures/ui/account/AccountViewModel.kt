@@ -43,6 +43,10 @@ class AccountViewModel @Inject constructor(
     val userBio: String?
         get() = authRepository.userBio
 
+    fun notifyUserAuthorizationSuccessful() {
+        _isUserAuthorized.postValue(true)
+    }
+
     fun updateMyProfile(
         username: String?,
         firstName: String?,

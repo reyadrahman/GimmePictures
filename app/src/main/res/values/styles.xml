@@ -50,6 +50,12 @@
         <item name="android:indeterminateTint">?attr/colorOnPrimary</item>
     </style>
 
+    <style name="GimmePictures.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">?attr/colorOnPrimary</item>
+        <item name="tint">?attr/colorPrimary</item>
+        <item name="android:layout_margin">@dimen/indent_16dp</item>
+    </style>
+
     <style name="GimmePictures.ExtendedFloatingActionButton" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
         <item name="iconTint">?attr/colorPrimary</item>
         <item name="android:textColor">?attr/colorPrimary</item>
@@ -72,6 +78,7 @@
 
     <style name="GimmePictures.Widget.MaterialComponents.ButtonPrimaryColor" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">?attr/colorOnPrimary</item>
+        <item name="iconTint">?attr/colorPrimary</item>
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="rippleColor">?attr/colorPrimary</item>
     </style>
@@ -82,8 +89,8 @@
     </style>
 
     <style name="GimmePictures.Widget.MaterialComponents.Button.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
+        <!--<item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>-->
         <item name="android:paddingStart">12dp</item>
         <item name="android:paddingEnd">12dp</item>
         <item name="android:minWidth">48dp</item>

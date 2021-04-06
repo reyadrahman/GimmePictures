@@ -21,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentPhotoDetailsBinding
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
+import ua.andrii.andrushchenko.gimmepictures.ui.auth.AuthActivity
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseFragment
 import ua.andrii.andrushchenko.gimmepictures.util.*
 import ua.andrii.andrushchenko.gimmepictures.util.customtabs.CustomTabsHelper
@@ -96,7 +97,8 @@ class PhotoDetailsFragment :
                     setOnClickListener {
                         user.username?.let {
                             val direction =
-                                PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment(it)
+                                PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment(
+                                    it)
                             findNavController().navigate(direction)
                         }
                     }
@@ -106,7 +108,8 @@ class PhotoDetailsFragment :
                     setOnClickListener {
                         user.username?.let {
                             val direction =
-                                PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment(it)
+                                PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment(
+                                    it)
                             findNavController().navigate(direction)
                         }
                     }
@@ -134,7 +137,7 @@ class PhotoDetailsFragment :
                 }
             }
 
-            btnInfo.setOnClickListener {
+            btnPhotoInfo.setOnClickListener {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             }
 
@@ -145,7 +148,7 @@ class PhotoDetailsFragment :
             )
 
             photo.description?.let { description ->
-                descriptionTextView.apply {
+                bottomSheetLayout.descriptionTextView.apply {
                     visibility = View.VISIBLE
                     text = description
                     setOnClickListener { showDescriptionDetailed(description) }
@@ -167,9 +170,9 @@ class PhotoDetailsFragment :
                         String.format(getString(R.string.login_prompt),
                             getString(R.string.like_photo)),
                         Toast.LENGTH_SHORT).show()
-                    val direction =
-                        PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToAuthActivity()
-                    findNavController().navigate(direction)
+                    Intent(requireContext(), AuthActivity::class.java).also {
+                        startActivity(it)
+                    }
                 }
             }
 

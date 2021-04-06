@@ -1,26 +1,60 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.collection.details
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.switchMap
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepository
 import ua.andrii.andrushchenko.gimmepictures.data.collection.CollectionsRepository
+import ua.andrii.andrushchenko.gimmepictures.models.Collection
+import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 import javax.inject.Inject
 
 @HiltViewModel
 class CollectionDetailsViewModel @Inject constructor(
-    private val collectionsRepository: CollectionsRepository,
+    private val authRepository: AuthRepository,
+    private val collectionsRepository: CollectionsRepository
 ) : ViewModel() {
 
-    private val collectionId: MutableLiveData<Int> = MutableLiveData()
+    private val _collection: MutableLiveData<Collection> = MutableLiveData()
+    val collection: LiveData<Collection> get() = _collection
 
-    val collectionPhotos = collectionId.switchMap { collectionId ->
-        collectionsRepository.getCollectionPhotos(collectionId).cachedIn(viewModelScope)
+    private val _collectionId: MutableLiveData<Int> = MutableLiveData()
+
+    // When collection has been successfully deleted
+    // the collection details screen should no longer be present on screen.
+    // Observe it property to implement target logic
+    private val _isDeleted: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isDeleted: LiveData<Boolean> get() = _isDeleted
+
+    fun setCollection(collection: Collection) {
+        _collection.postValue(collection)
+        _collectionId.postValue(collection.id)
     }
 
-    fun getCollectionPhotos(collectionId: Int) {
-        this.collectionId.postValue(collectionId)
+    val collectionPhotos = _collectionId.switchMap { id ->
+        collectionsRepository.getCollectionPhotos(id).cachedIn(viewModelScope)
     }
+
+    fun updateCollection(id: Int, title: String?, description: String?, isPrivate: Boolean) =
+        viewModelScope.launch {
+            val result = collectionsRepository.updateCollection(id, title, description, isPrivate)
+            if (result is BackendResult.Success) {
+                _collection.postValue(result.value)
+            }
+        }
+
+    fun deleteCollection(id: Int) = viewModelScope.launch {
+        val result = collectionsRepository.deleteCollection(id)
+        if (result is BackendResult.Success) {
+            _isDeleted.postValue(true)
+        }
+    }
+
+    val isUserAuthorized: Boolean
+        get() = authRepository.isAuthorized
+
+    val isOwnCollection: Boolean
+        get() = authRepository.userNickname == _collection.value?.user?.username
+
 }

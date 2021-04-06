@@ -18,13 +18,14 @@ class UsersAdapter(private val listener: OnItemClickListener) :
     }
 
     inner class UserViewHolder(private val binding: ItemUserBinding) : BaseViewHolder(binding) {
+        @SuppressLint("SetTextI18n")
         override fun bind(entity: User) {
             with(binding) {
                 userImageView.loadImage(
                     url = entity.profileImage?.medium,
                     placeholderColorDrawable = null
                 )
-                @SuppressLint("SetTextI18n")
+                userNickNameTextView.text = "@${entity.username}"
                 userNameTextView.text = "${entity.firstName} ${entity.lastName}"
                 userCard.setOnClickListener { listener.onUserClick(entity) }
             }

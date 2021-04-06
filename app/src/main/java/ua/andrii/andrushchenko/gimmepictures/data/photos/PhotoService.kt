@@ -58,6 +58,4 @@ interface PhotoService {
         @Query("content_filter") contentFilter: String?,
         @Query("count") count: Int?
     ): List<Photo>
-
-
 }
