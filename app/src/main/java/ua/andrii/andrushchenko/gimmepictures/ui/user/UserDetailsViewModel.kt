@@ -1,5 +1,6 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.user
 
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -14,10 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserDetailsViewModel @Inject constructor(
-    private val userRepository: UserRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
-
-    private val usernameLiveData: MutableLiveData<String> = MutableLiveData("")
 
     private val _error: MutableLiveData<Boolean> = MutableLiveData(false)
     val error: LiveData<Boolean> get() = _error
@@ -25,12 +24,19 @@ class UserDetailsViewModel @Inject constructor(
     private val _user: MutableLiveData<User> = MutableLiveData()
     val user: LiveData<User> get() = _user
 
+    fun setUser(user: User) {
+        _user.postValue(user)
+    }
+
+    fun refreshUserProfile() {
+        _user.postValue(_user.value)
+    }
+
     fun getUserProfile(username: String) = viewModelScope.launch {
-        when (val result = userRepository.getUserProfile(username)) {
+        when (val result = userRepository.getUserPublicProfile(username)) {
             is BackendResult.Success -> {
                 _error.postValue(false)
-                _user.postValue(result.value)
-                usernameLiveData.postValue(username)
+                setUser(result.value)
             }
             is BackendResult.Error -> {
                 _error.postValue(true)
@@ -41,30 +47,22 @@ class UserDetailsViewModel @Inject constructor(
         }
     }
 
-    /*val userPhotos: LiveData<PagingData<Photo>> = usernameLiveData.switchMap { username ->
-        userRepository.getUserPhotos(username).cachedIn(viewModelScope)
+    val userPhotos: LiveData<PagingData<Photo>> = _user.switchMap {
+        Log.d(TAG, ": userPhotos updated")
+        userRepository.getUserPhotos(it.username ?: "").cachedIn(viewModelScope)
     }
 
-    val userLikedPhotos: LiveData<PagingData<Photo>> = usernameLiveData.switchMap { username ->
-        userRepository.getUserLikedPhotos(username).cachedIn(viewModelScope)
+    val userLikedPhotos: LiveData<PagingData<Photo>> = _user.switchMap {
+        Log.d(TAG, ": userLikedPhotos updated")
+        userRepository.getUserLikedPhotos(it.username ?: "").cachedIn(viewModelScope)
     }
 
-    val userCollections: LiveData<PagingData<Collection>> = usernameLiveData.switchMap { username ->
-        userRepository.getUserCollections(username).cachedIn(viewModelScope)
-    }*/
-
-    val userPhotos: LiveData<PagingData<Photo>> by lazy {
-        val photos = userRepository.getUserPhotos(usernameLiveData.value ?: "")
-        return@lazy photos.cachedIn(viewModelScope)
+    val userCollections: LiveData<PagingData<Collection>> = _user.switchMap {
+        Log.d(TAG, ": collections updated")
+        userRepository.getUserCollections(it.username ?: "").cachedIn(viewModelScope)
     }
 
-    val userLikedPhotos: LiveData<PagingData<Photo>> by lazy {
-        val likedPhotos = userRepository.getUserLikedPhotos(usernameLiveData.value ?: "")
-        return@lazy likedPhotos.cachedIn(viewModelScope)
-    }
-
-    val userCollections: LiveData<PagingData<Collection>> by lazy {
-        val userCollections = userRepository.getUserCollections(usernameLiveData.value ?: "")
-        return@lazy userCollections.cachedIn(viewModelScope)
+    companion object {
+        private const val TAG = "UserDetailsViewModel"
     }
 }

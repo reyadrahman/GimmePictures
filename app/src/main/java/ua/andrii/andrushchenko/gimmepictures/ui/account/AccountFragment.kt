@@ -62,7 +62,9 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBind
             btnShowProfile.setOnClickListener {
                 viewModel.userNickname?.let {
                     val direction =
-                        AccountFragmentDirections.actionNavAccountToUserDetailsFragment(it)
+                        AccountFragmentDirections.actionNavAccountToUserDetailsFragment(
+                            user = null, username = it
+                        )
                     findNavController().navigate(direction)
                 }
             }
@@ -78,9 +80,6 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBind
             }
 
             btnSettings.setOnClickListener {
-                /*val direction =
-                    AccountFragmentDirections.actionNavAccountToSettingsFragment()
-                findNavController().navigate(direction)*/
                 Intent(requireContext(), SettingsActivity::class.java).also {
                     startActivity(it)
                 }

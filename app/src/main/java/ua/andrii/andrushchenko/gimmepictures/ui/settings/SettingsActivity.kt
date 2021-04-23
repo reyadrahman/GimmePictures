@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -24,10 +25,13 @@ class SettingsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.toolbar.setNavigationOnClickListener { finish() }
 
-        supportFragmentManager
+        supportFragmentManager.commit {
+            replace(R.id.settings_fragment_container, SettingsFragment())
+        }
+        /*supportFragmentManager
             .beginTransaction()
             .replace(R.id.settings_fragment_container, SettingsFragment())
-            .commit()
+            .commit()*/
     }
 
     @AndroidEntryPoint

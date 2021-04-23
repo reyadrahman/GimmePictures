@@ -34,7 +34,7 @@ class DownloadWorker @AssistedInject constructor(
     @Assisted private val appContext: Context,
     @Assisted workerParams: WorkerParameters,
     private val downloadService: DownloadService,
-    private val notificationHelper: NotificationHelper,
+    private val notificationHelper: NotificationHelper
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {

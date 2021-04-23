@@ -17,7 +17,7 @@ import javax.inject.Singleton
 @Singleton
 class UserRepository @Inject constructor(private val userService: UserService) {
 
-    suspend fun getUserProfile(username: String): BackendResult<User> = backendRequest {
+    suspend fun getUserPublicProfile(username: String): BackendResult<User> = backendRequest {
         userService.getUserPublicProfile(username)
     }
 

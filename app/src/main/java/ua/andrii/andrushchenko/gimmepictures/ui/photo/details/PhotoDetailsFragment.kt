@@ -95,23 +95,21 @@ class PhotoDetailsFragment :
                         placeholderColorDrawable = null
                     )
                     setOnClickListener {
-                        user.username?.let {
-                            val direction =
-                                PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment(
-                                    it)
-                            findNavController().navigate(direction)
-                        }
+                        val direction =
+                            PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment(
+                                user = user,
+                                username = null)
+                        findNavController().navigate(direction)
                     }
                 }
                 userTextView.apply {
                     text = user.name ?: "Unknown"
                     setOnClickListener {
-                        user.username?.let {
-                            val direction =
-                                PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment(
-                                    it)
-                            findNavController().navigate(direction)
-                        }
+                        val direction =
+                            PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment(
+                                user = user,
+                                username = null)
+                        findNavController().navigate(direction)
                     }
                 }
             }

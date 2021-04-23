@@ -30,6 +30,7 @@
         android:layout_height="wrap_content"
         android:text="@string/delete"
         android:textColor="@color/red_500"
+        tools:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/edit_collection_title"
         app:layout_constraintEnd_toStartOf="@id/btn_save"
         app:layout_constraintTop_toTopOf="parent" />
@@ -41,9 +42,55 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/indent_8dp"
         android:text="@string/save"
+        tools:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/edit_collection_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/are_you_sure_text_view"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/indent_12dp"
+        android:layout_marginTop="@dimen/indent_4dp"
+        android:layout_marginBottom="@dimen/indent_4dp"
+        android:text="@string/are_you_sure"
+        android:textColor="?attr/colorOnPrimary"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@id/delete_no_collection_button"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_collection_title"
+        tools:visibility="visible" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/delete_yes_collection_button"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/indent_4dp"
+        android:layout_marginEnd="@dimen/indent_12dp"
+        android:layout_marginBottom="@dimen/indent_4dp"
+        android:text="@string/yes"
+        android:textColor="?attr/colorOnPrimary"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/are_you_sure_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/are_you_sure_text_view"
+        tools:visibility="visible" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/delete_no_collection_button"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no"
+        android:textColor="?attr/colorOnPrimary"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@id/delete_yes_collection_button"
+        app:layout_constraintTop_toTopOf="@id/delete_yes_collection_button"
+        tools:visibility="visible" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/collection_name_text_input_layout"
@@ -56,7 +103,8 @@
         app:counterEnabled="true"
         app:counterMaxLength="60"
         app:errorEnabled="true"
-        app:layout_constraintTop_toBottomOf="@id/edit_collection_title">
+        app:layout_constraintTop_toBottomOf="@id/are_you_sure_text_view"
+        tools:visibility="gone">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -77,7 +125,8 @@
         android:paddingEnd="@dimen/indent_24dp"
         app:counterEnabled="true"
         app:counterMaxLength="250"
-        app:layout_constraintTop_toBottomOf="@id/collection_name_text_input_layout">
+        app:layout_constraintTop_toBottomOf="@id/collection_name_text_input_layout"
+        tools:visibility="gone">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -98,7 +147,8 @@
         android:checked="false"
         android:text="@string/make_private"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/collection_description_text_input_layout" />
+        app:layout_constraintTop_toBottomOf="@id/collection_description_text_input_layout"
+        tools:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -111,45 +161,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/checkbox_make_private" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/are_you_sure_text_view"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/indent_12dp"
-        android:layout_marginTop="@dimen/indent_4dp"
-        android:layout_marginBottom="@dimen/indent_4dp"
-        android:text="@string/are_you_sure"
-        android:textColor="?attr/colorOnPrimary"
-        android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@id/delete_no_collection_button"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/progress_bar" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/delete_yes_collection_button"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/indent_4dp"
-        android:layout_marginEnd="@dimen/indent_12dp"
-        android:layout_marginBottom="@dimen/indent_4dp"
-        android:text="@string/yes"
-        android:textColor="?attr/colorOnPrimary"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/are_you_sure_text_view" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/delete_no_collection_button"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/no"
-        android:textColor="?attr/colorOnPrimary"
-        android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@id/delete_yes_collection_button"
-        app:layout_constraintTop_toTopOf="@id/delete_yes_collection_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

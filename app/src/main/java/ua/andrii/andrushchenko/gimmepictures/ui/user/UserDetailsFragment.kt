@@ -41,16 +41,20 @@ class UserDetailsFragment :
             )
         )
 
-        if (savedInstanceState == null) {
-            viewModel.getUserProfile(args.username)
-        }
-
         with(binding) {
             toolbar.setupWithNavController(navController, appBarConfiguration)
             btnRetry.setOnClickListener {
-                viewModel.getUserProfile(args.username)
+                viewModel.refreshUserProfile()
             }
         }
+
+        when {
+            args.user != null -> viewModel.setUser(args.user!!)
+            args.username != null -> viewModel.getUserProfile(args.username!!)
+            else -> findNavController().navigateUp()
+        }
+
+        setupTabs()
 
         viewModel.error.observe(viewLifecycleOwner) {
             toggleErrorLayout(isVisible = it)
@@ -58,6 +62,42 @@ class UserDetailsFragment :
 
         viewModel.user.observe(viewLifecycleOwner) {
             displayUserAccountInfo(it)
+        }
+    }
+
+    private fun setupTabs() {
+        with(binding) {
+            viewPager.adapter = object : FragmentStateAdapter(this@UserDetailsFragment) {
+                override fun getItemCount(): Int = 3
+
+                override fun createFragment(position: Int): Fragment =
+                    when (position) {
+                        0 -> UserPhotosFragment()
+                        1 -> UserLikedPhotosFragment()
+                        2 -> UserCollectionsFragment()
+                        else -> throw IllegalStateException("PagerAdapter position is not correct $position")
+                    }
+            }
+
+            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                tab.text = when (position) {
+                    0 -> getString(R.string.photos)
+                    1 -> getString(R.string.user_liked_photos)
+                    2 -> getString(R.string.collections)
+                    else -> throw IllegalStateException("PagerAdapter position is not correct $position")
+                }
+            }.attach()
+
+            tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {}
+                override fun onTabUnselected(tab: TabLayout.Tab?) {}
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                    val fragment = childFragmentManager.findFragmentByTag(
+                        "f${viewPager.currentItem}"
+                    ) as? BaseRecyclerViewFragment<*, *>
+                    fragment?.scrollRecyclerViewToTop()
+                }
+            })
         }
     }
 
@@ -88,54 +128,15 @@ class UserDetailsFragment :
             txtFollowingAmount.text = user.followingCount?.toAmountReadableString()
             @SuppressLint("SetTextI18n")
             txtUsername.text = "${user.firstName} ${user.lastName}"
-            /*user.email?.let { email ->
-                txtEmail.apply {
-                    visibility = View.VISIBLE
-                    text = email
-                }
-            }*/
-
-            viewPager.visibility = View.VISIBLE
-            viewPager.adapter = UserContentPagerAdapter(this@UserDetailsFragment)
-            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                tab.text = when (position) {
-                    0 -> getString(R.string.photos)
-                    1 -> getString(R.string.user_liked_photos)
-                    2 -> getString(R.string.collections)
-                    else -> throw IllegalStateException("PagerAdapter position is not correct $position")
-                }
-            }.attach()
-            tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab?) {}
-                override fun onTabUnselected(tab: TabLayout.Tab?) {}
-                override fun onTabReselected(tab: TabLayout.Tab?) {
-                    val fragment = childFragmentManager.findFragmentByTag(
-                        "f${viewPager.currentItem}"
-                    ) as? BaseRecyclerViewFragment<*, *>
-                    fragment?.scrollRecyclerViewToTop()
-                }
-            })
         }
     }
 
     private fun toggleErrorLayout(isVisible: Boolean) {
         with(binding) {
             userHeader.visibility = if (isVisible) View.GONE else View.VISIBLE
+            tabLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
             viewPager.visibility = if (isVisible) View.GONE else View.VISIBLE
             layoutError.visibility = if (isVisible) View.VISIBLE else View.GONE
         }
     }
-}
-
-private class UserContentPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-
-    override fun getItemCount(): Int = 3
-
-    override fun createFragment(position: Int): Fragment =
-        when (position) {
-            0 -> UserPhotosFragment()
-            1 -> UserLikedPhotosFragment()
-            2 -> UserCollectionsFragment()
-            else -> throw IllegalStateException("PagerAdapter position is not correct $position")
-        }
 }

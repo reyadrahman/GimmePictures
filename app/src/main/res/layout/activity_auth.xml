@@ -53,16 +53,18 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_join"
-            style="@style/GimmePictures.Widget.MaterialComponents.ButtonPrimaryColor"
+            style="@style/GimmePictures.Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="@dimen/indent_0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/indent_24dp"
             android:layout_marginEnd="@dimen/indent_4dp"
             android:layout_marginBottom="@dimen/indent_24dp"
             android:text="@string/join"
+            android:textColor="?attr/colorOnPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btn_login"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:rippleColor="?attr/colorOnPrimary" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_login"

@@ -22,6 +22,7 @@ import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
 import ua.andrii.andrushchenko.gimmepictures.util.customtabs.CustomTabsHelper
 import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManager
+import java.util.*
 
 @AndroidEntryPoint
 class PhotosFragment :
@@ -75,7 +76,10 @@ class PhotosFragment :
                 }
 
                 viewModel.order.observe(viewLifecycleOwner) {
-                    title = "${getString(it.titleRes)} ${getString(R.string.photos)}"
+                    title = "${getString(it.titleRes)} ${
+                        getString(R.string.photos)
+                            .decapitalize(Locale.ROOT)
+                    }"
                 }
             }
 

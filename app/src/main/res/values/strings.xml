@@ -77,7 +77,7 @@
     <string name="bio_hint">Bio</string>
 
     <!--Authorization-->
-    <string name="user_authorization_title">User authorization</string>
+    <string name="user_authorization_title">Add account</string>
     <string name="join">Join</string>
     <string name="login">Login</string>
     <string name="add_account_hint">Add an account to use all features of Gimme Pictures</string>

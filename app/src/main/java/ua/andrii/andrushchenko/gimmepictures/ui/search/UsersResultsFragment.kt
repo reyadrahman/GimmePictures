@@ -14,6 +14,7 @@ import ua.andrii.andrushchenko.gimmepictures.models.User
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
+import ua.andrii.andrushchenko.gimmepictures.ui.user.UsersAdapter
 import ua.andrii.andrushchenko.gimmepictures.util.setupLinearLayoutManager
 
 class UsersResultsFragment :
@@ -24,10 +25,8 @@ class UsersResultsFragment :
     override val pagedAdapter: BasePagedAdapter<User> =
         UsersAdapter(object : UsersAdapter.OnItemClickListener {
             override fun onUserClick(user: User) {
-                user.username?.let {
-                    val direction = SearchFragmentDirections.actionSearchFragmentToUserDetailsFragment(it)
-                    requireParentFragment().findNavController().navigate(direction)
-                }
+                val direction = SearchFragmentDirections.actionSearchFragmentToUserDetailsFragment(user = user, username = null)
+                requireParentFragment().findNavController().navigate(direction)
             }
         })
 

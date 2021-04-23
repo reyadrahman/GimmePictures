@@ -67,7 +67,18 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                 }
             }
 
-            viewPager.adapter = SearchFragmentPagerAdapter(this@SearchFragment)
+            viewPager.adapter = object : FragmentStateAdapter(this@SearchFragment) {
+                override fun getItemCount(): Int = 3
+
+                override fun createFragment(position: Int): Fragment =
+                    when (position) {
+                        0 -> PhotosResultFragment()
+                        1 -> CollectionsResultFragment()
+                        2 -> UsersResultsFragment()
+                        else -> throw IllegalStateException("PagerAdapter position is not correct $position")
+                    }
+            }
+
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = when (position) {
                     0 -> getString(R.string.photos)
@@ -76,6 +87,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                     else -> throw IllegalStateException("PagerAdapter position is not correct $position")
                 }
             }.attach()
+
             tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {}
                 override fun onTabUnselected(tab: TabLayout.Tab?) {}
@@ -105,19 +117,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
             }
         }
     }
-}
-
-private class SearchFragmentPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-
-    override fun getItemCount(): Int = 3
-
-    override fun createFragment(position: Int): Fragment =
-        when (position) {
-            0 -> PhotosResultFragment()
-            1 -> CollectionsResultFragment()
-            2 -> UsersResultsFragment()
-            else -> throw IllegalStateException("PagerAdapter position is not correct $position")
-        }
 }
 
 /*val materialShapeDrawable = toolbar.background as MaterialShapeDrawable

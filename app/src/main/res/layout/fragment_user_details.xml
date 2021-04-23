@@ -38,7 +38,7 @@
                     android:scaleType="centerCrop"
                     app:shapeAppearanceOverlay="@style/CircleImageView"
                     tools:ignore="ContentDescription"
-                    tools:src="@color/pink_200" />
+                    tools:src="@color/gray_400" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txt_username"
@@ -81,7 +81,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/photos"
-                            android:textSize="20sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/txt_photos_amount"
@@ -89,7 +89,7 @@
                             android:layout_height="wrap_content"
                             android:paddingTop="10dp"
                             android:textColor="?attr/colorOnBackground"
-                            android:textSize="20sp"
+                            android:textSize="16sp"
                             android:textStyle="bold"
                             tools:text="125" />
 
@@ -106,7 +106,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/followers"
-                            android:textSize="20sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/txt_followers_amount"
@@ -114,7 +114,7 @@
                             android:layout_height="wrap_content"
                             android:paddingTop="10dp"
                             android:textColor="?attr/colorOnBackground"
-                            android:textSize="20sp"
+                            android:textSize="16sp"
                             android:textStyle="bold"
                             tools:text="1205" />
 
@@ -131,7 +131,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/following"
-                            android:textSize="20sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/txt_following_amount"
@@ -139,7 +139,7 @@
                             android:layout_height="wrap_content"
                             android:paddingTop="10dp"
                             android:textColor="?attr/colorOnBackground"
-                            android:textSize="20sp"
+                            android:textSize="16sp"
                             android:textStyle="bold"
                             tools:text="360" />
 

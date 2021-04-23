@@ -81,8 +81,13 @@
             android:id="@+id/action_userDetailsFragment_to_collectionDetailsFragment"
             app:destination="@id/collectionDetailsFragment" />
         <argument
+            android:name="user"
+            app:argType="ua.andrii.andrushchenko.gimmepictures.models.User"
+            app:nullable="true" />
+        <argument
             android:name="username"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <dialog
         android:id="@+id/searchPhotoFilterDialog"

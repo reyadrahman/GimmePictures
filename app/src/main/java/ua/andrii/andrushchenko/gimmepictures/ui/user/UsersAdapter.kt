@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.ui.search
+package ua.andrii.andrushchenko.gimmepictures.ui.user
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

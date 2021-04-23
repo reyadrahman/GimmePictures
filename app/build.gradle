@@ -7,7 +7,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion "30.0.3"
+    buildToolsVersion '31.0.0 rc2'
 
     defaultConfig {
         applicationId "ua.andrii.andrushchenko.gimmepictures"
@@ -32,12 +32,13 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = JavaVersion.VERSION_11
+        useIR = true
     }
 }
 
@@ -53,6 +54,8 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
     implementation "androidx.viewpager2:viewpager2:$viewPager2Version"
+
+    implementation "androidx.startup:startup-runtime:1.0.0"
 
     // Tests
     testImplementation "junit:junit:$junitVersion"
@@ -115,5 +118,4 @@ dependencies {
     /*implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"*/
-
 }
