@@ -107,6 +107,9 @@
         <action
             android:id="@+id/action_collectionDetailsFragment_to_editCollectionDialogFragment"
             app:destination="@id/editCollectionDialogFragment" />
+        <action
+            android:id="@+id/action_collectionDetailsFragment_to_userDetailsFragment"
+            app:destination="@id/userDetailsFragment" />
     </fragment>
     <dialog
         android:id="@+id/editProfileDialog"

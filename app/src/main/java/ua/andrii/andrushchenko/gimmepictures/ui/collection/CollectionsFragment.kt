@@ -11,17 +11,14 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
-import ua.andrii.andrushchenko.gimmepictures.data.collection.CollectionsPagingSource
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentCollectionsBinding
 import ua.andrii.andrushchenko.gimmepictures.models.Collection
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
 import ua.andrii.andrushchenko.gimmepictures.util.setupLinearLayoutManager
-import java.util.*
 
 @AndroidEntryPoint
 class CollectionsFragment :
@@ -48,9 +45,6 @@ class CollectionsFragment :
             toolbar.apply {
                 setOnMenuItemClickListener { item ->
                     when (item.itemId) {
-                        R.id.action_sort -> {
-                            showFilterDialog()
-                        }
                         R.id.action_search -> {
                             val direction =
                                 CollectionsFragmentDirections.actionNavCollectionsToSearchFragment(
@@ -75,12 +69,6 @@ class CollectionsFragment :
                     scrollRecyclerViewToTop()
                 }
 
-                viewModel.order.observe(viewLifecycleOwner) {
-                    title = "${getString(it.titleRes)} ${
-                        getString(R.string.collections)
-                            .decapitalize(Locale.ROOT)
-                    }"
-                }
             }
 
             collectionsListingLayout.swipeRefreshLayout.setOnRefreshListener {
@@ -121,23 +109,6 @@ class CollectionsFragment :
 
         viewModel.collections.observe(viewLifecycleOwner) {
             pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
-        }
-    }
-
-    private fun showFilterDialog() {
-        val orderOptions = enumValues<CollectionsPagingSource.Companion.Order>().map {
-            getString(it.titleRes)
-        }.toTypedArray()
-        val currentSelection = viewModel.order.value?.ordinal ?: 0
-        MaterialAlertDialogBuilder(requireContext()).run {
-            setTitle(getString(R.string.sort_by))
-            setSingleChoiceItems(orderOptions, currentSelection) { dialog, which ->
-                if (which != currentSelection) viewModel.orderCollectionsBy(which)
-                dialog.dismiss()
-                binding.collectionsListingLayout.recyclerView.scrollToPosition(0)
-            }
-            create()
-            show()
         }
     }
 }

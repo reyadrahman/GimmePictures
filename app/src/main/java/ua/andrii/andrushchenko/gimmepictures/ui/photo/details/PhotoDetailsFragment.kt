@@ -153,16 +153,16 @@ class PhotoDetailsFragment :
                 }
             }
 
-            setLikeButtonState(photo.liked_by_user)
+            setLikeButtonState(photo.likedByUser)
             btnLike.setOnClickListener {
                 if (viewModel.isUserAuthorized) {
-                    if (photo.liked_by_user) {
+                    if (photo.likedByUser) {
                         viewModel.unlikePhoto(photo.id)
                     } else {
                         viewModel.likePhoto(photo.id)
                     }
-                    photo.liked_by_user = photo.liked_by_user.not()
-                    setLikeButtonState(photo.liked_by_user)
+                    photo.likedByUser = photo.likedByUser.not()
+                    setLikeButtonState(photo.likedByUser)
                 } else {
                     Toast.makeText(requireContext(),
                         String.format(getString(R.string.login_prompt),

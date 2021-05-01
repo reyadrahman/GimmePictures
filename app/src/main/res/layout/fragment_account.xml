@@ -108,7 +108,7 @@
                             tools:text="Andrii Andrushchenko (@and_rulik)" />
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/txt_email"
+                            android:id="@+id/txt_user_email"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_14sp"

@@ -25,7 +25,8 @@ import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManage
 import ua.andrii.andrushchenko.gimmepictures.util.toAmountReadableString
 
 @AndroidEntryPoint
-class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollectionDetailsBinding>(FragmentCollectionDetailsBinding::inflate) {
+class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollectionDetailsBinding>(
+    FragmentCollectionDetailsBinding::inflate) {
 
     private val args: CollectionDetailsFragmentArgs by navArgs()
     private val viewModel: CollectionDetailsViewModel by viewModels()
@@ -72,23 +73,38 @@ class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollec
                     }
                 }
 
-                @SuppressLint("SetTextI18n")
-                userNameTextView.text = "${
-                    collection.totalPhotos.toAmountReadableString()
-                } ${
-                    getString(R.string.photos).apply { first().toLowerCase() }
-                } ${
-                    getString(R.string.curated_by)
-                } ${
-                    collection.user?.username
-                }"
+                userNameTextView.apply {
+                    setOnClickListener {
+                        collection.user?.username?.let {
+                            val direction =
+                                CollectionDetailsFragmentDirections
+                                    .actionCollectionDetailsFragmentToUserDetailsFragment(
+                                        user = null,
+                                        username = it
+                                    )
+                            findNavController().navigate(direction)
+                        }
+                    }
+
+                    @SuppressLint("SetTextI18n")
+                    text = "${
+                        collection.totalPhotos.toAmountReadableString()
+                    } ${
+                        getString(R.string.photos).apply { first().toLowerCase() }
+                    } ${
+                        getString(R.string.curated_by)
+                    } ${
+                        collection.user?.username
+                    }"
+                }
 
                 if (viewModel.isUserAuthorized && viewModel.isOwnCollection) {
                     fabEditCollection.apply {
                         visibility = View.VISIBLE
                         setOnClickListener {
                             val direction = CollectionDetailsFragmentDirections
-                                .actionCollectionDetailsFragmentToEditCollectionDialogFragment(collection)
+                                .actionCollectionDetailsFragmentToEditCollectionDialogFragment(
+                                    collection)
                             findNavController().navigate(direction)
                         }
                     }

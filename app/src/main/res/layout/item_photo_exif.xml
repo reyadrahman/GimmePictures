@@ -3,23 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:paddingStart="@dimen/indent_24dp"
     android:paddingTop="@dimen/indent_8dp"
     android:paddingEnd="@dimen/indent_24dp"
     android:paddingBottom="@dimen/indent_8dp">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/exif_title_text_view"
-        style="@style/TextAppearance.MaterialComponents.Subtitle2"
-        android:layout_width="match_parent"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/exif_entry_icon_image_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ellipsize="marquee"
-        android:fontFamily="sans-serif-medium"
-        android:singleLine="true"
-        android:textAlignment="viewStart"
-        android:textSize="@dimen/text_size_14sp"
-        tools:text="Camera" />
+        android:layout_marginEnd="@dimen/indent_8dp"
+        android:src="@color/gray_400"
+        tools:layout_height="@dimen/indent_24dp"
+        tools:layout_width="@dimen/indent_24dp" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/exif_value_text_view"

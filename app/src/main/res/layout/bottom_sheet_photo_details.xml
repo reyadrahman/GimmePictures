@@ -55,8 +55,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:drawableStart="@drawable/ic_views"
-                android:drawablePadding="@dimen/indent_8dp"
+                android:drawableTop="@drawable/ic_views"
+                android:gravity="center"
                 tools:text="100" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -64,8 +64,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:drawableStart="@drawable/ic_likes"
-                android:drawablePadding="@dimen/indent_8dp"
+                android:drawableTop="@drawable/ic_likes"
+                android:gravity="center"
                 tools:text="100" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -73,84 +73,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:drawableStart="@drawable/ic_downloads"
-                android:drawablePadding="@dimen/indent_8dp"
+                android:drawableTop="@drawable/ic_downloads"
+                android:gravity="center"
                 tools:text="100" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_camera_outline"
-                android:gravity="center"
-                android:padding="@dimen/indent_8dp"
-                android:text="@string/camera" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_aperture"
-                android:gravity="center"
-                android:padding="@dimen/indent_8dp"
-                android:text="@string/aperture" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_focal_length"
-                android:gravity="center"
-                android:padding="@dimen/indent_8dp"
-                android:text="@string/focal_length" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_shutter_speed_outlined"
-                android:gravity="center"
-                android:padding="@dimen/indent_8dp"
-                android:text="@string/shutter_speed" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_iso_outlined"
-                android:gravity="center"
-                android:padding="@dimen/indent_8dp"
-                android:text="@string/iso" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/ic_resolution_outlined"
-                android:gravity="center"
-                android:padding="@dimen/indent_8dp"
-                android:text="@string/resolution" />
 
         </LinearLayout>
 
@@ -161,7 +86,6 @@
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"
             tools:itemCount="6"
-            tools:visibility="gone"
             tools:listitem="@layout/item_photo_exif" />
 
     </LinearLayout>

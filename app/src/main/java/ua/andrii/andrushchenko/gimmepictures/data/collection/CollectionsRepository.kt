@@ -16,13 +16,13 @@ import javax.inject.Singleton
 @Singleton
 class CollectionsRepository @Inject constructor(private val collectionsService: CollectionsService) {
 
-    fun getAllCollections(order: CollectionsPagingSource.Companion.Order): LiveData<PagingData<Collection>> =
+    fun getCollections(): LiveData<PagingData<Collection>> =
         Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { CollectionsPagingSource(collectionsService, order) }
+            pagingSourceFactory = { CollectionsPagingSource(collectionsService) }
         ).liveData
 
     fun getCollectionPhotos(collectionId: Int): LiveData<PagingData<Photo>> =
@@ -38,7 +38,7 @@ class CollectionsRepository @Inject constructor(private val collectionsService: 
         id: Int,
         title: String?,
         description: String?,
-        isPrivate: Boolean
+        isPrivate: Boolean,
     ): BackendResult<Collection> = backendRequest {
         collectionsService.updateCollection(id, title, description, isPrivate)
     }

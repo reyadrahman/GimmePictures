@@ -8,16 +8,16 @@ import ua.andrii.andrushchenko.gimmepictures.models.Photo
 interface CollectionsService {
 
     @GET("collections")
-    suspend fun getAllCollections(
+    suspend fun getCollections(
         @Query("page") page: Int?,
         @Query("per_page") per_page: Int?
     ): List<Collection>
 
-    @GET("collections/featured")
+    /*@GET("collections/featured")
     suspend fun getFeaturedCollections(
         @Query("page") page: Int?,
         @Query("per_page") per_page: Int?
-    ): List<Collection>
+    ): List<Collection>*/
 
     @GET("collections/{id}/photos")
     suspend fun getCollectionPhotos(

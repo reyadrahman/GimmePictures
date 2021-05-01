@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.DrawableRes
 import androidx.core.text.italic
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -33,24 +34,21 @@ class PhotoExifAdapter(
         val unknown = SpannableStringBuilder(context.getString(R.string.unknown))
         photo.exif?.let {
             pairs.add(
-                R.string.camera to if (it.model != null) SpannableStringBuilder().append(
-                    formCameraName(it.make, it.model)
-                ) else unknown
+                R.drawable.ic_camera_outline to if (it.model != null) SpannableStringBuilder().
+                append(formCameraName(it.make, it.model)) else unknown
             )
-            pairs.add(R.string.aperture to if (it.aperture != null) SpannableStringBuilder().italic {
-                append(
-                    "f"
-                )
+            pairs.add(R.drawable.ic_aperture to if (it.aperture != null) SpannableStringBuilder().italic {
+                append("f")
             }.append("/${it.aperture}") else unknown)
-            pairs.add(R.string.focal_length to if (it.focalLength != null) SpannableStringBuilder("${it.focalLength}mm") else unknown)
+            pairs.add(R.drawable.ic_focal_length to if (it.focalLength != null) SpannableStringBuilder("${it.focalLength}mm") else unknown)
             pairs.add(
-                R.string.shutter_speed to if (it.exposureTime != null) SpannableStringBuilder(
+                R.drawable.ic_shutter_speed_outlined to if (it.exposureTime != null) SpannableStringBuilder(
                     "${it.exposureTime}s"
                 ) else unknown
             )
-            pairs.add(R.string.iso to if (it.iso != null) SpannableStringBuilder(it.iso.toString()) else unknown)
+            pairs.add(R.drawable.ic_iso_outlined to if (it.iso != null) SpannableStringBuilder(it.iso.toString()) else unknown)
             pairs.add(
-                R.string.resolution to SpannableStringBuilder(
+                R.drawable.ic_resolution_outlined to SpannableStringBuilder(
                     "${photo.width} × ${photo.height}"
                 )
             )
@@ -74,18 +72,18 @@ class PhotoExifAdapter(
     inner class ExifViewHolder(private val binding: ItemPhotoExifBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
-            titleRes: Int,
+            @DrawableRes
+            drawableRes: Int,
             value: SpannableStringBuilder
         ) {
             binding.apply {
-                exifTitleTextView.setText(titleRes)
+                exifEntryIconImageView.setImageResource(drawableRes)
                 exifValueTextView.text = value
             }
         }
     }
 
     companion object {
-
         private val diffCallback =
             object : DiffUtil.ItemCallback<Pair<Int, SpannableStringBuilder>>() {
                 override fun areItemsTheSame(

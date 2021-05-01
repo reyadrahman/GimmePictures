@@ -60,6 +60,7 @@
     <string name="user_details">User details</string>
     <string name="user_photo">User photo</string>
     <string name="user_liked_photos">Liked photos</string>
+    <string name="likes">Likes</string>
     <string name="followers">Followers</string>
     <string name="following">Following</string>
     <string name="edit_profile">Edit profile</string>

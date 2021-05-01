@@ -61,7 +61,7 @@ class UserDetailsFragment :
         }
 
         viewModel.user.observe(viewLifecycleOwner) {
-            displayUserAccountInfo(it)
+            displayUserInfo(it)
         }
     }
 
@@ -101,7 +101,7 @@ class UserDetailsFragment :
         }
     }
 
-    private fun displayUserAccountInfo(user: User) {
+    private fun displayUserInfo(user: User) {
         with(binding) {
             toolbar.apply {
                 setOnMenuItemClickListener { item ->
@@ -124,10 +124,16 @@ class UserDetailsFragment :
             )
 
             txtPhotosAmount.text = user.totalPhotos?.toAmountReadableString()
-            txtFollowersAmount.text = user.followersCount?.toAmountReadableString()
-            txtFollowingAmount.text = user.followingCount?.toAmountReadableString()
+            txtLikesAmount.text = user.totalLikes?.toAmountReadableString()
+            txtCollectionsAmount.text = user.totalCollections?.toAmountReadableString()
             @SuppressLint("SetTextI18n")
             txtUsername.text = "${user.firstName} ${user.lastName}"
+            user.bio?.let { bio ->
+                txtUserBio.apply {
+                    visibility = View.VISIBLE
+                    text = bio
+                }
+            }
         }
     }
 

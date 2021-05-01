@@ -101,9 +101,9 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBind
                 placeholderColorDrawable = null
             )
             txtUsername.text =
-                "${viewModel.userFirstName} ${viewModel.userLastName} (@${viewModel.userNickname})"
+                "${viewModel.userFirstName} ${viewModel.userLastName} (${viewModel.userNickname})"
             viewModel.userEmail?.let {
-                txtEmail.apply {
+                txtUserEmail.apply {
                     visibility = View.VISIBLE
                     text = viewModel.userEmail
                 }

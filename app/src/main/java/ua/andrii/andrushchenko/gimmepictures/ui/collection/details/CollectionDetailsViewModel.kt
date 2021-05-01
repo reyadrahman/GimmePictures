@@ -22,8 +22,8 @@ class CollectionDetailsViewModel @Inject constructor(
     private val _collectionId: MutableLiveData<Int> = MutableLiveData()
 
     // When collection has been successfully deleted
-    // the collection details screen should no longer be present on screen.
-    // Observe it property to implement target logic
+    // the collection details screen should no longer be present on the display.
+    // Observe this property to implement target logic
     private val _isDeleted: MutableLiveData<Boolean> = MutableLiveData(false)
     val isDeleted: LiveData<Boolean> get() = _isDeleted
 
