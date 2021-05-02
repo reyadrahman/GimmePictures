@@ -6,9 +6,7 @@ import android.text.TextWatcher
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.BottomSheetEditCollectionBinding
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseBottomSheetDialogFragment
 
@@ -78,25 +76,37 @@ class EditCollectionDialogFragment :
                 })
                 setText(args.collection.description)
             }
-            if (savedInstanceState == null) {
-                checkboxMakePrivate.isChecked = args.collection.private == true
+            checkboxMakePrivate.apply {
+                isChecked = args.collection.private == true
+                setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked != args.collection.private) {
+                        somethingChanged = true
+                    }
+                }
             }
             btnSave.setOnClickListener { saveCollectionDetails() }
-            btnDelete.setOnClickListener { deleteCollection() }
-        }
-    }
+            btnDelete.setOnClickListener { toggleDeleteCollectionDialog(isVisible = true) }
 
-    private fun deleteCollection() {
-        // FIXME: temporary solution. Will be replaced by layout confirmation
-        MaterialAlertDialogBuilder(requireContext()).run {
-            setTitle(R.string.delete)
-            setMessage(R.string.are_you_sure)
-            setPositiveButton(R.string.yes) { _, _ ->
+            deleteNoCollectionButton.setOnClickListener { toggleDeleteCollectionDialog(isVisible = false) }
+            deleteYesCollectionButton.setOnClickListener {
                 viewModel.deleteCollection(args.collection.id)
                 dismiss()
             }
-            setNegativeButton(R.string.no, null)
-            show()
+        }
+    }
+
+    private fun toggleDeleteCollectionDialog(isVisible: Boolean) {
+        with(binding) {
+            btnDelete.visibility = if (isVisible) View.GONE else View.VISIBLE
+            btnSave.visibility = if (isVisible) View.GONE else View.VISIBLE
+            collectionNameTextInputLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
+            collectionDescriptionTextInputLayout.visibility =
+                if (isVisible) View.GONE else View.VISIBLE
+            checkboxMakePrivate.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            areYouSureTextView.visibility = if (isVisible) View.VISIBLE else View.GONE
+            deleteNoCollectionButton.visibility = if (isVisible) View.VISIBLE else View.GONE
+            deleteYesCollectionButton.visibility = if (isVisible) View.VISIBLE else View.GONE
         }
     }
 

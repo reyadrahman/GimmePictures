@@ -12,7 +12,9 @@
         android:id="@+id/edit_collection_title"
         android:layout_width="@dimen/indent_0dp"
         android:layout_height="wrap_content"
+        android:ellipsize="marquee"
         android:fontFamily="sans-serif-medium"
+        android:maxLines="1"
         android:paddingStart="@dimen/indent_24dp"
         android:paddingTop="@dimen/indent_16dp"
         android:paddingEnd="@dimen/indent_24dp"
@@ -30,10 +32,10 @@
         android:layout_height="wrap_content"
         android:text="@string/delete"
         android:textColor="@color/red_500"
-        tools:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/edit_collection_title"
         app:layout_constraintEnd_toStartOf="@id/btn_save"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_save"
@@ -42,10 +44,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/indent_8dp"
         android:text="@string/save"
-        tools:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/edit_collection_title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/are_you_sure_text_view"

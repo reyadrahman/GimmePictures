@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Global -->
+    <string name="delete">Удалить</string>
+    <string name="are_you_sure">Вы уверенны?</string>
+    <string name="photos">Фото</string>
+    <string name="collections">Коллекции</string>
+    <string name="account">Аккаунт</string>
+    <string name="account_and_settings">Аккаунт и настройки</string>
+    <string name="users">Пользователи</string>
+    <string name="search">Поиск</string>
+    <string name="retry">Повторить попытку</string>
+    <string name="list_footer_load_error">Ошибка загрузки, проверьте соединение</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="settings">Настройки</string>
+    <string name="about">О приложении</string>
+
+    <!--Photo fragment-->
+    <string name="add_photo">Добавить фото</string>
+    <string name="sort_by">Сортировать по</string>
+    <string name="order_latest">Последние</string>
+    <string name="order_oldest">Самые старые</string>
+    <string name="order_popular">Популярные</string>
+
+    <!--Photo details-->
+    <string name="photo">Фото</string>
+    <string name="photo_details">Детали</string>
+    <string name="see_photo_info">Информация о фото</string>
+    <string name="open_in_browser">Открыть в браузере</string>
+    <string name="share">Поделиться</string>
+    <string name="camera">Камера</string>
+    <string name="aperture">Апертура</string>
+    <string name="unknown">Неизвестно</string>
+    <string name="focal_length">Фокусное расстояние</string>
+    <string name="shutter_speed">Скорость затвора</string>
+    <string name="exposure_time">Длительность выдержки</string>
+    <string name="resolution">Разрешение</string>
+    <string name="like">Нравится</string>
+    <string name="download">Скачать</string>
+    <string name="save">Сохранить</string>
+    <string name="gmaps_does_not_installed">На Вашем устройстве не установлены Google Maps</string>
+
+    <!--Collection details-->
+    <string name="curated_by">curated by</string>
+    <string name="collection_details">Детали</string>
+    <string name="edit_collection">Редактировать коллекцию</string>
+    <string name="create_new_collection">Создать коллекцию</string>
+    <string name="make_private">Сделать приватной</string>
+    <string name="collection_name_hint">Название</string>
+    <string name="collection_description_hint">Описание (необязательно)</string>
+
+    <!--User details-->
+    <string name="user_details">Детали о пользователе</string>
+    <string name="user_photo">Фото пользователя</string>
+    <string name="user_liked_photos">Понравившиеся</string>
+    <string name="edit_profile">Редактировать профиль</string>
+    <string name="show_profile">Показать профиль</string>
+    <string name="likes">Отметки нравится</string>
+
+    <!--Edit my profile-->
+    <string name="username_hint">Никнейм</string>
+    <string name="username_description_text">(Только буквы, цифры и знаки подчёркивания)</string>
+    <string name="first_name_hint">Имя</string>
+    <string name="last_name_hint">Фамилия</string>
+    <string name="email_hint">Адрес эл. почты</string>
+    <string name="portfolio_hint">Персональный сайт / ссылка на портфолио</string>
+    <string name="instagram_username_hint">Ник в Instagram</string>
+    <string name="location_hint">Местоположение</string>
+    <string name="bio_hint">О себе</string>
+
+    <!--Authorization-->
+    <string name="add_account">Добавить аккаунт</string>
+    <string name="user_authorization_title">Авторизация</string>
+    <string name="join">Присоединиться</string>
+    <string name="login">Войти</string>
+    <string name="add_account_hint">Войдите, чтобы использовать все возможности Gimme Pictures</string>
+    <string name="logout">Выйти</string>
+    <string name="logout_confirmation">Вы уверены, что хотите выйти?</string>
+    <string name="login_prompt">Пожалуйста, войдите, чтобы %s</string>
+    <string name="like_photo">лайкнуть фото</string>
+    <string name="save_photo">сохранить фото</string>
+    <string name="login_successful">Авторизация успешна</string>
+    <string name="login_failed">Ошибка авторизации</string>
+    <string name="welcome_msg">Добро пожаловать! Войдите, чтобы использовать все возможности Gimme pictures</string>
+
+    <!-- Search -->
+    <string-array name="search_category_array">
+        <item>Фото</item>
+        <item>Коллекции</item>
+        <item>Пользователи</item>
+    </string-array>
+    <string name="apply">Применить</string>
+    <string name="search_for">Искать:</string>
+    <string name="nothing_found">Упс, кажется ничего не найдено</string>
+    <string name="no_search_results_subtitle">Попробуйте что-то поискать</string>
+
+    <string name="filter">Фильтр</string>
+    <string name="filter_photos">Фильтр фото</string>
+    <string name="filter_relevance">Релевантности</string>
+    <string name="filter_latest">Последние</string>
+    <string name="content_filter">Фильтрация контента</string>
+    <string name="filter_low">Выключена</string>
+    <string name="filter_high">Включена</string>
+    <string name="orientation">Ориентация</string>
+    <string name="filter_any">Любая</string>
+    <string name="filter_portrait">Портретная</string>
+    <string name="filter_landscape">Ландшафтная</string>
+    <string name="filter_square">Квадрат</string>
+    <string name="filter_color">Цвет</string>
+    <string name="filter_color_any">Любой</string>
+    <string name="filter_color_black_white">Черно-белый</string>
+    <string name="filter_color_black">Черный</string>
+    <string name="filter_color_white">Белый</string>
+    <string name="filter_color_yellow">Желтый</string>
+    <string name="filter_color_orange">Оранжевый</string>
+    <string name="filter_color_red">Красный</string>
+    <string name="filter_color_purple">Фиолетовый</string>
+    <string name="filter_color_magenta">Розовый</string>
+    <string name="filter_color_green">Зеленый</string>
+    <string name="filter_color_teal">Бирюзовый</string>
+    <string name="filter_color_blue">Синий</string>
+
+    <!--Notification related-->
+    <string name="download_notification_channel_name">Загрузки</string>
+    <string name="download_notification_channel_description">Уведомления, относящиеся к загрузкам размещены здесь</string>
+
+    <!--Download feature-->
+    <string name="download_complete">Загрузка завершена</string>
+    <string name="download_error">Ошибка загрузки</string>
+    <string name="cancel">Отмена</string>
+    <string name="select_image_quality">Выберите размер изображения</string>
+    <string name="image_size_raw">Исходный</string>
+    <string name="image_size_full">Полный</string>
+    <string name="image_size_regular">Обычный</string>
+    <string name="image_size_small">Малый</string>
+    <string name="image_size_thumb">Очень маленький</string>
+
+    <!--File related-->
+    <string name="file_exists_title">Такой файл уже существует</string>
+    <string name="file_exists_msg">Хотите скачать еще раз?</string>
+
+    <!--Settings-->
+    <string name="settings_quality">Качество фото</string>
+    <string name="settings_appearance">Внешний вид</string>
+    <string name="clear_cache">Очистить кэш</string>
+    <string name="cache_size">Размер кэш: %d Мб</string>
+    <string name="theme">Тема оформления</string>
+
+    <!--Quality-->
+    <string-array name="quality_options">
+        <item>@string/image_size_raw</item>
+        <item>@string/image_size_full</item>
+        <item>@string/image_size_regular</item>
+        <item>@string/image_size_small</item>
+        <item>@string/image_size_thumb</item>
+    </string-array>
+    <string-array name="quality_values">
+        <item>raw</item>
+        <item>full</item>
+        <item>regular</item>
+        <item>small</item>
+        <item>thumb</item>
+    </string-array>
+
+    <!--Theme-->
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Темная</string>
+    <string name="theme_system_default">Системная</string>
+    <string-array name="theme_options">
+        <item>@string/theme_light</item>
+        <item>@string/theme_dark</item>
+        <item>@string/theme_system_default</item>
+    </string-array>
+    <string-array name="theme_values">
+        <item>light</item>
+        <item>dark</item>
+        <item>system</item>
+    </string-array>
+</resources>

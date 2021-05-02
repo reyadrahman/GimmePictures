@@ -67,94 +67,100 @@
                     tools:visibility="visible" />
 
                 <LinearLayout
-                    android:id="@+id/user_photos_amount_container"
-                    android:layout_width="@dimen/indent_0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/indent_16dp"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="@dimen/indent_16dp"
-                    app:layout_constraintBottom_toBottomOf="@id/user_image_view"
+                    android:orientation="horizontal"
                     app:layout_constraintStart_toEndOf="@id/user_image_view"
-                    app:layout_constraintTop_toTopOf="@id/user_image_view">
+                    app:layout_constraintTop_toTopOf="@id/user_image_view"
+                    app:layout_constraintBottom_toBottomOf="@id/user_image_view"
+                    android:weightSum="3">
 
-                    <TextView
-                        android:id="@+id/txt_photos_amount"
+                    <LinearLayout
+                        android:id="@+id/user_photos_amount_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
-                        android:textColor="?attr/colorOnBackground"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        tools:text="125" />
+                        android:layout_marginStart="@dimen/indent_16dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:padding="@dimen/indent_16dp">
 
-                    <TextView
+                        <TextView
+                            android:id="@+id/txt_photos_amount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="10dp"
+                            android:textColor="?attr/colorOnBackground"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            tools:text="125" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/photos"
+                            android:maxLines="2"
+                            android:ellipsize="marquee"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/user_likes_amount_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/photos"
-                        android:textSize="16sp" />
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="@dimen/indent_16dp">
 
+                        <TextView
+                            android:id="@+id/txt_likes_amount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="10dp"
+                            android:textColor="?attr/colorOnBackground"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            tools:text="1205" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="2"
+                            android:ellipsize="marquee"
+                            android:text="@string/likes"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/user_collections_amount_container"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="@dimen/indent_16dp">
+
+                        <TextView
+                            android:id="@+id/txt_collections_amount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="10dp"
+                            android:textColor="?attr/colorOnBackground"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            tools:text="360" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/collections"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
                 </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/user_likes_amount_container"
-                    android:layout_width="@dimen/indent_0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="@dimen/indent_16dp"
-                    app:layout_constraintBottom_toBottomOf="@id/user_photos_amount_container"
-                    app:layout_constraintStart_toEndOf="@id/user_photos_amount_container"
-                    app:layout_constraintTop_toTopOf="@id/user_photos_amount_container">
-
-                    <TextView
-                        android:id="@+id/txt_likes_amount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
-                        android:textColor="?attr/colorOnBackground"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        tools:text="1205" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/likes"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/user_collections_amount_container"
-                    android:layout_width="@dimen/indent_0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="@dimen/indent_16dp"
-                    app:layout_constraintBottom_toBottomOf="@id/user_likes_amount_container"
-                    app:layout_constraintStart_toEndOf="@id/user_likes_amount_container"
-                    app:layout_constraintTop_toTopOf="@id/user_likes_amount_container">
-
-                    <TextView
-                        android:id="@+id/txt_collections_amount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
-                        android:textColor="?attr/colorOnBackground"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        tools:text="360" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/collections"
-                        android:textSize="16sp" />
-
-
-                </LinearLayout>
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

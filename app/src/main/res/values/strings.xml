@@ -1,18 +1,23 @@
 <resources>
-    <string name="app_name">Gimme Pictures</string>
-    <string name="unsplash_join_url">https://unsplash.com/join</string>
+    <!-- Global -->
+    <string name="app_name" translatable="false">Gimme Pictures</string>
+    <string name="unsplash_join_url" translatable="false">https://unsplash.com/join</string>
     <string name="delete">Delete</string>
     <string name="are_you_sure">Are you sure?</string>
-    <string name="unsplash_add_photo_authorized_url">https://unsplash.com/submit</string>
-    <string name="unsplash_add_photo_unauthorized_url">https://unsplash.com/?modal=%7B%22tag%22%3A%22Login%22%2C%22value%22%3A%7B%22tag%22%3A%22SubmitAPhoto%22%2C%22value%22%3A%7B%7D%7D%7D</string>
-
-    <!--Navigation destinations-->
+    <string name="unsplash_add_photo_authorized_url" translatable="false">https://unsplash.com/submit</string>
+    <string name="unsplash_add_photo_unauthorized_url" translatable="false">https://unsplash.com/?modal=%7B%22tag%22%3A%22Login%22%2C%22value%22%3A%7B%22tag%22%3A%22SubmitAPhoto%22%2C%22value%22%3A%7B%7D%7D%7D</string>
     <string name="photos">Photos</string>
     <string name="collections">Collections</string>
     <string name="account">Account</string>
     <string name="account_and_settings">Account and settings</string>
     <string name="users">Users</string>
     <string name="search">Search</string>
+    <string name="retry">Retry</string>
+    <string name="list_footer_load_error">Load error, check connection</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
 
     <!--Photo fragment-->
     <string name="add_photo">Add photo</string>
@@ -20,13 +25,6 @@
     <string name="order_latest">Latest</string>
     <string name="order_oldest">Oldest</string>
     <string name="order_popular">Popular</string>
-    <string name="order_all">All</string>
-    <string name="order_featured">Featured</string>
-
-    <!--<string name="sponsored">Sponsored</string>
-    <string name="sponsored_by">Sponsored by</string>-->
-
-    <string name="add_account">Add account</string>
 
     <!--Photo details-->
     <string name="photo">Photo</string>
@@ -41,11 +39,12 @@
     <string name="focal_length">Focal length</string>
     <string name="shutter_speed">Shutter speed</string>
     <string name="exposure_time">Exposure time</string>
-    <string name="iso">ISO</string>
+    <string name="iso" translatable="false">ISO</string>
     <string name="resolution">Resolution</string>
     <string name="like">Like</string>
     <string name="download">Download</string>
     <string name="save">Save</string>
+    <string name="gmaps_does_not_installed">Google Maps does not installed on this device</string>
 
     <!--Collection details-->
     <string name="curated_by">curated by</string>
@@ -60,11 +59,9 @@
     <string name="user_details">User details</string>
     <string name="user_photo">User photo</string>
     <string name="user_liked_photos">Liked photos</string>
-    <string name="likes">Likes</string>
-    <string name="followers">Followers</string>
-    <string name="following">Following</string>
     <string name="edit_profile">Edit profile</string>
     <string name="show_profile">Show profile</string>
+    <string name="likes">Likes</string>
 
     <!--Edit my profile-->
     <string name="username_hint">Username</string>
@@ -78,7 +75,8 @@
     <string name="bio_hint">Bio</string>
 
     <!--Authorization-->
-    <string name="user_authorization_title">Add account</string>
+    <string name="add_account">Add account</string>
+    <string name="user_authorization_title">Authorization</string>
     <string name="join">Join</string>
     <string name="login">Login</string>
     <string name="add_account_hint">Add an account to use all features of Gimme Pictures</string>
@@ -99,6 +97,8 @@
     </string-array>
     <string name="apply">Apply</string>
     <string name="search_for">Search for:</string>
+    <string name="nothing_found">Oops, seems like nothing found</string>
+    <string name="no_search_results_subtitle">Try searching for something</string>
 
     <string name="filter">Filter</string>
     <string name="filter_photos">Photos filter</string>
@@ -126,13 +126,6 @@
     <string name="filter_color_teal">Teal</string>
     <string name="filter_color_blue">Blue</string>
 
-    <!--Error messages-->
-    <string name="list_footer_load_error">Load error, check connection</string>
-    <string name="nothing_found">Oops, seems like nothing found</string>
-    <string name="retry">Retry</string>
-    <string name="gmaps_does_not_installed">Google Maps does not installed on this device</string>
-    <string name="no_search_results_subtitle">Try searching for something</string>
-
     <!--Notification related-->
     <string name="download_notification_channel_name">Downloads</string>
     <string name="download_notification_channel_description">All download notifications will be appear here</string>
@@ -151,17 +144,14 @@
     <!--File related-->
     <string name="file_exists_title">File already exists</string>
     <string name="file_exists_msg">Would you like to download it one more time?</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
 
     <!--Settings-->
-    <string name="settings">Settings</string>
-    <string name="about">About</string>
     <string name="settings_quality">Image quality</string>
     <string name="settings_appearance">Appearance</string>
     <string name="clear_cache">Clear cache</string>
     <string name="cache_size">Cache size: %d MB</string>
     <string name="theme">Theme</string>
+
     <!--Quality-->
     <string-array name="quality_options">
         <item>@string/image_size_raw</item>
