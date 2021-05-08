@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Collection(
-    val id: Int,
+    val id: String,
     val title: String,
     val description: String?,
     @SerializedName("published_at")

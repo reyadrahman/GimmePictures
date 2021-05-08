@@ -11,8 +11,7 @@ import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.util.loadImage
 import ua.andrii.andrushchenko.gimmepictures.util.setAspectRatio
 
-class PhotosAdapter(private val listener: OnItemClickListener) :
-    BasePagedAdapter<Photo>(PHOTO_COMPARATOR) {
+class PhotosAdapter(private val listener: OnItemClickListener) : BasePagedAdapter<Photo>(PHOTO_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val binding = ItemPhotoBinding.inflate(LayoutInflater.from(parent.context), parent, false)

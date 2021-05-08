@@ -46,5 +46,5 @@ class PhotoRepository @Inject constructor(private val photoService: PhotoService
 
     suspend fun likePhoto(id: String) = backendRequest { photoService.likePhoto(id) }
 
-    suspend fun unlikePhoto(id: String) = backendRequest { photoService.unlikePhoto(id) }
+    suspend fun dislikePhoto(id: String) = backendRequest { photoService.dislikePhoto(id) }
 }

@@ -9,7 +9,7 @@ import java.io.IOException
 
 class CollectionPhotosPagingSource(
     private val collectionsService: CollectionsService,
-    private val collectionId: Int
+    private val collectionId: String
 ) : BasePagingSource<Photo>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Photo> {

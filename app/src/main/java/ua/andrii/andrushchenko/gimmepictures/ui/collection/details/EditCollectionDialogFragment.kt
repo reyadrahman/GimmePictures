@@ -31,7 +31,7 @@ class EditCollectionDialogFragment :
                         s: CharSequence?,
                         start: Int,
                         count: Int,
-                        after: Int,
+                        after: Int
                     ) {
                         initial = s.toString()
                     }
@@ -40,7 +40,7 @@ class EditCollectionDialogFragment :
                         s: CharSequence?,
                         start: Int,
                         before: Int,
-                        count: Int,
+                        count: Int
                     ) {
                     }
 
@@ -57,7 +57,7 @@ class EditCollectionDialogFragment :
                         s: CharSequence?,
                         start: Int,
                         count: Int,
-                        after: Int,
+                        after: Int
                     ) {
                         initial = s.toString()
                     }
@@ -66,7 +66,7 @@ class EditCollectionDialogFragment :
                         s: CharSequence?,
                         start: Int,
                         before: Int,
-                        count: Int,
+                        count: Int
                     ) {
                     }
 

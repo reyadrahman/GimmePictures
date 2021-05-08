@@ -72,6 +72,9 @@
         <action
             android:id="@+id/action_photoDetailsFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_photoDetailsFragment_to_addToCollectionDialog"
+            app:destination="@id/addToCollectionDialog" />
     </fragment>
     <fragment
         android:id="@+id/userDetailsFragment"
@@ -124,6 +127,15 @@
         <argument
             android:name="collection"
             app:argType="ua.andrii.andrushchenko.gimmepictures.models.Collection" />
+    </dialog>
+    <dialog
+        android:id="@+id/addToCollectionDialog"
+        android:name="ua.andrii.andrushchenko.gimmepictures.ui.collection.action_add.AddToCollectionDialog"
+        android:label="bottom_sheet_add_collection"
+        tools:layout="@layout/bottom_sheet_add_collection" >
+        <argument
+            android:name="photoId"
+            app:argType="string" />
     </dialog>
 
 </navigation>

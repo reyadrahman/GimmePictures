@@ -28,7 +28,6 @@ abstract class BaseBottomSheetDialogFragment<VB : ViewBinding>(
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bottomSheetDialog = super.onCreateDialog(savedInstanceState)
-
         bottomSheetDialog.setOnShowListener {
             val bottomSheet = bottomSheetDialog
                 .findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
@@ -37,7 +36,6 @@ abstract class BaseBottomSheetDialogFragment<VB : ViewBinding>(
                 state = BottomSheetBehavior.STATE_EXPANDED
             }
         }
-
         return bottomSheetDialog
     }
 

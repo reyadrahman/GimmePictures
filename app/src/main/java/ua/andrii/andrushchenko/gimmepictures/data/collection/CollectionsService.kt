@@ -10,25 +10,19 @@ interface CollectionsService {
     @GET("collections")
     suspend fun getCollections(
         @Query("page") page: Int?,
-        @Query("per_page") per_page: Int?
+        @Query("per_page") perPage: Int?
     ): List<Collection>
-
-    /*@GET("collections/featured")
-    suspend fun getFeaturedCollections(
-        @Query("page") page: Int?,
-        @Query("per_page") per_page: Int?
-    ): List<Collection>*/
 
     @GET("collections/{id}/photos")
     suspend fun getCollectionPhotos(
-        @Path("id") id: Int,
+        @Path("id") id: String,
         @Query("page") page: Int?,
-        @Query("per_page") per_page: Int?
+        @Query("per_page") perPage: Int?
     ): List<Photo>
 
     @GET("collections/{id}")
     suspend fun getCollection(
-        @Path("id") id: Int
+        @Path("id") id: String
     ): Collection
 
     @GET("collections/{id}/related")
@@ -40,31 +34,31 @@ interface CollectionsService {
     suspend fun createCollection(
         @Query("title") title: String,
         @Query("description") description: String?,
-        @Query("private") private: Boolean?
+        @Query("private") isPrivate: Boolean?
     ): Collection
 
     @PUT("collections/{id}")
     suspend fun updateCollection(
-        @Path("id") id: Int,
+        @Path("id") id: String,
         @Query("title") title: String?,
         @Query("description") description: String?,
-        @Query("private") private: Boolean?
+        @Query("private") isPrivate: Boolean?
     ): Collection
 
     @DELETE("collections/{id}")
     suspend fun deleteCollection(
-        @Path("id") id: Int
+        @Path("id") id: String
     ): Response<Unit>
 
     @POST("collections/{collection_id}/add")
     suspend fun addPhotoToCollection(
-        @Path("collection_id") collection_id: Int,
-        @Query("photo_id") photo_id: String
+        @Path("collection_id") collectionId: String,
+        @Query("photo_id") photoId: String
     ): CollectionPhotoResult
 
     @DELETE("collections/{collection_id}/remove")
-    suspend fun removePhotoFromCollection(
-        @Path("collection_id") collection_id: Int,
-        @Query("photo_id") photo_id: String
+    suspend fun deletePhotoFromCollection(
+        @Path("collection_id") collectionId: String,
+        @Query("photo_id") photoId: String
     ): CollectionPhotoResult
 }

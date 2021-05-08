@@ -19,7 +19,7 @@ class CollectionDetailsViewModel @Inject constructor(
     private val _collection: MutableLiveData<Collection> = MutableLiveData()
     val collection: LiveData<Collection> get() = _collection
 
-    private val _collectionId: MutableLiveData<Int> = MutableLiveData()
+    private val _collectionId: MutableLiveData<String> = MutableLiveData()
 
     // When collection has been successfully deleted
     // the collection details screen should no longer be present on the display.
@@ -36,7 +36,7 @@ class CollectionDetailsViewModel @Inject constructor(
         collectionsRepository.getCollectionPhotos(id).cachedIn(viewModelScope)
     }
 
-    fun updateCollection(id: Int, title: String?, description: String?, isPrivate: Boolean) =
+    fun updateCollection(id: String, title: String?, description: String?, isPrivate: Boolean) =
         viewModelScope.launch {
             val result = collectionsRepository.updateCollection(id, title, description, isPrivate)
             if (result is BackendResult.Success) {
@@ -44,7 +44,7 @@ class CollectionDetailsViewModel @Inject constructor(
             }
         }
 
-    fun deleteCollection(id: Int) = viewModelScope.launch {
+    fun deleteCollection(id: String) = viewModelScope.launch {
         val result = collectionsRepository.deleteCollection(id)
         if (result is BackendResult.Success) {
             _isDeleted.postValue(true)

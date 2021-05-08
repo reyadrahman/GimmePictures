@@ -25,7 +25,7 @@ interface PhotoService {
     ): ResponseBody
 
     @DELETE("photos/{id}/like")
-    suspend fun unlikePhoto(
+    suspend fun dislikePhoto(
         @Path("id") id: String
     ): Response<Unit>
 

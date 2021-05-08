@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="175dp"
+        android:layout_height="175dp"
+        android:background="?attr/selectableItemBackground"
+        app:cardCornerRadius="@dimen/indent_8dp"
+        app:cardElevation="@dimen/indent_0dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/collection_cover_photo_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="@color/gray_400" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/collection_private_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:padding="@dimen/indent_12dp"
+            android:src="@drawable/ic_lock_outlined"
+            android:tint="@color/white" />
+
+        <FrameLayout
+            android:id="@+id/selected_state_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            tools:visibility="visible">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black_transparent_55" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/indent_32dp"
+                android:layout_height="@dimen/indent_32dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_check_circle"
+                android:tint="@color/white" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/layout_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            tools:visibility="gone">
+
+            <ProgressBar
+                style="@style/GimmePictures.IndefiniteProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true" />
+
+        </FrameLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_collection_name"
+        style="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:maxLines="1"
+        android:padding="@dimen/indent_8dp"
+        tools:text="Collection title" />
+
+</LinearLayout>

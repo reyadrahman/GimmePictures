@@ -1,12 +1,15 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.photo.details
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepository
+import ua.andrii.andrushchenko.gimmepictures.data.collection.CollectionPhotoResult
+import ua.andrii.andrushchenko.gimmepictures.data.collection.CollectionsRepository
 import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotoRepository
+import ua.andrii.andrushchenko.gimmepictures.models.Collection
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 import java.util.*
@@ -15,8 +18,13 @@ import javax.inject.Inject
 @HiltViewModel
 class PhotoDetailsViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val photoRepository: PhotoRepository
+    private val photoRepository: PhotoRepository,
+    private val collectionsRepository: CollectionsRepository
 ) : ViewModel() {
+
+    val isUserAuthorized get() = authRepository.isAuthorized
+
+    private val _authorizedUserNickName: MutableLiveData<String> = MutableLiveData(authRepository.userNickname)
 
     private val _photo: MutableLiveData<Photo> = MutableLiveData()
     val photo get() = _photo
@@ -24,10 +32,16 @@ class PhotoDetailsViewModel @Inject constructor(
     private val _error: MutableLiveData<Boolean> = MutableLiveData(false)
     val error get() = _error
 
+    private val _currentUserCollectionIds = MutableLiveData<MutableList<String>?>()
+    val currentUserCollectionIds: LiveData<MutableList<String>?> = _currentUserCollectionIds
+
     fun getPhotoDetails(photoId: String) = viewModelScope.launch {
         when (val result = photoRepository.getSinglePhoto(photoId)) {
             is BackendResult.Success -> {
                 _photo.postValue(result.value)
+                _currentUserCollectionIds.postValue(
+                    result.value.currentUserCollections?.map { it.id }?.toMutableList()
+                )
                 _error.postValue(false)
             }
             is BackendResult.Error -> {
@@ -39,11 +53,79 @@ class PhotoDetailsViewModel @Inject constructor(
         }
     }
 
-    val isUserAuthorized get() = authRepository.isAuthorized
-
     fun likePhoto(id: String) = viewModelScope.launch { photoRepository.likePhoto(id) }
 
-    fun unlikePhoto(id: String) = viewModelScope.launch { photoRepository.unlikePhoto(id) }
+    fun dislikePhoto(id: String) = viewModelScope.launch { photoRepository.dislikePhoto(id) }
+
+    val userCollections: LiveData<PagingData<Collection>> =
+        _authorizedUserNickName.switchMap { userNickname ->
+            collectionsRepository.getUserCollections(userNickname).cachedIn(viewModelScope)
+        }
+
+    fun notifyUserAuthorizationSuccessful() {
+        _authorizedUserNickName.postValue(authRepository.userNickname)
+    }
+
+    // Create new collection and add a photo into it
+    fun createCollection(
+        title: String,
+        description: String?,
+        isPrivate: Boolean?,
+        photoId: String
+    ): LiveData<BackendResult<Collection>> = liveData {
+        emit(BackendResult.Loading)
+
+        val creationResult = collectionsRepository.createCollection(title, description, isPrivate)
+        if (creationResult is BackendResult.Success) {
+            var newCollection = creationResult.value
+
+            val additionResult = collectionsRepository.addPhotoToCollection(newCollection.id, photoId)
+            if (additionResult is BackendResult.Success) {
+                val newIdList = _currentUserCollectionIds.value ?: mutableListOf()
+                newIdList.add(newCollection.id)
+                _currentUserCollectionIds.postValue(newIdList)
+
+                additionResult.value.collection?.let {
+                    newCollection = it
+                }
+
+                //_authorizedUserNickName.postValue(_authorizedUserNickName.value)
+            }
+        }
+        emit(creationResult)
+    }
+
+    fun addPhotoToCollection(
+        collectionId: String,
+        photoId: String
+    ): LiveData<BackendResult<CollectionPhotoResult>> =
+        liveData(viewModelScope.coroutineContext) {
+            emit(BackendResult.Loading)
+
+            val additionResult = collectionsRepository.addPhotoToCollection(collectionId, photoId)
+            if (additionResult is BackendResult.Success) {
+                val newIdList = _currentUserCollectionIds.value ?: mutableListOf()
+                newIdList.add(collectionId)
+                _currentUserCollectionIds.postValue(newIdList)
+            }
+            emit(additionResult)
+        }
+
+    fun deletePhotoFromCollection(
+        collectionId: String,
+        photoId: String
+    ): LiveData<BackendResult<CollectionPhotoResult>> =
+        liveData(viewModelScope.coroutineContext) {
+            emit(BackendResult.Loading)
+
+            val deletionResult = collectionsRepository.deletePhotoFromCollection(collectionId, photoId)
+            if (deletionResult is BackendResult.Success) {
+                val newList = _currentUserCollectionIds.value ?: mutableListOf()
+                newList.remove(collectionId)
+                _currentUserCollectionIds.postValue(newList)
+            }
+            emit(deletionResult)
+        }
 
     var downloadWorkUUID: UUID? = null
 }
