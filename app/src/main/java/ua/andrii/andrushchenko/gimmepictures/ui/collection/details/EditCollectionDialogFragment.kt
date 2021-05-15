@@ -4,15 +4,16 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.BottomSheetEditCollectionBinding
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseBottomSheetDialogFragment
 
 @AndroidEntryPoint
-class EditCollectionDialogFragment :
-    BaseBottomSheetDialogFragment<BottomSheetEditCollectionBinding>(BottomSheetEditCollectionBinding::inflate) {
+class EditCollectionDialogFragment : BaseBottomSheetDialogFragment<BottomSheetEditCollectionBinding>(BottomSheetEditCollectionBinding::inflate) {
 
     private val viewModel: CollectionDetailsViewModel by viewModels(
         ownerProducer = { requireParentFragment().childFragmentManager.primaryNavigationFragment!! }
@@ -99,10 +100,10 @@ class EditCollectionDialogFragment :
         with(binding) {
             btnDelete.visibility = if (isVisible) View.GONE else View.VISIBLE
             btnSave.visibility = if (isVisible) View.GONE else View.VISIBLE
-            collectionNameTextInputLayout.visibility = if (isVisible) View.GONE else View.VISIBLE
-            collectionDescriptionTextInputLayout.visibility =
-                if (isVisible) View.GONE else View.VISIBLE
-            checkboxMakePrivate.visibility = if (isVisible) View.GONE else View.VISIBLE
+
+            collectionNameTextInputLayout.isEnabled = !isVisible
+            collectionDescriptionTextInputLayout.isEnabled = !isVisible
+            checkboxMakePrivate.isEnabled = !isVisible
 
             areYouSureTextView.visibility = if (isVisible) View.VISIBLE else View.GONE
             deleteNoCollectionButton.visibility = if (isVisible) View.VISIBLE else View.GONE
@@ -110,16 +111,39 @@ class EditCollectionDialogFragment :
         }
     }
 
+    private fun isInputValid(): Boolean {
+        val name = binding.collectionNameTextInputLayout.editText?.text.toString()
+        val description = binding.collectionDescriptionTextInputLayout.editText?.text.toString()
+        return name.isNotBlank() && name.length <= 60 && description.length <= 250
+    }
+
+    private fun showErrorMessage() = with(binding) {
+        if (collectionNameTextInputLayout.editText?.text.toString().isBlank()) {
+            collectionNameTextInputLayout.error = getString(R.string.collection_name_required)
+            collectionNameTextInputLayout.editText?.doOnTextChanged { text, _, _, _ ->
+                if (collectionNameTextInputLayout.error.toString().isNotBlank() && text?.isBlank() != true) {
+                    collectionNameTextInputLayout.error = null
+                }
+            }
+        }
+    }
+
     private fun saveCollectionDetails() {
         with(binding) {
             if (somethingChanged) {
-                viewModel.updateCollection(args.collection.id,
-                    collectionNameTextInputLayout.editText?.text.toString(),
-                    collectionDescriptionTextInputLayout.editText?.text.toString(),
-                    checkboxMakePrivate.isChecked
-                )
+                if (isInputValid()) {
+                    viewModel.updateCollection(args.collection.id,
+                        collectionNameTextInputLayout.editText?.text.toString(),
+                        collectionDescriptionTextInputLayout.editText?.text.toString(),
+                        checkboxMakePrivate.isChecked
+                    )
+                    dismiss()
+                } else {
+                    showErrorMessage()
+                }
+            } else {
+                dismiss()
             }
         }
-        dismiss()
     }
 }

@@ -23,18 +23,18 @@ class SearchPhotosPagingSource(
         val pageKey = params.key ?: STARTING_PAGE_INDEX
 
         return try {
-            val response = searchService.searchPhotos(
+            val response: SearchPhotosResult = searchService.searchPhotos(
                 query = query,
                 page = pageKey,
-                per_page = PAGE_SIZE,
-                order_by = order.value,
+                perPage = PAGE_SIZE,
+                orderBy = order.value,
                 collections = collections,
                 contentFilter = contentFilter.value,
                 color = color.value,
                 orientation = orientation.value
             )
 
-            val photos = response.results
+            val photos: List<Photo> = response.results
 
             LoadResult.Page(
                 data = photos,
@@ -82,5 +82,4 @@ class SearchPhotosPagingSource(
             SQUARISH("squarish")
         }
     }
-
 }

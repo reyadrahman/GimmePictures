@@ -20,7 +20,8 @@
             android:theme="@style/GimmePictures.ToolbarOverlay"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             app:menu="@menu/menu_photo_details"
-            app:popupTheme="@style/GimmePictures.PopupOverlay" />
+            app:popupTheme="@style/GimmePictures.PopupOverlay"
+            app:titleTextAppearance="@style/Toolbar.TitleText" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -90,15 +91,22 @@
 
             </LinearLayout>
 
-            <com.github.chrisbanes.photoview.PhotoView
-                android:id="@+id/photo_image_view"
+            <FrameLayout
+                android:id="@+id/photo_image_container"
                 android:layout_width="match_parent"
                 android:layout_height="450dp"
-                android:layout_gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/user_container"
-                tools:src="@color/gray_400" />
+                app:layout_constraintTop_toBottomOf="@id/user_container">
+
+                <com.github.chrisbanes.photoview.PhotoView
+                    android:id="@+id/photo_image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"
+                    android:layout_gravity="center"
+                    tools:src="@color/gray_400" />
+
+            </FrameLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_photo_info"
@@ -109,7 +117,7 @@
                 android:textColor="?attr/colorOnPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/photo_image_view" />
+                app:layout_constraintTop_toBottomOf="@id/photo_image_container" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/btn_like"

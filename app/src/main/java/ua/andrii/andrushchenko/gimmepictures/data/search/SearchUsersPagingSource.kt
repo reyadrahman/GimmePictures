@@ -16,8 +16,8 @@ class SearchUsersPagingSource(
         val pageKey = params.key ?: STARTING_PAGE_INDEX
 
         return try {
-            val response = searchService.searchUsers(query, pageKey, PAGE_SIZE)
-            val users = response.results
+            val response: SearchUsersResult = searchService.searchUsers(query, pageKey, PAGE_SIZE)
+            val users: List<User> = response.results
 
             LoadResult.Page(
                 data = users,

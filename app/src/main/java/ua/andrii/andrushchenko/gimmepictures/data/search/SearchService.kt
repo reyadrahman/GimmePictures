@@ -9,8 +9,8 @@ interface SearchService {
     suspend fun searchPhotos(
         @Query("query") query: String,
         @Query("page") page: Int?,
-        @Query("per_page") per_page: Int?,
-        @Query("order_by") order_by: String?,
+        @Query("per_page") perPage: Int?,
+        @Query("order_by") orderBy: String?,
         @Query("collections") collections: String?,
         @Query("content_filter") contentFilter: String?,
         @Query("color") color: String?,
@@ -21,13 +21,13 @@ interface SearchService {
     suspend fun searchCollections(
         @Query("query") query: String,
         @Query("page") page: Int?,
-        @Query("per_page") per_page: Int?
+        @Query("per_page") perPage: Int?
     ): SearchCollectionsResult
 
     @GET("search/users")
     suspend fun searchUsers(
         @Query("query") query: String,
         @Query("page") page: Int?,
-        @Query("per_page") per_page: Int?
+        @Query("per_page") perPage: Int?
     ): SearchUsersResult
 }

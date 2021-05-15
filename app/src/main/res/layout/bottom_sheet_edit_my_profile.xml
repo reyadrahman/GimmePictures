@@ -51,10 +51,11 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/username_text_input_layout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/GimmePictures.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/username_hint"
+                app:errorEnabled="true"
                 app:helperText="@string/username_description_text"
                 app:helperTextEnabled="true">
 
@@ -102,6 +103,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:errorEnabled="true"
                 android:layout_marginTop="@dimen/indent_16dp"
                 android:hint="@string/email_hint">
 
@@ -117,7 +119,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/indent_16dp"
+                android:layout_marginTop="@dimen/indent_4dp"
                 android:hint="@string/portfolio_hint">
 
                 <com.google.android.material.textfield.TextInputEditText

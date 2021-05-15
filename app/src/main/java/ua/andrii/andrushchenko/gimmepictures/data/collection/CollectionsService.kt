@@ -20,7 +20,7 @@ interface CollectionsService {
         @Query("per_page") perPage: Int?
     ): List<Photo>
 
-    @GET("collections/{id}")
+    /*@GET("collections/{id}")
     suspend fun getCollection(
         @Path("id") id: String
     ): Collection
@@ -28,7 +28,7 @@ interface CollectionsService {
     @GET("collections/{id}/related")
     suspend fun getRelatedCollections(
         @Path("id") id: Int
-    ): List<Collection>
+    ): List<Collection>*/
 
     @POST("collections")
     suspend fun createCollection(

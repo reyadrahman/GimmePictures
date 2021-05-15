@@ -57,17 +57,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_to_collection_title"/>
 
-            <!--<androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_user_collections"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/indent_0dp"
-                app:layout_constrainedHeight="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_to_collection_title"
-                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_collection_small"
-                tools:orientation="horizontal" />-->
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_view_error"
                 style="@style/TextAppearance.MaterialComponents.Subtitle2"
@@ -138,11 +127,11 @@
                 android:text="@string/cancel"
                 android:textColor="?attr/colorOnPrimary"
                 app:layout_constraintBottom_toBottomOf="@+id/create_collection_title"
-                app:layout_constraintEnd_toStartOf="@id/btn_done"
+                app:layout_constraintEnd_toStartOf="@id/btn_creation_done"
                 app:layout_constraintTop_toTopOf="@id/create_collection_title" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_done"
+                android:id="@+id/btn_creation_done"
                 style="@style/GimmePictures.Widget.MaterialComponents.ButtonColored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

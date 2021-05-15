@@ -69,7 +69,8 @@
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/GimmePictures.ToolbarOverlay"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/GimmePictures.PopupOverlay" />
+                app:popupTheme="@style/GimmePictures.PopupOverlay"
+                app:titleTextAppearance="@style/Toolbar.TitleText" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 

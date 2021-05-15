@@ -16,7 +16,7 @@ class UserCollectionsPagingSource(
         val pageKey = params.key ?: STARTING_PAGE_INDEX
 
         return try {
-            val userCollections = userService.getUserCollections(username, pageKey, PAGE_SIZE)
+            val userCollections: List<Collection> = userService.getUserCollections(username, pageKey, PAGE_SIZE)
 
             LoadResult.Page(
                 data = userCollections,

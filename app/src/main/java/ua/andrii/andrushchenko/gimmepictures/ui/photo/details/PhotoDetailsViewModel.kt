@@ -57,14 +57,14 @@ class PhotoDetailsViewModel @Inject constructor(
 
     fun dislikePhoto(id: String) = viewModelScope.launch { photoRepository.dislikePhoto(id) }
 
+    fun notifyUserAuthorizationSuccessful() {
+        _authorizedUserNickName.postValue(authRepository.userNickname)
+    }
+
     val userCollections: LiveData<PagingData<Collection>> =
         _authorizedUserNickName.switchMap { userNickname ->
             collectionsRepository.getUserCollections(userNickname).cachedIn(viewModelScope)
         }
-
-    fun notifyUserAuthorizationSuccessful() {
-        _authorizedUserNickName.postValue(authRepository.userNickname)
-    }
 
     // Create new collection and add a photo into it
     fun createCollection(
@@ -88,8 +88,6 @@ class PhotoDetailsViewModel @Inject constructor(
                 additionResult.value.collection?.let {
                     newCollection = it
                 }
-
-                //_authorizedUserNickName.postValue(_authorizedUserNickName.value)
             }
         }
         emit(creationResult)

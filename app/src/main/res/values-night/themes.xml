@@ -16,7 +16,7 @@
         <item name="android:navigationBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="materialAlertDialogTheme">@style/MaterialAlertDialog</item>
-        <!--<item name="preferenceTheme">@style/PrefsTheme</item>-->
+        <item name="android:windowActivityTransitions">true</item>
     </style>
 
     <style name="GimmePictures.SplashTheme" parent="Theme.GimmePictures">
@@ -24,7 +24,15 @@
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
-    <style name="GimmePictures.ToolbarOverlay" parent="ThemeOverlay.MaterialComponents.Dark" />
+    <style name="GimmePictures.TranslucentStatusBar" parent="Theme.GimmePictures">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="GimmePictures.ToolbarOverlay" parent="ThemeOverlay.MaterialComponents.Dark">
+        <item name="android:fontFamily">@font/dancing_script_bold</item>
+    </style>
 
     <style name="GimmePictures.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Dark" />
 

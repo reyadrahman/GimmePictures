@@ -16,17 +16,17 @@ import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.photo.PhotosAdapter
+import ua.andrii.andrushchenko.gimmepictures.ui.widgets.AspectRatioImageView
 import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManager
 
 @AndroidEntryPoint
-class UserPhotosFragment : BaseRecyclerViewFragment<Photo, ListingLayoutBinding>(
-    ListingLayoutBinding::inflate) {
+class UserPhotosFragment : BaseRecyclerViewFragment<Photo, ListingLayoutBinding>(ListingLayoutBinding::inflate) {
 
     private val viewModel: UserDetailsViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
     override val pagedAdapter: BasePagedAdapter<Photo> =
         PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
-            override fun onPhotoClick(photo: Photo) {
+            override fun onPhotoClick(photo: Photo, photoImageView: AspectRatioImageView) {
                 val direction =
                     UserDetailsFragmentDirections.actionGlobalPhotoDetailsFragment(photoId = photo.id)
                 requireParentFragment().findNavController().navigate(direction)

@@ -5,6 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
+import okhttp3.ResponseBody
 import ua.andrii.andrushchenko.gimmepictures.data.common.PAGE_SIZE
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
@@ -35,16 +36,22 @@ class PhotoRepository @Inject constructor(private val photoService: PhotoService
         orientation: String? = null,
         contentFilter: String? = null
     ): BackendResult<Photo> = backendRequest {
-        photoService.getRandomPhotos(collectionId,
+        photoService.getRandomPhotos(
+            collectionId,
             featured,
             username,
             query,
             orientation,
             contentFilter,
-            count = 1).first()
+            count = 1
+        ).first()
     }
 
-    suspend fun likePhoto(id: String) = backendRequest { photoService.likePhoto(id) }
+    suspend fun likePhoto(id: String): BackendResult<ResponseBody> = backendRequest {
+        photoService.likePhoto(id)
+    }
 
-    suspend fun dislikePhoto(id: String) = backendRequest { photoService.dislikePhoto(id) }
+    suspend fun dislikePhoto(id: String): BackendResult<Unit> = backendRequest {
+        photoService.dislikePhoto(id)
+    }
 }

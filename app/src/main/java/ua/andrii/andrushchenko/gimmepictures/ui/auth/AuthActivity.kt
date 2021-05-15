@@ -1,8 +1,7 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.auth
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.AnimationDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -15,7 +14,6 @@ import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepository.Companion.
 import ua.andrii.andrushchenko.gimmepictures.databinding.ActivityAuthBinding
 import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 import ua.andrii.andrushchenko.gimmepictures.util.customtabs.CustomTabsHelper
-import ua.andrii.andrushchenko.gimmepictures.util.loadBlurredImage
 
 @AndroidEntryPoint
 class AuthActivity : AppCompatActivity() {
@@ -32,12 +30,11 @@ class AuthActivity : AppCompatActivity() {
 
         with(binding) {
             toolbar.setNavigationOnClickListener { finish() }
-            viewModel.backgroundPhoto.observe(this@AuthActivity) { photo ->
-                bgImage.loadBlurredImage(
-                    url = photo.urls.small,
-                    placeholderColorDrawable = ColorDrawable(Color.parseColor(photo.color))
-                )
-            }
+
+            val animationDrawable = coordinatorLayout.background as AnimationDrawable
+            animationDrawable.setEnterFadeDuration(2000)
+            animationDrawable.setExitFadeDuration(4000)
+            animationDrawable.start()
 
             btnLogin.setOnClickListener {
                 openUnsplashLoginTab()
@@ -57,10 +54,10 @@ class AuthActivity : AppCompatActivity() {
                     viewModel.getAccessToken(code).observe(this) {
                         when (it) {
                             is BackendResult.Loading -> {
-                                binding.authProgress.visibility = View.VISIBLE
+                                binding.layoutProgress.visibility = View.VISIBLE
                             }
                             is BackendResult.Success -> {
-                                binding.authProgress.visibility = View.GONE
+                                binding.layoutProgress.visibility = View.GONE
                                 Toast.makeText(this,
                                     getString(R.string.login_successful),
                                     Toast.LENGTH_SHORT).show()
@@ -68,7 +65,7 @@ class AuthActivity : AppCompatActivity() {
                                 finish()
                             }
                             is BackendResult.Error -> {
-                                binding.authProgress.visibility = View.GONE
+                                binding.layoutProgress.visibility = View.GONE
                                 Toast.makeText(this,
                                     getString(R.string.login_failed),
                                     Toast.LENGTH_SHORT).show()

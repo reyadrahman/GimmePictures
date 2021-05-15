@@ -55,7 +55,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                 setOnEditorActionListener { _, actionId, _ ->
                     if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                         viewModel.updateQuery(searchTextInputLayout.editText?.text.toString())
-                        //searchPhotosListingLayout.recyclerView.scrollToPosition(0)
+                        for (tabNum in 0..tabLayout.tabCount) {
+                            val fragment = childFragmentManager.findFragmentByTag(
+                                "f$tabNum"
+                            ) as? BaseRecyclerViewFragment<*, *>
+                            fragment?.scrollRecyclerViewToTop()
+                        }
                         searchTextInputLayout.editText?.hideKeyboard()
                         return@setOnEditorActionListener true
                     }

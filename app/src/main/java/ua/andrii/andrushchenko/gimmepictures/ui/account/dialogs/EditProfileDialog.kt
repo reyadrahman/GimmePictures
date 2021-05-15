@@ -7,9 +7,11 @@ import android.text.TextWatcher
 import android.view.View
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.BottomSheetEditMyProfileBinding
-import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseBottomSheetDialogFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.account.AccountViewModel
+import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseBottomSheetDialogFragment
+import java.util.regex.Pattern
 
 @AndroidEntryPoint
 class EditProfileDialog :
@@ -30,12 +32,22 @@ class EditProfileDialog :
                     s: CharSequence?,
                     start: Int,
                     count: Int,
-                    after: Int,
+                    after: Int
                 ) {
                     initial = s.toString()
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    val userNicknamePatternMatcher = Pattern.compile("([A-Za-z0-9_]+)")
+                    if (!userNicknamePatternMatcher.matcher(s.toString()).matches()) {
+                        usernameTextInputLayout.isErrorEnabled = true
+                        usernameTextInputLayout.error = getString(R.string.username_description_text)
+                        btnSave.isEnabled = false
+                    } else {
+                        usernameTextInputLayout.isErrorEnabled = false
+                        usernameTextInputLayout.error = null
+                        btnSave.isEnabled = true
+                    }
                 }
 
                 override fun afterTextChanged(s: Editable?) {
@@ -49,7 +61,7 @@ class EditProfileDialog :
                     s: CharSequence?,
                     start: Int,
                     count: Int,
-                    after: Int,
+                    after: Int
                 ) {
                     initial = s.toString()
                 }
@@ -68,7 +80,7 @@ class EditProfileDialog :
                     s: CharSequence?,
                     start: Int,
                     count: Int,
-                    after: Int,
+                    after: Int
                 ) {
                     initial = s.toString()
                 }
@@ -87,12 +99,25 @@ class EditProfileDialog :
                     s: CharSequence?,
                     start: Int,
                     count: Int,
-                    after: Int,
+                    after: Int
                 ) {
                     initial = s.toString()
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    val userEmailPatternMatcher = Pattern.compile(
+                        "[a-zA-Z0-9+._%-+]{1,256}" + "@"
+                                + "[a-zA-Z0-9][a-zA-Z0-9-]{0,64}" + "(" + "."
+                                + "[a-zA-Z0-9][a-zA-Z0-9-]{0,25}" + ")+")
+                    if (!userEmailPatternMatcher.matcher(s.toString()).matches()) {
+                        emailTextInputLayout.isErrorEnabled = true
+                        emailTextInputLayout.error = getString(R.string.invalid_email)
+                        btnSave.isEnabled = false
+                    } else {
+                        emailTextInputLayout.isErrorEnabled = false
+                        emailTextInputLayout.error = null
+                        btnSave.isEnabled = true
+                    }
                 }
 
                 override fun afterTextChanged(s: Editable?) {
@@ -106,7 +131,7 @@ class EditProfileDialog :
                     s: CharSequence?,
                     start: Int,
                     count: Int,
-                    after: Int,
+                    after: Int
                 ) {
                     initial = s.toString()
                 }
@@ -125,7 +150,7 @@ class EditProfileDialog :
                     s: CharSequence?,
                     start: Int,
                     count: Int,
-                    after: Int,
+                    after: Int
                 ) {
                     initial = s.toString()
                 }
@@ -144,7 +169,7 @@ class EditProfileDialog :
                     s: CharSequence?,
                     start: Int,
                     count: Int,
-                    after: Int,
+                    after: Int
                 ) {
                     initial = s.toString()
                 }
@@ -163,7 +188,7 @@ class EditProfileDialog :
                     s: CharSequence?,
                     start: Int,
                     count: Int,
-                    after: Int,
+                    after: Int
                 ) {
                     initial = s.toString()
                 }

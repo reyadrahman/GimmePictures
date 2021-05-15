@@ -16,7 +16,7 @@ class UserPhotosPagingSource(
         val pageKey = params.key ?: STARTING_PAGE_INDEX
 
         return try {
-            val userPhotos = userService.getUserPhotos(
+            val userPhotos: List<Photo> = userService.getUserPhotos(
                 username,
                 pageKey,
                 PAGE_SIZE,

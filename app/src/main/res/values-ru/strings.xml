@@ -71,6 +71,7 @@
     <string name="instagram_username_hint">Ник в Instagram</string>
     <string name="location_hint">Местоположение</string>
     <string name="bio_hint">О себе</string>
+    <string name="invalid_email">Введите корректный адрес email</string>
 
     <!--Authorization-->
     <string name="add_account">Добавить аккаунт</string>

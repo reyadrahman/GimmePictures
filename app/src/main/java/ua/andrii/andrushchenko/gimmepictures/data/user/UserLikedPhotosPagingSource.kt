@@ -16,7 +16,7 @@ class UserLikedPhotosPagingSource(
         val pageKey = params.key ?: STARTING_PAGE_INDEX
 
         return try {
-            val likedPhotos = userService.getUserLikes(username, pageKey, PAGE_SIZE, "latest", null)
+            val likedPhotos: List<Photo> = userService.getUserLikes(username, pageKey, PAGE_SIZE, "latest", null)
 
             LoadResult.Page(
                 data = likedPhotos,

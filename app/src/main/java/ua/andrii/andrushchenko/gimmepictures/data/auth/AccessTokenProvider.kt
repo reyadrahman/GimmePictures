@@ -48,7 +48,7 @@ class AccessTokenProvider @Inject constructor(@ApplicationContext context: Conte
         get() = sharedPreferences.getString(USER_BIO_KEY, null)
 
     fun saveAccessToken(accessToken: AccessToken) =
-        sharedPreferences.edit { putString(ACCESS_TOKEN_KEY, accessToken.access_token) }
+        sharedPreferences.edit { putString(ACCESS_TOKEN_KEY, accessToken.accessToken) }
 
     fun saveUserProfileInfo(me: Me) {
         sharedPreferences.edit {

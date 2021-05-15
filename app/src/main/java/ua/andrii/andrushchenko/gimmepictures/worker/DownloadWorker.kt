@@ -6,7 +6,6 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
@@ -108,7 +107,8 @@ class DownloadWorker @AssistedInject constructor(
         exception: Exception,
         showNotification: Boolean,
     ) {
-        Log.e(TAG, "onError: ${exception.message}")
+        //Log.e(TAG, "onError: ${exception.message}")
+        Toast.makeText(appContext, exception.message, Toast.LENGTH_SHORT).show()
         if (showNotification) {
             notificationHelper.showDownloadErrorNotification(fileName)
         }
@@ -118,7 +118,7 @@ class DownloadWorker @AssistedInject constructor(
         fileName: String,
         uri: Uri,
     ) {
-        Log.i(TAG, "onSuccess: $fileName - $uri")
+        //Log.i(TAG, "onSuccess: $fileName - $uri")
         notificationHelper.showDownloadCompleteNotification(fileName, uri)
     }
 
@@ -215,7 +215,7 @@ class DownloadWorker @AssistedInject constructor(
     }
 
     companion object {
-        private const val TAG = "DownloadWorker"
+        //private const val TAG = "DownloadWorker"
         const val KEY_INPUT_URL = "KEY_INPUT_URL"
         const val KEY_OUTPUT_FILE_NAME = "KEY_OUTPUT_FILE_NAME"
         const val KEY_PHOTO_ID = "KEY_PHOTO_ID"
@@ -224,14 +224,15 @@ class DownloadWorker @AssistedInject constructor(
             context: Context,
             url: String,
             fileName: String,
-            photoId: String?
+            photoId: String?,
         ): UUID {
             val inputData = workDataOf(
                 KEY_INPUT_URL to url,
                 KEY_OUTPUT_FILE_NAME to fileName,
                 KEY_PHOTO_ID to photoId
             )
-            val request = OneTimeWorkRequestBuilder<DownloadWorker>().setInputData(inputData).build()
+            val request =
+                OneTimeWorkRequestBuilder<DownloadWorker>().setInputData(inputData).build()
             WorkManager.getInstance(context).enqueue(request)
             return request.id
         }

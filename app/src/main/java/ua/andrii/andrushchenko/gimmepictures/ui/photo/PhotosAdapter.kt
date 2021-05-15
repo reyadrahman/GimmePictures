@@ -4,10 +4,12 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import ua.andrii.andrushchenko.gimmepictures.databinding.ItemPhotoBinding
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
+import ua.andrii.andrushchenko.gimmepictures.ui.widgets.AspectRatioImageView
 import ua.andrii.andrushchenko.gimmepictures.util.loadImage
 import ua.andrii.andrushchenko.gimmepictures.util.setAspectRatio
 
@@ -21,20 +23,21 @@ class PhotosAdapter(private val listener: OnItemClickListener) : BasePagedAdapte
     inner class PhotoViewHolder(private val binding: ItemPhotoBinding) : BaseViewHolder(binding) {
         override fun bind(entity: Photo) {
             with(binding) {
+                ViewCompat.setTransitionName(photoCardView, "title_${entity.id}")
                 photoImageView.apply {
                     setAspectRatio(entity.width, entity.height)
                     loadImage(
                         url = entity.urls.small,
                         placeholderColorDrawable = ColorDrawable(Color.parseColor(entity.color))
                     )
-                    setOnClickListener { listener.onPhotoClick(entity) }
+                    setOnClickListener { listener.onPhotoClick(entity, photoImageView) }
                 }
             }
         }
     }
 
     interface OnItemClickListener {
-        fun onPhotoClick(photo: Photo)
+        fun onPhotoClick(photo: Photo, photoImageView: AspectRatioImageView)
     }
 
     companion object {

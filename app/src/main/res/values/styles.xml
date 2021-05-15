@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">28sp</item>
+    </style>
+
     <style name="GimmePictures.TabLayout" parent="Widget.MaterialComponents.TabLayout.Colored">
         <item name="android:backgroundTint">?attr/colorPrimaryVariant</item>
         <item name="tabIndicatorColor">?attr/colorOnBackground</item>
@@ -22,10 +26,10 @@
         <item name="textAllCaps">false</item>
     </style>
 
-    <style name="PrefsTheme" parent="PreferenceThemeOverlay.v14.Material">
-        <item name="android:layout">@layout/fragment_settings</item>
-        <!--<item name="android:listPreferredItemPaddingLeft">@dimen/activity_horizontal_margin</item>
-        <item name="android:listPreferredItemPaddingRight">@dimen/activity_horizontal_margin</item>-->
+    <style name="GimmePictures.TextInputLayout.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">?attr/colorOnPrimary</item>
+        <item name="boxStrokeErrorColor">@color/red_500</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
     <style name="MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
@@ -101,6 +105,19 @@
         <item name="strokeColor">@drawable/bottom_nav_view_icon_tint</item>
     </style>
 
+    <style name="LoginScreenOutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:colorActivatedHighlight">@color/white</item>
+        <item name="rippleColor">@color/black</item>
+        <item name="strokeColor">@color/white</item>
+    </style>
+
+    <style name="LoginScreenColoredButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="rippleColor">@color/black</item>
+    </style>
+
     <style name="Widget.MaterialComponents.Button.OutlinedButton.IconOnly" parent="GimmePictures.Widget.MaterialComponents.Button.OutlinedButton">
         <item name="iconPadding">0dp</item>
         <item name="iconGravity">textStart</item>
@@ -112,4 +129,11 @@
         <item name="boxStrokeWidth">@dimen/indent_1dp</item>
         <item name="boxStrokeWidthFocused">@dimen/indent_2dp</item>
     </style>
+
+    <style name="GimmePictures.LoginScreen.ToolbarOverlay" parent="ThemeOverlay.MaterialComponents.Dark">
+        <item name="android:fontFamily">@font/dancing_script_bold</item>
+    </style>
+
+    <style name="GimmePictures.LoginScreen.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Dark" />
+
 </resources>

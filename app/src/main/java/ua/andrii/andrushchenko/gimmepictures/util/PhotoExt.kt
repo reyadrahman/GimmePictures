@@ -26,5 +26,5 @@ fun getPhotoUrl(photo: Photo, size: PhotoSize?): String {
 
 val Photo.fileName: String
     get() = "${this.id}+${
-        this.user?.name?.toLowerCase(Locale.ROOT)?.replace(" ", "_")
+        this.user?.name?.lowercase(Locale.ROOT)?.replace(" ", "_")
     }+unsplash.jpg"

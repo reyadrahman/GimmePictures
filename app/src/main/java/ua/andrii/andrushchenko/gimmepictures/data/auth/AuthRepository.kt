@@ -13,7 +13,7 @@ import javax.inject.Singleton
 class AuthRepository @Inject constructor(
     private val accessTokenProvider: AccessTokenProvider,
     private val authorizationService: AuthorizationService,
-    private val userService: UserService,
+    private val userService: UserService
 ) {
     val loginUrl: String
         get() = "https://unsplash.com/oauth/authorize" +
@@ -61,7 +61,7 @@ class AuthRepository @Inject constructor(
         url: String?,
         instagramUsername: String?,
         location: String?,
-        bio: String?,
+        bio: String?
     ): BackendResult<Me> {
         val result = backendRequest {
             userService.updateUserPrivateProfile(

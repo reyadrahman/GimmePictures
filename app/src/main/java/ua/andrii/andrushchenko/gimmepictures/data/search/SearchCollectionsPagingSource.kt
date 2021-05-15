@@ -16,8 +16,8 @@ class SearchCollectionsPagingSource(
         val pageKey = params.key ?: STARTING_PAGE_INDEX
 
         return try {
-            val response = searchService.searchCollections(query, pageKey, PAGE_SIZE)
-            val collections = response.results
+            val response: SearchCollectionsResult = searchService.searchCollections(query, pageKey, PAGE_SIZE)
+            val collections: List<Collection> = response.results
 
             LoadResult.Page(
                 data = collections,

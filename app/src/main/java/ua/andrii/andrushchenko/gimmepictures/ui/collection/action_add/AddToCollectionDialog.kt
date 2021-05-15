@@ -21,13 +21,11 @@ import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 import ua.andrii.andrushchenko.gimmepictures.util.setupLinearLayoutManager
 
 @AndroidEntryPoint
-class AddToCollectionDialog :
-    BaseBottomSheetDialogFragment<BottomSheetAddCollectionBinding>(BottomSheetAddCollectionBinding::inflate) {
+class AddToCollectionDialog : BaseBottomSheetDialogFragment<BottomSheetAddCollectionBinding>(BottomSheetAddCollectionBinding::inflate) {
 
     private val viewModel: PhotoDetailsViewModel by viewModels(
         ownerProducer = { requireParentFragment().childFragmentManager.primaryNavigationFragment!! }
     )
-
     private val args: AddToCollectionDialogArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,8 +48,9 @@ class AddToCollectionDialog :
                                     if (it is BackendResult.Error) View.VISIBLE else View.GONE
                                 if (it is BackendResult.Error) {
                                     Toast.makeText(requireContext(),
-                                        "Bad :(",
-                                        Toast.LENGTH_SHORT).show()
+                                        getString(R.string.list_footer_load_error),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
 
                             }
@@ -65,8 +64,9 @@ class AddToCollectionDialog :
                                     if (it is BackendResult.Success) View.VISIBLE else View.GONE
                                 if (it is BackendResult.Error) {
                                     Toast.makeText(requireContext(),
-                                        "Bad :(",
-                                        Toast.LENGTH_SHORT).show()
+                                        getString(R.string.list_footer_load_error),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             }
                     }
@@ -122,7 +122,7 @@ class AddToCollectionDialog :
                 resetFields()
             }
 
-            btnDone.setOnClickListener {
+            btnCreationDone.setOnClickListener {
                 if (isInputValid()) {
                     viewModel.createCollection(
                         collectionNameTextInputLayout.editText?.text.toString(),
@@ -145,7 +145,7 @@ class AddToCollectionDialog :
                                 layoutProgress.visibility = View.GONE
                                 Toast.makeText(
                                     requireContext(),
-                                    "${it.error}, Code: ${it.code}",
+                                    getString(R.string.list_footer_load_error),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -168,9 +168,7 @@ class AddToCollectionDialog :
         if (collectionNameTextInputLayout.editText?.text.toString().isBlank()) {
             collectionNameTextInputLayout.error = getString(R.string.collection_name_required)
             collectionNameTextInputLayout.editText?.doOnTextChanged { text, _, _, _ ->
-                if (collectionNameTextInputLayout.error.toString().isNotBlank() &&
-                    text?.isBlank() != true
-                ) {
+                if (collectionNameTextInputLayout.error.toString().isNotBlank() && text?.isBlank() != true) {
                     collectionNameTextInputLayout.error = null
                 }
             }

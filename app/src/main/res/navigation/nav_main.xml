@@ -13,7 +13,14 @@
         tools:layout="@layout/fragment_photos">
         <action
             android:id="@+id/action_nav_photos_to_searchFragment"
-            app:destination="@id/searchFragment" />
+            app:destination="@id/searchFragment"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_right"
+            app:popEnterAnim="@anim/slide_in_from_right"
+            app:popExitAnim="@anim/slide_out_to_right" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="gmpictures://photos-overview" />
     </fragment>
     <fragment
         android:id="@+id/nav_collections"
@@ -22,10 +29,21 @@
         tools:layout="@layout/fragment_collections">
         <action
             android:id="@+id/action_nav_collections_to_searchFragment"
-            app:destination="@id/searchFragment" />
+            app:destination="@id/searchFragment"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_right"
+            app:popEnterAnim="@anim/slide_in_from_right"
+            app:popExitAnim="@anim/slide_out_to_right" />
         <action
             android:id="@+id/action_nav_collections_to_collectionDetailsFragment"
-            app:destination="@id/collectionDetailsFragment" />
+            app:destination="@id/collectionDetailsFragment"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_right"
+            app:popEnterAnim="@anim/slide_in_from_right"
+            app:popExitAnim="@anim/slide_out_to_right" />
+        <deepLink
+            android:id="@+id/deepLink2"
+            app:uri="gmpictures://collections-overview" />
     </fragment>
     <fragment
         android:id="@+id/nav_account"
@@ -37,7 +55,11 @@
             app:destination="@id/editProfileDialog" />
         <action
             android:id="@+id/action_nav_account_to_userDetailsFragment"
-            app:destination="@id/userDetailsFragment" />
+            app:destination="@id/userDetailsFragment"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_right"
+            app:popEnterAnim="@anim/slide_in_from_right"
+            app:popExitAnim="@anim/slide_out_to_right" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -53,10 +75,21 @@
             app:destination="@id/searchPhotoFilterDialog" />
         <action
             android:id="@+id/action_searchFragment_to_collectionDetailsFragment"
-            app:destination="@id/collectionDetailsFragment" />
+            app:destination="@id/collectionDetailsFragment"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_right"
+            app:popEnterAnim="@anim/slide_in_from_right"
+            app:popExitAnim="@anim/slide_out_to_right" />
         <action
             android:id="@+id/action_searchFragment_to_userDetailsFragment"
-            app:destination="@id/userDetailsFragment" />
+            app:destination="@id/userDetailsFragment"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_right"
+            app:popEnterAnim="@anim/slide_in_from_right"
+            app:popExitAnim="@anim/slide_out_to_right" />
+        <deepLink
+            android:id="@+id/deepLink3"
+            app:uri="gmpictures://action-search" />
     </fragment>
     <fragment
         android:id="@+id/photoDetailsFragment"
@@ -68,10 +101,18 @@
             app:argType="string" />
         <action
             android:id="@+id/action_photoDetailsFragment_to_userDetailsFragment"
-            app:destination="@id/userDetailsFragment" />
+            app:destination="@id/userDetailsFragment"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_right"
+            app:popEnterAnim="@anim/slide_in_from_right"
+            app:popExitAnim="@anim/slide_out_to_right" />
         <action
             android:id="@+id/action_photoDetailsFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
+            app:destination="@id/searchFragment"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_right"
+            app:popEnterAnim="@anim/slide_in_from_right"
+            app:popExitAnim="@anim/slide_out_to_right" />
         <action
             android:id="@+id/action_photoDetailsFragment_to_addToCollectionDialog"
             app:destination="@id/addToCollectionDialog" />
@@ -82,7 +123,11 @@
         tools:layout="@layout/fragment_user_details">
         <action
             android:id="@+id/action_userDetailsFragment_to_collectionDetailsFragment"
-            app:destination="@id/collectionDetailsFragment" />
+            app:destination="@id/collectionDetailsFragment"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:exitAnim="@anim/slide_out_to_right"
+            app:popEnterAnim="@anim/slide_in_from_right"
+            app:popExitAnim="@anim/slide_out_to_right" />
         <argument
             android:name="user"
             app:argType="ua.andrii.andrushchenko.gimmepictures.models.User"
@@ -99,7 +144,11 @@
         tools:layout="@layout/bottom_sheet_search_photo_filter" />
     <action
         android:id="@+id/action_global_photoDetailsFragment"
-        app:destination="@id/photoDetailsFragment" />
+        app:destination="@id/photoDetailsFragment"
+        app:enterAnim="@anim/slide_in_from_right"
+        app:exitAnim="@anim/slide_out_to_right"
+        app:popEnterAnim="@anim/slide_in_from_right"
+        app:popExitAnim="@anim/slide_out_to_right" />
     <fragment
         android:id="@+id/collectionDetailsFragment"
         android:name="ua.andrii.andrushchenko.gimmepictures.ui.collection.details.CollectionDetailsFragment"
@@ -123,7 +172,7 @@
         android:id="@+id/editCollectionDialogFragment"
         android:name="ua.andrii.andrushchenko.gimmepictures.ui.collection.details.EditCollectionDialogFragment"
         android:label="bottom_sheet_edit_collection"
-        tools:layout="@layout/bottom_sheet_edit_collection" >
+        tools:layout="@layout/bottom_sheet_edit_collection">
         <argument
             android:name="collection"
             app:argType="ua.andrii.andrushchenko.gimmepictures.models.Collection" />
@@ -132,7 +181,7 @@
         android:id="@+id/addToCollectionDialog"
         android:name="ua.andrii.andrushchenko.gimmepictures.ui.collection.action_add.AddToCollectionDialog"
         android:label="bottom_sheet_add_collection"
-        tools:layout="@layout/bottom_sheet_add_collection" >
+        tools:layout="@layout/bottom_sheet_add_collection">
         <argument
             android:name="photoId"
             app:argType="string" />

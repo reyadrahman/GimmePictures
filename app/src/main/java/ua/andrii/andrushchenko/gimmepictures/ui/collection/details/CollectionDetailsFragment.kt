@@ -21,6 +21,7 @@ import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.photo.PhotosAdapter
+import ua.andrii.andrushchenko.gimmepictures.ui.widgets.AspectRatioImageView
 import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManager
 import ua.andrii.andrushchenko.gimmepictures.util.toAmountReadableString
 
@@ -33,7 +34,7 @@ class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollec
 
     override val pagedAdapter: BasePagedAdapter<Photo> =
         PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
-            override fun onPhotoClick(photo: Photo) {
+            override fun onPhotoClick(photo: Photo, photoImageView: AspectRatioImageView) {
                 val direction =
                     CollectionDetailsFragmentDirections.actionGlobalPhotoDetailsFragment(photoId = photo.id)
                 findNavController().navigate(direction)
@@ -90,7 +91,7 @@ class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollec
                     text = "${
                         collection.totalPhotos.toAmountReadableString()
                     } ${
-                        getString(R.string.photos).apply { first().toLowerCase() }
+                        getString(R.string.photos).apply { first().lowercaseChar() }
                     } ${
                         getString(R.string.curated_by)
                     } ${

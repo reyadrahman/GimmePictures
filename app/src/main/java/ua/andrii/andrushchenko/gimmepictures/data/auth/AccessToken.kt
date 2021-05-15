@@ -1,8 +1,13 @@
 package ua.andrii.andrushchenko.gimmepictures.data.auth
 
+import com.google.gson.annotations.SerializedName
+
 data class AccessToken(
-    val access_token: String,
-    val token_type: String?,
+    @SerializedName("access_token")
+    val accessToken: String,
+    @SerializedName("token_type")
+    val tokenType: String?,
     val scope: String?,
-    val create_at: Int?
+    @SerializedName("create_at")
+    val createAt: Int?
 )

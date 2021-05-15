@@ -67,25 +67,36 @@
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/bottom_nav_view_icon_tint.xml" value="0.2774358974358974" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/cover_photo_scrim.xml" value="0.28177083333333336" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/drawable_round_shape.xml" value="0.2774358974358974" />
+        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/gradient_1.xml" value="0.3731481481481482" />
+        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/gradient_2.xml" value="0.3731481481481482" />
+        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/gradient_3.xml" value="0.3731481481481482" />
+        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/gradient_list.xml" value="0.3731481481481482" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/ic_account_outlined.xml" value="0.26615384615384613" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/ic_add.xml" value="0.2774358974358974" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/ic_aperture.xml" value="0.3611111111111111" />
+        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/ic_app_icon.xml" value="0.34444444444444444" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/ic_camera_outline.xml" value="0.3611111111111111" />
+        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/ic_collection_outlined.xml" value="0.3769230769230769" />
+        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/ic_collections_shortcut.xml" value="0.3769230769230769" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/ic_downloads.xml" value="0.37592592592592594" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/ic_focal_length.xml" value="0.3574074074074074" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/ic_likes.xml" value="0.37592592592592594" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/ic_lock_outlined.xml" value="0.3592592592592593" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/ic_outline_edit.xml" value="0.2774358974358974" />
+        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/ic_photo_outlined.xml" value="0.3769230769230769" />
+        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/ic_photos_shortcut.xml" value="0.3769230769230769" />
+        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/ic_search.xml" value="0.3769230769230769" />
+        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/ic_search_shortcut.xml" value="0.3769230769230769" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/ic_sort.xml" value="0.2774358974358974" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/ic_views.xml" value="0.3882051282051282" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/ic_work_outline.xml" value="0.26615384615384613" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/drawable/splash_screen.xml" value="0.2774358974358974" />
-        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/activity_auth.xml" value="0.265625" />
+        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/activity_auth.xml" value="0.33" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/activity_settings.xml" value="0.33" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/bottom_sheet_add_collection.xml" value="0.35462962962962963" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/bottom_sheet_edit_collection.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/bottom_sheet_edit_my_profile.xml" value="0.33" />
+        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/bottom_sheet_edit_my_profile.xml" value="0.36018518518518516" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/bottom_sheet_photo_details.xml" value="0.33" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/bottom_sheet_search_photo_filter.xml" value="0.3175925925925926" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/fragment_account.xml" value="0.33" />
@@ -103,6 +114,7 @@
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/item_collection_small.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/item_load_state_footer.xml" value="0.265625" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/item_photo.xml" value="0.378125" />
+        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/item_photo_exif.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/item_photo_tag.xml" value="0.378125" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/item_user.xml" value="0.26153846153846155" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/layout_user_profile.xml" value="0.265625" />
@@ -112,6 +124,7 @@
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/menu/menu_my_profile.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/menu/menu_photo_details.xml" value="0.378125" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/xml/settings.xml" value="0.26902173913043476" />
+        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/xml/shortcuts.xml" value="0.36666666666666664" />
         <entry key="app/src/main/res/drawable-night/bottom_nav_view_icon_tint.xml" value="0.3425641025641026" />
         <entry key="app/src/main/res/drawable/bottom_nav_view_icon_tint.xml" value="0.3425641025641026" />
         <entry key="app/src/main/res/drawable/cover_photo_scrim.xml" value="0.38333333333333336" />

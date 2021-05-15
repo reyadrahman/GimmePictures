@@ -7,16 +7,13 @@ import ua.andrii.andrushchenko.gimmepictures.data.common.STARTING_PAGE_INDEX
 import ua.andrii.andrushchenko.gimmepictures.models.Collection
 import java.io.IOException
 
-class CollectionsPagingSource(
-    private val collectionsService: CollectionsService
-) : BasePagingSource<Collection>() {
+class CollectionsPagingSource(private val collectionsService: CollectionsService) : BasePagingSource<Collection>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Collection> {
         val pageKey = params.key ?: STARTING_PAGE_INDEX
 
         return try {
-            val collections: List<Collection> =
-                collectionsService.getCollections(pageKey, PAGE_SIZE)
+            val collections: List<Collection> = collectionsService.getCollections(pageKey, PAGE_SIZE)
 
             LoadResult.Page(
                 data = collections,

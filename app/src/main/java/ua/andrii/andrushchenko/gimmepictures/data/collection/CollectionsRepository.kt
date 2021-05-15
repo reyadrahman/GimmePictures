@@ -60,7 +60,7 @@ class CollectionsRepository @Inject constructor(
         id: String,
         title: String?,
         description: String?,
-        isPrivate: Boolean,
+        isPrivate: Boolean
     ): BackendResult<Collection> = backendRequest {
         collectionsService.updateCollection(id, title, description, isPrivate)
     }
@@ -71,14 +71,14 @@ class CollectionsRepository @Inject constructor(
 
     suspend fun addPhotoToCollection(
         collectionId: String,
-        photoId: String,
+        photoId: String
     ): BackendResult<CollectionPhotoResult> = backendRequest {
         collectionsService.addPhotoToCollection(collectionId, photoId)
     }
 
     suspend fun deletePhotoFromCollection(
         collectionId: String,
-        photoId: String,
+        photoId: String
     ): BackendResult<CollectionPhotoResult> = backendRequest {
         collectionsService.deletePhotoFromCollection(collectionId, photoId)
     }

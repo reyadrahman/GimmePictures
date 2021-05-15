@@ -20,19 +20,19 @@ import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
+import ua.andrii.andrushchenko.gimmepictures.ui.widgets.AspectRatioImageView
 import ua.andrii.andrushchenko.gimmepictures.util.customtabs.CustomTabsHelper
 import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManager
 import java.util.*
 
 @AndroidEntryPoint
-class PhotosFragment :
-    BaseRecyclerViewFragment<Photo, FragmentPhotosBinding>(FragmentPhotosBinding::inflate) {
+class PhotosFragment : BaseRecyclerViewFragment<Photo, FragmentPhotosBinding>(FragmentPhotosBinding::inflate) {
 
     private val viewModel: PhotoViewModel by hiltNavGraphViewModels(R.id.nav_main)
 
     override val pagedAdapter: BasePagedAdapter<Photo> =
         PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
-            override fun onPhotoClick(photo: Photo) {
+            override fun onPhotoClick(photo: Photo, photoImageView: AspectRatioImageView) {
                 val direction =
                     PhotosFragmentDirections.actionGlobalPhotoDetailsFragment(photoId = photo.id)
                 findNavController().navigate(direction)
@@ -72,13 +72,11 @@ class PhotosFragment :
 
                 setOnClickListener {
                     scrollRecyclerViewToTop()
-                    //photoListingLayout.recyclerView.scrollToPosition(0)
                 }
 
-                viewModel.order.observe(viewLifecycleOwner) {
-                    title = "${getString(it.titleRes)} ${
-                        getString(R.string.photos)
-                            .decapitalize(Locale.ROOT)
+                viewModel.order.observe(viewLifecycleOwner) { order ->
+                    title = "${getString(order.titleRes)} ${
+                        getString(R.string.photos).replaceFirstChar { it.lowercase(Locale.ROOT) }
                     }"
                 }
             }

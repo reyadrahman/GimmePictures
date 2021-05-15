@@ -16,8 +16,7 @@ class CollectionPhotosPagingSource(
         val pageKey = params.key ?: STARTING_PAGE_INDEX
 
         return try {
-
-            val photos = collectionsService.getCollectionPhotos(collectionId, pageKey, PAGE_SIZE)
+            val photos: List<Photo> = collectionsService.getCollectionPhotos(collectionId, pageKey, PAGE_SIZE)
 
             LoadResult.Page(
                 data = photos,

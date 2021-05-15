@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_search_shortcut"
+        android:shortcutDisabledMessage="@string/unknown"
+        android:shortcutId="ShortcutActionSearch"
+        android:shortcutLongLabel="@string/search"
+        android:shortcutShortLabel="@string/search">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="gmpictures://action-search"
+            android:targetClass="ua.andrii.andrushchenko.gimmepictures.ui.main.MainActivity"
+            android:targetPackage="ua.andrii.andrushchenko.gimmepictures" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_photos_shortcut"
+        android:shortcutDisabledMessage="@string/unknown"
+        android:shortcutId="ShortcutPhotosOverview"
+        android:shortcutLongLabel="@string/photos"
+        android:shortcutShortLabel="@string/photos">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="gmpictures://photos-overview"
+            android:targetClass="ua.andrii.andrushchenko.gimmepictures.ui.main.MainActivity"
+            android:targetPackage="ua.andrii.andrushchenko.gimmepictures" />
+    </shortcut>
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_collections_shortcut"
+        android:shortcutDisabledMessage="@string/unknown"
+        android:shortcutId="ShortCutCollectionsOverview"
+        android:shortcutLongLabel="@string/collections"
+        android:shortcutShortLabel="@string/collections">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="gmpictures://collections-overview"
+            android:targetClass="ua.andrii.andrushchenko.gimmepictures.ui.main.MainActivity"
+            android:targetPackage="ua.andrii.andrushchenko.gimmepictures" />
+    </shortcut>
+</shortcuts>
