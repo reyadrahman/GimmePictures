@@ -11,6 +11,7 @@
     <string name="search">Поиск</string>
     <string name="retry">Повторить попытку</string>
     <string name="list_footer_load_error">Ошибка загрузки, проверьте соединение</string>
+    <string name="open_with">Открыть с помощью…</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="done">Готово</string>
@@ -60,6 +61,7 @@
     <string name="edit_profile">Редактировать профиль</string>
     <string name="show_profile">Показать профиль</string>
     <string name="likes">Отметки нравится</string>
+    <string name="user_more_info">Больше информации</string>
 
     <!--Edit my profile-->
     <string name="username_hint">Никнейм</string>

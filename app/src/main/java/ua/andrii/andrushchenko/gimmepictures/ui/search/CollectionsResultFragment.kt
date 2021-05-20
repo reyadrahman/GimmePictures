@@ -43,12 +43,9 @@ class CollectionsResultFragment :
             }
 
             pagedAdapter.addLoadStateListener { loadState ->
-                swipeRefreshLayout.isRefreshing =
-                    loadState.refresh is LoadState.Loading
-                rv.isVisible =
-                    loadState.source.refresh is LoadState.NotLoading
-                textViewError.isVisible =
-                    loadState.source.refresh is LoadState.Error
+                swipeRefreshLayout.isRefreshing = loadState.refresh is LoadState.Loading
+                rv.isVisible = loadState.source.refresh is LoadState.NotLoading
+                textViewError.isVisible = loadState.source.refresh is LoadState.Error
 
                 // empty view
                 if (loadState.source.refresh is LoadState.NotLoading &&
@@ -56,6 +53,9 @@ class CollectionsResultFragment :
                     pagedAdapter.itemCount < 1
                 ) {
                     rv.isVisible = false
+                    textViewEmpty.isVisible = true
+                } else {
+                    textViewEmpty.isVisible = false
                 }
             }
         }

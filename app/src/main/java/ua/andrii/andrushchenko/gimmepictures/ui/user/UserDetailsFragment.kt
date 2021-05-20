@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,6 +23,7 @@ import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.util.customtabs.CustomTabsHelper
 import ua.andrii.andrushchenko.gimmepictures.util.loadImage
 import ua.andrii.andrushchenko.gimmepictures.util.toAmountReadableString
+import java.lang.StringBuilder
 
 @AndroidEntryPoint
 class UserDetailsFragment :
@@ -112,6 +114,10 @@ class UserDetailsFragment :
                             }
                             true
                         }
+                        R.id.action_user_more_info -> {
+                            showMoreUserInfo(user)
+                            true
+                        }
                         else -> super.onOptionsItemSelected(item)
                     }
                 }
@@ -135,6 +141,17 @@ class UserDetailsFragment :
                 }
             }
         }
+    }
+
+    private fun showMoreUserInfo(user: User) {
+        val stringBuilder = StringBuilder().apply {
+            with(user) {
+                location?.let { append("Based in: $it\n") }
+                instagramUsername?.let { append("Instagram username: $it\n") }
+                twitterUsername?.let { append("Twitter username: $it") }
+            }
+        }
+        MaterialAlertDialogBuilder(requireContext()).setMessage(stringBuilder.toString()).show()
     }
 
     private fun toggleErrorLayout(isVisible: Boolean) {

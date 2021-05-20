@@ -23,8 +23,7 @@
             android:background="@null"
             android:theme="@style/GimmePictures.LoginScreen.ToolbarOverlay"
             app:popupTheme="@style/GimmePictures.LoginScreen.PopupOverlay"
-            app:title="@string/app_name"
-            app:titleTextAppearance="@style/Toolbar.TitleText" />
+            app:title="@string/user_authorization_title" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

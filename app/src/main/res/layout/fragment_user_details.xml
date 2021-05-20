@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/colorPrimaryVariant"
                 android:paddingStart="@dimen/indent_24dp"
-                android:paddingTop="@dimen/indent_48dp"
+                android:paddingTop="@dimen/indent_64dp"
                 android:paddingEnd="@dimen/indent_24dp"
                 android:paddingBottom="@dimen/indent_16dp"
                 android:visibility="gone"
@@ -67,100 +67,96 @@
                     tools:visibility="visible" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/user_photos_amount_container"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginStart="@dimen/indent_24dp"
+                    android:orientation="vertical"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:layout_constraintHorizontal_chainStyle="spread"
                     app:layout_constraintStart_toEndOf="@id/user_image_view"
+                    app:layout_constraintEnd_toStartOf="@id/user_likes_amount_container"
                     app:layout_constraintTop_toTopOf="@id/user_image_view"
-                    app:layout_constraintBottom_toBottomOf="@id/user_image_view"
-                    android:weightSum="3"
-                    android:baselineAligned="false">
+                    app:layout_constraintBottom_toBottomOf="@id/user_image_view">
 
-                    <LinearLayout
-                        android:id="@+id/user_photos_amount_container"
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/txt_photos_amount"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/indent_16dp"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:layout_weight="1"
-                        android:padding="@dimen/indent_16dp">
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textAlignment="center"
+                        tools:text="100" />
 
-                        <TextView
-                            android:id="@+id/txt_photos_amount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="10dp"
-                            android:textColor="?attr/colorOnBackground"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            tools:text="125" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/photos"
-                            android:maxLines="2"
-                            android:ellipsize="marquee"
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/user_likes_amount_container"
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/photos_text_view"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:padding="@dimen/indent_16dp">
+                        android:text="@string/photos"
+                        android:textAlignment="center"
+                        android:singleLine="true" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/txt_likes_amount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="10dp"
-                            android:textColor="?attr/colorOnBackground"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            tools:text="1205" />
+                <LinearLayout
+                    android:id="@+id/user_likes_amount_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/indent_8dp"
+                    android:orientation="vertical"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:layout_constraintStart_toEndOf="@id/user_photos_amount_container"
+                    app:layout_constraintEnd_toStartOf="@id/user_collections_amount_container"
+                    app:layout_constraintTop_toTopOf="@id/user_image_view"
+                    app:layout_constraintBottom_toBottomOf="@id/user_image_view">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:maxLines="2"
-                            android:ellipsize="marquee"
-                            android:text="@string/likes"
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/user_collections_amount_container"
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/txt_likes_amount"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:padding="@dimen/indent_16dp">
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textAlignment="center"
+                        tools:text="100" />
 
-                        <TextView
-                            android:id="@+id/txt_collections_amount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="10dp"
-                            android:textColor="?attr/colorOnBackground"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            tools:text="360" />
+                    <TextView
+                        android:id="@+id/likes_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/likes"
+                        android:textAlignment="center"
+                        android:singleLine="true" />
+                </LinearLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/collections"
-                            android:textSize="16sp" />
+                <LinearLayout
+                    android:id="@+id/user_collections_amount_container"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/indent_8dp"
+                    android:layout_marginEnd="@dimen/indent_8dp"
+                    android:orientation="vertical"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintStart_toEndOf="@id/user_likes_amount_container"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/user_image_view"
+                    app:layout_constraintBottom_toBottomOf="@id/user_image_view">
 
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/txt_collections_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textAlignment="center"
+                        tools:text="102" />
+
+                    <TextView
+                        android:id="@+id/collections_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/collections"
+                        android:textAlignment="center"
+                        android:singleLine="true" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -170,7 +166,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:theme="@style/GimmePictures.ToolbarOverlay"
-                app:titleTextAppearance="@style/Toolbar.TitleText"
                 app:layout_collapseMode="pin"
                 app:menu="@menu/menu_user_profile"
                 app:popupTheme="@style/GimmePictures.PopupOverlay" />

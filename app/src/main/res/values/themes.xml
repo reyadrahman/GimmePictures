@@ -17,6 +17,7 @@
         <!-- Customize your theme here. -->
         <item name="materialAlertDialogTheme">@style/MaterialAlertDialog</item>
         <item name="android:windowActivityTransitions">true</item>
+        <item name="checkboxStyle">@style/GimmePictures.CheckBox</item>
     </style>
 
     <style name="GimmePictures.SplashTheme" parent="Theme.GimmePictures">
@@ -30,9 +31,7 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
-    <style name="GimmePictures.ToolbarOverlay" parent="ThemeOverlay.MaterialComponents.Light">
-        <item name="android:fontFamily">@font/dancing_script_bold</item>
-    </style>
+    <style name="GimmePictures.ToolbarOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 
     <style name="GimmePictures.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 

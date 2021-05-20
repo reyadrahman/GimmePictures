@@ -26,23 +26,6 @@ suspend fun <T> backendRequest(request: suspend () -> T): BackendResult<T> =
         }
     }
 
-/*suspend fun <T> backendRequestFlow(fetchData: suspend () -> T): Flow<BackendCallResult<T>> = flow {
-    emit(BackendCallResult.Loading)
-    try {
-        val result = fetchData.invoke()
-        emit(BackendCallResult.Success(result))
-    } catch (throwable: Throwable) {
-        when (throwable) {
-            is HttpException -> {
-                val code = throwable.code()
-                val errorResponse = throwable.errorBody
-                emit(BackendCallResult.Error(code, errorResponse))
-            }
-            else -> emit(BackendCallResult.Error(null, throwable.message))
-        }
-    }
-}*/
-
 val HttpException.errorBody: String?
     get() = try {
         this.response()?.errorBody()?.string()

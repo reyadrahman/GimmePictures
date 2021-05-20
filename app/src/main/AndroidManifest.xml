@@ -52,8 +52,8 @@
         <activity
             android:name=".ui.auth.AuthActivity"
             android:exported="true"
-            android:theme="@style/GimmePictures.TranslucentStatusBar"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:theme="@style/GimmePictures.TranslucentStatusBar">
             <intent-filter>
                 <data
                     android:host="unsplash-auth-callback"
@@ -70,16 +70,11 @@
             android:name=".ui.settings.SettingsActivity"
             android:exported="true" />
 
-        <!--<provider
-            android:name="androidx.work.impl.WorkManagerInitializer"
-            android:authorities="${applicationId}.workmanager-init"
-            tools:node="remove" />-->
-
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
-            tools:node="merge">
+            tools:node="remove">
             <!-- If you are using androidx.startup to initialize other components -->
             <meta-data
                 android:name="androidx.work.impl.WorkManagerInitializer"

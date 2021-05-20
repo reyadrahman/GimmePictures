@@ -8,4 +8,9 @@
         android:title="@string/portfolio_hint"
         app:showAsAction="ifRoom|collapseActionView" />
 
+    <item
+        android:id="@+id/action_user_more_info"
+        android:title="@string/user_more_info"
+        app:showAsAction="never" />
+
 </menu>

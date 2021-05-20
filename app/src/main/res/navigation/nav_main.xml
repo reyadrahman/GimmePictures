@@ -15,8 +15,6 @@
             android:id="@+id/action_nav_photos_to_searchFragment"
             app:destination="@id/searchFragment"
             app:enterAnim="@anim/slide_in_from_right"
-            app:exitAnim="@anim/slide_out_to_right"
-            app:popEnterAnim="@anim/slide_in_from_right"
             app:popExitAnim="@anim/slide_out_to_right" />
         <deepLink
             android:id="@+id/deepLink"
@@ -31,15 +29,11 @@
             android:id="@+id/action_nav_collections_to_searchFragment"
             app:destination="@id/searchFragment"
             app:enterAnim="@anim/slide_in_from_right"
-            app:exitAnim="@anim/slide_out_to_right"
-            app:popEnterAnim="@anim/slide_in_from_right"
             app:popExitAnim="@anim/slide_out_to_right" />
         <action
             android:id="@+id/action_nav_collections_to_collectionDetailsFragment"
             app:destination="@id/collectionDetailsFragment"
             app:enterAnim="@anim/slide_in_from_right"
-            app:exitAnim="@anim/slide_out_to_right"
-            app:popEnterAnim="@anim/slide_in_from_right"
             app:popExitAnim="@anim/slide_out_to_right" />
         <deepLink
             android:id="@+id/deepLink2"
@@ -57,8 +51,6 @@
             android:id="@+id/action_nav_account_to_userDetailsFragment"
             app:destination="@id/userDetailsFragment"
             app:enterAnim="@anim/slide_in_from_right"
-            app:exitAnim="@anim/slide_out_to_right"
-            app:popEnterAnim="@anim/slide_in_from_right"
             app:popExitAnim="@anim/slide_out_to_right" />
     </fragment>
     <fragment
@@ -77,15 +69,11 @@
             android:id="@+id/action_searchFragment_to_collectionDetailsFragment"
             app:destination="@id/collectionDetailsFragment"
             app:enterAnim="@anim/slide_in_from_right"
-            app:exitAnim="@anim/slide_out_to_right"
-            app:popEnterAnim="@anim/slide_in_from_right"
             app:popExitAnim="@anim/slide_out_to_right" />
         <action
             android:id="@+id/action_searchFragment_to_userDetailsFragment"
             app:destination="@id/userDetailsFragment"
             app:enterAnim="@anim/slide_in_from_right"
-            app:exitAnim="@anim/slide_out_to_right"
-            app:popEnterAnim="@anim/slide_in_from_right"
             app:popExitAnim="@anim/slide_out_to_right" />
         <deepLink
             android:id="@+id/deepLink3"
@@ -103,15 +91,11 @@
             android:id="@+id/action_photoDetailsFragment_to_userDetailsFragment"
             app:destination="@id/userDetailsFragment"
             app:enterAnim="@anim/slide_in_from_right"
-            app:exitAnim="@anim/slide_out_to_right"
-            app:popEnterAnim="@anim/slide_in_from_right"
             app:popExitAnim="@anim/slide_out_to_right" />
         <action
             android:id="@+id/action_photoDetailsFragment_to_searchFragment"
             app:destination="@id/searchFragment"
             app:enterAnim="@anim/slide_in_from_right"
-            app:exitAnim="@anim/slide_out_to_right"
-            app:popEnterAnim="@anim/slide_in_from_right"
             app:popExitAnim="@anim/slide_out_to_right" />
         <action
             android:id="@+id/action_photoDetailsFragment_to_addToCollectionDialog"
@@ -125,8 +109,6 @@
             android:id="@+id/action_userDetailsFragment_to_collectionDetailsFragment"
             app:destination="@id/collectionDetailsFragment"
             app:enterAnim="@anim/slide_in_from_right"
-            app:exitAnim="@anim/slide_out_to_right"
-            app:popEnterAnim="@anim/slide_in_from_right"
             app:popExitAnim="@anim/slide_out_to_right" />
         <argument
             android:name="user"
@@ -146,8 +128,6 @@
         android:id="@+id/action_global_photoDetailsFragment"
         app:destination="@id/photoDetailsFragment"
         app:enterAnim="@anim/slide_in_from_right"
-        app:exitAnim="@anim/slide_out_to_right"
-        app:popEnterAnim="@anim/slide_in_from_right"
         app:popExitAnim="@anim/slide_out_to_right" />
     <fragment
         android:id="@+id/collectionDetailsFragment"
@@ -161,7 +141,9 @@
             app:destination="@id/editCollectionDialogFragment" />
         <action
             android:id="@+id/action_collectionDetailsFragment_to_userDetailsFragment"
-            app:destination="@id/userDetailsFragment" />
+            app:destination="@id/userDetailsFragment"
+            app:enterAnim="@anim/slide_in_from_right"
+            app:popExitAnim="@anim/slide_out_to_right" />
     </fragment>
     <dialog
         android:id="@+id/editProfileDialog"

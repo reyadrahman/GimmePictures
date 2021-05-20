@@ -123,13 +123,3 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
         }
     }
 }
-
-/*val materialShapeDrawable = toolbar.background as MaterialShapeDrawable
-            materialShapeDrawable.shapeAppearanceModel =
-                materialShapeDrawable.shapeAppearanceModel
-                    .toBuilder()
-                    .setAllCorners(
-                        CornerFamily.ROUNDED,
-                        resources.getDimension(R.dimen.indent_16dp)
-                    )
-                    .build()*/

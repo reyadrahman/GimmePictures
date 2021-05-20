@@ -82,7 +82,7 @@ class NotificationHelper @Inject constructor(@ApplicationContext private val con
             setDataAndType(uri, "image/*")
         }
 
-        val chooser = Intent.createChooser(viewIntent, "Open with")
+        val chooser = Intent.createChooser(viewIntent, context.getString(R.string.open_with))
 
         return PendingIntent.getActivity(context, 0, chooser, PendingIntent.FLAG_UPDATE_CURRENT)
     }
@@ -101,5 +101,4 @@ class NotificationHelper @Inject constructor(@ApplicationContext private val con
     companion object {
         private const val DOWNLOAD_CHANNEL_ID = "download_channel_id"
     }
-
 }

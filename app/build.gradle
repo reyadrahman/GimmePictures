@@ -55,7 +55,7 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
     implementation "androidx.viewpager2:viewpager2:$viewPager2Version"
 
-    implementation "androidx.startup:startup-runtime:1.0.0"
+    implementation "androidx.startup:startup-runtime:$startupRuntimeVersion"
 
     // Tests
     testImplementation "junit:junit:$junitVersion"
@@ -76,7 +76,6 @@ dependencies {
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glideVersion"
-    implementation "jp.wasabeef:glide-transformations:$glideTransformationsVersion"
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
 
     // Retrofit + GSON

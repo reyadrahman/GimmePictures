@@ -163,7 +163,7 @@ class DownloadWorker @AssistedInject constructor(
     private fun ResponseBody.saveImageLegacy(
         context: Context,
         fileName: String,
-        onProgress: ((Int) -> Unit)?,
+        onProgress: ((Int) -> Unit)
     ): Uri? {
         val path = File(GIMME_PICTURES_LEGACY_PATH)
 
@@ -224,7 +224,7 @@ class DownloadWorker @AssistedInject constructor(
             context: Context,
             url: String,
             fileName: String,
-            photoId: String?,
+            photoId: String?
         ): UUID {
             val inputData = workDataOf(
                 KEY_INPUT_URL to url,

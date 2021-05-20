@@ -20,8 +20,7 @@
             android:theme="@style/GimmePictures.ToolbarOverlay"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             app:menu="@menu/menu_photo_details"
-            app:popupTheme="@style/GimmePictures.PopupOverlay"
-            app:titleTextAppearance="@style/Toolbar.TitleText" />
+            app:popupTheme="@style/GimmePictures.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

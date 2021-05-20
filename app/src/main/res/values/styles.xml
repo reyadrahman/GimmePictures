@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">28sp</item>
-    </style>
-
     <style name="GimmePictures.TabLayout" parent="Widget.MaterialComponents.TabLayout.Colored">
         <item name="android:backgroundTint">?attr/colorPrimaryVariant</item>
         <item name="tabIndicatorColor">?attr/colorOnBackground</item>
@@ -52,6 +48,15 @@
 
     <style name="GimmePictures.IndefiniteProgressBar" parent="Widget.AppCompat.ProgressBar">
         <item name="android:indeterminateTint">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="GimmePictures.CheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.CheckBox</item>
+    </style>
+
+    <style name="ThemeOverlay.App.CheckBox" parent="">
+        <item name="colorOnSurface">?attr/colorOnPrimary</item>
+        <!--<item name="colorSecondary">@color/shrine_pink_100</item>-->
     </style>
 
     <style name="GimmePictures.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
@@ -130,9 +135,7 @@
         <item name="boxStrokeWidthFocused">@dimen/indent_2dp</item>
     </style>
 
-    <style name="GimmePictures.LoginScreen.ToolbarOverlay" parent="ThemeOverlay.MaterialComponents.Dark">
-        <item name="android:fontFamily">@font/dancing_script_bold</item>
-    </style>
+    <style name="GimmePictures.LoginScreen.ToolbarOverlay" parent="ThemeOverlay.MaterialComponents.Dark" />
 
     <style name="GimmePictures.LoginScreen.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Dark" />
 
