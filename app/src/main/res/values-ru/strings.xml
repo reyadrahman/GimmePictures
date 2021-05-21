@@ -62,6 +62,9 @@
     <string name="show_profile">Показать профиль</string>
     <string name="likes">Отметки нравится</string>
     <string name="user_more_info">Больше информации</string>
+    <string name="user_no_photos">У пользователя ещё нет загруженных фото</string>
+    <string name="user_no_liked_photos">У пользователя ещё нет понравившихся фото</string>
+    <string name="user_no_collections">У пользователя ещё нет коллекций</string>
 
     <!--Edit my profile-->
     <string name="username_hint">Никнейм</string>
@@ -98,7 +101,7 @@
     </string-array>
     <string name="apply">Применить</string>
     <string name="search_for">Искать:</string>
-    <string name="nothing_found">Упс, кажется ничего не найдено</string>
+    <string name="nothing_found">Хмм, кажется тут ничего нет.\nПопробуйте поискать что-то</string>
     <string name="no_search_results_subtitle">Попробуйте что-то поискать</string>
 
     <string name="filter">Фильтр</string>

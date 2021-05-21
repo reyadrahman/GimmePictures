@@ -36,6 +36,7 @@ class UsersResultsFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            textViewEmpty.text = getString(R.string.nothing_found)
             swipeRefreshLayout.setOnRefreshListener {
                 pagedAdapter.refresh()
             }
@@ -46,14 +47,13 @@ class UsersResultsFragment :
                 textViewError.isVisible = loadState.source.refresh is LoadState.Error
 
                 // empty view
-                if (loadState.source.refresh is LoadState.NotLoading &&
-                    loadState.append.endOfPaginationReached &&
-                    pagedAdapter.itemCount < 1
-                ) {
-                    rv.isVisible = false
-                    textViewEmpty.isVisible = true
-                } else {
-                    textViewEmpty.isVisible = false
+                if (loadState.source.refresh is LoadState.NotLoading) {
+                    if (/*loadState.append.endOfPaginationReached && */pagedAdapter.itemCount < 1) {
+                        rv.isVisible = false
+                        textViewEmpty.isVisible = true
+                    } else {
+                        textViewEmpty.isVisible = false
+                    }
                 }
             }
         }

@@ -28,7 +28,7 @@ class PhotoRepository @Inject constructor(private val photoService: PhotoService
         photoService.getPhoto(photoId)
     }
 
-    suspend fun getRandomPhoto(
+    /*suspend fun getRandomPhoto(
         collectionId: Int? = null,
         featured: Boolean = false,
         username: String? = null,
@@ -45,7 +45,7 @@ class PhotoRepository @Inject constructor(private val photoService: PhotoService
             contentFilter,
             count = 1
         ).first()
-    }
+    }*/
 
     suspend fun likePhoto(id: String): BackendResult<ResponseBody> = backendRequest {
         photoService.likePhoto(id)

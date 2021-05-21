@@ -67,6 +67,9 @@
     <string name="show_profile">Show profile</string>
     <string name="likes">Likes</string>
     <string name="user_more_info">More info</string>
+    <string name="user_no_photos">User has no uploaded photos yet</string>
+    <string name="user_no_liked_photos">User has no liked photos yet</string>
+    <string name="user_no_collections">User has no collections yet</string>
 
     <!--Edit my profile-->
     <string name="username_hint">Username</string>
@@ -103,7 +106,7 @@
     </string-array>
     <string name="apply">Apply</string>
     <string name="search_for">Search for:</string>
-    <string name="nothing_found">Oops, seems like nothing found</string>
+    <string name="nothing_found">Hmm, seems like it\'s nothing here.\nTry to search something</string>
     <string name="no_search_results_subtitle">Try searching for something</string>
 
     <string name="filter">Filter</string>

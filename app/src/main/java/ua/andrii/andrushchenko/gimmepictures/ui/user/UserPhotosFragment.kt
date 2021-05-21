@@ -20,7 +20,8 @@ import ua.andrii.andrushchenko.gimmepictures.ui.widgets.AspectRatioImageView
 import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManager
 
 @AndroidEntryPoint
-class UserPhotosFragment : BaseRecyclerViewFragment<Photo, ListingLayoutBinding>(ListingLayoutBinding::inflate) {
+class UserPhotosFragment :
+    BaseRecyclerViewFragment<Photo, ListingLayoutBinding>(ListingLayoutBinding::inflate) {
 
     private val viewModel: UserDetailsViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
@@ -39,6 +40,7 @@ class UserPhotosFragment : BaseRecyclerViewFragment<Photo, ListingLayoutBinding>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
+            textViewEmpty.text = getString(R.string.user_no_photos)
             swipeRefreshLayout.setOnRefreshListener {
                 pagedAdapter.refresh()
             }
@@ -52,11 +54,13 @@ class UserPhotosFragment : BaseRecyclerViewFragment<Photo, ListingLayoutBinding>
                     loadState.source.refresh is LoadState.Error
 
                 // empty view
-                if (loadState.source.refresh is LoadState.NotLoading &&
-                    loadState.append.endOfPaginationReached &&
-                    pagedAdapter.itemCount < 1
-                ) {
-                    rv.isVisible = false
+                if (loadState.source.refresh is LoadState.NotLoading) {
+                    if (/*loadState.append.endOfPaginationReached && */pagedAdapter.itemCount < 1) {
+                        rv.isVisible = false
+                        textViewEmpty.isVisible = true
+                    } else {
+                        textViewEmpty.isVisible = false
+                    }
                 }
             }
         }

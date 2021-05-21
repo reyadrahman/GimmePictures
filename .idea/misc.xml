@@ -161,7 +161,7 @@
         <entry key="app/src/main/res/layout/item_photo.xml" value="0.31851851851851853" />
         <entry key="app/src/main/res/layout/item_photo_exif.xml" value="0.35520833333333335" />
         <entry key="app/src/main/res/layout/item_user.xml" value="0.3671875" />
-        <entry key="app/src/main/res/layout/listing_layout.xml" value="0.3671875" />
+        <entry key="app/src/main/res/layout/listing_layout.xml" value="0.32592592592592595" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.33177083333333335" />
         <entry key="app/src/main/res/menu/menu_collections.xml" value="0.35520833333333335" />
         <entry key="app/src/main/res/menu/menu_default.xml" value="0.3671875" />
@@ -172,7 +172,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

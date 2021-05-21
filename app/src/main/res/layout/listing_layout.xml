@@ -27,9 +27,9 @@
         android:layout_gravity="center"
         android:drawablePadding="@dimen/indent_8dp"
         android:gravity="center"
+        tools:text="@string/nothing_found"
         android:visibility="invisible"
         app:drawableTopCompat="@drawable/ic_no_internet_connection"
-        tools:text="@string/nothing_found"
         tools:visibility="visible" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
