@@ -1,5 +1,6 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.photo
 
+import android.os.Parcelable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
@@ -14,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PhotoViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val photoRepository: PhotoRepository,
+    private val photoRepository: PhotoRepository
 ) : ViewModel() {
 
     private val _order = MutableLiveData(PhotosPagingSource.Companion.Order.LATEST)
@@ -35,5 +36,7 @@ class PhotoViewModel @Inject constructor(
         }
         _order.postValue(orderBy)
     }
+
+    var listStateParcel: Parcelable? = null
 }
 

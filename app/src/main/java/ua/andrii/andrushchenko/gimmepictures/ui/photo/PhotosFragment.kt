@@ -26,7 +26,8 @@ import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManage
 import java.util.*
 
 @AndroidEntryPoint
-class PhotosFragment : BaseRecyclerViewFragment<Photo, FragmentPhotosBinding>(FragmentPhotosBinding::inflate) {
+class PhotosFragment :
+    BaseRecyclerViewFragment<Photo, FragmentPhotosBinding>(FragmentPhotosBinding::inflate) {
 
     private val viewModel: PhotoViewModel by hiltNavGraphViewModels(R.id.nav_main)
 
@@ -138,6 +139,11 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo, FragmentPhotosBinding>(Fr
             })
         }
 
+        viewModel.listStateParcel?.let {
+            rv.layoutManager?.onRestoreInstanceState(it)
+            viewModel.listStateParcel = null
+        }
+
         // Populate recyclerView
         viewModel.photos.observe(viewLifecycleOwner) {
             pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
@@ -168,5 +174,11 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo, FragmentPhotosBinding>(Fr
             create()
             show()
         }
+    }
+
+    override fun onDestroyView() {
+        val listState = rv.layoutManager?.onSaveInstanceState()
+        listState?.let { viewModel.listStateParcel = it }
+        super.onDestroyView()
     }
 }
