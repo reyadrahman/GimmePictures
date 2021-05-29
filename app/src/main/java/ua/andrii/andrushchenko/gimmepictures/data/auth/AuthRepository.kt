@@ -6,11 +6,8 @@ import ua.andrii.andrushchenko.gimmepictures.data.user.UserService
 import ua.andrii.andrushchenko.gimmepictures.models.Me
 import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 import ua.andrii.andrushchenko.gimmepictures.util.backendRequest
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class AuthRepository @Inject constructor(
+class AuthRepository(
     private val accessTokenProvider: AccessTokenProvider,
     private val authorizationService: AuthorizationService,
     private val userService: UserService

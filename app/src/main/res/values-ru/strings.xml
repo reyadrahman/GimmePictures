@@ -9,7 +9,7 @@
     <string name="account_and_settings">Аккаунт и настройки</string>
     <string name="users">Пользователи</string>
     <string name="search">Поиск</string>
-    <string name="retry">Повторить попытку</string>
+    <string name="retry">Повторить</string>
     <string name="list_footer_load_error">Ошибка загрузки, проверьте соединение</string>
     <string name="open_with">Открыть с помощью…</string>
     <string name="yes">Да</string>
@@ -17,6 +17,7 @@
     <string name="done">Готово</string>
     <string name="settings">Настройки</string>
     <string name="about">О приложении</string>
+    <string name="failed_to_write_to_file">Ошибка записи в файл</string>
 
     <!--Photo fragment-->
     <string name="add_photo">Добавить фото</string>

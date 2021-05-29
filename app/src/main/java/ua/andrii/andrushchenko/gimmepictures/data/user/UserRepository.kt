@@ -11,11 +11,8 @@ import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.models.User
 import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 import ua.andrii.andrushchenko.gimmepictures.util.backendRequest
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class UserRepository @Inject constructor(private val userService: UserService) {
+class UserRepository(private val userService: UserService) {
 
     suspend fun getUserPublicProfile(username: String): BackendResult<User> = backendRequest {
         userService.getUserPublicProfile(username)

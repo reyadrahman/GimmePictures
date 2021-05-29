@@ -47,15 +47,4 @@ interface PhotoService {
         @Query("exif[focal_length]") focal_length: String?,
         @Query("exif[iso_speed_ratings]") iso_speed_ratings: Int?
     ): Photo*/
-
-    /*@GET("photos/random")
-    suspend fun getRandomPhotos(
-        @Query("collections") collectionsId: Int?,
-        @Query("featured") featured: Boolean?,
-        @Query("username") username: String?,
-        @Query("query") query: String?,
-        @Query("orientation") orientation: String?,
-        @Query("content_filter") contentFilter: String?,
-        @Query("count") count: Int?
-    ): List<Photo>*/
 }

@@ -87,6 +87,7 @@ dependencies {
 
     // Tests
     testImplementation "junit:junit:$junitVersion"
+    testImplementation 'com.google.truth:truth:1.1.2'
     androidTestImplementation "androidx.test.ext:junit:$testExtJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"
@@ -112,6 +113,9 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:$workRuntimeVersion"
     implementation "androidx.hilt:hilt-work:$hiltWorkVersion"
     kapt "androidx.hilt:hilt-compiler:$hiltWorkVersion"
+
+    // Leak canary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
     //Room
     /*implementation "androidx.room:room-runtime:$roomVersion"

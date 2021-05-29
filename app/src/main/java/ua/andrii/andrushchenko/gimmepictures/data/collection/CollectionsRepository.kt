@@ -12,11 +12,8 @@ import ua.andrii.andrushchenko.gimmepictures.models.Collection
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 import ua.andrii.andrushchenko.gimmepictures.util.backendRequest
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class CollectionsRepository @Inject constructor(
+class CollectionsRepository(
     private val collectionsService: CollectionsService,
     private val userService: UserService
 ) {

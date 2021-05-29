@@ -10,7 +10,7 @@ import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.util.loadImage
 
 class AddToCollectionAdapter(
-    private val onItemClickListener: OnItemClickListener
+    private val onItemClickListener: OnItemClickListener,
 ) : BasePagedAdapter<Collection>(COLLECTION_COMPARATOR) {
 
     private var currentUserCollectionIds: List<String>? = null
@@ -20,11 +20,13 @@ class AddToCollectionAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionSmallViewHolder {
-        val binding = ItemCollectionSmallBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemCollectionSmallBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CollectionSmallViewHolder(binding)
     }
 
-    inner class CollectionSmallViewHolder(private val binding: ItemCollectionSmallBinding) : BaseViewHolder(binding) {
+    inner class CollectionSmallViewHolder(private val binding: ItemCollectionSmallBinding) :
+        BaseViewHolder(binding) {
         override fun bind(entity: Collection) {
             with(binding) {
                 entity.coverPhoto?.let { photo ->
@@ -40,16 +42,22 @@ class AddToCollectionAdapter(
                 selectedStateBackground.visibility =
                     if (isPhotoInCollection) View.VISIBLE else View.GONE
                 itemView.setOnClickListener {
-                    onItemClickListener.onCollectionThumbClick(collection = entity,
+                    onItemClickListener.onCollectionThumbClick(
+                        collection = entity,
                         selectedStateBackground,
-                        layoutProgress)
+                        layoutProgress
+                    )
                 }
             }
         }
     }
 
     interface OnItemClickListener {
-        fun onCollectionThumbClick(collection: Collection, selectedStateView: View, loadingProgress: View)
+        fun onCollectionThumbClick(
+            collection: Collection,
+            selectedStateView: View,
+            loadingProgress: View
+        )
     }
 
     companion object {

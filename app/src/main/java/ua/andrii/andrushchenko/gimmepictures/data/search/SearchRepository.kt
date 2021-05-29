@@ -9,11 +9,8 @@ import ua.andrii.andrushchenko.gimmepictures.data.common.PAGE_SIZE
 import ua.andrii.andrushchenko.gimmepictures.models.Collection
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.models.User
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class SearchRepository @Inject constructor(private val searchService: SearchService) {
+class SearchRepository(private val searchService: SearchService) {
 
     fun searchPhotos(
         query: String,

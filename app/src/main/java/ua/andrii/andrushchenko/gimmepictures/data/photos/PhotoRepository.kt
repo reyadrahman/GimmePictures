@@ -10,11 +10,8 @@ import ua.andrii.andrushchenko.gimmepictures.data.common.PAGE_SIZE
 import ua.andrii.andrushchenko.gimmepictures.models.Photo
 import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 import ua.andrii.andrushchenko.gimmepictures.util.backendRequest
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class PhotoRepository @Inject constructor(private val photoService: PhotoService) {
+class PhotoRepository(private val photoService: PhotoService) {
     fun getAllPhotos(order: PhotosPagingSource.Companion.Order): LiveData<PagingData<Photo>> =
         Pager(
             config = PagingConfig(
@@ -27,25 +24,6 @@ class PhotoRepository @Inject constructor(private val photoService: PhotoService
     suspend fun getSinglePhoto(photoId: String): BackendResult<Photo> = backendRequest {
         photoService.getPhoto(photoId)
     }
-
-    /*suspend fun getRandomPhoto(
-        collectionId: Int? = null,
-        featured: Boolean = false,
-        username: String? = null,
-        query: String? = null,
-        orientation: String? = null,
-        contentFilter: String? = null
-    ): BackendResult<Photo> = backendRequest {
-        photoService.getRandomPhotos(
-            collectionId,
-            featured,
-            username,
-            query,
-            orientation,
-            contentFilter,
-            count = 1
-        ).first()
-    }*/
 
     suspend fun likePhoto(id: String): BackendResult<ResponseBody> = backendRequest {
         photoService.likePhoto(id)

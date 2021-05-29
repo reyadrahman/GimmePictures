@@ -4,13 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
-import dagger.hilt.android.qualifiers.ApplicationContext
 import ua.andrii.andrushchenko.gimmepictures.models.Me
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class AccessTokenProvider @Inject constructor(@ApplicationContext context: Context) {
+class AccessTokenProvider(context: Context) {
     private val sharedPreferences: SharedPreferences =
         PreferenceManager.getDefaultSharedPreferences(context)
 
