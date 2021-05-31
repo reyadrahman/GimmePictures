@@ -3,13 +3,8 @@ package ua.andrii.andrushchenko.gimmepictures.data.auth
 import okhttp3.Interceptor
 import okhttp3.Response
 import ua.andrii.andrushchenko.gimmepictures.data.common.CLIENT_ID
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class AccessTokenInterceptor @Inject constructor(
-    private val accessTokenProvider: AccessTokenProvider
-) : Interceptor {
+class AccessTokenInterceptor(private val accessTokenProvider: AccessTokenProvider) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         return if (accessTokenProvider.isAuthorized) {

@@ -2,8 +2,8 @@ package ua.andrii.andrushchenko.gimmepictures.data.collection
 
 import retrofit2.Response
 import retrofit2.http.*
-import ua.andrii.andrushchenko.gimmepictures.models.Collection
-import ua.andrii.andrushchenko.gimmepictures.models.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.Collection
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
 
 interface CollectionsService {
 

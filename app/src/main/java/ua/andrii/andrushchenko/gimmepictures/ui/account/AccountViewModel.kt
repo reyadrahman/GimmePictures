@@ -55,7 +55,7 @@ class AccountViewModel @Inject constructor(
         url: String?,
         instagramUsername: String?,
         location: String?,
-        bio: String?,
+        bio: String?
     ) = viewModelScope.launch {
         authRepository.updateMe(
             username,

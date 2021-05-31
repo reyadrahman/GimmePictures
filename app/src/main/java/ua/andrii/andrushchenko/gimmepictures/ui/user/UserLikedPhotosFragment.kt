@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.ListingLayoutBinding
-import ua.andrii.andrushchenko.gimmepictures.models.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter

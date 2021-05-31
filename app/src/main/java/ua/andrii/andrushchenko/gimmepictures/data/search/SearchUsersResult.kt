@@ -1,7 +1,7 @@
 package ua.andrii.andrushchenko.gimmepictures.data.search
 
 import com.google.gson.annotations.SerializedName
-import ua.andrii.andrushchenko.gimmepictures.models.User
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.User
 
 data class SearchUsersResult(
     val total: Int,

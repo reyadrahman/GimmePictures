@@ -6,7 +6,7 @@ import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.data.base.BasePagingSource
 import ua.andrii.andrushchenko.gimmepictures.data.common.PAGE_SIZE
 import ua.andrii.andrushchenko.gimmepictures.data.common.STARTING_PAGE_INDEX
-import ua.andrii.andrushchenko.gimmepictures.models.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
 import java.io.IOException
 
 class PhotosPagingSource(

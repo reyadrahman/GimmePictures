@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ua.andrii.andrushchenko.gimmepictures.databinding.ItemPhotoTagBinding
-import ua.andrii.andrushchenko.gimmepictures.models.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
 
 class PhotoTagAdapter(private val onTagClickListener: OnTagClickListener) :
     ListAdapter<Photo.Tag, PhotoTagAdapter.TagViewHolder>(TAG_COMPARATOR) {

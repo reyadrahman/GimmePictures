@@ -1,7 +1,7 @@
 package ua.andrii.andrushchenko.gimmepictures.data.search
 
 import com.google.gson.annotations.SerializedName
-import ua.andrii.andrushchenko.gimmepictures.models.Collection
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.Collection
 
 data class SearchCollectionsResult(
     val total: Int,

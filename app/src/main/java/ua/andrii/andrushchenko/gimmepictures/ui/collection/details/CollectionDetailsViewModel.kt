@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepository
 import ua.andrii.andrushchenko.gimmepictures.data.collection.CollectionsRepository
-import ua.andrii.andrushchenko.gimmepictures.models.Collection
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.Collection
 import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 import javax.inject.Inject
 

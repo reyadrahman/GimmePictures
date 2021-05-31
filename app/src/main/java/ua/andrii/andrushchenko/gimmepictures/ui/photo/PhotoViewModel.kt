@@ -8,14 +8,14 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepository
-import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotoRepository
 import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotosPagingSource
+import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotosRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class PhotoViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val photoRepository: PhotoRepository
+    private val photoRepository: PhotosRepository
 ) : ViewModel() {
 
     private val _order = MutableLiveData(PhotosPagingSource.Companion.Order.LATEST)
@@ -37,6 +37,8 @@ class PhotoViewModel @Inject constructor(
         _order.postValue(orderBy)
     }
 
+    // Used for saving and restoring recyclerView scroll position and state between
+    // configuration changes and while navigating between top-level destinations
     var listStateParcel: Parcelable? = null
 }
 

@@ -7,12 +7,13 @@ import androidx.paging.PagingData
 import androidx.paging.liveData
 import okhttp3.ResponseBody
 import ua.andrii.andrushchenko.gimmepictures.data.common.PAGE_SIZE
-import ua.andrii.andrushchenko.gimmepictures.models.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
 import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 import ua.andrii.andrushchenko.gimmepictures.util.backendRequest
 
-class PhotoRepository(private val photoService: PhotoService) {
-    fun getAllPhotos(order: PhotosPagingSource.Companion.Order): LiveData<PagingData<Photo>> =
+class PhotosRepositoryImpl(private val photoService: PhotoService) : PhotosRepository {
+
+    override fun getAllPhotos(order: PhotosPagingSource.Companion.Order): LiveData<PagingData<Photo>> =
         Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
@@ -21,15 +22,15 @@ class PhotoRepository(private val photoService: PhotoService) {
             pagingSourceFactory = { PhotosPagingSource(photoService, order) }
         ).liveData
 
-    suspend fun getSinglePhoto(photoId: String): BackendResult<Photo> = backendRequest {
+    override suspend fun getSinglePhoto(photoId: String): BackendResult<Photo> = backendRequest {
         photoService.getPhoto(photoId)
     }
 
-    suspend fun likePhoto(id: String): BackendResult<ResponseBody> = backendRequest {
+    override suspend fun likePhoto(id: String): BackendResult<ResponseBody> = backendRequest {
         photoService.likePhoto(id)
     }
 
-    suspend fun dislikePhoto(id: String): BackendResult<Unit> = backendRequest {
+    override suspend fun dislikePhoto(id: String): BackendResult<Unit> = backendRequest {
         photoService.dislikePhoto(id)
     }
 }

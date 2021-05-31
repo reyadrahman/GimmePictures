@@ -22,7 +22,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentPhotoDetailsBinding
-import ua.andrii.andrushchenko.gimmepictures.models.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
 import ua.andrii.andrushchenko.gimmepictures.ui.auth.AuthActivity
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseFragment
 import ua.andrii.andrushchenko.gimmepictures.util.*
@@ -296,13 +296,13 @@ class PhotoDetailsFragment :
     }
 
     private fun sharePhoto(photoLink: String?, photoDescription: String?) {
-        val share = Intent.createChooser(Intent().apply {
+        val shareIntent = Intent.createChooser(Intent().apply {
             action = Intent.ACTION_SEND
             type = "text/plain"
             putExtra(Intent.EXTRA_TEXT, photoLink)
             putExtra(Intent.EXTRA_TITLE, photoDescription)
         }, null)
-        startActivity(share)
+        startActivity(shareIntent)
     }
 
     private fun openPhotoInBrowser(photoLink: String?) {

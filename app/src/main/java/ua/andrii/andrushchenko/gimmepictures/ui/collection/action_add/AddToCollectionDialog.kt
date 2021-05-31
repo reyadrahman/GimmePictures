@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.BottomSheetAddCollectionBinding
-import ua.andrii.andrushchenko.gimmepictures.models.Collection
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.Collection
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseBottomSheetDialogFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.photo.details.PhotoDetailsViewModel

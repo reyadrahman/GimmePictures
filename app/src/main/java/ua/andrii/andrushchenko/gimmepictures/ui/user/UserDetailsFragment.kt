@@ -17,7 +17,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentUserDetailsBinding
-import ua.andrii.andrushchenko.gimmepictures.models.User
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.User
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.util.customtabs.CustomTabsHelper

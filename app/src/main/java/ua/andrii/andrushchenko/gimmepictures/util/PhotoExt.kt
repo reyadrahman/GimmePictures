@@ -2,7 +2,7 @@ package ua.andrii.andrushchenko.gimmepictures.util
 
 import androidx.annotation.StringRes
 import ua.andrii.andrushchenko.gimmepictures.R
-import ua.andrii.andrushchenko.gimmepictures.models.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
 import java.util.*
 
 enum class PhotoSize(@StringRes val stringId: Int) {

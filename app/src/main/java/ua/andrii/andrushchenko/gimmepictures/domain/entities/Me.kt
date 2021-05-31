@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.models
+package ua.andrii.andrushchenko.gimmepictures.domain.entities
 
 import com.google.gson.annotations.SerializedName
 

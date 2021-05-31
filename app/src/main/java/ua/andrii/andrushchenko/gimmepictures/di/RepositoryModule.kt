@@ -6,14 +6,19 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AccessTokenProvider
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepository
+import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepositoryImpl
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthorizationService
 import ua.andrii.andrushchenko.gimmepictures.data.collection.CollectionsRepository
+import ua.andrii.andrushchenko.gimmepictures.data.collection.CollectionsRepositoryImpl
 import ua.andrii.andrushchenko.gimmepictures.data.collection.CollectionsService
-import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotoRepository
+import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotosRepositoryImpl
 import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotoService
+import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotosRepository
 import ua.andrii.andrushchenko.gimmepictures.data.search.SearchRepository
+import ua.andrii.andrushchenko.gimmepictures.data.search.SearchRepositoryImpl
 import ua.andrii.andrushchenko.gimmepictures.data.search.SearchService
 import ua.andrii.andrushchenko.gimmepictures.data.user.UserRepository
+import ua.andrii.andrushchenko.gimmepictures.data.user.UserRepositoryImpl
 import ua.andrii.andrushchenko.gimmepictures.data.user.UserService
 import javax.inject.Singleton
 
@@ -34,27 +39,27 @@ object RepositoryModule {
         accessTokenProvider: AccessTokenProvider,
         authorizationService: AuthorizationService,
         userService: UserService
-    ): AuthRepository = AuthRepository(accessTokenProvider, authorizationService, userService)
+    ): AuthRepository = AuthRepositoryImpl(accessTokenProvider, authorizationService, userService)
 
     @Provides
     @Singleton
-    fun providePhotosRepository(photoService: PhotoService): PhotoRepository =
-        PhotoRepository(photoService)
+    fun providePhotosRepository(photoService: PhotoService): PhotosRepository =
+        PhotosRepositoryImpl(photoService)
 
     @Provides
     @Singleton
     fun provideCollectionsRepository(
         collectionsService: CollectionsService,
         userService: UserService
-    ): CollectionsRepository = CollectionsRepository(collectionsService, userService)
+    ): CollectionsRepository = CollectionsRepositoryImpl(collectionsService, userService)
 
     @Provides
     @Singleton
     fun provideSearchRepository(searchService: SearchService): SearchRepository =
-        SearchRepository(searchService)
+        SearchRepositoryImpl(searchService)
 
     @Provides
     @Singleton
     fun provideUserRepository(userService: UserService): UserRepository =
-        UserRepository(userService)
+        UserRepositoryImpl(userService)
 }

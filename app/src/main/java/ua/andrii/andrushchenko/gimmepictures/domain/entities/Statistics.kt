@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.models
+package ua.andrii.andrushchenko.gimmepictures.domain.entities
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

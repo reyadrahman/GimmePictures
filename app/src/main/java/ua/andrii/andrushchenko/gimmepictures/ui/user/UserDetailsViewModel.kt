@@ -7,9 +7,9 @@ import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ua.andrii.andrushchenko.gimmepictures.data.user.UserRepository
-import ua.andrii.andrushchenko.gimmepictures.models.Collection
-import ua.andrii.andrushchenko.gimmepictures.models.Photo
-import ua.andrii.andrushchenko.gimmepictures.models.User
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.Collection
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.User
 import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 import javax.inject.Inject
 

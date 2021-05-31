@@ -10,7 +10,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
-import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepository.Companion.unsplashAuthCallback
+import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepositoryImpl.Companion.unsplashAuthCallback
 import ua.andrii.andrushchenko.gimmepictures.databinding.ActivityAuthBinding
 import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 import ua.andrii.andrushchenko.gimmepictures.util.customtabs.CustomTabsHelper

@@ -112,7 +112,7 @@
             app:popExitAnim="@anim/slide_out_to_right" />
         <argument
             android:name="user"
-            app:argType="ua.andrii.andrushchenko.gimmepictures.models.User"
+            app:argType="ua.andrii.andrushchenko.gimmepictures.domain.entities.User"
             app:nullable="true" />
         <argument
             android:name="username"
@@ -135,7 +135,7 @@
         tools:layout="@layout/fragment_collection_details">
         <argument
             android:name="collection"
-            app:argType="ua.andrii.andrushchenko.gimmepictures.models.Collection" />
+            app:argType="ua.andrii.andrushchenko.gimmepictures.domain.entities.Collection" />
         <action
             android:id="@+id/action_collectionDetailsFragment_to_editCollectionDialogFragment"
             app:destination="@id/editCollectionDialogFragment" />
@@ -157,7 +157,7 @@
         tools:layout="@layout/bottom_sheet_edit_collection">
         <argument
             android:name="collection"
-            app:argType="ua.andrii.andrushchenko.gimmepictures.models.Collection" />
+            app:argType="ua.andrii.andrushchenko.gimmepictures.domain.entities.Collection" />
     </dialog>
     <dialog
         android:id="@+id/addToCollectionDialog"

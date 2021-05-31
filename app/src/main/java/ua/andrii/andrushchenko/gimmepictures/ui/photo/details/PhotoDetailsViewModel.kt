@@ -8,17 +8,20 @@ import kotlinx.coroutines.launch
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepository
 import ua.andrii.andrushchenko.gimmepictures.data.collection.CollectionPhotoResult
 import ua.andrii.andrushchenko.gimmepictures.data.collection.CollectionsRepository
-import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotoRepository
-import ua.andrii.andrushchenko.gimmepictures.models.Collection
-import ua.andrii.andrushchenko.gimmepictures.models.Photo
+import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotosRepository
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.Collection
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
 import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 import java.util.*
 import javax.inject.Inject
 
+// This viewModel is shared between PhotoDetailsFragment and AddToCollection dialog fragment
+// to implement 'add photo to collection' logic
+
 @HiltViewModel
 class PhotoDetailsViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val photoRepository: PhotoRepository,
+    private val photoRepository: PhotosRepository,
     private val collectionsRepository: CollectionsRepository
 ) : ViewModel() {
 

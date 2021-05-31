@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import ua.andrii.andrushchenko.gimmepictures.databinding.ItemUserBinding
-import ua.andrii.andrushchenko.gimmepictures.models.User
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.User
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.util.loadImage
 

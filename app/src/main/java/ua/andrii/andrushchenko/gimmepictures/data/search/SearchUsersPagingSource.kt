@@ -4,7 +4,7 @@ import retrofit2.HttpException
 import ua.andrii.andrushchenko.gimmepictures.data.base.BasePagingSource
 import ua.andrii.andrushchenko.gimmepictures.data.common.PAGE_SIZE
 import ua.andrii.andrushchenko.gimmepictures.data.common.STARTING_PAGE_INDEX
-import ua.andrii.andrushchenko.gimmepictures.models.User
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.User
 import java.io.IOException
 
 class SearchUsersPagingSource(

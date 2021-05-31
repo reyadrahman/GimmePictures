@@ -4,10 +4,10 @@ import retrofit2.http.GET
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
-import ua.andrii.andrushchenko.gimmepictures.models.Collection
-import ua.andrii.andrushchenko.gimmepictures.models.Me
-import ua.andrii.andrushchenko.gimmepictures.models.Photo
-import ua.andrii.andrushchenko.gimmepictures.models.User
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.Collection
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.Me
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.User
 
 interface UserService {
 

@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import ua.andrii.andrushchenko.gimmepictures.databinding.ItemCollectionSmallBinding
-import ua.andrii.andrushchenko.gimmepictures.models.Collection
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.Collection
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.util.loadImage
 

@@ -12,5 +12,7 @@ import javax.inject.Inject
 class CollectionsViewModel @Inject constructor(collectionsRepository: CollectionsRepository) : ViewModel() {
     val collections = collectionsRepository.getCollections().cachedIn(viewModelScope)
 
+    // Used for saving and restoring recyclerView scroll position and state between
+    // configuration changes and while navigating between top-level destinations
     var listStateParcel: Parcelable? = null
 }

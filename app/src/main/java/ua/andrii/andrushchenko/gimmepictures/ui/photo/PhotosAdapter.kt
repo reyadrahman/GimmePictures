@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import ua.andrii.andrushchenko.gimmepictures.databinding.ItemPhotoBinding
-import ua.andrii.andrushchenko.gimmepictures.models.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.widgets.AspectRatioImageView
 import ua.andrii.andrushchenko.gimmepictures.util.loadImage

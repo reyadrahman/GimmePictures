@@ -8,6 +8,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AccessTokenInterceptor
+import ua.andrii.andrushchenko.gimmepictures.data.auth.AccessTokenProvider
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthorizationService
 import ua.andrii.andrushchenko.gimmepictures.data.collection.CollectionsService
 import ua.andrii.andrushchenko.gimmepictures.data.common.BASE_API_URL
@@ -23,6 +24,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
+    @Provides
+    @Singleton
+    fun provideAccessTokenInterceptor(accessTokenProvider: AccessTokenProvider) =
+        AccessTokenInterceptor(accessTokenProvider)
 
     @Provides
     @Singleton
