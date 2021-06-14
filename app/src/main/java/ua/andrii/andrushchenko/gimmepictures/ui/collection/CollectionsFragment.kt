@@ -24,7 +24,6 @@ import ua.andrii.andrushchenko.gimmepictures.util.setupLinearLayoutManager
 class CollectionsFragment :
     BaseRecyclerViewFragment<Collection, FragmentCollectionsBinding>(FragmentCollectionsBinding::inflate) {
 
-    //private val viewModel: CollectionsViewModel by hiltNavGraphViewModels(R.id.nav_main)
     private val viewModel: CollectionsViewModel by viewModels()
 
     override val pagedAdapter: BasePagedAdapter<Collection> =
@@ -108,20 +107,9 @@ class CollectionsFragment :
             )
         }
 
-        viewModel.listStateParcel?.let {
-            rv.layoutManager?.onRestoreInstanceState(it)
-            viewModel.listStateParcel = null
-        }
-
         // Populate recyclerView
         viewModel.collections.observe(viewLifecycleOwner) {
             pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
-    }
-
-    override fun onDestroyView() {
-        val listState = rv.layoutManager?.onSaveInstanceState()
-        listState?.let { viewModel.listStateParcel = it }
-        super.onDestroyView()
     }
 }

@@ -2,9 +2,6 @@ package ua.andrii.andrushchenko.gimmepictures.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -28,15 +25,7 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         navController = navHostFragment.findNavController()
-
-        binding.bottomNavigationView.apply {
-            ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
-                view.updatePadding(bottom = WindowInsetsCompat.Type.navigationBars())
-                insets
-            }
-
-            setupWithNavController(navController)
-        }
+        binding.bottomNavigationView.setupWithNavController(navController)
     }
 
     override fun onSupportNavigateUp(): Boolean {

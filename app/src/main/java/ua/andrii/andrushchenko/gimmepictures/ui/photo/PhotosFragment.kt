@@ -29,7 +29,6 @@ import java.util.*
 class PhotosFragment :
     BaseRecyclerViewFragment<Photo, FragmentPhotosBinding>(FragmentPhotosBinding::inflate) {
 
-    //private val viewModel: PhotoViewModel by hiltNavGraphViewModels(R.id.nav_main)
     private val viewModel: PhotoViewModel by viewModels()
 
     override val pagedAdapter: BasePagedAdapter<Photo> =
@@ -140,11 +139,6 @@ class PhotosFragment :
             })
         }
 
-        viewModel.listStateParcel?.let {
-            rv.layoutManager?.onRestoreInstanceState(it)
-            viewModel.listStateParcel = null
-        }
-
         // Populate recyclerView
         viewModel.photos.observe(viewLifecycleOwner) {
             pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
@@ -175,11 +169,5 @@ class PhotosFragment :
             create()
             show()
         }
-    }
-
-    override fun onDestroyView() {
-        val listState = rv.layoutManager?.onSaveInstanceState()
-        listState?.let { viewModel.listStateParcel = it }
-        super.onDestroyView()
     }
 }

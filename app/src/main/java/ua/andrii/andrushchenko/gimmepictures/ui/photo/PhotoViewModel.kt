@@ -1,6 +1,6 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.photo
 
-import android.os.Parcelable
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
@@ -36,9 +36,5 @@ class PhotoViewModel @Inject constructor(
         }
         _order.postValue(orderBy)
     }
-
-    // Used for saving and restoring recyclerView scroll position and state between
-    // configuration changes and while navigating between top-level destinations
-    var listStateParcel: Parcelable? = null
 }
 

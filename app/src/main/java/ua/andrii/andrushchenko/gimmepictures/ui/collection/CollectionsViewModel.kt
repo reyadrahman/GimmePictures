@@ -1,6 +1,6 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.collection
 
-import android.os.Parcelable
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -11,8 +11,4 @@ import javax.inject.Inject
 @HiltViewModel
 class CollectionsViewModel @Inject constructor(collectionsRepository: CollectionsRepository) : ViewModel() {
     val collections = collectionsRepository.getCollections().cachedIn(viewModelScope)
-
-    // Used for saving and restoring recyclerView scroll position and state between
-    // configuration changes and while navigating between top-level destinations
-    var listStateParcel: Parcelable? = null
 }
