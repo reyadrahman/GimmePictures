@@ -1,7 +1,6 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.main
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -30,15 +29,6 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         navController = navHostFragment.findNavController()
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.nav_photos,
-                R.id.nav_collections,
-                R.id.nav_account -> binding.bottomNavigationView.visibility = View.VISIBLE
-                else -> binding.bottomNavigationView.visibility = View.GONE
-            }
-        }
-
         binding.bottomNavigationView.apply {
             ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
                 view.updatePadding(bottom = WindowInsetsCompat.Type.navigationBars())
@@ -46,7 +36,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             setupWithNavController(navController)
-            setOnNavigationItemReselectedListener {}
         }
     }
 

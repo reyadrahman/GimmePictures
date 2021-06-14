@@ -3,7 +3,7 @@ package ua.andrii.andrushchenko.gimmepictures.ui.collection
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -24,7 +24,8 @@ import ua.andrii.andrushchenko.gimmepictures.util.setupLinearLayoutManager
 class CollectionsFragment :
     BaseRecyclerViewFragment<Collection, FragmentCollectionsBinding>(FragmentCollectionsBinding::inflate) {
 
-    private val viewModel: CollectionsViewModel by hiltNavGraphViewModels(R.id.nav_main)
+    //private val viewModel: CollectionsViewModel by hiltNavGraphViewModels(R.id.nav_main)
+    private val viewModel: CollectionsViewModel by viewModels()
 
     override val pagedAdapter: BasePagedAdapter<Collection> =
         CollectionsAdapter(object : CollectionsAdapter.OnItemClickListener {

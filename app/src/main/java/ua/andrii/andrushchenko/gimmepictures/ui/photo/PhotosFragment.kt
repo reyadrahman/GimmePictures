@@ -4,7 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -29,7 +29,8 @@ import java.util.*
 class PhotosFragment :
     BaseRecyclerViewFragment<Photo, FragmentPhotosBinding>(FragmentPhotosBinding::inflate) {
 
-    private val viewModel: PhotoViewModel by hiltNavGraphViewModels(R.id.nav_main)
+    //private val viewModel: PhotoViewModel by hiltNavGraphViewModels(R.id.nav_main)
+    private val viewModel: PhotoViewModel by viewModels()
 
     override val pagedAdapter: BasePagedAdapter<Photo> =
         PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
