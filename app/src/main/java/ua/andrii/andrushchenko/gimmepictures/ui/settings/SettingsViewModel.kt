@@ -20,22 +20,19 @@ class SettingsViewModel @Inject constructor(application: Application) : AndroidV
     }
     val glideCacheSize: LiveData<Long> = _glideCacheSize
 
-    fun launchClearCache() {
-        viewModelScope.launch {
-            clearCache()
-            _glideCacheSize.postValue(getGlideCacheSize())
-        }
+    fun launchClearCache() = viewModelScope.launch {
+        clearCache()
+        _glideCacheSize.postValue(getGlideCacheSize())
     }
 
-    private suspend fun clearCache() =
-        withContext(Dispatchers.Default) {
-            GlideApp.get(getApplication<Application>().applicationContext).clearDiskCache()
-        }
+    private suspend fun clearCache() = withContext(Dispatchers.Default) {
+        GlideApp.get(getApplication<Application>().applicationContext).clearDiskCache()
+    }
 
     private fun getGlideCacheSize() =
         GlideApp.getPhotoCacheDir(getApplication<Application>().applicationContext)?.dirSize()
 
-    private fun File.dirSize(): Long {
+    private fun File.dirSize(): Long =
         if (this.exists()) {
             var result: Long = 0
             listFiles()?.forEach { aFileList ->
@@ -45,8 +42,8 @@ class SettingsViewModel @Inject constructor(application: Application) : AndroidV
                     aFileList.length()
                 }
             }
-            return result / 1024 / 1024
+            result / 1024 / 1024
+        } else {
+            0
         }
-        return 0
-    }
 }

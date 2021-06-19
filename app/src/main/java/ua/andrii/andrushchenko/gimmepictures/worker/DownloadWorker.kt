@@ -107,7 +107,6 @@ class DownloadWorker @AssistedInject constructor(
         exception: Exception,
         showNotification: Boolean
     ) {
-        //Log.e(TAG, "onError: ${exception.message}")
         Toast.makeText(appContext, exception.message, Toast.LENGTH_SHORT).show()
         if (showNotification) {
             notificationHelper.showDownloadErrorNotification(fileName)
@@ -118,7 +117,6 @@ class DownloadWorker @AssistedInject constructor(
         fileName: String,
         uri: Uri
     ) {
-        //Log.i(TAG, "onSuccess: $fileName - $uri")
         notificationHelper.showDownloadCompleteNotification(fileName, uri)
     }
 
