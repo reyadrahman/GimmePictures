@@ -182,9 +182,5 @@
         <item>@string/theme_dark</item>
         <item>@string/theme_system_default</item>
     </string-array>
-    <string-array name="theme_values">
-        <item>light</item>
-        <item>dark</item>
-        <item>system</item>
-    </string-array>
+
 </resources>

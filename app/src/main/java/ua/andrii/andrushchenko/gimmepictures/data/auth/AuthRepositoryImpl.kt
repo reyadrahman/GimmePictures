@@ -13,14 +13,6 @@ class AuthRepositoryImpl(
     private val userService: UserService
 ) : AuthRepository {
 
-    /*val loginUrl: String
-        get() = "https://unsplash.com/oauth/authorize" +
-                "?client_id=$CLIENT_ID" +
-                "&redirect_uri=gmpictures%3A%2F%2F$unsplashAuthCallback" +
-                "&response_type=code" +
-                "&scope=public+read_user+write_user+read_photos+write_photos" +
-                "+write_likes+write_followers+read_collections+write_collections"*/
-
     override suspend fun getAccessToken(code: String): BackendResult<AccessToken> {
         val result = backendRequest {
             authorizationService.getAccessToken(

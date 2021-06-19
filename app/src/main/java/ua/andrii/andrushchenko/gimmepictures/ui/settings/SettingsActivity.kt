@@ -6,11 +6,13 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.ActivitySettingsBinding
+import ua.andrii.andrushchenko.gimmepictures.util.ThemeHelper
 
 @AndroidEntryPoint
 class SettingsActivity : AppCompatActivity() {
@@ -28,15 +30,10 @@ class SettingsActivity : AppCompatActivity() {
         supportFragmentManager.commit {
             replace(R.id.settings_fragment_container, SettingsFragment())
         }
-        /*supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.settings_fragment_container, SettingsFragment())
-            .commit()*/
     }
 
     @AndroidEntryPoint
-    class SettingsFragment : PreferenceFragmentCompat(),
-        SharedPreferences.OnSharedPreferenceChangeListener {
+    class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 
         private val viewModel: SettingsViewModel by viewModels()
 
@@ -60,7 +57,10 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-
+            if (key == "theme") {
+                val themePreferences = findPreference<ListPreference>("theme")
+                ThemeHelper.applyTheme(themePreferences?.entry as String)
+            }
         }
 
         override fun onResume() {
