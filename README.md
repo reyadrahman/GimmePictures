@@ -21,11 +21,11 @@ To access the Unsplash API you should have at least:
 * Developer account at: https://unsplash.com/developers
 * Your Access Key and Secret Key
 
-Then add these lines to your local *gradle.properties* file:
-`
-unsplash_access_key="YOUR_ACCESS_KEY"<br/>
+Then add these lines to your local **gradle.properties** file:
+```
+unsplash_access_key="YOUR_ACCESS_KEY"
 unsplash_secret_key="YOUR_SECRET_KEY"
-`
+```
 
 
 
