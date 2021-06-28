@@ -2,8 +2,8 @@
 A simple and beautiful Photo app powered by Unsplash.com
 
 # Screenshots
-![Screen 1](/screenshots/Screenshot1.png?raw=true "Screen 1")
-![Screen 2](/screenshots/Screenshot2.png?raw=true "Screen 2")
+![Screen 1](/screenshots/Screenshot1.png "Screen 1")
+![Screen 2](/screenshots/Screenshot2.png "Screen 2")
 
 # Technology stack
 
