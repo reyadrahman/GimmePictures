@@ -15,7 +15,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -23,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentPhotoDetailsBinding
 import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.entities.User
 import ua.andrii.andrushchenko.gimmepictures.ui.auth.AuthActivity
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseFragment
 import ua.andrii.andrushchenko.gimmepictures.util.*
@@ -93,53 +93,8 @@ class PhotoDetailsFragment :
             }
         }
 
-        // Setup user
-        photo.user?.let { user ->
-            userImageView.apply {
-                loadImage(
-                    url = user.profileImage?.medium,
-                    placeholderColorDrawable = null
-                )
-                setOnClickListener {
-                    val direction =
-                        PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment(
-                            user = user,
-                            username = null)
-                    findNavController().navigate(direction)
-                }
-            }
-            userTextView.apply {
-                text = user.name ?: "Unknown"
-                setOnClickListener {
-                    val direction =
-                        PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment(
-                            user = user,
-                            username = null)
-                    findNavController().navigate(direction)
-                }
-            }
-        }
-
-        photo.location?.let { location ->
-            val locationString = when {
-                location.city != null && location.country != null ->
-                    getString(R.string.location_template, location.city, location.country)
-                location.city != null && location.country == null -> location.city
-                location.city == null && location.country != null -> location.country
-                else -> null
-            }
-            locationText.apply {
-                visibility =
-                    if (locationString.isNullOrBlank()) View.GONE else View.VISIBLE
-                text = locationString
-                setOnClickListener {
-                    openLocationInMaps(
-                        location.position?.latitude,
-                        location.position?.longitude
-                    )
-                }
-            }
-        }
+        setupUser(photo.user)
+        setupLocation(photo.location)
 
         btnPhotoInfo.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
@@ -151,34 +106,8 @@ class PhotoDetailsFragment :
             placeholderColorDrawable = ColorDrawable(Color.parseColor(photo.color))
         )
 
-        photo.description?.let { description ->
-            bottomSheetLayout.descriptionTextView.apply {
-                visibility = View.VISIBLE
-                text = description
-                setOnClickListener { showDescriptionDetailed(description) }
-            }
-        }
-
-        setLikeButtonState(photo.likedByUser)
-        btnLike.setOnClickListener {
-            if (viewModel.isUserAuthorized) {
-                if (photo.likedByUser) {
-                    viewModel.dislikePhoto(photo.id)
-                } else {
-                    viewModel.likePhoto(photo.id)
-                }
-                photo.likedByUser = photo.likedByUser.not()
-                setLikeButtonState(photo.likedByUser)
-            } else {
-                Toast.makeText(requireContext(),
-                    String.format(getString(R.string.login_prompt),
-                        getString(R.string.like_photo)),
-                    Toast.LENGTH_SHORT).show()
-                Intent(requireContext(), AuthActivity::class.java).also {
-                    resultLauncher.launch(it)
-                }
-            }
-        }
+        setupDescription(photo.description)
+        setupLikeButton(photo)
 
         btnShare.setOnClickListener {
             sharePhoto(photo.links?.html, photo.description)
@@ -201,56 +130,108 @@ class PhotoDetailsFragment :
         viewModel.currentUserCollectionIds.observe(viewLifecycleOwner) {
             setBookmarkButtonState(it ?: emptyList())
         }
-        btnBookmark.setOnClickListener {
-            if (viewModel.isUserAuthorized) {
-                val direction = PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToAddToCollectionDialog(photo.id)
-                findNavController().navigate(direction)
-            } else {
-                Toast.makeText(requireContext(),
-                    String.format(getString(R.string.login_prompt),
-                        getString(R.string.save_photo)),
-                    Toast.LENGTH_SHORT).show()
-                Intent(requireContext(), AuthActivity::class.java).also {
-                    resultLauncher.launch(it)
-                }
-            }
-        }
 
-        photo.tags?.let { tagList ->
-            recyclerViewTags.apply {
-                visibility = View.VISIBLE
-                layoutManager = LinearLayoutManager(
-                    context,
-                    RecyclerView.HORIZONTAL,
-                    false
-                ).apply {
-                    addItemDecoration(
-                        LinearLayoutSpacingDecoration(
-                            margin = resources.getDimensionPixelSize(R.dimen.indent_8dp),
-                            orientation = RecyclerView.HORIZONTAL
-                        )
+        setupBookmarkButton(photo.id)
+        setupTags(photo.tags)
+        setupPhotoInfo(photo)
+    }
+
+    private fun setupUser(user: User?) =
+        with(binding) {
+            user?.let { user ->
+                userImageView.apply {
+                    loadImage(
+                        url = user.profileImage?.medium,
+                        placeholderColorDrawable = null
                     )
-                }
-                adapter = PhotoTagAdapter(object : PhotoTagAdapter.OnTagClickListener {
-                    override fun onTagClicked(tag: String) {
-                        val direction = PhotoDetailsFragmentDirections
-                            .actionPhotoDetailsFragmentToSearchFragment(searchQuery = tag)
+                    setOnClickListener {
+                        val direction =
+                            PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment(
+                                user = user,
+                                username = null
+                            )
                         findNavController().navigate(direction)
                     }
-                }).apply {
-                    submitList(tagList)
+                }
+                userTextView.apply {
+                    text = user.name ?: "Unknown"
+                    setOnClickListener {
+                        val direction =
+                            PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToUserDetailsFragment(
+                                user = user,
+                                username = null
+                            )
+                        findNavController().navigate(direction)
+                    }
                 }
             }
         }
 
-        bottomSheetLayout.txtViews.text = "${photo.views?.toAmountReadableString() ?: 0}"
-        bottomSheetLayout.txtLikes.text = "${photo.likes?.toAmountReadableString() ?: 0}"
-        bottomSheetLayout.txtDownloads.text =
-            "${photo.downloads?.toAmountReadableString() ?: 0}"
+    private fun setupLocation(location: Photo.Location?) =
+        with(binding) {
+            location?.let { location ->
+                val locationString = when {
+                    location.city != null && location.country != null ->
+                        getString(R.string.location_template, location.city, location.country)
+                    location.city != null && location.country == null -> location.city
+                    location.city == null && location.country != null -> location.country
+                    else -> null
+                }
+                locationText.apply {
+                    visibility =
+                        if (locationString.isNullOrBlank()) View.GONE else View.VISIBLE
+                    text = locationString
+                    setOnClickListener {
+                        openLocationInMaps(
+                            location.position?.latitude,
+                            location.position?.longitude
+                        )
+                    }
+                }
+            }
+        }
 
-        bottomSheetLayout.recyclerViewExif.adapter =
-            PhotoExifAdapter(requireContext()).apply { setExif(photo) }
-    }
+
+    private fun setupDescription(description: String?) =
+        with(binding) {
+            description?.let { description ->
+                bottomSheetLayout.descriptionTextView.apply {
+                    visibility = View.VISIBLE
+                    text = description
+                    setOnClickListener { showDescriptionDetailed(description) }
+                }
+            }
+        }
+
+
+    private fun setupLikeButton(photo: Photo) =
+        with(binding) {
+            setLikeButtonState(photo.likedByUser)
+            btnLike.setOnClickListener {
+                if (viewModel.isUserAuthorized) {
+                    if (photo.likedByUser) {
+                        viewModel.dislikePhoto(photo.id)
+                    } else {
+                        viewModel.likePhoto(photo.id)
+                    }
+                    photo.likedByUser = photo.likedByUser.not()
+                    setLikeButtonState(photo.likedByUser)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        String.format(
+                            getString(R.string.login_prompt),
+                            getString(R.string.like_photo)
+                        ),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Intent(requireContext(), AuthActivity::class.java).also {
+                        resultLauncher.launch(it)
+                    }
+                }
+            }
+        }
+
 
     private fun setLikeButtonState(likedByUser: Boolean) {
         binding.btnLike.setImageResource(
@@ -258,12 +239,74 @@ class PhotoDetailsFragment :
         )
     }
 
+    private fun setupBookmarkButton(photoId: String) =
+        with(binding) {
+            btnBookmark.setOnClickListener {
+                if (viewModel.isUserAuthorized) {
+                    val direction =
+                        PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToAddToCollectionDialog(
+                            photoId
+                        )
+                    findNavController().navigate(direction)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        String.format(
+                            getString(R.string.login_prompt),
+                            getString(R.string.save_photo)
+                        ),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Intent(requireContext(), AuthActivity::class.java).also {
+                        resultLauncher.launch(it)
+                    }
+                }
+            }
+        }
+
+
     private fun setBookmarkButtonState(currentUserCollectionIds: List<String>) {
         binding.btnBookmark.setImageResource(
             if (currentUserCollectionIds.isNotEmpty()) R.drawable.ic_bookmark_filled
             else R.drawable.ic_bookmark_outlined
         )
     }
+
+    private fun setupTags(tags: List<Photo.Tag?>?) =
+        with(binding) {
+            tags?.let { tagList ->
+                recyclerViewTags.apply {
+                    visibility = View.VISIBLE
+                    setHasFixedSize(true)
+                    setupLinearLayoutManager(
+                        margin = resources.getDimensionPixelSize(R.dimen.indent_8dp),
+                        recyclerViewOrientation = RecyclerView.HORIZONTAL
+                    )
+                    adapter = PhotoTagAdapter(object : PhotoTagAdapter.OnTagClickListener {
+                        override fun onTagClicked(tag: String) {
+                            val direction = PhotoDetailsFragmentDirections
+                                .actionPhotoDetailsFragmentToSearchFragment(searchQuery = tag)
+                            findNavController().navigate(direction)
+                        }
+                    }).apply {
+                        submitList(tagList)
+                    }
+                }
+            }
+        }
+
+
+    private fun setupPhotoInfo(photo: Photo) =
+        with(binding) {
+            bottomSheetLayout.txtViews.text = "${photo.views?.toReadableString() ?: 0}"
+            bottomSheetLayout.txtLikes.text = "${photo.likes?.toReadableString() ?: 0}"
+            bottomSheetLayout.txtDownloads.text =
+                "${photo.downloads?.toReadableString() ?: 0}"
+
+            bottomSheetLayout.recyclerViewExif.adapter =
+                PhotoExifAdapter(requireContext()).apply { setExif(photo) }
+        }
+
 
     private fun downloadPhoto(photo: Photo) {
         if (hasWritePermission()) {
@@ -281,10 +324,12 @@ class PhotoDetailsFragment :
                     }
                     val url = getPhotoUrl(photo, photoSize)
                     viewModel.downloadWorkUUID =
-                        DownloadWorker.enqueueDownload(requireContext(),
+                        DownloadWorker.enqueueDownload(
+                            requireContext(),
                             url,
                             photo.fileName,
-                            photo.id)
+                            photo.id
+                        )
                     dialog.dismiss()
                 }
                 create()
@@ -310,14 +355,8 @@ class PhotoDetailsFragment :
     }
 
     private fun openLocationInMaps(latitude: Double?, longitude: Double?) {
-        val gmmIntentUri = Uri.parse("geo:$latitude,$longitude")
-        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-        mapIntent.setPackage("com.google.android.apps.maps")
-        mapIntent.resolveActivity(requireContext().packageManager)?.let {
-            startActivity(mapIntent)
-        } ?: Toast.makeText(requireContext(),
-            getString(R.string.gmaps_does_not_installed),
-            Toast.LENGTH_SHORT).show()
+        val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:$latitude,$longitude"))
+        startActivity(mapIntent)
     }
 
     private fun showDescriptionDetailed(description: String) {

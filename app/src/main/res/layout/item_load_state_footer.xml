@@ -8,7 +8,6 @@
 
     <ProgressBar
         android:id="@+id/progress_bar"
-        style="@style/GimmePictures.IndefiniteProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -30,9 +29,9 @@
             android:maxLines="2"
             android:text="@string/list_footer_load_error" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_retry"
-            style="@style/GimmePictures.MaterialButton"
+            style="@style/GimmePictures.Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"

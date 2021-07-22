@@ -17,8 +17,9 @@ import java.util.*
 
 class PhotoExifAdapter(
     val context: Context
-) : ListAdapter<Pair<Int, Pair<Int, SpannableStringBuilder>>, PhotoExifAdapter.ExifViewHolder>(diffCallback) {
-
+) : ListAdapter<Triple<Int, Int, SpannableStringBuilder>, PhotoExifAdapter.ExifViewHolder>(
+    diffCallback
+) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExifViewHolder {
         val binding =
             ItemPhotoExifBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,62 +27,72 @@ class PhotoExifAdapter(
     }
 
     override fun onBindViewHolder(holder: ExifViewHolder, position: Int) {
-        val pair = getItem(position)
-        holder.bind(pair.first, pair.second.first, pair.second.second)
+        val triple = getItem(position)
+        holder.bind(triple.first, triple.second, triple.third)
     }
 
     fun setExif(photo: Photo) {
-        val pairs = mutableListOf<Pair<Int, Pair<Int, SpannableStringBuilder>>>()
+        val triples = mutableListOf<Triple<Int, Int, SpannableStringBuilder>>()
         val unknown = SpannableStringBuilder(context.getString(R.string.unknown))
         photo.exif?.let {
-            pairs.add(
-                R.string.camera to (
-                        R.drawable.ic_camera_outline to
-                                if (it.model != null) SpannableStringBuilder().append(formCameraName(
-                                    it.make,
-                                    it.model))
-                                else unknown
+            triples.add(
+                Triple(
+                    R.string.camera,
+                    R.drawable.ic_camera_outline,
+                    if (it.model != null) SpannableStringBuilder().append(
+                        formCameraName(
+                            it.make,
+                            it.model
                         )
-
+                    )
+                    else unknown
+                )
             )
-            pairs.add(
-                R.string.aperture to (
-                        R.drawable.ic_aperture to
-                                if (it.aperture != null) SpannableStringBuilder().italic {
-                                    append("f")
-                                }.append("/${it.aperture}") else unknown
-                        )
+            triples.add(
+                Triple(
+                    R.string.aperture,
+                    R.drawable.ic_aperture,
+                    if (it.aperture != null) SpannableStringBuilder().italic {
+                        append("f")
+                    }.append("/${it.aperture}") else unknown
+                )
             )
-            pairs.add(
-                R.string.focal_length to
-                        (
-                                R.drawable.ic_focal_length to if (it.focalLength != null) SpannableStringBuilder(
-                                    "${it.focalLength}mm") else unknown
-                                )
+            triples.add(
+                Triple(
+                    R.string.focal_length,
+                    R.drawable.ic_focal_length,
+                    if (it.focalLength != null) SpannableStringBuilder(
+                        "${it.focalLength}mm"
+                    ) else unknown
+                )
             )
-
-            pairs.add(
-                R.string.shutter_speed to
-                        (R.drawable.ic_shutter_speed_outlined to if (it.exposureTime != null) SpannableStringBuilder(
-                            "${it.exposureTime}s"
-                        ) else unknown)
+            triples.add(
+                Triple(
+                    R.string.shutter_speed,
+                    R.drawable.ic_shutter_speed_outlined,
+                    if (it.exposureTime != null) SpannableStringBuilder(
+                        "${it.exposureTime}s"
+                    ) else unknown
+                )
             )
-
-            pairs.add(
-                R.string.iso to (
-                        R.drawable.ic_iso_outlined to if (it.iso != null) SpannableStringBuilder(it.iso.toString()) else unknown
-                        )
+            triples.add(
+                Triple(
+                    R.string.iso,
+                    R.drawable.ic_iso_outlined,
+                    if (it.iso != null) SpannableStringBuilder(it.iso.toString()) else unknown
+                )
             )
-            pairs.add(
-                R.string.resolution to (
-                        R.drawable.ic_resolution_outlined to SpannableStringBuilder(
-                            "${photo.width} × ${photo.height}"
-                        )
-                        )
-
+            triples.add(
+                Triple(
+                    R.string.resolution,
+                    R.drawable.ic_resolution_outlined,
+                    SpannableStringBuilder(
+                        "${photo.width} × ${photo.height}"
+                    )
+                )
             )
         }
-        submitList(pairs)
+        submitList(triples)
     }
 
     private fun formCameraName(make: String?, model: String): String {
@@ -116,15 +127,15 @@ class PhotoExifAdapter(
 
     companion object {
         private val diffCallback =
-            object : DiffUtil.ItemCallback<Pair<Int, Pair<Int, SpannableStringBuilder>>>() {
+            object : DiffUtil.ItemCallback<Triple<Int, Int, SpannableStringBuilder>>() {
                 override fun areItemsTheSame(
-                    oldItem: Pair<Int, Pair<Int, SpannableStringBuilder>>,
-                    newItem: Pair<Int, Pair<Int, SpannableStringBuilder>>,
+                    oldItem: Triple<Int, Int, SpannableStringBuilder>,
+                    newItem: Triple<Int, Int, SpannableStringBuilder>,
                 ) = oldItem.first == newItem.first
 
                 override fun areContentsTheSame(
-                    oldItem: Pair<Int, Pair<Int, SpannableStringBuilder>>,
-                    newItem: Pair<Int, Pair<Int, SpannableStringBuilder>>,
+                    oldItem: Triple<Int, Int, SpannableStringBuilder>,
+                    newItem: Triple<Int, Int, SpannableStringBuilder>,
                 ) = oldItem == newItem
             }
     }

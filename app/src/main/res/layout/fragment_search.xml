@@ -60,7 +60,7 @@
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_filter"
-        style="@style/GimmePictures.ExtendedFloatingActionButton"
+        android:layout_margin="@dimen/indent_16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"

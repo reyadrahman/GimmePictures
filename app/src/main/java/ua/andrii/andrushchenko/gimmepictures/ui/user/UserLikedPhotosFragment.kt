@@ -21,7 +21,8 @@ import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManage
 
 @AndroidEntryPoint
 class UserLikedPhotosFragment : BaseRecyclerViewFragment<Photo, ListingLayoutBinding>(
-    ListingLayoutBinding::inflate) {
+    ListingLayoutBinding::inflate
+) {
 
     private val viewModel: UserDetailsViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
@@ -68,10 +69,7 @@ class UserLikedPhotosFragment : BaseRecyclerViewFragment<Photo, ListingLayoutBin
         rv.apply {
             setHasFixedSize(true)
             layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
-            setupStaggeredGridLayoutManager(
-                resources.configuration.orientation,
-                resources.getDimensionPixelSize(R.dimen.indent_8dp)
-            )
+            setupStaggeredGridLayoutManager(resources.getDimensionPixelSize(R.dimen.indent_8dp))
 
             adapter = pagedAdapter.withLoadStateHeaderAndFooter(
                 header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },

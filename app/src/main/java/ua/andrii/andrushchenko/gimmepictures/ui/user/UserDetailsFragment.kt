@@ -22,7 +22,7 @@ import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.util.customtabs.CustomTabsHelper
 import ua.andrii.andrushchenko.gimmepictures.util.loadImage
-import ua.andrii.andrushchenko.gimmepictures.util.toAmountReadableString
+import ua.andrii.andrushchenko.gimmepictures.util.toReadableString
 import java.lang.StringBuilder
 
 @AndroidEntryPoint
@@ -129,9 +129,9 @@ class UserDetailsFragment :
                 placeholderColorDrawable = null
             )
 
-            txtPhotosAmount.text = user.totalPhotos?.toAmountReadableString()
-            txtLikesAmount.text = user.totalLikes?.toAmountReadableString()
-            txtCollectionsAmount.text = user.totalCollections?.toAmountReadableString()
+            txtPhotosAmount.text = user.totalPhotos?.toReadableString()
+            txtLikesAmount.text = user.totalLikes?.toReadableString()
+            txtCollectionsAmount.text = user.totalCollections?.toReadableString()
             @SuppressLint("SetTextI18n")
             txtUsername.text = "${user.firstName} ${user.lastName}"
             user.bio?.let { bio ->

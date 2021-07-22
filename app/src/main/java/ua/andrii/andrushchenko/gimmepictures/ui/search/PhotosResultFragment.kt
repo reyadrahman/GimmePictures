@@ -64,11 +64,7 @@ class PhotosResultFragment :
 
         rv.apply {
             setHasFixedSize(true)
-            layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
-            setupStaggeredGridLayoutManager(
-                resources.configuration.orientation,
-                resources.getDimensionPixelSize(R.dimen.indent_8dp)
-            )
+            setupStaggeredGridLayoutManager(resources.getDimensionPixelSize(R.dimen.indent_8dp))
 
             adapter = pagedAdapter.withLoadStateHeaderAndFooter(
                 header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import ua.andrii.andrushchenko.gimmepictures.databinding.ItemUserBinding
 import ua.andrii.andrushchenko.gimmepictures.domain.entities.User
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
@@ -18,6 +19,21 @@ class UsersAdapter(private val listener: OnItemClickListener) :
     }
 
     inner class UserViewHolder(private val binding: ItemUserBinding) : BaseViewHolder(binding) {
+
+        init {
+            with(binding) {
+                root.setOnClickListener {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val user = getItem(position)
+                        user?.let {
+                            listener.onUserClick(user = it)
+                        }
+                    }
+                }
+            }
+        }
+
         @SuppressLint("SetTextI18n")
         override fun bind(entity: User) {
             with(binding) {
@@ -27,7 +43,6 @@ class UsersAdapter(private val listener: OnItemClickListener) :
                 )
                 userNickNameTextView.text = "@${entity.username}"
                 userNameTextView.text = "${entity.firstName} ${entity.lastName}"
-                userCard.setOnClickListener { listener.onUserClick(entity) }
             }
         }
     }

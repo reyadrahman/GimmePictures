@@ -23,9 +23,7 @@ class RecyclerViewLoadStateAdapter(private val retry: () -> Unit) :
 
     override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) {
         holder.bind(loadState)
-        if (holder.itemView.layoutParams is StaggeredGridLayoutManager.LayoutParams) {
-            (holder.itemView.layoutParams as StaggeredGridLayoutManager.LayoutParams).isFullSpan = true
-        }
+        (holder.itemView.layoutParams as? StaggeredGridLayoutManager.LayoutParams)?.isFullSpan = true
     }
 
     inner class LoadStateViewHolder(private val binding: ItemLoadStateFooterBinding) :

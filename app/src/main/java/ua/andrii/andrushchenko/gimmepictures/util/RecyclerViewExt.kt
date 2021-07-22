@@ -4,16 +4,30 @@ import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.graphics.Rect
 import android.view.View
 import androidx.annotation.Px
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
+fun RecyclerView.setupLinearLayoutManager(
+    @Px margin: Int,
+    recyclerViewOrientation: Int = RecyclerView.VERTICAL
+) {
+    layoutManager = LinearLayoutManager(context, recyclerViewOrientation, false)
+    addItemDecoration(
+        LinearLayoutSpacingDecoration(
+            margin,
+            recyclerViewOrientation
+        )
+    )
+}
+
 fun RecyclerView.setupStaggeredGridLayoutManager(
-    orientation: Int,
-    margin: Int,
+    @Px margin: Int,
+    recyclerViewOrientation: Int = RecyclerView.VERTICAL
 ) {
     val decorationIndex = 0
-    val spanCount =
-        if (orientation == ORIENTATION_LANDSCAPE) 3 else 2
+    val spanCount = if (resources.configuration.orientation == ORIENTATION_LANDSCAPE) 3 else 2
+    layoutManager = StaggeredGridLayoutManager(spanCount, recyclerViewOrientation)
 
     (layoutManager as? StaggeredGridLayoutManager)?.apply {
         this.spanCount = spanCount
@@ -33,24 +47,9 @@ fun RecyclerView.setupStaggeredGridLayoutManager(
     )
 }
 
-fun RecyclerView.setupLinearLayoutManager(
-    @Px margin: Int,
-    landscapeEdgeMargin: Int,
-    orientation: Int
-) {
-    addItemDecoration(
-        LinearLayoutSpacingDecoration(
-            margin,
-            landscapeEdgeMargin,
-            orientation
-        )
-    )
-}
-
-class LinearLayoutSpacingDecoration(
+private class LinearLayoutSpacingDecoration(
     @Px private val margin: Int,
-    @Px private val landscapeEdgeMargin: Int = margin,
-    private val orientation: Int = RecyclerView.VERTICAL,
+    private val recyclerViewOrientation: Int,
 ) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
@@ -61,25 +60,29 @@ class LinearLayoutSpacingDecoration(
     ) {
         super.getItemOffsets(outRect, view, parent, state)
         val position = parent.getChildAdapterPosition(view)
-        if (orientation == RecyclerView.VERTICAL) {
-            outRect.apply {
-                top = if (position == 0) margin else 0
-                bottom = margin
-                right = margin
-                left = margin
+
+        when (recyclerViewOrientation) {
+            RecyclerView.VERTICAL -> {
+                outRect.apply {
+                    top = if (position == 0) margin else 0
+                    bottom = margin
+                    right = margin
+                    left = margin
+                }
             }
-        } else if (orientation == RecyclerView.HORIZONTAL) {
-            outRect.apply {
-                top = margin
-                bottom = margin
-                right = landscapeEdgeMargin
-                left = if (position == 0) landscapeEdgeMargin else 0
+            RecyclerView.HORIZONTAL -> {
+                outRect.apply {
+                    top = margin
+                    bottom = margin
+                    right = margin
+                    left = if (position == 0) margin else 0
+                }
             }
         }
     }
 }
 
-class StaggeredGridItemOffsetDecoration(
+private class StaggeredGridItemOffsetDecoration(
     private val margin: Int,
     private val spanCount: Int,
 ) : RecyclerView.ItemDecoration() {

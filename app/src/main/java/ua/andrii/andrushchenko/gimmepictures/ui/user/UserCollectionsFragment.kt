@@ -6,7 +6,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
@@ -20,7 +19,8 @@ import ua.andrii.andrushchenko.gimmepictures.util.setupLinearLayoutManager
 
 @AndroidEntryPoint
 class UserCollectionsFragment : BaseRecyclerViewFragment<Collection, ListingLayoutBinding>(
-    ListingLayoutBinding::inflate) {
+    ListingLayoutBinding::inflate
+) {
 
     private val viewModel: UserDetailsViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
@@ -28,7 +28,9 @@ class UserCollectionsFragment : BaseRecyclerViewFragment<Collection, ListingLayo
         CollectionsAdapter(object : CollectionsAdapter.OnItemClickListener {
             override fun onCollectionClick(collection: Collection) {
                 val direction =
-                    UserDetailsFragmentDirections.actionUserDetailsFragmentToCollectionDetailsFragment(collection)
+                    UserDetailsFragmentDirections.actionUserDetailsFragmentToCollectionDetailsFragment(
+                        collection
+                    )
                 requireParentFragment().findNavController().navigate(direction)
             }
         })
@@ -66,12 +68,7 @@ class UserCollectionsFragment : BaseRecyclerViewFragment<Collection, ListingLayo
 
         rv.apply {
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(requireContext())
-            setupLinearLayoutManager(
-                resources.getDimensionPixelSize(R.dimen.indent_8dp),
-                resources.getDimensionPixelSize(R.dimen.indent_48dp),
-                RecyclerView.VERTICAL
-            )
+            setupLinearLayoutManager(resources.getDimensionPixelSize(R.dimen.indent_8dp))
 
             adapter = pagedAdapter.withLoadStateHeaderAndFooter(
                 header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },

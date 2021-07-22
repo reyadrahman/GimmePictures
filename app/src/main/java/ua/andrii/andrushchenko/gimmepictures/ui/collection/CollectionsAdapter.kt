@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import ua.andrii.andrushchenko.gimmepictures.databinding.ItemCollectionBinding
 import ua.andrii.andrushchenko.gimmepictures.domain.entities.Collection
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
@@ -22,6 +23,20 @@ class CollectionsAdapter(private val listener: OnItemClickListener) :
     inner class CollectionViewHolder(private val binding: ItemCollectionBinding) :
         BaseViewHolder(binding) {
 
+        init {
+            with(binding) {
+                collectionCoverPhotoImageView.setOnClickListener {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val collection = getItem(position)
+                        collection?.let {
+                            listener.onCollectionClick(collection = it)
+                        }
+                    }
+                }
+            }
+        }
+
         override fun bind(entity: Collection) {
             with(binding) {
                 collectionCoverPhotoImageView.apply {
@@ -31,7 +46,6 @@ class CollectionsAdapter(private val listener: OnItemClickListener) :
                             placeholderColorDrawable = ColorDrawable(Color.parseColor(coverPhoto.color))
                         )
                     }
-                    setOnClickListener { listener.onCollectionClick(entity) }
                 }
                 collectionName.text = entity.title
             }

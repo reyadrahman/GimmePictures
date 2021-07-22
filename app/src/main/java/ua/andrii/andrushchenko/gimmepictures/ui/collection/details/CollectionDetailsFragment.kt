@@ -12,7 +12,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentCollectionDetailsBinding
@@ -23,11 +22,12 @@ import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapte
 import ua.andrii.andrushchenko.gimmepictures.ui.photo.PhotosAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.widgets.AspectRatioImageView
 import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManager
-import ua.andrii.andrushchenko.gimmepictures.util.toAmountReadableString
+import ua.andrii.andrushchenko.gimmepictures.util.toReadableString
 
 @AndroidEntryPoint
 class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollectionDetailsBinding>(
-    FragmentCollectionDetailsBinding::inflate) {
+    FragmentCollectionDetailsBinding::inflate
+) {
 
     private val args: CollectionDetailsFragmentArgs by navArgs()
     private val viewModel: CollectionDetailsViewModel by viewModels()
@@ -89,7 +89,7 @@ class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollec
 
                     @SuppressLint("SetTextI18n")
                     text = "${
-                        collection.totalPhotos.toAmountReadableString()
+                        collection.totalPhotos.toReadableString()
                     } ${
                         getString(R.string.photos).apply { first().lowercaseChar() }
                     } ${
@@ -105,7 +105,8 @@ class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollec
                         setOnClickListener {
                             val direction = CollectionDetailsFragmentDirections
                                 .actionCollectionDetailsFragmentToEditCollectionDialogFragment(
-                                    collection)
+                                    collection
+                                )
                             findNavController().navigate(direction)
                         }
                     }
@@ -139,11 +140,7 @@ class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollec
 
             rv.apply {
                 setHasFixedSize(true)
-                layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
-                setupStaggeredGridLayoutManager(
-                    resources.configuration.orientation,
-                    resources.getDimensionPixelSize(R.dimen.indent_8dp)
-                )
+                setupStaggeredGridLayoutManager(resources.getDimensionPixelSize(R.dimen.indent_8dp))
 
                 adapter = pagedAdapter.withLoadStateHeaderAndFooter(
                     header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },

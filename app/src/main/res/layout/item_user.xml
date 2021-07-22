@@ -19,7 +19,7 @@
         android:contentDescription="@string/user_photo"
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/CircleImageView"
-        tools:src="@color/gray_400" />
+        tools:src="@color/green_A100" />
 
     <LinearLayout
         android:layout_width="wrap_content"

@@ -23,14 +23,22 @@ class PhotoTagAdapter(private val onTagClickListener: OnTagClickListener) :
 
     inner class TagViewHolder(private val binding: ItemPhotoTagBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(tag: Photo.Tag) {
-            tag.title?.let { title ->
-                binding.apply {
-                    chipPhotoTag.text = title
-                    chipPhotoTag.setOnClickListener {
-                        onTagClickListener.onTagClicked(title)
+
+        init {
+            binding.root.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val tag = getItem(position)
+                    tag?.title?.let {
+                        onTagClickListener.onTagClicked(tag = it)
                     }
                 }
+            }
+        }
+
+        fun bind(tag: Photo.Tag) {
+            tag.title?.let { title ->
+                binding.chipPhotoTag.text = title
             }
         }
     }

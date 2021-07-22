@@ -41,7 +41,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:shapeAppearanceOverlay="@style/CircleImageView"
                     tools:ignore="ContentDescription"
-                    tools:src="@color/gray_400" />
+                    tools:src="@color/green_A100" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txt_username"
@@ -71,30 +71,30 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/indent_24dp"
-                    android:orientation="vertical"
                     android:background="?attr/selectableItemBackgroundBorderless"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="@id/user_image_view"
+                    app:layout_constraintEnd_toStartOf="@id/user_likes_amount_container"
                     app:layout_constraintHorizontal_chainStyle="spread"
                     app:layout_constraintStart_toEndOf="@id/user_image_view"
-                    app:layout_constraintEnd_toStartOf="@id/user_likes_amount_container"
-                    app:layout_constraintTop_toTopOf="@id/user_image_view"
-                    app:layout_constraintBottom_toBottomOf="@id/user_image_view">
+                    app:layout_constraintTop_toTopOf="@id/user_image_view">
 
                     <TextView
                         android:id="@+id/txt_photos_amount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
                         android:textAlignment="center"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
                         tools:text="100" />
 
                     <TextView
                         android:id="@+id/photos_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:text="@string/photos"
-                        android:textAlignment="center"
-                        android:singleLine="true" />
+                        android:textAlignment="center" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -102,29 +102,29 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/indent_8dp"
-                    android:orientation="vertical"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    app:layout_constraintStart_toEndOf="@id/user_photos_amount_container"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="@id/user_image_view"
                     app:layout_constraintEnd_toStartOf="@id/user_collections_amount_container"
-                    app:layout_constraintTop_toTopOf="@id/user_image_view"
-                    app:layout_constraintBottom_toBottomOf="@id/user_image_view">
+                    app:layout_constraintStart_toEndOf="@id/user_photos_amount_container"
+                    app:layout_constraintTop_toTopOf="@id/user_image_view">
 
                     <TextView
                         android:id="@+id/txt_likes_amount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
                         android:textAlignment="center"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
                         tools:text="100" />
 
                     <TextView
                         android:id="@+id/likes_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:text="@string/likes"
-                        android:textAlignment="center"
-                        android:singleLine="true" />
+                        android:textAlignment="center" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -133,30 +133,30 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/indent_8dp"
                     android:layout_marginEnd="@dimen/indent_8dp"
-                    android:orientation="vertical"
                     android:background="?attr/selectableItemBackgroundBorderless"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="@id/user_image_view"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_chainStyle="spread"
                     app:layout_constraintStart_toEndOf="@id/user_likes_amount_container"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/user_image_view"
-                    app:layout_constraintBottom_toBottomOf="@id/user_image_view">
+                    app:layout_constraintTop_toTopOf="@id/user_image_view">
 
                     <TextView
                         android:id="@+id/txt_collections_amount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
                         android:textAlignment="center"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
                         tools:text="102" />
 
                     <TextView
                         android:id="@+id/collections_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
                         android:text="@string/collections"
-                        android:textAlignment="center"
-                        android:singleLine="true" />
+                        android:textAlignment="center" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -165,6 +165,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimaryVariant"
                 android:theme="@style/GimmePictures.ToolbarOverlay"
                 app:layout_collapseMode="pin"
                 app:menu="@menu/menu_user_profile"
@@ -209,7 +210,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_retry"
-            style="@style/GimmePictures.MaterialButton"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/retry" />

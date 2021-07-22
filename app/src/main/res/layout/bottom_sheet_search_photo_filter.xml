@@ -23,7 +23,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_apply"
-        style="@style/GimmePictures.Widget.MaterialComponents.ButtonColored"
+        style="@style/GimmePictures.Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/indent_8dp"
@@ -65,7 +65,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/order_relevance_button"
-                    style="@style/GimmePictures.Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="@dimen/indent_0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -73,7 +73,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/order_latest_button"
-                    style="@style/GimmePictures.Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="@dimen/indent_0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -99,7 +99,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/content_filter_low_button"
-                    style="@style/GimmePictures.Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="@dimen/indent_0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -107,7 +107,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/content_filter_high_button"
-                    style="@style/GimmePictures.Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

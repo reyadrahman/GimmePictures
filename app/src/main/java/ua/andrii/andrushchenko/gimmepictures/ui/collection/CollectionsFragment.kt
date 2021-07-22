@@ -94,12 +94,7 @@ class CollectionsFragment :
         }
         rv.apply {
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(requireContext())
-            setupLinearLayoutManager(
-                resources.getDimensionPixelSize(R.dimen.indent_8dp),
-                resources.getDimensionPixelSize(R.dimen.indent_48dp),
-                RecyclerView.VERTICAL
-            )
+            setupLinearLayoutManager(resources.getDimensionPixelSize(R.dimen.indent_8dp))
 
             adapter = pagedAdapter.withLoadStateHeaderAndFooter(
                 header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },

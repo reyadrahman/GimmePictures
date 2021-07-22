@@ -3,13 +3,13 @@
 
     <style name="GimmePictures.TabLayout" parent="Widget.MaterialComponents.TabLayout.Colored">
         <item name="android:backgroundTint">?attr/colorPrimaryVariant</item>
-        <item name="tabIndicatorColor">?attr/colorOnBackground</item>
+        <item name="tabIndicatorColor">?attr/colorOnPrimary</item>
         <item name="tabIndicatorHeight">@dimen/indent_2dp</item>
         <item name="tabPaddingStart">@dimen/indent_6dp</item>
         <item name="tabPaddingEnd">@dimen/indent_6dp</item>
         <item name="tabBackground">?attr/selectableItemBackground</item>
         <item name="tabTextAppearance">@style/GimmePictures.AppTabTextAppearance</item>
-        <item name="tabSelectedTextColor">?attr/colorOnBackground</item>
+        <item name="tabSelectedTextColor">?attr/colorOnPrimary</item>
         <item name="tabMode">fixed</item>
         <item name="tabGravity">fill</item>
         <item name="tabMaxWidth">@dimen/indent_0dp</item>
@@ -22,92 +22,22 @@
         <item name="textAllCaps">false</item>
     </style>
 
-    <style name="GimmePictures.TextInputLayout.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="boxStrokeColor">?attr/colorOnPrimary</item>
-        <item name="boxStrokeErrorColor">@color/red_500</item>
-        <item name="android:textColor">?attr/colorOnPrimary</item>
-    </style>
-
-    <style name="MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
-        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
-    </style>
-
-    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">?attr/colorOnPrimary</item>
-    </style>
-
-    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">?attr/colorOnPrimary</item>
-    </style>
-
     <style name="CircleImageView">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
 
-    <style name="GimmePictures.IndefiniteProgressBar" parent="Widget.AppCompat.ProgressBar">
-        <item name="android:indeterminateTint">?attr/colorOnPrimary</item>
-    </style>
-
-    <style name="GimmePictures.CheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.App.CheckBox</item>
-    </style>
-
-    <style name="ThemeOverlay.App.CheckBox" parent="">
-        <item name="colorOnSurface">?attr/colorOnPrimary</item>
-        <!--<item name="colorSecondary">@color/shrine_pink_100</item>-->
-    </style>
-
-    <style name="GimmePictures.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
-        <item name="backgroundTint">?attr/colorOnPrimary</item>
-        <item name="tint">?attr/colorPrimary</item>
-        <item name="android:layout_margin">@dimen/indent_16dp</item>
-    </style>
-
-    <style name="GimmePictures.ExtendedFloatingActionButton" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
-        <item name="iconTint">?attr/colorPrimary</item>
-        <item name="android:textColor">?attr/colorPrimary</item>
-        <item name="android:backgroundTint">?attr/colorOnPrimary</item>
-        <item name="android:layout_margin">@dimen/indent_16dp</item>
-    </style>
-
-    <style name="MaterialImageButton">
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
-        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
-        <item name="android:padding">@dimen/indent_8dp</item>
-    </style>
-
-    <style name="GimmePictures.Widget.MaterialComponents.ButtonColored" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundTint">?attr/colorOnPrimary</item>
-        <item name="android:textColor">?attr/colorPrimary</item>
+    <style name="GimmePictures.Widget.MaterialComponents.Button" parent="Widget.MaterialComponents.Button">
+        <item name="background">?attr/colorPrimary</item>
+        <item name="iconTint">?attr/colorOnPrimary</item>
+        <item name="android:textColor">?attr/colorPrimaryVariant</item>
         <item name="rippleColor">?attr/colorOnPrimary</item>
     </style>
 
-    <style name="GimmePictures.Widget.MaterialComponents.ButtonPrimaryColor" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundTint">?attr/colorOnPrimary</item>
-        <item name="iconTint">?attr/colorPrimary</item>
-        <item name="android:textColor">?attr/colorPrimary</item>
-        <item name="rippleColor">?attr/colorPrimary</item>
-    </style>
-
-    <style name="GimmePictures.MaterialButton" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundTint">?attr/colorOnPrimary</item>
-        <item name="android:textColor">?attr/colorPrimary</item>
-    </style>
-
-    <style name="GimmePictures.Widget.MaterialComponents.Button.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <!--<item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>-->
-        <item name="android:paddingStart">12dp</item>
-        <item name="android:paddingEnd">12dp</item>
-        <item name="android:minWidth">48dp</item>
-        <item name="android:minHeight">48dp</item>
-        <item name="android:textColor">@drawable/bottom_nav_view_icon_tint</item>
-        <item name="android:colorActivatedHighlight">?attr/colorOnPrimary</item>
-        <item name="rippleColor">?attr/colorOnPrimary</item>
-        <item name="strokeColor">@drawable/bottom_nav_view_icon_tint</item>
+    <style name="GimmePictures.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+        <item name="boxStrokeColor">?attr/colorOnPrimary</item>
+        <item name="boxStrokeWidth">@dimen/indent_1dp</item>
+        <item name="boxStrokeWidthFocused">@dimen/indent_2dp</item>
     </style>
 
     <style name="LoginScreenOutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
@@ -123,20 +53,58 @@
         <item name="rippleColor">@color/black</item>
     </style>
 
-    <style name="Widget.MaterialComponents.Button.OutlinedButton.IconOnly" parent="GimmePictures.Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="iconPadding">0dp</item>
-        <item name="iconGravity">textStart</item>
-        <item name="iconTint">@drawable/bottom_nav_view_icon_tint</item>
-    </style>
-
-    <style name="GimmePictures.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
-        <item name="boxStrokeColor">?attr/colorOnPrimary</item>
-        <item name="boxStrokeWidth">@dimen/indent_1dp</item>
-        <item name="boxStrokeWidthFocused">@dimen/indent_2dp</item>
-    </style>
-
     <style name="GimmePictures.LoginScreen.ToolbarOverlay" parent="ThemeOverlay.MaterialComponents.Dark" />
 
     <style name="GimmePictures.LoginScreen.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Dark" />
+
+    <!--  Alert Dialog  -->
+    <style name="ThemeOverlay.Theme.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="materialAlertDialogTitleTextStyle">@style/JustNotesAlertDialogTitleTextStyle</item>
+    </style>
+    <style name="ThemeOverlay.Theme.AlertDialog" parent="ThemeOverlay.Theme.MaterialAlertDialog">
+        <item name="dialogCornerRadius">@dimen/indent_16dp</item>
+    </style>
+    <style name="JustNotesAlertDialogTitleTextStyle" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
+    <!--  Bottom Sheets  -->
+    <style name="ThemeOverlay.Theme.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Theme.BottomSheet.Modal</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="bottomSheetStyle">@style/Widget.Theme.BottomSheet.Modal</item>
+        <item name="android:listDivider">@color/color_divider</item>
+    </style>
+    <style name="Widget.Theme.BottomSheet.Modal" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="shapeAppearanceOverlay">?shapeAppearanceLargeComponent</item>
+    </style>
+    <!--  Toolbar  -->
+    <style name="Widget.Theme.Toolbar.PhotoDetail" parent="">
+        <item name="titleTextColor">@color/white</item>
+        <item name="subtitleTextColor">@color/white</item>
+        <item name="android:theme">@style/ThemeOverlay.Theme.Toolbar.PhotoDetail</item>
+    </style>
+    <style name="ThemeOverlay.Theme.Toolbar.PhotoDetail" parent="">
+        <item name="colorControlNormal">@color/white</item>
+        <item name="actionMenuTextColor">@color/white</item>
+    </style>
+
+    <style name="Widget.MaterialComponents.Button.OutlinedButton.IconOnly" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="iconPadding">0dp</item>
+        <item name="iconGravity">textStart</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
+    <style name="MaterialImageButton">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:padding">@dimen/indent_4dp</item>
+    </style>
 
 </resources>

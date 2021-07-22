@@ -7,7 +7,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.ListingLayoutBinding
@@ -67,11 +66,7 @@ class UserPhotosFragment :
 
         rv.apply {
             setHasFixedSize(true)
-            layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
-            setupStaggeredGridLayoutManager(
-                resources.configuration.orientation,
-                resources.getDimensionPixelSize(R.dimen.indent_8dp)
-            )
+            setupStaggeredGridLayoutManager(resources.getDimensionPixelSize(R.dimen.indent_8dp))
 
             adapter = pagedAdapter.withLoadStateHeaderAndFooter(
                 header = RecyclerViewLoadStateAdapter { pagedAdapter.retry() },

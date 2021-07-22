@@ -8,7 +8,6 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
@@ -21,7 +20,8 @@ import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 import ua.andrii.andrushchenko.gimmepictures.util.setupLinearLayoutManager
 
 @AndroidEntryPoint
-class AddToCollectionDialog : BaseBottomSheetDialogFragment<BottomSheetAddCollectionBinding>(BottomSheetAddCollectionBinding::inflate) {
+class AddToCollectionDialog :
+    BaseBottomSheetDialogFragment<BottomSheetAddCollectionBinding>(BottomSheetAddCollectionBinding::inflate) {
 
     private val viewModel: PhotoDetailsViewModel by viewModels(
         ownerProducer = { requireParentFragment().childFragmentManager.primaryNavigationFragment!! }
@@ -47,7 +47,8 @@ class AddToCollectionDialog : BaseBottomSheetDialogFragment<BottomSheetAddCollec
                                 selectedStateView.visibility =
                                     if (it is BackendResult.Error) View.VISIBLE else View.GONE
                                 if (it is BackendResult.Error) {
-                                    Toast.makeText(requireContext(),
+                                    Toast.makeText(
+                                        requireContext(),
                                         getString(R.string.list_footer_load_error),
                                         Toast.LENGTH_SHORT
                                     ).show()
@@ -63,7 +64,8 @@ class AddToCollectionDialog : BaseBottomSheetDialogFragment<BottomSheetAddCollec
                                 selectedStateView.visibility =
                                     if (it is BackendResult.Success) View.VISIBLE else View.GONE
                                 if (it is BackendResult.Error) {
-                                    Toast.makeText(requireContext(),
+                                    Toast.makeText(
+                                        requireContext(),
                                         getString(R.string.list_footer_load_error),
                                         Toast.LENGTH_SHORT
                                     ).show()
@@ -94,11 +96,9 @@ class AddToCollectionDialog : BaseBottomSheetDialogFragment<BottomSheetAddCollec
 
             collectionsListingLayout.recyclerView.apply {
                 setHasFixedSize(true)
-                layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
                 setupLinearLayoutManager(
-                    resources.getDimensionPixelSize(R.dimen.indent_8dp),
-                    resources.getDimensionPixelSize(R.dimen.indent_8dp),
-                    RecyclerView.HORIZONTAL
+                    margin = resources.getDimensionPixelSize(R.dimen.indent_8dp),
+                    recyclerViewOrientation = RecyclerView.HORIZONTAL
                 )
 
                 adapter = addToCollectionAdapter.withLoadStateHeaderAndFooter(
@@ -168,7 +168,9 @@ class AddToCollectionDialog : BaseBottomSheetDialogFragment<BottomSheetAddCollec
         if (collectionNameTextInputLayout.editText?.text.toString().isBlank()) {
             collectionNameTextInputLayout.error = getString(R.string.collection_name_required)
             collectionNameTextInputLayout.editText?.doOnTextChanged { text, _, _, _ ->
-                if (collectionNameTextInputLayout.error.toString().isNotBlank() && text?.isBlank() != true) {
+                if (collectionNameTextInputLayout.error.toString()
+                        .isNotBlank() && text?.isBlank() != true
+                ) {
                     collectionNameTextInputLayout.error = null
                 }
             }

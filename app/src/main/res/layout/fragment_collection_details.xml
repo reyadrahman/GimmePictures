@@ -81,10 +81,10 @@
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_edit_collection"
-        style="@style/GimmePictures.ExtendedFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/indent_16dp"
         android:text="@string/edit_collection"
         android:visibility="gone"
         app:icon="@drawable/ic_outline_edit"

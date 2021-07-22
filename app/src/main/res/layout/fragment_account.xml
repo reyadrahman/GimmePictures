@@ -20,6 +20,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
@@ -55,11 +56,9 @@
                 android:textColor="?attr/colorOnPrimary"
                 android:visibility="visible"
                 app:icon="@drawable/ic_add"
-                app:iconTint="?attr/colorOnPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txt_login_hint"
-                app:rippleColor="?attr/colorOnPrimary"
                 tools:visibility="gone" />
 
             <LinearLayout
@@ -90,7 +89,7 @@
                         android:scaleType="centerCrop"
                         app:shapeAppearanceOverlay="@style/CircleImageView"
                         tools:ignore="ContentDescription"
-                        tools:src="@color/gray_400" />
+                        tools:src="@color/green_A100" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -127,13 +126,11 @@
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="?attr/colorPrimary"
                     android:gravity="center_vertical"
                     android:padding="@dimen/indent_16dp"
                     android:text="@string/show_profile"
-                    android:textColor="?attr/colorOnPrimary"
-                    app:icon="@drawable/ic_views"
-                    app:iconTint="?attr/colorOnPrimary"
-                    app:rippleColor="?attr/colorOnPrimary" />
+                    app:icon="@drawable/ic_views" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_edit_profile"
@@ -143,10 +140,7 @@
                     android:gravity="center_vertical"
                     android:padding="@dimen/indent_16dp"
                     android:text="@string/edit_profile"
-                    android:textColor="?attr/colorOnPrimary"
-                    app:icon="@drawable/ic_outline_edit"
-                    app:iconTint="?attr/colorOnPrimary"
-                    app:rippleColor="?attr/colorOnPrimary" />
+                    app:icon="@drawable/ic_outline_edit" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_logout"
@@ -156,10 +150,7 @@
                     android:gravity="center_vertical"
                     android:padding="@dimen/indent_16dp"
                     android:text="@string/logout"
-                    android:textColor="?attr/colorOnPrimary"
-                    app:icon="@drawable/ic_logout_outlined"
-                    app:iconTint="?attr/colorOnPrimary"
-                    app:rippleColor="?attr/colorOnPrimary" />
+                    app:icon="@drawable/ic_logout_outlined" />
 
             </LinearLayout>
 
@@ -169,7 +160,7 @@
                 android:layout_height="2dp"
                 android:layout_marginTop="@dimen/indent_8dp"
                 android:layout_marginBottom="@dimen/indent_8dp"
-                android:background="@color/gray_400"
+                android:background="@color/gray_200"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/user_container" />
@@ -182,9 +173,7 @@
                 android:gravity="center_vertical"
                 android:padding="@dimen/indent_16dp"
                 android:text="@string/settings"
-                android:textColor="?attr/colorOnPrimary"
                 app:icon="@drawable/ic_settings_outlined"
-                app:iconTint="?attr/colorOnPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/separator"
@@ -200,11 +189,9 @@
                 android:text="@string/about"
                 android:textColor="?attr/colorOnPrimary"
                 app:icon="@drawable/ic_info_outlined"
-                app:iconTint="?attr/colorOnPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_settings"
-                app:rippleColor="?attr/colorOnPrimary" />
+                app:layout_constraintTop_toBottomOf="@id/btn_settings" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -231,7 +218,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_retry"
-            style="@style/GimmePictures.MaterialButton"
+            style="@style/GimmePictures.Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/retry" />

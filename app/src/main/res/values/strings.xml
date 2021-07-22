@@ -138,7 +138,7 @@
 
     <!--Notification related-->
     <string name="download_notification_channel_name">Downloads</string>
-    <string name="download_notification_channel_description">All download notifications will be appear here</string>
+    <string name="download_notification_channel_description">All download notifications to be appeared here</string>
 
     <!--Download feature-->
     <string name="download_complete">Download complete</string>

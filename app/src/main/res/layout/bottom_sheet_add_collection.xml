@@ -37,13 +37,13 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_create_collection"
-                style="@style/GimmePictures.Widget.MaterialComponents.ButtonColored"
+                style="@style/GimmePictures.Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/indent_8dp"
                 android:text="@string/create_collection"
                 app:icon="@drawable/ic_add"
-                app:iconTint="?attr/colorPrimary"
+                app:iconTint="?attr/colorPrimaryVariant"
                 app:layout_constraintBottom_toBottomOf="@id/add_to_collection_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -132,12 +132,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_creation_done"
-                style="@style/GimmePictures.Widget.MaterialComponents.ButtonColored"
+                style="@style/GimmePictures.Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/indent_8dp"
                 android:text="@string/done"
-                app:iconTint="?attr/colorPrimary"
+                app:iconTint="?attr/colorPrimaryVariant"
                 app:layout_constraintBottom_toBottomOf="@id/btn_cancel"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/btn_cancel" />
@@ -210,7 +210,6 @@
                 tools:visibility="gone">
 
                 <ProgressBar
-                    style="@style/GimmePictures.IndefiniteProgressBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

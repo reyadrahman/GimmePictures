@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import ua.andrii.andrushchenko.gimmepictures.databinding.ItemCollectionSmallBinding
 import ua.andrii.andrushchenko.gimmepictures.domain.entities.Collection
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
@@ -27,6 +28,25 @@ class AddToCollectionAdapter(
 
     inner class CollectionSmallViewHolder(private val binding: ItemCollectionSmallBinding) :
         BaseViewHolder(binding) {
+
+        init {
+            with(binding) {
+                root.setOnClickListener {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val collection = getItem(position)
+                        collection?.let {
+                            onItemClickListener.onCollectionThumbClick(
+                                collection = it,
+                                selectedStateBackground,
+                                layoutProgress
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
         override fun bind(entity: Collection) {
             with(binding) {
                 entity.coverPhoto?.let { photo ->
@@ -41,13 +61,6 @@ class AddToCollectionAdapter(
                 val isPhotoInCollection = currentUserCollectionIds?.contains(entity.id) == true
                 selectedStateBackground.visibility =
                     if (isPhotoInCollection) View.VISIBLE else View.GONE
-                itemView.setOnClickListener {
-                    onItemClickListener.onCollectionThumbClick(
-                        collection = entity,
-                        selectedStateBackground,
-                        layoutProgress
-                    )
-                }
             }
         }
     }

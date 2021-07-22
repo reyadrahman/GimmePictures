@@ -108,7 +108,7 @@
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/bottom_sheet_edit_collection.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/bottom_sheet_edit_my_profile.xml" value="0.36018518518518516" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/bottom_sheet_photo_details.xml" value="0.33" />
-        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/bottom_sheet_search_photo_filter.xml" value="0.3175925925925926" />
+        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/bottom_sheet_search_photo_filter.xml" value="0.3569230769230769" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/fragment_account.xml" value="0.33" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/fragment_collection_details.xml" value="0.265625" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/fragment_collection_photos.xml" value="0.265625" />
@@ -122,7 +122,7 @@
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/fragment_user_profile.xml" value="0.25833333333333336" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/item_collection.xml" value="0.265625" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/item_collection_small.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/item_load_state_footer.xml" value="0.265625" />
+        <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/item_load_state_footer.xml" value="0.3537037037037037" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/item_photo.xml" value="0.378125" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/item_photo_exif.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/andre/StudioProjects/GimmePictures/app/src/main/res/layout/item_photo_tag.xml" value="0.378125" />
@@ -184,7 +184,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
