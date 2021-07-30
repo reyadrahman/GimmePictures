@@ -46,6 +46,8 @@ buildscript {
 
         photoViewVersion = '2.3.0'
 
+        splashScreenVersion = '1.0.0-alpha01'
+
         // Testing
         espressoVersion = '3.4.0'
         junitVersion = '4.13.2'
