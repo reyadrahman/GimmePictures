@@ -10,13 +10,9 @@ import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import dagger.hilt.android.qualifiers.ApplicationContext
 import ua.andrii.andrushchenko.gimmepictures.R
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class NotificationHelper @Inject constructor(@ApplicationContext private val context: Context) {
+class NotificationHelper(private val context: Context) {
     private val notificationManager: NotificationManagerCompat by lazy {
         NotificationManagerCompat.from(context)
     }
@@ -84,7 +80,7 @@ class NotificationHelper @Inject constructor(@ApplicationContext private val con
 
         val chooser = Intent.createChooser(viewIntent, context.getString(R.string.open_with))
 
-        return PendingIntent.getActivity(context, 0, chooser, PendingIntent.FLAG_UPDATE_CURRENT)
+        return PendingIntent.getActivity(context, 0, chooser, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
     }
 
     fun showDownloadErrorNotification(fileName: String) {
