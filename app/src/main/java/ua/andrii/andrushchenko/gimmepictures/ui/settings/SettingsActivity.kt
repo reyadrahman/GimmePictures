@@ -1,5 +1,6 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.settings
 
+import ThemeHelper
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
@@ -12,7 +13,6 @@ import androidx.preference.PreferenceFragmentCompat
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.ActivitySettingsBinding
-import ua.andrii.andrushchenko.gimmepictures.util.ThemeHelper
 
 @AndroidEntryPoint
 class SettingsActivity : AppCompatActivity() {

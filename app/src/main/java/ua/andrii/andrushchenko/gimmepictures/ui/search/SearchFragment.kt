@@ -29,17 +29,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        with(binding) {
-            val navController = findNavController()
-            val appBarConfiguration = AppBarConfiguration(
-                setOf(
-                    R.id.nav_photos,
-                    R.id.nav_collections,
-                    R.id.nav_account
-                )
-            )
-            toolbar.setupWithNavController(navController, appBarConfiguration)
+        setupToolbar()
 
+        with(binding) {
             searchTextInputLayout.editText?.apply {
                 if (viewModel.query.value.isNullOrBlank()) {
                     val searchQuery = args.searchQuery
@@ -61,14 +53,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
                             ) as? BaseRecyclerViewFragment<*, *>
                             fragment?.scrollRecyclerViewToTop()
                         }
-                        searchTextInputLayout.editText?.hideKeyboard()
+                        hideKeyboard() // For searchTextInputLayout.editText
                         return@setOnEditorActionListener true
                     }
                     return@setOnEditorActionListener false
                 }
 
                 if (text.isNullOrBlank()) {
-                    focusAndShowKeyboard()
+                    focusAndShowKeyboard() // For searchTextInputLayout.editText
                 }
             }
 
@@ -116,10 +108,21 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
             })
 
             fabFilter.setOnClickListener {
-                val direction =
-                    SearchFragmentDirections.actionSearchFragmentToSearchPhotoFilterDialog()
+                val direction = SearchFragmentDirections.actionSearchFragmentToSearchPhotoFilterDialog()
                 findNavController().navigate(direction)
             }
         }
+    }
+
+    private fun setupToolbar() {
+        val navController = findNavController()
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_photos,
+                R.id.nav_collections,
+                R.id.nav_account
+            )
+        )
+        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 }

@@ -59,6 +59,7 @@
     <string name="collection_name_hint">Name</string>
     <string name="collection_description_hint">Description (optional)</string>
     <string name="collection_name_required">Enter collection name</string>
+    <string name="collection_photos_amount_curated_by_formatted" translatable="false">%s %s %s %s</string>
 
     <!--User details-->
     <string name="user_details">User details</string>
@@ -71,6 +72,11 @@
     <string name="user_no_photos">User has no uploaded photos yet</string>
     <string name="user_no_liked_photos">User has no liked photos yet</string>
     <string name="user_no_collections">User has no collections yet</string>
+    <string name="user_full_name_formatted" translatable="false">%s %s</string>
+    <string name="user_nickname_formatted" translatable="false">\@%s</string>
+    <string name="user_based_in">Based in %s</string>
+    <string name="user_instagram_username">Instagram username</string>
+    <string name="user_twitter_username">Twitter username</string>
 
     <!--Edit my profile-->
     <string name="username_hint">Username</string>
@@ -98,13 +104,9 @@
     <string name="login_successful">Login successful</string>
     <string name="login_failed">Login failed</string>
     <string name="welcome_msg">Welcome! Login to use all features of Gimme pictures</string>
+    <string name="user_full_name_with_nickname_formatted" translatable="false">%s %s (%s)</string>
 
     <!-- Search -->
-    <string-array name="search_category_array">
-        <item>Photos</item>
-        <item>Collections</item>
-        <item>Users</item>
-    </string-array>
     <string name="apply">Apply</string>
     <string name="search_for">Search for:</string>
     <string name="nothing_found">Hmm, seems like it\'s nothing here.\nTry to search something</string>
@@ -161,38 +163,11 @@
     <string name="clear_cache">Clear cache</string>
     <string name="cache_size">Cache size: %d MB</string>
     <string name="theme">Theme</string>
-
-    <!--Quality-->
-    <string-array name="quality_options">
-        <item>@string/image_size_raw</item>
-        <item>@string/image_size_full</item>
-        <item>@string/image_size_regular</item>
-        <item>@string/image_size_small</item>
-        <item>@string/image_size_thumb</item>
-    </string-array>
-    <string-array name="quality_values">
-        <item>raw</item>
-        <item>full</item>
-        <item>regular</item>
-        <item>small</item>
-        <item>thumb</item>
-    </string-array>
-    <string name="default_load_quality_value" translatable="false">regular</string>
-
-    <!--Theme-->
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
-    <string name="theme_system_default">System default</string>
-    <string-array name="theme_options">
-        <item>@string/theme_light</item>
-        <item>@string/theme_dark</item>
-        <item>@string/theme_system_default</item>
-    </string-array>
-    <string-array name="theme_values" translatable="false">
-        <item>light</item>
-        <item>dark</item>
-        <item>system</item>
-    </string-array>
-    <string name="default_theme_value" translatable="false">system</string>
+    <string name="theme_battery">Set by Battery Saver</string>
+    <string name="theme_default">System default</string>
+
+    <string name="not_implemented" translatable="false">Not implemented yet, but it will be soon :)</string>
 
 </resources>

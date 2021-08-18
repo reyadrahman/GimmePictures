@@ -6,19 +6,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ua.andrii.andrushchenko.gimmepictures.databinding.ItemCollectionSmallBinding
-import ua.andrii.andrushchenko.gimmepictures.domain.entities.Collection
+import ua.andrii.andrushchenko.gimmepictures.domain.Collection
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.util.loadImage
 
 class AddToCollectionAdapter(
-    private val onItemClickListener: OnItemClickListener,
+    private val onItemClickListener: (collection: Collection, selectedStateView: View, loadingProgress: View) -> Unit,
 ) : BasePagedAdapter<Collection>(COLLECTION_COMPARATOR) {
 
-    private var currentUserCollectionIds: List<String>? = null
+    lateinit var currentUserCollectionIds: List<String>
 
-    fun setCurrentUserCollectionIds(currentUserCollectionIds: List<String>?) {
+    /*fun setCurrentUserCollectionIds(currentUserCollectionIds: List<String>?) {
         this.currentUserCollectionIds = currentUserCollectionIds
-    }
+    }*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionSmallViewHolder {
         val binding =
@@ -36,8 +36,8 @@ class AddToCollectionAdapter(
                     if (position != RecyclerView.NO_POSITION) {
                         val collection = getItem(position)
                         collection?.let {
-                            onItemClickListener.onCollectionThumbClick(
-                                collection = it,
+                            onItemClickListener(
+                                it,
                                 selectedStateBackground,
                                 layoutProgress
                             )
@@ -47,30 +47,17 @@ class AddToCollectionAdapter(
             }
         }
 
-        override fun bind(entity: Collection) {
-            with(binding) {
-                entity.coverPhoto?.let { photo ->
-                    collectionCoverPhotoImageView.loadImage(
-                        url = photo.urls.small,
-                        placeholderColorDrawable = null
-                    )
-                }
-                txtCollectionName.text = entity.title
-                collectionPrivateImageView.visibility =
-                    if (entity.private == true) View.VISIBLE else View.GONE
-                val isPhotoInCollection = currentUserCollectionIds?.contains(entity.id) == true
-                selectedStateBackground.visibility =
-                    if (isPhotoInCollection) View.VISIBLE else View.GONE
+        override fun bind(entity: Collection) = with(binding) {
+            entity.coverPhoto?.let { photo ->
+                collectionCoverPhotoImageView.loadImage(url = photo.urls.small)
             }
+            txtCollectionName.text = entity.title
+            collectionPrivateImageView.visibility =
+                if (entity.private == true) View.VISIBLE else View.GONE
+            val isPhotoInCollection = currentUserCollectionIds.contains(entity.id)
+            selectedStateBackground.visibility =
+                if (isPhotoInCollection) View.VISIBLE else View.GONE
         }
-    }
-
-    interface OnItemClickListener {
-        fun onCollectionThumbClick(
-            collection: Collection,
-            selectedStateView: View,
-            loadingProgress: View
-        )
     }
 
     companion object {

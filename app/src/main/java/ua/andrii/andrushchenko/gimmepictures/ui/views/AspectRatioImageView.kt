@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.ui.widgets
+package ua.andrii.andrushchenko.gimmepictures.ui.views
 
 import android.content.Context
 import android.util.AttributeSet

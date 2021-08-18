@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
-import ua.andrii.andrushchenko.gimmepictures.domain.entities.Me
+import ua.andrii.andrushchenko.gimmepictures.domain.Me
 
 class AccessTokenProvider(context: Context) {
     private val sharedPreferences: SharedPreferences =

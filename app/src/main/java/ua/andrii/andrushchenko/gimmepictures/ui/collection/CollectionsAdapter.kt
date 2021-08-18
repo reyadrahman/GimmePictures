@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ua.andrii.andrushchenko.gimmepictures.databinding.ItemCollectionBinding
-import ua.andrii.andrushchenko.gimmepictures.domain.entities.Collection
+import ua.andrii.andrushchenko.gimmepictures.domain.Collection
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.util.loadImage
 
-class CollectionsAdapter(private val listener: OnItemClickListener) :
-    BasePagedAdapter<Collection>(COLLECTION_COMPARATOR) {
+class CollectionsAdapter(
+    private val listener: (collection: Collection) -> Unit
+) : BasePagedAdapter<Collection>(COLLECTION_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val binding =
@@ -30,7 +31,7 @@ class CollectionsAdapter(private val listener: OnItemClickListener) :
                     if (position != RecyclerView.NO_POSITION) {
                         val collection = getItem(position)
                         collection?.let {
-                            listener.onCollectionClick(collection = it)
+                            listener(it)
                         }
                     }
                 }
@@ -50,10 +51,6 @@ class CollectionsAdapter(private val listener: OnItemClickListener) :
                 collectionName.text = entity.title
             }
         }
-    }
-
-    interface OnItemClickListener {
-        fun onCollectionClick(collection: Collection)
     }
 
     companion object {

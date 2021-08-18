@@ -1,11 +1,11 @@
 package ua.andrii.andrushchenko.gimmepictures
 
+import ThemeHelper
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.preference.PreferenceManager
 import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
-import ua.andrii.andrushchenko.gimmepictures.util.ThemeHelper
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -22,8 +22,11 @@ class GimmePicturesApp : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val themePref = prefs.getString("theme", ThemeHelper.DEFAULT_MODE)
-        ThemeHelper.applyTheme(themePref!!)
+        val theme = prefs.getString(
+            "theme",
+            "default"
+        )
+        ThemeHelper.applyTheme(theme)
     }
 
     override fun onLowMemory() {

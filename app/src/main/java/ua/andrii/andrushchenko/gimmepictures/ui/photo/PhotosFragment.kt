@@ -10,18 +10,17 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotosPagingSource
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentPhotosBinding
-import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.Photo
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
-import ua.andrii.andrushchenko.gimmepictures.ui.widgets.AspectRatioImageView
-import ua.andrii.andrushchenko.gimmepictures.util.customtabs.CustomTabsHelper
+import ua.andrii.andrushchenko.gimmepictures.util.CustomTabsHelper
 import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManager
+import ua.andrii.andrushchenko.gimmepictures.util.showAlertDialogWithRadioButtons
 import java.util.*
 
 @AndroidEntryPoint
@@ -30,14 +29,11 @@ class PhotosFragment :
 
     private val viewModel: PhotoViewModel by viewModels()
 
-    override val pagedAdapter: BasePagedAdapter<Photo> =
-        PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
-            override fun onPhotoClick(photo: Photo, photoImageView: AspectRatioImageView) {
-                val direction =
-                    PhotosFragmentDirections.actionGlobalPhotoDetailsFragment(photoId = photo.id)
-                findNavController().navigate(direction)
-            }
-        })
+    override val pagedAdapter: BasePagedAdapter<Photo> = PhotosAdapter { photo ->
+        val direction =
+            PhotosFragmentDirections.actionGlobalPhotoDetailsFragment(photoId = photo.id)
+        findNavController().navigate(direction)
+    }
 
     override val rv: RecyclerView
         get() = binding.photoListingLayout.recyclerView
@@ -45,41 +41,7 @@ class PhotosFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            toolbar.apply {
-                setOnMenuItemClickListener { item ->
-                    when (item.itemId) {
-                        R.id.action_sort -> {
-                            showFilterDialog()
-                        }
-                        R.id.action_search -> {
-                            val direction =
-                                PhotosFragmentDirections.actionNavPhotosToSearchFragment(null)
-                            findNavController().navigate(direction)
-                        }
-                    }
-                    true
-                }
-
-                val navController = findNavController()
-                val appBarConfiguration = AppBarConfiguration(
-                    setOf(
-                        R.id.nav_photos,
-                        R.id.nav_collections,
-                        R.id.nav_account
-                    )
-                )
-                setupWithNavController(navController, appBarConfiguration)
-
-                setOnClickListener {
-                    scrollRecyclerViewToTop()
-                }
-
-                viewModel.order.observe(viewLifecycleOwner) { order ->
-                    title = "${getString(order.titleRes)} ${
-                        getString(R.string.photos).replaceFirstChar { it.lowercase(Locale.ROOT) }
-                    }"
-                }
-            }
+            setupToolbar()
 
             photoListingLayout.swipeRefreshLayout.setOnRefreshListener {
                 pagedAdapter.refresh()
@@ -150,19 +112,58 @@ class PhotosFragment :
     }
 
     private fun showFilterDialog() {
-        val orderOptions =
-            enumValues<PhotosPagingSource.Companion.Order>().map { getString(it.titleRes) }
-                .toTypedArray()
+        val orderOptions = enumValues<PhotosPagingSource.Companion.Order>()
+            .map { getString(it.titleRes) }
+            .toTypedArray()
+
         val currentSelection = viewModel.order.value?.ordinal ?: 0
-        MaterialAlertDialogBuilder(requireContext()).run {
-            setTitle(getString(R.string.sort_by))
-            setSingleChoiceItems(orderOptions, currentSelection) { dialog, which ->
-                if (which != currentSelection) viewModel.orderPhotosBy(which)
-                dialog.dismiss()
+
+        requireContext().showAlertDialogWithRadioButtons(
+            R.string.sort_by,
+            orderOptions,
+            currentSelection
+        ) { dialog, which ->
+            if (which != currentSelection) viewModel.orderPhotosBy(which)
+            dialog.dismiss()
+            scrollRecyclerViewToTop()
+        }
+    }
+
+    private fun setupToolbar() {
+        val navController = findNavController()
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_photos,
+                R.id.nav_collections,
+                R.id.nav_account
+            )
+        )
+        binding.toolbar.apply {
+            setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.action_sort -> {
+                        showFilterDialog()
+                    }
+                    R.id.action_search -> {
+                        val direction =
+                            PhotosFragmentDirections.actionNavPhotosToSearchFragment(null)
+                        findNavController().navigate(direction)
+                    }
+                }
+                true
+            }
+
+            setupWithNavController(navController, appBarConfiguration)
+
+            setOnClickListener {
                 scrollRecyclerViewToTop()
             }
-            create()
-            show()
+
+            viewModel.order.observe(viewLifecycleOwner) { order ->
+                title = "${getString(order.titleRes)} ${
+                    getString(R.string.photos).replaceFirstChar { it.lowercase(Locale.ROOT) }
+                }"
+            }
         }
     }
 }

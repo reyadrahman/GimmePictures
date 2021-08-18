@@ -14,10 +14,9 @@ import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseBottomSheetDialogFragme
 import ua.andrii.andrushchenko.gimmepictures.ui.search.SearchViewModel
 
 @AndroidEntryPoint
-class SearchPhotoFilterDialog :
-    BaseBottomSheetDialogFragment<BottomSheetSearchPhotoFilterBinding>(
-        BottomSheetSearchPhotoFilterBinding::inflate
-    ) {
+class SearchPhotoFilterDialog : BaseBottomSheetDialogFragment<BottomSheetSearchPhotoFilterBinding>(
+    BottomSheetSearchPhotoFilterBinding::inflate
+) {
 
     private val viewModel: SearchViewModel by viewModels(
         ownerProducer = { requireParentFragment().childFragmentManager.primaryNavigationFragment!! }
@@ -33,15 +32,17 @@ class SearchPhotoFilterDialog :
                 SearchPhotosPagingSource.Companion.Order.RELEVANT -> R.id.order_relevance_button
                 else -> R.id.order_latest_button
             }
-            orderByToggleGroup.check(orderButtonId)
-            orderByToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
-                if (isChecked) {
-                    val order = when (checkedId) {
-                        R.id.order_relevance_button -> SearchPhotosPagingSource.Companion.Order.RELEVANT
-                        else -> SearchPhotosPagingSource.Companion.Order.LATEST
+            orderByToggleGroup.apply {
+                check(orderButtonId)
+                addOnButtonCheckedListener { _, checkedId, isChecked ->
+                    if (isChecked) {
+                        val order = when (checkedId) {
+                            R.id.order_relevance_button -> SearchPhotosPagingSource.Companion.Order.RELEVANT
+                            else -> SearchPhotosPagingSource.Companion.Order.LATEST
+                        }
+                        viewModel.order = order
+                        searchParametersChanged = true
                     }
-                    viewModel.order = order
-                    searchParametersChanged = true
                 }
             }
 
@@ -49,15 +50,17 @@ class SearchPhotoFilterDialog :
                 SearchPhotosPagingSource.Companion.ContentFilter.LOW -> R.id.content_filter_low_button
                 else -> R.id.content_filter_high_button
             }
-            contentFilterToggleGroup.check(contentFilterButtonId)
-            contentFilterToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
-                if (isChecked) {
-                    val contentFilter = when (checkedId) {
-                        R.id.content_filter_low_button -> SearchPhotosPagingSource.Companion.ContentFilter.LOW
-                        else -> SearchPhotosPagingSource.Companion.ContentFilter.HIGH
+            contentFilterToggleGroup.apply {
+                check(contentFilterButtonId)
+                addOnButtonCheckedListener { _, checkedId, isChecked ->
+                    if (isChecked) {
+                        val contentFilter = when (checkedId) {
+                            R.id.content_filter_low_button -> SearchPhotosPagingSource.Companion.ContentFilter.LOW
+                            else -> SearchPhotosPagingSource.Companion.ContentFilter.HIGH
+                        }
+                        viewModel.contentFilter = contentFilter
+                        searchParametersChanged = true
                     }
-                    viewModel.contentFilter = contentFilter
-                    searchParametersChanged = true
                 }
             }
 
@@ -68,15 +71,16 @@ class SearchPhotoFilterDialog :
                 android.R.layout.simple_spinner_dropdown_item,
                 titles
             )
-            val colorFilterDropdownMenu =
-                (colorFilterDropdownMenu.editText as? AutoCompleteTextView)
-            colorFilterDropdownMenu?.setAdapter(adapter)
-            colorFilterDropdownMenu?.setText(titles[items.indexOf(viewModel.color)], false)
-            colorFilterDropdownMenu?.setOnItemClickListener { _, _, position, _ ->
-                val color = items[position]
-                if (color != viewModel.color) {
-                    searchParametersChanged = true
-                    viewModel.color = color
+            val colorFilterDropdownMenu = (colorFilterDropdownMenu.editText as? AutoCompleteTextView)
+            colorFilterDropdownMenu?.apply {
+                setAdapter(adapter)
+                setText(titles[items.indexOf(viewModel.color)], false)
+                setOnItemClickListener { _, _, position, _ ->
+                    val color = items[position]
+                    if (color != viewModel.color) {
+                        searchParametersChanged = true
+                        viewModel.color = color
+                    }
                 }
             }
 
@@ -86,17 +90,19 @@ class SearchPhotoFilterDialog :
                 SearchPhotosPagingSource.Companion.Orientation.LANDSCAPE -> R.id.orientation_landscape_button
                 else -> R.id.orientation_square_button
             }
-            orientationToggleGroup.check(orientationButtonId)
-            orientationToggleGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
-                if (isChecked) {
-                    val orientation = when (checkedId) {
-                        R.id.orientation_any_button -> SearchPhotosPagingSource.Companion.Orientation.ANY
-                        R.id.orientation_portrait_button -> SearchPhotosPagingSource.Companion.Orientation.PORTRAIT
-                        R.id.orientation_landscape_button -> SearchPhotosPagingSource.Companion.Orientation.LANDSCAPE
-                        else -> SearchPhotosPagingSource.Companion.Orientation.SQUARISH
+            orientationToggleGroup.apply {
+                check(orientationButtonId)
+                addOnButtonCheckedListener { _, checkedId, isChecked ->
+                    if (isChecked) {
+                        val orientation = when (checkedId) {
+                            R.id.orientation_any_button -> SearchPhotosPagingSource.Companion.Orientation.ANY
+                            R.id.orientation_portrait_button -> SearchPhotosPagingSource.Companion.Orientation.PORTRAIT
+                            R.id.orientation_landscape_button -> SearchPhotosPagingSource.Companion.Orientation.LANDSCAPE
+                            else -> SearchPhotosPagingSource.Companion.Orientation.SQUARISH
+                        }
+                        viewModel.orientation = orientation
+                        searchParametersChanged = true
                     }
-                    viewModel.orientation = orientation
-                    searchParametersChanged = true
                 }
             }
 

@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.domain.entities
+package ua.andrii.andrushchenko.gimmepictures.domain
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
@@ -28,8 +28,7 @@ data class Photo(
     val sponsorship: Sponsorship?,
     val urls: Urls,
     val links: Links?,
-    val user: User?,
-    val statistics: PhotoStatistics?
+    val user: User?
 ) : Parcelable {
 
     @Parcelize
@@ -74,9 +73,6 @@ data class Photo(
         val latitude: Double?,
         val longitude: Double?
     ) : Parcelable
-
-    @Parcelize
-    data class Tag(val title: String?) : Parcelable
 
     @Parcelize
     data class Sponsorship(val sponsor: User?) : Parcelable

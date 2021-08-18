@@ -1,19 +1,69 @@
-package ua.andrii.andrushchenko.gimmepictures.util.customtabs
+package ua.andrii.andrushchenko.gimmepictures.util
 
+import ThemeHelper.getCustomTabsColorScheme
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.text.TextUtils
+import android.util.Log
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.browser.customtabs.CustomTabsService
 
-internal object CustomTabsPackageHelper {
+object CustomTabsHelper {
 
     private const val STABLE_PACKAGE = "com.android.chrome"
     private const val BETA_PACKAGE = "com.chrome.beta"
     private const val DEV_PACKAGE = "com.chrome.dev"
     private const val LOCAL_PACKAGE = "com.google.android.apps.chrome"
     private var packageNameToUse: String? = null
+
+    /**
+     * Opens the URL on a Custom Tab if possible.
+     * Otherwise falls back to opening it in the default browser
+     *
+     * @param context          The host activity
+     * @param uri              The Uri to be opened
+     * @param theme            The theme use to set color scheme
+     */
+    fun openCustomTab(
+        context: Context,
+        uri: Uri,
+        theme: String? = null
+    ) {
+        val packageName = getPackageNameToUse(context)
+
+        // If we cant find a package name, it means there's no browser that supports Chrome
+        // Custom Tabs installed. So, we fallback to the web-view
+        if (packageName == null) {
+            launchFallback(context, uri)
+        } else {
+            val customTabsIntent = CustomTabsIntent.Builder()
+                .setShareState(CustomTabsIntent.SHARE_STATE_ON)
+                .setColorScheme(getCustomTabsColorScheme(theme))
+                .build()
+
+            customTabsIntent.intent.putExtra(
+                Intent.EXTRA_REFERRER,
+                Uri.parse("${Intent.URI_ANDROID_APP_SCHEME}//${context.packageName}")
+            )
+            customTabsIntent.intent.setPackage(packageName)
+
+            try {
+                customTabsIntent.launchUrl(context, uri)
+            } catch (e: ActivityNotFoundException) {
+                launchFallback(context, uri)
+            }
+        }
+    }
+
+    private fun launchFallback(context: Context, uri: Uri) {
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        if (context.packageManager.queryIntentActivities(intent, 0).isNotEmpty()) {
+            context.startActivity(intent)
+        }
+    }
 
     /**
      * Goes through all apps that handle VIEW intents and have a warmup service. Picks
@@ -25,15 +75,18 @@ internal object CustomTabsPackageHelper {
      * @param context [Context] to use for accessing [PackageManager].
      * @return The package name recommended to use for connecting to custom tabs related components.
      */
-    @JvmStatic
-    fun getPackageNameToUse(context: Context, uri: Uri): String? {
+    fun getPackageNameToUse(context: Context): String? {
         if (packageNameToUse != null) {
             return packageNameToUse
         }
         val pm = context.packageManager
 
         // Get default VIEW intent handler.
-        val activityIntent = Intent(Intent.ACTION_VIEW, uri)
+        val activityIntent = Intent().apply {
+            action = Intent.ACTION_VIEW
+            data = Uri.fromParts("http", "", null)
+            addCategory(Intent.CATEGORY_BROWSABLE)
+        }
         val defaultHandlerInfo = pm.resolveActivity(activityIntent, 0)
         val defaultHandlerPackageName = defaultHandlerInfo?.activityInfo?.packageName
 
@@ -89,7 +142,11 @@ internal object CustomTabsPackageHelper {
                 return true
             }
         } catch (e: RuntimeException) {
-            
+            Log.e(
+                TAG,
+                "hasSpecializedHandlerIntents: Runtime exception while getting specialized handlers",
+                e
+            )
         }
         return false
     }
@@ -97,6 +154,8 @@ internal object CustomTabsPackageHelper {
     /**
      * @return All possible chrome package names that provide custom tabs feature.
      */
-    /*val packages: List<String>
-        get() = listOf("", STABLE_PACKAGE, BETA_PACKAGE, DEV_PACKAGE, LOCAL_PACKAGE)*/
+    val packages: List<String>
+        get() = listOf("", STABLE_PACKAGE, BETA_PACKAGE, DEV_PACKAGE, LOCAL_PACKAGE)
+
+    private const val TAG = "CustomTabsHelper"
 }

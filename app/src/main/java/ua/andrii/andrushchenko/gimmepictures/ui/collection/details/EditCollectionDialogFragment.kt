@@ -1,8 +1,6 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.collection.details
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
@@ -11,9 +9,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.BottomSheetEditCollectionBinding
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseBottomSheetDialogFragment
+import ua.andrii.andrushchenko.gimmepictures.util.compareTextBeforeAndAfter
 
 @AndroidEntryPoint
-class EditCollectionDialogFragment : BaseBottomSheetDialogFragment<BottomSheetEditCollectionBinding>(BottomSheetEditCollectionBinding::inflate) {
+class EditCollectionDialogFragment :
+    BaseBottomSheetDialogFragment<BottomSheetEditCollectionBinding>(BottomSheetEditCollectionBinding::inflate) {
 
     private val viewModel: CollectionDetailsViewModel by viewModels(
         ownerProducer = { requireParentFragment().childFragmentManager.primaryNavigationFragment!! }
@@ -26,55 +26,15 @@ class EditCollectionDialogFragment : BaseBottomSheetDialogFragment<BottomSheetEd
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             collectionNameTextInputLayout.editText?.apply {
-                addTextChangedListener(object : TextWatcher {
-                    private var initial: String = ""
-                    override fun beforeTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        count: Int,
-                        after: Int
-                    ) {
-                        initial = s.toString()
-                    }
-
-                    override fun onTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        before: Int,
-                        count: Int
-                    ) {
-                    }
-
-                    override fun afterTextChanged(s: Editable?) {
-                        somethingChanged = (s.toString().contentEquals(initial)).not()
-                    }
-                })
+                compareTextBeforeAndAfter { isChanged ->
+                    somethingChanged = isChanged
+                }
                 setText(args.collection.title)
             }
             collectionDescriptionTextInputLayout.editText?.apply {
-                addTextChangedListener(object : TextWatcher {
-                    private var initial: String = ""
-                    override fun beforeTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        count: Int,
-                        after: Int
-                    ) {
-                        initial = s.toString()
-                    }
-
-                    override fun onTextChanged(
-                        s: CharSequence?,
-                        start: Int,
-                        before: Int,
-                        count: Int
-                    ) {
-                    }
-
-                    override fun afterTextChanged(s: Editable?) {
-                        somethingChanged = (s.toString().contentEquals(initial)).not()
-                    }
-                })
+                compareTextBeforeAndAfter { isChanged ->
+                    somethingChanged = isChanged
+                }
                 setText(args.collection.description)
             }
             checkboxMakePrivate.apply {
@@ -96,19 +56,17 @@ class EditCollectionDialogFragment : BaseBottomSheetDialogFragment<BottomSheetEd
         }
     }
 
-    private fun toggleDeleteCollectionDialog(isVisible: Boolean) {
-        with(binding) {
-            btnDelete.visibility = if (isVisible) View.GONE else View.VISIBLE
-            btnSave.visibility = if (isVisible) View.GONE else View.VISIBLE
+    private fun toggleDeleteCollectionDialog(isVisible: Boolean) = with(binding) {
+        btnDelete.visibility = if (isVisible) View.GONE else View.VISIBLE
+        btnSave.visibility = if (isVisible) View.GONE else View.VISIBLE
 
-            collectionNameTextInputLayout.isEnabled = !isVisible
-            collectionDescriptionTextInputLayout.isEnabled = !isVisible
-            checkboxMakePrivate.isEnabled = !isVisible
+        collectionNameTextInputLayout.isEnabled = !isVisible
+        collectionDescriptionTextInputLayout.isEnabled = !isVisible
+        checkboxMakePrivate.isEnabled = !isVisible
 
-            areYouSureTextView.visibility = if (isVisible) View.VISIBLE else View.GONE
-            deleteNoCollectionButton.visibility = if (isVisible) View.VISIBLE else View.GONE
-            deleteYesCollectionButton.visibility = if (isVisible) View.VISIBLE else View.GONE
-        }
+        areYouSureTextView.visibility = if (isVisible) View.VISIBLE else View.GONE
+        deleteNoCollectionButton.visibility = if (isVisible) View.VISIBLE else View.GONE
+        deleteYesCollectionButton.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     private fun isInputValid(): Boolean {
@@ -128,22 +86,21 @@ class EditCollectionDialogFragment : BaseBottomSheetDialogFragment<BottomSheetEd
         }
     }
 
-    private fun saveCollectionDetails() {
-        with(binding) {
-            if (somethingChanged) {
-                if (isInputValid()) {
-                    viewModel.updateCollection(args.collection.id,
-                        collectionNameTextInputLayout.editText?.text.toString(),
-                        collectionDescriptionTextInputLayout.editText?.text.toString(),
-                        checkboxMakePrivate.isChecked
-                    )
-                    dismiss()
-                } else {
-                    showErrorMessage()
-                }
-            } else {
+    private fun saveCollectionDetails() = with(binding) {
+        if (somethingChanged) {
+            if (isInputValid()) {
+                viewModel.updateCollection(
+                    args.collection.id,
+                    collectionNameTextInputLayout.editText?.text.toString(),
+                    collectionDescriptionTextInputLayout.editText?.text.toString(),
+                    checkboxMakePrivate.isChecked
+                )
                 dismiss()
+            } else {
+                showErrorMessage()
             }
+        } else {
+            dismiss()
         }
     }
 }

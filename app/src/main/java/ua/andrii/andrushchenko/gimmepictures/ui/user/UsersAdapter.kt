@@ -1,17 +1,18 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.user
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.ItemUserBinding
-import ua.andrii.andrushchenko.gimmepictures.domain.entities.User
+import ua.andrii.andrushchenko.gimmepictures.domain.User
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.util.loadImage
 
-class UsersAdapter(private val listener: OnItemClickListener) :
-    BasePagedAdapter<User>(USER_COMPARATOR) {
+class UsersAdapter(
+    private val listener: (user: User) -> Unit
+) : BasePagedAdapter<User>(USER_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val binding = ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,29 +27,26 @@ class UsersAdapter(private val listener: OnItemClickListener) :
                     val position = bindingAdapterPosition
                     if (position != RecyclerView.NO_POSITION) {
                         val user = getItem(position)
-                        user?.let {
-                            listener.onUserClick(user = it)
-                        }
+                        user?.let { listener(it) }
                     }
                 }
             }
         }
 
-        @SuppressLint("SetTextI18n")
         override fun bind(entity: User) {
             with(binding) {
-                userImageView.loadImage(
-                    url = entity.profileImage?.medium,
-                    placeholderColorDrawable = null
+                userImageView.loadImage(url = entity.profileImage?.medium)
+                userNickNameTextView.text = root.resources.getString(
+                    R.string.user_nickname_formatted,
+                    entity.username
                 )
-                userNickNameTextView.text = "@${entity.username}"
-                userNameTextView.text = "${entity.firstName} ${entity.lastName}"
+                userNameTextView.text = root.resources.getString(
+                    R.string.user_full_name_formatted,
+                    entity.firstName,
+                    entity.lastName
+                )
             }
         }
-    }
-
-    interface OnItemClickListener {
-        fun onUserClick(user: User)
     }
 
     companion object {

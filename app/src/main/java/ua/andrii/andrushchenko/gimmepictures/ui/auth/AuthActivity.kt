@@ -13,7 +13,7 @@ import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepositoryImpl.Companion.unsplashAuthCallback
 import ua.andrii.andrushchenko.gimmepictures.databinding.ActivityAuthBinding
 import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
-import ua.andrii.andrushchenko.gimmepictures.util.customtabs.CustomTabsHelper
+import ua.andrii.andrushchenko.gimmepictures.util.CustomTabsHelper
 
 @AndroidEntryPoint
 class AuthActivity : AppCompatActivity() {

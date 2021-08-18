@@ -6,9 +6,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
 import ua.andrii.andrushchenko.gimmepictures.data.common.PAGE_SIZE
-import ua.andrii.andrushchenko.gimmepictures.domain.entities.Collection
-import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
-import ua.andrii.andrushchenko.gimmepictures.domain.entities.User
+import ua.andrii.andrushchenko.gimmepictures.domain.Collection
+import ua.andrii.andrushchenko.gimmepictures.domain.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.User
 
 class SearchRepositoryImpl(private val searchService: SearchService) : SearchRepository {
 

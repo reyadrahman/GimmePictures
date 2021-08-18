@@ -1,26 +1,43 @@
-package ua.andrii.andrushchenko.gimmepictures.util
-
-import android.os.Build
+import android.content.Context
+import android.content.res.TypedArray
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.browser.customtabs.CustomTabsIntent.*
 
 object ThemeHelper {
-    private const val LIGHT_MODE = "light"
-    private const val DARK_MODE = "dark"
-    const val DEFAULT_MODE = "system_default"
+    private const val LIGHT = "light"
+    private const val DARK = "dark"
+    private const val BATTERY = "battery"
+    private const val DEFAULT = "default"
 
-    fun applyTheme(theme: String) {
-        val mode = when (theme) {
-            LIGHT_MODE -> AppCompatDelegate.MODE_NIGHT_NO
-            DARK_MODE -> AppCompatDelegate.MODE_NIGHT_YES
-            else -> {
-                when {
-                    isAtLeastP() -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-                    else -> AppCompatDelegate.MODE_NIGHT_NO
-                }
-            }
+    fun applyTheme(theme: String?) {
+        when (theme) {
+            LIGHT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            BATTERY -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+            DEFAULT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
-        AppCompatDelegate.setDefaultNightMode(mode)
     }
 
-    private fun isAtLeastP() = Build.VERSION.SDK_INT >= 28
+    @CustomTabsIntent.ColorScheme
+    fun getCustomTabsColorScheme(theme: String?): Int {
+        return when (theme) {
+            LIGHT -> COLOR_SCHEME_LIGHT
+            DARK -> COLOR_SCHEME_DARK
+            else -> COLOR_SCHEME_SYSTEM
+        }
+    }
+
+    @ColorInt
+    fun getThemeAttrColor(context: Context, @AttrRes colorAttr: Int): Int {
+        val array: TypedArray = context.obtainStyledAttributes(null, intArrayOf(colorAttr))
+        return try {
+            array.getColor(0, 0)
+        } finally {
+            array.recycle()
+        }
+    }
 }

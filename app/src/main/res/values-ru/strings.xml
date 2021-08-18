@@ -66,6 +66,9 @@
     <string name="user_no_photos">У пользователя ещё нет загруженных фото</string>
     <string name="user_no_liked_photos">У пользователя ещё нет понравившихся фото</string>
     <string name="user_no_collections">У пользователя ещё нет коллекций</string>
+    <string name="user_based_in">Находится в %s</string>
+    <string name="user_instagram_username">Никнейм в Instagram</string>
+    <string name="user_twitter_username">Никнейм в Twitter</string>
 
     <!--Edit my profile-->
     <string name="username_hint">Никнейм</string>
@@ -95,11 +98,6 @@
     <string name="welcome_msg">Добро пожаловать! Войдите, чтобы использовать все возможности Gimme pictures</string>
 
     <!-- Search -->
-    <string-array name="search_category_array">
-        <item>Фото</item>
-        <item>Коллекции</item>
-        <item>Пользователи</item>
-    </string-array>
     <string name="apply">Применить</string>
     <string name="search_for">Искать:</string>
     <string name="nothing_found">Хмм, кажется тут ничего нет.\nПопробуйте поискать что-то</string>
@@ -156,31 +154,8 @@
     <string name="clear_cache">Очистить кэш</string>
     <string name="cache_size">Размер кэш: %d Мб</string>
     <string name="theme">Тема оформления</string>
-
-    <!--Quality-->
-    <string-array name="quality_options">
-        <item>@string/image_size_raw</item>
-        <item>@string/image_size_full</item>
-        <item>@string/image_size_regular</item>
-        <item>@string/image_size_small</item>
-        <item>@string/image_size_thumb</item>
-    </string-array>
-    <string-array name="quality_values">
-        <item>raw</item>
-        <item>full</item>
-        <item>regular</item>
-        <item>small</item>
-        <item>thumb</item>
-    </string-array>
-
-    <!--Theme-->
-    <string name="theme_light">Светлая</string>
-    <string name="theme_dark">Темная</string>
-    <string name="theme_system_default">Системная</string>
-    <string-array name="theme_options">
-        <item>@string/theme_light</item>
-        <item>@string/theme_dark</item>
-        <item>@string/theme_system_default</item>
-    </string-array>
-
+    <string name="theme_light">Светлая тема</string>
+    <string name="theme_dark">Тёмная тема</string>
+    <string name="theme_battery">Устанавливается в зависимости от режима питания</string>
+    <string name="theme_default">Системная тема</string>
 </resources>

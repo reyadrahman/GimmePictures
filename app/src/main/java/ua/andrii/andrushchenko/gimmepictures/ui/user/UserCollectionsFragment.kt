@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.ListingLayoutBinding
-import ua.andrii.andrushchenko.gimmepictures.domain.entities.Collection
+import ua.andrii.andrushchenko.gimmepictures.domain.Collection
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
@@ -24,16 +24,13 @@ class UserCollectionsFragment : BaseRecyclerViewFragment<Collection, ListingLayo
 
     private val viewModel: UserDetailsViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
-    override val pagedAdapter: BasePagedAdapter<Collection> =
-        CollectionsAdapter(object : CollectionsAdapter.OnItemClickListener {
-            override fun onCollectionClick(collection: Collection) {
-                val direction =
-                    UserDetailsFragmentDirections.actionUserDetailsFragmentToCollectionDetailsFragment(
-                        collection
-                    )
-                requireParentFragment().findNavController().navigate(direction)
-            }
-        })
+    override val pagedAdapter: BasePagedAdapter<Collection> = CollectionsAdapter { collection ->
+        val direction =
+            UserDetailsFragmentDirections.actionUserDetailsFragmentToCollectionDetailsFragment(
+                collection
+            )
+        requireParentFragment().findNavController().navigate(direction)
+    }
 
     override val rv: RecyclerView
         get() = binding.recyclerView

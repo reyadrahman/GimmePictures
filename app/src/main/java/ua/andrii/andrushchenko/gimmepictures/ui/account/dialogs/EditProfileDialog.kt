@@ -11,6 +11,7 @@ import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.BottomSheetEditMyProfileBinding
 import ua.andrii.andrushchenko.gimmepictures.ui.account.AccountViewModel
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseBottomSheetDialogFragment
+import ua.andrii.andrushchenko.gimmepictures.util.compareTextBeforeAndAfter
 import java.util.regex.Pattern
 
 @AndroidEntryPoint
@@ -41,7 +42,8 @@ class EditProfileDialog :
                     val userNicknamePatternMatcher = Pattern.compile("([A-Za-z0-9_]+)")
                     if (!userNicknamePatternMatcher.matcher(s.toString()).matches()) {
                         usernameTextInputLayout.isErrorEnabled = true
-                        usernameTextInputLayout.error = getString(R.string.username_description_text)
+                        usernameTextInputLayout.error =
+                            getString(R.string.username_description_text)
                         btnSave.isEnabled = false
                     } else {
                         usernameTextInputLayout.isErrorEnabled = false
@@ -55,43 +57,13 @@ class EditProfileDialog :
                 }
             })
 
-            firstNameTextInputLayout.editText?.addTextChangedListener(object : TextWatcher {
-                private var initial: String = ""
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                    initial = s.toString()
-                }
+            firstNameTextInputLayout.editText?.compareTextBeforeAndAfter { isChanged ->
+                somethingChanged = isChanged
+            }
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-                    somethingChanged = (s.toString().contentEquals(initial)).not()
-                }
-            })
-
-            lastNameTextInputLayout.editText?.addTextChangedListener(object : TextWatcher {
-                private var initial: String = ""
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                    initial = s.toString()
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-                    somethingChanged = (s.toString().contentEquals(initial)).not()
-                }
-            })
+            lastNameTextInputLayout.editText?.compareTextBeforeAndAfter { isChanged ->
+                somethingChanged = isChanged
+            }
 
             emailTextInputLayout.editText?.addTextChangedListener(object : TextWatcher {
                 private var initial: String = ""
@@ -108,7 +80,8 @@ class EditProfileDialog :
                     val userEmailPatternMatcher = Pattern.compile(
                         "[a-zA-Z0-9+._%-+]{1,256}" + "@"
                                 + "[a-zA-Z0-9][a-zA-Z0-9-]{0,64}" + "(" + "."
-                                + "[a-zA-Z0-9][a-zA-Z0-9-]{0,25}" + ")+")
+                                + "[a-zA-Z0-9][a-zA-Z0-9-]{0,25}" + ")+"
+                    )
                     if (!userEmailPatternMatcher.matcher(s.toString()).matches()) {
                         emailTextInputLayout.isErrorEnabled = true
                         emailTextInputLayout.error = getString(R.string.invalid_email)
@@ -125,81 +98,21 @@ class EditProfileDialog :
                 }
             })
 
-            portfolioTextInputLayout.editText?.addTextChangedListener(object : TextWatcher {
-                private var initial: String = ""
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                    initial = s.toString()
-                }
+            portfolioTextInputLayout.editText?.compareTextBeforeAndAfter { isChanged ->
+                somethingChanged = isChanged
+            }
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                }
+            instagramTextInputLayout.editText?.compareTextBeforeAndAfter { isChanged ->
+                somethingChanged = isChanged
+            }
 
-                override fun afterTextChanged(s: Editable?) {
-                    somethingChanged = (s.toString().contentEquals(initial)).not()
-                }
-            })
+            locationTextInputLayout.editText?.compareTextBeforeAndAfter { isChanged ->
+                somethingChanged = isChanged
+            }
 
-            instagramTextInputLayout.editText?.addTextChangedListener(object : TextWatcher {
-                private var initial: String = ""
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                    initial = s.toString()
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-                    somethingChanged = (s.toString().contentEquals(initial)).not()
-                }
-            })
-
-            locationTextInputLayout.editText?.addTextChangedListener(object : TextWatcher {
-                private var initial: String = ""
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                    initial = s.toString()
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-                    somethingChanged = (s.toString().contentEquals(initial)).not()
-                }
-            })
-
-            bioTextInputLayout.editText?.addTextChangedListener(object : TextWatcher {
-                private var initial: String = ""
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                    initial = s.toString()
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-                    somethingChanged = (s.toString().contentEquals(initial)).not()
-                }
-            })
+            bioTextInputLayout.editText?.compareTextBeforeAndAfter { isChanged ->
+                somethingChanged = isChanged
+            }
 
             with(viewModel) {
                 usernameTextInputLayout.editText?.setText(userNickname)

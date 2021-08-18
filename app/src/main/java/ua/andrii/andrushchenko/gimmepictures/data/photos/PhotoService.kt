@@ -3,7 +3,7 @@ package ua.andrii.andrushchenko.gimmepictures.data.photos
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
-import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.Photo
 
 interface PhotoService {
 

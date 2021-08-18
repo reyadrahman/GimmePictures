@@ -7,16 +7,14 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.ListingLayoutBinding
-import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.Photo
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.photo.PhotosAdapter
-import ua.andrii.andrushchenko.gimmepictures.ui.widgets.AspectRatioImageView
 import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManager
 
 @AndroidEntryPoint
@@ -25,14 +23,10 @@ class PhotosResultFragment :
 
     private val viewModel: SearchViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
-    override val pagedAdapter: BasePagedAdapter<Photo> =
-        PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
-            override fun onPhotoClick(photo: Photo, photoImageView: AspectRatioImageView) {
-                val direction =
-                    SearchFragmentDirections.actionGlobalPhotoDetailsFragment(photoId = photo.id)
-                requireParentFragment().findNavController().navigate(direction)
-            }
-        })
+    override val pagedAdapter: BasePagedAdapter<Photo> = PhotosAdapter { photo ->
+        val direction = SearchFragmentDirections.actionGlobalPhotoDetailsFragment(photoId = photo.id)
+        requireParentFragment().findNavController().navigate(direction)
+    }
 
     override val rv: RecyclerView
         get() = binding.recyclerView

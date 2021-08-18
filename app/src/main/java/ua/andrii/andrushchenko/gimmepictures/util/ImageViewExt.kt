@@ -4,7 +4,7 @@ import android.graphics.drawable.ColorDrawable
 import android.widget.ImageView
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import ua.andrii.andrushchenko.gimmepictures.GlideApp
-import ua.andrii.andrushchenko.gimmepictures.ui.widgets.AspectRatioImageView
+import ua.andrii.andrushchenko.gimmepictures.ui.views.AspectRatioImageView
 
 fun AspectRatioImageView.setAspectRatio(width: Int?, height: Int?) {
     if (width != null && height != null) {
@@ -12,7 +12,7 @@ fun AspectRatioImageView.setAspectRatio(width: Int?, height: Int?) {
     }
 }
 
-fun ImageView.loadImage(url: String?, placeholderColorDrawable: ColorDrawable?) {
+fun ImageView.loadImage(url: String?, placeholderColorDrawable: ColorDrawable? = null) {
     GlideApp.with(this)
         .load(url)
         .placeholder(placeholderColorDrawable)

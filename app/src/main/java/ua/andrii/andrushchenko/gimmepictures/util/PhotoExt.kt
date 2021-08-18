@@ -2,7 +2,7 @@ package ua.andrii.andrushchenko.gimmepictures.util
 
 import androidx.annotation.StringRes
 import ua.andrii.andrushchenko.gimmepictures.R
-import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.Photo
 import java.util.*
 
 enum class PhotoSize(@StringRes val stringId: Int) {
@@ -13,14 +13,14 @@ enum class PhotoSize(@StringRes val stringId: Int) {
     THUMB(R.string.image_size_thumb)
 }
 
-fun getPhotoUrl(photo: Photo, size: PhotoSize?): String {
+fun Photo.getUrlForSize(size: PhotoSize?): String {
     return when (size) {
-        PhotoSize.RAW -> photo.urls.raw
-        PhotoSize.FULL -> photo.urls.full
-        PhotoSize.REGULAR -> photo.urls.regular
-        PhotoSize.SMALL -> photo.urls.small
-        PhotoSize.THUMB -> photo.urls.thumb
-        else -> photo.urls.regular
+        PhotoSize.RAW -> this.urls.raw
+        PhotoSize.FULL -> this.urls.full
+        PhotoSize.REGULAR -> this.urls.regular
+        PhotoSize.SMALL -> this.urls.small
+        PhotoSize.THUMB -> this.urls.thumb
+        else -> this.urls.regular
     }
 }
 

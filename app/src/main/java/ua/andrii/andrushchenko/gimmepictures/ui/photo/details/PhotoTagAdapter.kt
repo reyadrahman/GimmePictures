@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ua.andrii.andrushchenko.gimmepictures.databinding.ItemPhotoTagBinding
-import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.Tag
 
-class PhotoTagAdapter(private val onTagClickListener: OnTagClickListener) :
-    ListAdapter<Photo.Tag, PhotoTagAdapter.TagViewHolder>(TAG_COMPARATOR) {
+class PhotoTagAdapter(
+    private val onTagClickListener: (String) -> Unit
+) : ListAdapter<Tag, PhotoTagAdapter.TagViewHolder>(TAG_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagViewHolder {
         val binding = ItemPhotoTagBinding.inflate(LayoutInflater.from(parent.context))
@@ -30,29 +31,25 @@ class PhotoTagAdapter(private val onTagClickListener: OnTagClickListener) :
                 if (position != RecyclerView.NO_POSITION) {
                     val tag = getItem(position)
                     tag?.title?.let {
-                        onTagClickListener.onTagClicked(tag = it)
+                        onTagClickListener(it)
                     }
                 }
             }
         }
 
-        fun bind(tag: Photo.Tag) {
-            tag.title?.let { title ->
-                binding.chipPhotoTag.text = title
+        fun bind(tag: Tag) {
+            tag.title?.let {
+                binding.chipPhotoTag.text = it
             }
         }
     }
 
-    interface OnTagClickListener {
-        fun onTagClicked(tag: String)
-    }
-
     companion object {
-        private val TAG_COMPARATOR = object : DiffUtil.ItemCallback<Photo.Tag>() {
-            override fun areItemsTheSame(oldItem: Photo.Tag, newItem: Photo.Tag) =
+        private val TAG_COMPARATOR = object : DiffUtil.ItemCallback<Tag>() {
+            override fun areItemsTheSame(oldItem: Tag, newItem: Tag) =
                 oldItem.title == newItem.title
 
-            override fun areContentsTheSame(oldItem: Photo.Tag, newItem: Photo.Tag) =
+            override fun areContentsTheSame(oldItem: Tag, newItem: Tag) =
                 oldItem == newItem
         }
     }

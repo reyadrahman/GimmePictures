@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.ItemPhotoExifBinding
-import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.Photo
 import java.util.*
 
 class PhotoExifAdapter(
@@ -35,7 +35,7 @@ class PhotoExifAdapter(
         val triples = mutableListOf<Triple<Int, Int, SpannableStringBuilder>>()
         val unknown = SpannableStringBuilder(context.getString(R.string.unknown))
         photo.exif?.let {
-            triples.add(
+            val triplesArray = arrayOf(
                 Triple(
                     R.string.camera,
                     R.drawable.ic_camera_outline,
@@ -46,43 +46,40 @@ class PhotoExifAdapter(
                         )
                     )
                     else unknown
-                )
-            )
-            triples.add(
+                ),
                 Triple(
                     R.string.aperture,
                     R.drawable.ic_aperture,
                     if (it.aperture != null) SpannableStringBuilder().italic {
                         append("f")
                     }.append("/${it.aperture}") else unknown
-                )
-            )
-            triples.add(
+                ),
+                Triple(
+                    R.string.aperture,
+                    R.drawable.ic_aperture,
+                    if (it.aperture != null) SpannableStringBuilder().italic {
+                        append("f")
+                    }.append("/${it.aperture}") else unknown
+                ),
                 Triple(
                     R.string.focal_length,
                     R.drawable.ic_focal_length,
                     if (it.focalLength != null) SpannableStringBuilder(
                         "${it.focalLength}mm"
                     ) else unknown
-                )
-            )
-            triples.add(
+                ),
                 Triple(
                     R.string.shutter_speed,
                     R.drawable.ic_shutter_speed_outlined,
                     if (it.exposureTime != null) SpannableStringBuilder(
                         "${it.exposureTime}s"
                     ) else unknown
-                )
-            )
-            triples.add(
+                ),
                 Triple(
                     R.string.iso,
                     R.drawable.ic_iso_outlined,
                     if (it.iso != null) SpannableStringBuilder(it.iso.toString()) else unknown
-                )
-            )
-            triples.add(
+                ),
                 Triple(
                     R.string.resolution,
                     R.drawable.ic_resolution_outlined,
@@ -91,6 +88,7 @@ class PhotoExifAdapter(
                     )
                 )
             )
+            triples.addAll(triplesArray)
         }
         submitList(triples)
     }
@@ -117,7 +115,7 @@ class PhotoExifAdapter(
             drawableRes: Int,
             value: SpannableStringBuilder
         ) {
-            binding.apply {
+            with(binding) {
                 exifEntryTextView.setText(stringRes)
                 exifEntryTextView.setCompoundDrawablesWithIntrinsicBounds(drawableRes, 0, 0, 0)
                 exifValueTextView.text = value

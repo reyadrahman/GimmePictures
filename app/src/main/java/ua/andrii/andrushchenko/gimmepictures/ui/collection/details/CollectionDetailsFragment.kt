@@ -1,6 +1,5 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.collection.details
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -15,12 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentCollectionDetailsBinding
-import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.Photo
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.photo.PhotosAdapter
-import ua.andrii.andrushchenko.gimmepictures.ui.widgets.AspectRatioImageView
 import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManager
 import ua.andrii.andrushchenko.gimmepictures.util.toReadableString
 
@@ -32,14 +30,12 @@ class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollec
     private val args: CollectionDetailsFragmentArgs by navArgs()
     private val viewModel: CollectionDetailsViewModel by viewModels()
 
-    override val pagedAdapter: BasePagedAdapter<Photo> =
-        PhotosAdapter(object : PhotosAdapter.OnItemClickListener {
-            override fun onPhotoClick(photo: Photo, photoImageView: AspectRatioImageView) {
-                val direction =
-                    CollectionDetailsFragmentDirections.actionGlobalPhotoDetailsFragment(photoId = photo.id)
-                findNavController().navigate(direction)
-            }
-        })
+    override val pagedAdapter: BasePagedAdapter<Photo> = PhotosAdapter { photo ->
+        val direction = CollectionDetailsFragmentDirections.actionGlobalPhotoDetailsFragment(
+            photoId = photo.id
+        )
+        findNavController().navigate(direction)
+    }
 
     override val rv: RecyclerView
         get() = binding.collectionPhotosListingLayout.recyclerView
@@ -47,18 +43,7 @@ class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollec
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            toolbar.apply {
-                val navController = findNavController()
-                val appBarConfiguration = AppBarConfiguration(
-                    setOf(
-                        R.id.nav_photos,
-                        R.id.nav_collections,
-                        R.id.nav_account
-                    )
-                )
-                setupWithNavController(navController, appBarConfiguration)
-                setOnClickListener { scrollRecyclerViewToTop() }
-            }
+            setupToolbar()
 
             if (savedInstanceState == null) {
                 viewModel.setCollection(args.collection)
@@ -67,10 +52,10 @@ class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollec
             viewModel.collection.observe(viewLifecycleOwner) { collection ->
                 toolbar.title = collection.title
 
-                collection.description?.let { description ->
+                collection.description?.let {
                     descriptionTextView.apply {
                         visibility = View.VISIBLE
-                        text = description
+                        text = it
                     }
                 }
 
@@ -87,16 +72,14 @@ class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollec
                         }
                     }
 
-                    @SuppressLint("SetTextI18n")
-                    text = "${
-                        collection.totalPhotos.toReadableString()
-                    } ${
-                        getString(R.string.photos).apply { first().lowercaseChar() }
-                    } ${
-                        getString(R.string.curated_by)
-                    } ${
+
+                    text = getString(
+                        R.string.collection_photos_amount_curated_by_formatted,
+                        collection.totalPhotos.toReadableString(),
+                        getString(R.string.photos).apply { first().lowercaseChar() },
+                        getString(R.string.curated_by),
                         collection.user?.username
-                    }"
+                    )
                 }
 
                 if (viewModel.isUserAuthorized && viewModel.isOwnCollection) {
@@ -151,6 +134,21 @@ class CollectionDetailsFragment : BaseRecyclerViewFragment<Photo, FragmentCollec
 
         viewModel.collectionPhotos.observe(viewLifecycleOwner) {
             pagedAdapter.submitData(viewLifecycleOwner.lifecycle, it)
+        }
+    }
+
+    private fun setupToolbar() {
+        val navController = findNavController()
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_photos,
+                R.id.nav_collections,
+                R.id.nav_account
+            )
+        )
+        binding.toolbar.apply {
+            setupWithNavController(navController, appBarConfiguration)
+            setOnClickListener { scrollRecyclerViewToTop() }
         }
     }
 }

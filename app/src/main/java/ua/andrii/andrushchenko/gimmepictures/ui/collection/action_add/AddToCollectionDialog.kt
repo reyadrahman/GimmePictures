@@ -2,7 +2,6 @@ package ua.andrii.andrushchenko.gimmepictures.ui.collection.action_add
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
@@ -12,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.BottomSheetAddCollectionBinding
-import ua.andrii.andrushchenko.gimmepictures.domain.entities.Collection
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseBottomSheetDialogFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.photo.details.PhotoDetailsViewModel
 import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 import ua.andrii.andrushchenko.gimmepictures.util.setupLinearLayoutManager
+import ua.andrii.andrushchenko.gimmepictures.util.toast
 
 @AndroidEntryPoint
 class AddToCollectionDialog :
@@ -32,49 +31,34 @@ class AddToCollectionDialog :
         super.onViewCreated(view, savedInstanceState)
 
         val addToCollectionAdapter =
-            AddToCollectionAdapter(object : AddToCollectionAdapter.OnItemClickListener {
-                override fun onCollectionThumbClick(
-                    collection: Collection,
-                    selectedStateView: View,
-                    loadingProgress: View
-                ) {
-                    if (viewModel.currentUserCollectionIds.value?.contains(collection.id) == true) {
-                        viewModel.deletePhotoFromCollection(collection.id, args.photoId)
-                            .observe(viewLifecycleOwner) {
-                                selectedStateView.isClickable = it !is BackendResult.Loading
-                                loadingProgress.visibility =
-                                    if (it is BackendResult.Loading) View.VISIBLE else View.GONE
-                                selectedStateView.visibility =
-                                    if (it is BackendResult.Error) View.VISIBLE else View.GONE
-                                if (it is BackendResult.Error) {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        getString(R.string.list_footer_load_error),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
+            AddToCollectionAdapter { collection, selectedStateView, loadingProgress ->
+                if (viewModel.currentUserCollectionIds.value?.contains(collection.id) == true) {
+                    viewModel.deletePhotoFromCollection(collection.id, args.photoId)
+                        .observe(viewLifecycleOwner) {
+                            selectedStateView.isClickable = it !is BackendResult.Loading
+                            loadingProgress.visibility =
+                                if (it is BackendResult.Loading) View.VISIBLE else View.GONE
+                            selectedStateView.visibility =
+                                if (it is BackendResult.Error) View.VISIBLE else View.GONE
+                            if (it is BackendResult.Error) {
+                                requireContext().toast(R.string.list_footer_load_error)
+                            }
 
+                        }
+                } else {
+                    viewModel.addPhotoToCollection(collection.id, args.photoId)
+                        .observe(viewLifecycleOwner) {
+                            selectedStateView.isClickable = it !is BackendResult.Loading
+                            loadingProgress.visibility =
+                                if (it is BackendResult.Loading) View.VISIBLE else View.GONE
+                            selectedStateView.visibility =
+                                if (it is BackendResult.Success) View.VISIBLE else View.GONE
+                            if (it is BackendResult.Error) {
+                                requireContext().toast(R.string.list_footer_load_error)
                             }
-                    } else {
-                        viewModel.addPhotoToCollection(collection.id, args.photoId)
-                            .observe(viewLifecycleOwner) {
-                                selectedStateView.isClickable = it !is BackendResult.Loading
-                                loadingProgress.visibility =
-                                    if (it is BackendResult.Loading) View.VISIBLE else View.GONE
-                                selectedStateView.visibility =
-                                    if (it is BackendResult.Success) View.VISIBLE else View.GONE
-                                if (it is BackendResult.Error) {
-                                    Toast.makeText(
-                                        requireContext(),
-                                        getString(R.string.list_footer_load_error),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            }
-                    }
+                        }
                 }
-            })
-
+            }
 
         with(binding) {
             addToCollectionAdapter.addLoadStateListener { loadState ->
@@ -108,7 +92,7 @@ class AddToCollectionDialog :
             }
 
             viewModel.currentUserCollectionIds.observe(viewLifecycleOwner) {
-                addToCollectionAdapter.setCurrentUserCollectionIds(it)
+                addToCollectionAdapter.currentUserCollectionIds = it.orEmpty()
             }
 
             viewModel.userCollections.observe(viewLifecycleOwner) {
@@ -143,11 +127,7 @@ class AddToCollectionDialog :
                             }
                             is BackendResult.Error -> {
                                 layoutProgress.visibility = View.GONE
-                                Toast.makeText(
-                                    requireContext(),
-                                    getString(R.string.list_footer_load_error),
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                requireContext().toast(R.string.list_footer_load_error)
                             }
                         }
                     }

@@ -3,7 +3,7 @@ package ua.andrii.andrushchenko.gimmepictures.data.photos
 import androidx.lifecycle.LiveData
 import androidx.paging.PagingData
 import okhttp3.ResponseBody
-import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.Photo
 import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 
 interface PhotosRepository {

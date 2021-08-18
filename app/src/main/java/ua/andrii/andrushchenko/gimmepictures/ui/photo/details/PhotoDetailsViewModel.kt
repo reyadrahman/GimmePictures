@@ -9,8 +9,8 @@ import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepository
 import ua.andrii.andrushchenko.gimmepictures.data.collection.CollectionPhotoResult
 import ua.andrii.andrushchenko.gimmepictures.data.collection.CollectionsRepository
 import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotosRepository
-import ua.andrii.andrushchenko.gimmepictures.domain.entities.Collection
-import ua.andrii.andrushchenko.gimmepictures.domain.entities.Photo
+import ua.andrii.andrushchenko.gimmepictures.domain.Collection
+import ua.andrii.andrushchenko.gimmepictures.domain.Photo
 import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 import java.util.*
 import javax.inject.Inject
@@ -27,7 +27,8 @@ class PhotoDetailsViewModel @Inject constructor(
 
     val isUserAuthorized get() = authRepository.isAuthorized
 
-    private val _authorizedUserNickName: MutableLiveData<String> = MutableLiveData(authRepository.userNickname)
+    private val _authorizedUserNickName: MutableLiveData<String> =
+        MutableLiveData(authRepository.userNickname)
 
     private val _photo: MutableLiveData<Photo> = MutableLiveData()
     val photo get() = _photo
@@ -82,7 +83,8 @@ class PhotoDetailsViewModel @Inject constructor(
         if (creationResult is BackendResult.Success) {
             var newCollection = creationResult.value
 
-            val additionResult = collectionsRepository.addPhotoToCollection(newCollection.id, photoId)
+            val additionResult =
+                collectionsRepository.addPhotoToCollection(newCollection.id, photoId)
             if (additionResult is BackendResult.Success) {
                 val newIdList = _currentUserCollectionIds.value ?: mutableListOf()
                 newIdList.add(newCollection.id)
@@ -99,34 +101,32 @@ class PhotoDetailsViewModel @Inject constructor(
     fun addPhotoToCollection(
         collectionId: String,
         photoId: String
-    ): LiveData<BackendResult<CollectionPhotoResult>> =
-        liveData(viewModelScope.coroutineContext) {
-            emit(BackendResult.Loading)
+    ): LiveData<BackendResult<CollectionPhotoResult>> = liveData(viewModelScope.coroutineContext) {
+        emit(BackendResult.Loading)
 
-            val additionResult = collectionsRepository.addPhotoToCollection(collectionId, photoId)
-            if (additionResult is BackendResult.Success) {
-                val newIdList = _currentUserCollectionIds.value ?: mutableListOf()
-                newIdList.add(collectionId)
-                _currentUserCollectionIds.postValue(newIdList)
-            }
-            emit(additionResult)
+        val additionResult = collectionsRepository.addPhotoToCollection(collectionId, photoId)
+        if (additionResult is BackendResult.Success) {
+            val newIdList = _currentUserCollectionIds.value ?: mutableListOf()
+            newIdList.add(collectionId)
+            _currentUserCollectionIds.postValue(newIdList)
         }
+        emit(additionResult)
+    }
 
     fun deletePhotoFromCollection(
         collectionId: String,
         photoId: String
-    ): LiveData<BackendResult<CollectionPhotoResult>> =
-        liveData(viewModelScope.coroutineContext) {
-            emit(BackendResult.Loading)
+    ): LiveData<BackendResult<CollectionPhotoResult>> = liveData(viewModelScope.coroutineContext) {
+        emit(BackendResult.Loading)
 
-            val deletionResult = collectionsRepository.deletePhotoFromCollection(collectionId, photoId)
-            if (deletionResult is BackendResult.Success) {
-                val newList = _currentUserCollectionIds.value ?: mutableListOf()
-                newList.remove(collectionId)
-                _currentUserCollectionIds.postValue(newList)
-            }
-            emit(deletionResult)
+        val deletionResult = collectionsRepository.deletePhotoFromCollection(collectionId, photoId)
+        if (deletionResult is BackendResult.Success) {
+            val newList = _currentUserCollectionIds.value ?: mutableListOf()
+            newList.remove(collectionId)
+            _currentUserCollectionIds.postValue(newList)
         }
+        emit(deletionResult)
+    }
 
     var downloadWorkUUID: UUID? = null
 }

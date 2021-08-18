@@ -1,4 +1,4 @@
-package ua.andrii.andrushchenko.gimmepictures.domain.entities
+package ua.andrii.andrushchenko.gimmepictures.domain
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
@@ -20,7 +20,7 @@ data class Collection(
     val private: Boolean?,
     @SerializedName("share_key")
     val shareKey: String?,
-    val tags: List<Photo.Tag>?,
+    val tags: List<Tag>?,
     @SerializedName("cover_photo")
     val coverPhoto: Photo?,
     @SerializedName("preview_photos")

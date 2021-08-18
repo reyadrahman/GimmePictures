@@ -11,7 +11,7 @@
     app:cardElevation="@dimen/indent_0dp"
     tools:ignore="UnusedAttribute">
 
-    <ua.andrii.andrushchenko.gimmepictures.ui.widgets.AspectRatioImageView
+    <ua.andrii.andrushchenko.gimmepictures.ui.views.AspectRatioImageView
         android:id="@+id/photo_image_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

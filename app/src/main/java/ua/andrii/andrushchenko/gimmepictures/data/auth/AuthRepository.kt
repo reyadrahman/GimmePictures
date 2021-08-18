@@ -1,7 +1,7 @@
 package ua.andrii.andrushchenko.gimmepictures.data.auth
 
 import ua.andrii.andrushchenko.gimmepictures.data.common.CLIENT_ID
-import ua.andrii.andrushchenko.gimmepictures.domain.entities.Me
+import ua.andrii.andrushchenko.gimmepictures.domain.Me
 import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
 
 interface AuthRepository {
