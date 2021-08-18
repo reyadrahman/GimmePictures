@@ -16,10 +16,6 @@ class AddToCollectionAdapter(
 
     lateinit var currentUserCollectionIds: List<String>
 
-    /*fun setCurrentUserCollectionIds(currentUserCollectionIds: List<String>?) {
-        this.currentUserCollectionIds = currentUserCollectionIds
-    }*/
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionSmallViewHolder {
         val binding =
             ItemCollectionSmallBinding.inflate(LayoutInflater.from(parent.context), parent, false)

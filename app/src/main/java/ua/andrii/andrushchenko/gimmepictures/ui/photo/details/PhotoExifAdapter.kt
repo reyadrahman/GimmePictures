@@ -55,13 +55,6 @@ class PhotoExifAdapter(
                     }.append("/${it.aperture}") else unknown
                 ),
                 Triple(
-                    R.string.aperture,
-                    R.drawable.ic_aperture,
-                    if (it.aperture != null) SpannableStringBuilder().italic {
-                        append("f")
-                    }.append("/${it.aperture}") else unknown
-                ),
-                Triple(
                     R.string.focal_length,
                     R.drawable.ic_focal_length,
                     if (it.focalLength != null) SpannableStringBuilder(
