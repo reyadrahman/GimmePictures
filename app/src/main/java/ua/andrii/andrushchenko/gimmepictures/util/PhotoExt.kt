@@ -13,15 +13,13 @@ enum class PhotoSize(@StringRes val stringId: Int) {
     THUMB(R.string.image_size_thumb)
 }
 
-fun Photo.getUrlForSize(size: PhotoSize?): String {
-    return when (size) {
-        PhotoSize.RAW -> this.urls.raw
-        PhotoSize.FULL -> this.urls.full
-        PhotoSize.REGULAR -> this.urls.regular
-        PhotoSize.SMALL -> this.urls.small
-        PhotoSize.THUMB -> this.urls.thumb
-        else -> this.urls.regular
-    }
+fun Photo.getUrlForSize(size: PhotoSize?): String = when (size) {
+    PhotoSize.RAW -> this.urls.raw
+    PhotoSize.FULL -> this.urls.full
+    PhotoSize.REGULAR -> this.urls.regular
+    PhotoSize.SMALL -> this.urls.small
+    PhotoSize.THUMB -> this.urls.thumb
+    else -> this.urls.regular
 }
 
 val Photo.fileName: String

@@ -1,6 +1,5 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.user
 
-import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -48,21 +47,14 @@ class UserDetailsViewModel @Inject constructor(
     }
 
     val userPhotos: LiveData<PagingData<Photo>> = _user.switchMap {
-        Log.d(TAG, ": userPhotos updated")
         userRepository.getUserPhotos(it.username ?: "").cachedIn(viewModelScope)
     }
 
     val userLikedPhotos: LiveData<PagingData<Photo>> = _user.switchMap {
-        Log.d(TAG, ": userLikedPhotos updated")
         userRepository.getUserLikedPhotos(it.username ?: "").cachedIn(viewModelScope)
     }
 
     val userCollections: LiveData<PagingData<Collection>> = _user.switchMap {
-        Log.d(TAG, ": collections updated")
         userRepository.getUserCollections(it.username ?: "").cachedIn(viewModelScope)
-    }
-
-    companion object {
-        private const val TAG = "UserDetailsViewModel"
     }
 }

@@ -1,10 +1,14 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.collection.action_add
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
@@ -13,8 +17,9 @@ import ua.andrii.andrushchenko.gimmepictures.R
 import ua.andrii.andrushchenko.gimmepictures.databinding.BottomSheetAddCollectionBinding
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseBottomSheetDialogFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
-import ua.andrii.andrushchenko.gimmepictures.ui.photo.details.PhotoDetailsViewModel
 import ua.andrii.andrushchenko.gimmepictures.util.BackendResult
+import ua.andrii.andrushchenko.gimmepictures.util.FragmentCommunicationConstants.ADD_TO_COLLECTION_REQUEST_KEY
+import ua.andrii.andrushchenko.gimmepictures.util.FragmentCommunicationConstants.NEW_COLLECTION_IDS
 import ua.andrii.andrushchenko.gimmepictures.util.setupLinearLayoutManager
 import ua.andrii.andrushchenko.gimmepictures.util.toast
 
@@ -22,13 +27,13 @@ import ua.andrii.andrushchenko.gimmepictures.util.toast
 class AddToCollectionDialog :
     BaseBottomSheetDialogFragment<BottomSheetAddCollectionBinding>(BottomSheetAddCollectionBinding::inflate) {
 
-    private val viewModel: PhotoDetailsViewModel by viewModels(
-        ownerProducer = { requireParentFragment().childFragmentManager.primaryNavigationFragment!! }
-    )
+    private val viewModel: AddToCollectionViewModel by viewModels()
     private val args: AddToCollectionDialogArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.initUserCollectionsIds(args.currentUserCollectionIds?.toMutableList())
 
         val addToCollectionAdapter =
             AddToCollectionAdapter { collection, selectedStateView, loadingProgress ->
@@ -172,5 +177,15 @@ class AddToCollectionDialog :
         collectionNameTextInputLayout.error = null
         collectionDescriptionTextInputLayout.editText?.setText("")
         checkboxMakePrivate.isChecked = false
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        val collectionsList = viewModel.currentUserCollectionIds.value?.toTypedArray()
+        setFragmentResult(
+            ADD_TO_COLLECTION_REQUEST_KEY,
+            bundleOf(NEW_COLLECTION_IDS to collectionsList)
+        )
+        findNavController().popBackStack()
     }
 }

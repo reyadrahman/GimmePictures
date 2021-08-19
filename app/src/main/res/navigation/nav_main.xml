@@ -167,6 +167,10 @@
         <argument
             android:name="photoId"
             app:argType="string" />
+        <argument
+            android:name="currentUserCollectionIds"
+            app:argType="string[]"
+            app:nullable="true" />
     </dialog>
 
 </navigation>

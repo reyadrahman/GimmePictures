@@ -1,6 +1,5 @@
 package ua.andrii.andrushchenko.gimmepictures.util
 
-import ThemeHelper.getCustomTabsColorScheme
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -10,6 +9,7 @@ import android.text.TextUtils
 import android.util.Log
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.browser.customtabs.CustomTabsService
+import ua.andrii.andrushchenko.gimmepictures.util.ThemeHelper.getCustomTabsColorScheme
 
 object CustomTabsHelper {
 

@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -26,6 +27,8 @@ import ua.andrii.andrushchenko.gimmepictures.domain.User
 import ua.andrii.andrushchenko.gimmepictures.ui.auth.AuthActivity
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseFragment
 import ua.andrii.andrushchenko.gimmepictures.util.*
+import ua.andrii.andrushchenko.gimmepictures.util.FragmentCommunicationConstants.ADD_TO_COLLECTION_REQUEST_KEY
+import ua.andrii.andrushchenko.gimmepictures.util.FragmentCommunicationConstants.NEW_COLLECTION_IDS
 import ua.andrii.andrushchenko.gimmepictures.worker.DownloadWorker
 
 @AndroidEntryPoint
@@ -60,6 +63,11 @@ class PhotoDetailsFragment :
 
             viewModel.photo.observe(viewLifecycleOwner) {
                 setupPhotoDetails(it)
+            }
+
+            setFragmentResultListener(ADD_TO_COLLECTION_REQUEST_KEY) { _, bundle ->
+                val result = bundle.getStringArray(NEW_COLLECTION_IDS)
+                viewModel.updateCurrentUserCollectionIds(result?.toMutableList())
             }
         }
     }
@@ -104,7 +112,7 @@ class PhotoDetailsFragment :
         }
 
         viewModel.currentUserCollectionIds.observe(viewLifecycleOwner) {
-            setBookmarkButtonState(it ?: emptyList())
+            setBookmarkButtonState(it.isNullOrEmpty())
         }
 
         setupBookmarkButton(photo.id)
@@ -164,7 +172,6 @@ class PhotoDetailsFragment :
         }
     }
 
-
     private fun setupDescription(description: String?) = with(binding) {
         description?.let { description ->
             bottomSheetLayout.descriptionTextView.apply {
@@ -200,17 +207,17 @@ class PhotoDetailsFragment :
         }
     }
 
-
     private fun setLikeButtonState(likedByUser: Boolean) = binding.btnLike.setImageResource(
         if (likedByUser) R.drawable.ic_like else R.drawable.ic_like_outlined
     )
 
-    private fun setupBookmarkButton(photoId: String) = with(binding) {
-        btnBookmark.setOnClickListener {
+    private fun setupBookmarkButton(photoId: String) {
+        binding.btnBookmark.setOnClickListener {
             if (viewModel.isUserAuthorized) {
                 val direction =
                     PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToAddToCollectionDialog(
-                        photoId
+                        photoId,
+                        viewModel.currentUserCollectionIds.value?.toTypedArray()
                     )
                 findNavController().navigate(direction)
             } else {
@@ -227,16 +234,15 @@ class PhotoDetailsFragment :
         }
     }
 
-
-    private fun setBookmarkButtonState(currentUserCollectionIds: List<String>) =
+    private fun setBookmarkButtonState(isCurrentUserCollectionIdsEmpty: Boolean) =
         binding.btnBookmark.setImageResource(
-            if (currentUserCollectionIds.isNotEmpty()) R.drawable.ic_bookmark_filled
-            else R.drawable.ic_bookmark_outlined
+            if (isCurrentUserCollectionIdsEmpty) R.drawable.ic_bookmark_outlined
+            else R.drawable.ic_bookmark_filled
         )
 
-    private fun setupTags(tags: List<Tag?>?) = with(binding) {
+    private fun setupTags(tags: List<Tag?>?) {
         tags?.let { tagList ->
-            recyclerViewTags.apply {
+            binding.recyclerViewTags.apply {
                 visibility = View.VISIBLE
                 setHasFixedSize(true)
                 setupLinearLayoutManager(
@@ -256,9 +262,8 @@ class PhotoDetailsFragment :
         }
     }
 
-
-    private fun setupPhotoInfo(photo: Photo) = with(binding) {
-        bottomSheetLayout.apply {
+    private fun setupPhotoInfo(photo: Photo) {
+        binding.bottomSheetLayout.apply {
             txtViews.text = "${photo.views?.toReadableString() ?: 0}"
             txtLikes.text = "${photo.likes?.toReadableString() ?: 0}"
             txtDownloads.text = "${photo.downloads?.toReadableString() ?: 0}"
@@ -284,13 +289,12 @@ class PhotoDetailsFragment :
                     else -> PhotoSize.REGULAR
                 }
                 val url = photo.getUrlForSize(photoSize)
-                viewModel.downloadWorkUUID =
-                    DownloadWorker.enqueueDownload(
-                        requireContext(),
-                        url,
-                        photo.fileName,
-                        photo.id
-                    )
+                DownloadWorker.enqueueDownload(
+                    requireContext(),
+                    url,
+                    photo.fileName,
+                    photo.id
+                )
                 dialog.dismiss()
             }
         } else {

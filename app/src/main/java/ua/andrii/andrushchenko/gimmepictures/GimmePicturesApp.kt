@@ -1,11 +1,11 @@
 package ua.andrii.andrushchenko.gimmepictures
 
-import ThemeHelper
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.preference.PreferenceManager
 import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
+import ua.andrii.andrushchenko.gimmepictures.util.ThemeHelper
 import javax.inject.Inject
 
 @HiltAndroidApp

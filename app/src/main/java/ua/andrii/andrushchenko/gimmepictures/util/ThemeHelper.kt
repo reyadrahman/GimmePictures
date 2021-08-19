@@ -1,3 +1,5 @@
+package ua.andrii.andrushchenko.gimmepictures.util
+
 import android.content.Context
 import android.content.res.TypedArray
 import androidx.annotation.AttrRes
@@ -12,23 +14,19 @@ object ThemeHelper {
     private const val BATTERY = "battery"
     private const val DEFAULT = "default"
 
-    fun applyTheme(theme: String?) {
-        when (theme) {
-            LIGHT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            BATTERY -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
-            DEFAULT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-            else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
+    fun applyTheme(theme: String?) = when (theme) {
+        LIGHT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        BATTERY -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+        DEFAULT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 
     @CustomTabsIntent.ColorScheme
-    fun getCustomTabsColorScheme(theme: String?): Int {
-        return when (theme) {
-            LIGHT -> COLOR_SCHEME_LIGHT
-            DARK -> COLOR_SCHEME_DARK
-            else -> COLOR_SCHEME_SYSTEM
-        }
+    fun getCustomTabsColorScheme(theme: String?): Int = when (theme) {
+        LIGHT -> COLOR_SCHEME_LIGHT
+        DARK -> COLOR_SCHEME_DARK
+        else -> COLOR_SCHEME_SYSTEM
     }
 
     @ColorInt
