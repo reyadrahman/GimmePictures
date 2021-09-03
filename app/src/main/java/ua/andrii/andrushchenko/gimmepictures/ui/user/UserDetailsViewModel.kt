@@ -17,6 +17,9 @@ class UserDetailsViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
+    // Look inside the onViewCreated in UserDetailsFragment.kt for description
+    var isDataInitialized = false
+
     private val _error: MutableLiveData<Boolean> = MutableLiveData(false)
     val error: LiveData<Boolean> get() = _error
 
@@ -28,7 +31,9 @@ class UserDetailsViewModel @Inject constructor(
     }
 
     fun refreshUserProfile() {
-        _user.postValue(_user.value)
+        _user.value?.let {
+            _user.postValue(it)
+        }
     }
 
     fun getUserProfile(username: String) = viewModelScope.launch {
@@ -47,14 +52,14 @@ class UserDetailsViewModel @Inject constructor(
     }
 
     val userPhotos: LiveData<PagingData<Photo>> = _user.switchMap {
-        userRepository.getUserPhotos(it.username ?: "").cachedIn(viewModelScope)
+        userRepository.getUserPhotos(it.username.orEmpty()).cachedIn(viewModelScope)
     }
 
     val userLikedPhotos: LiveData<PagingData<Photo>> = _user.switchMap {
-        userRepository.getUserLikedPhotos(it.username ?: "").cachedIn(viewModelScope)
+        userRepository.getUserLikedPhotos(it.username.orEmpty()).cachedIn(viewModelScope)
     }
 
     val userCollections: LiveData<PagingData<Collection>> = _user.switchMap {
-        userRepository.getUserCollections(it.username ?: "").cachedIn(viewModelScope)
+        userRepository.getUserCollections(it.username.orEmpty()).cachedIn(viewModelScope)
     }
 }

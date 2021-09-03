@@ -32,8 +32,9 @@ import ua.andrii.andrushchenko.gimmepictures.util.FragmentCommunicationConstants
 import ua.andrii.andrushchenko.gimmepictures.worker.DownloadWorker
 
 @AndroidEntryPoint
-class PhotoDetailsFragment :
-    BaseFragment<FragmentPhotoDetailsBinding>(FragmentPhotoDetailsBinding::inflate) {
+class PhotoDetailsFragment : BaseFragment<FragmentPhotoDetailsBinding>(
+    FragmentPhotoDetailsBinding::inflate
+) {
 
     private val viewModel: PhotoDetailsViewModel by viewModels()
     private val args: PhotoDetailsFragmentArgs by navArgs()
@@ -56,7 +57,15 @@ class PhotoDetailsFragment :
             bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout.bottomSheet)
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
-            viewModel.getPhotoDetails(args.photoId)
+            // Since savedInstanceState is ALWAYS null
+            // we need another method to be persuaded that
+            // the fragment data was initialized
+            // to prevent unnecessary data refreshing
+            if (!viewModel.isDataInitialized) {
+                viewModel.getPhotoDetails(args.photoId)
+                viewModel.isDataInitialized = true
+            }
+
             viewModel.error.observe(viewLifecycleOwner) {
                 toggleErrorLayout(it)
             }

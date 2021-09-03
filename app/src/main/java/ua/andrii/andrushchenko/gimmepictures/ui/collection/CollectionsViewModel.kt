@@ -8,6 +8,8 @@ import ua.andrii.andrushchenko.gimmepictures.data.collection.CollectionsReposito
 import javax.inject.Inject
 
 @HiltViewModel
-class CollectionsViewModel @Inject constructor(collectionsRepository: CollectionsRepository) : ViewModel() {
+class CollectionsViewModel @Inject constructor(
+    collectionsRepository: CollectionsRepository
+) : ViewModel() {
     val collections = collectionsRepository.getCollections().cachedIn(viewModelScope)
 }

@@ -70,7 +70,7 @@
                     android:id="@+id/user_photos_amount_container"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/indent_24dp"
+                    android:layout_marginStart="@dimen/indent_16dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="@id/user_image_view"
@@ -84,7 +84,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:textStyle="bold"
                         tools:text="100" />
 
@@ -94,7 +94,8 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="@string/photos"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -114,7 +115,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:textStyle="bold"
                         tools:text="100" />
 
@@ -124,7 +125,8 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="@string/likes"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -146,7 +148,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         android:textStyle="bold"
                         tools:text="102" />
 
@@ -156,7 +158,8 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="@string/collections"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textSize="18sp" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -168,7 +171,6 @@
                 android:background="?attr/colorPrimaryVariant"
                 android:theme="@style/GimmePictures.ToolbarOverlay"
                 app:layout_collapseMode="pin"
-                app:menu="@menu/menu_user_profile"
                 app:popupTheme="@style/GimmePictures.PopupOverlay" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -190,6 +192,11 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:visibility="visible" />
 
+    <include
+        android:id="@+id/bottom_sheet_layout"
+        layout="@layout/bottom_sheet_user_more_info"
+        tools:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/layout_error"
         android:layout_width="wrap_content"
@@ -210,7 +217,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_retry"
-            style="@style/Widget.MaterialComponents.Button"
+            style="@style/GimmePictures.Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/retry" />

@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,30 +21,44 @@ import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.util.CustomTabsHelper
 import ua.andrii.andrushchenko.gimmepictures.util.loadImage
-import ua.andrii.andrushchenko.gimmepictures.util.showInfoAlertDialogWithoutTitle
 import ua.andrii.andrushchenko.gimmepictures.util.toReadableString
 
 @AndroidEntryPoint
-class UserDetailsFragment :
-    BaseFragment<FragmentUserDetailsBinding>(FragmentUserDetailsBinding::inflate) {
+class UserDetailsFragment : BaseFragment<FragmentUserDetailsBinding>(
+    FragmentUserDetailsBinding::inflate
+) {
 
     private val viewModel: UserDetailsViewModel by viewModels()
     private val args: UserDetailsFragmentArgs by navArgs()
 
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
+
+    private var isUserInfoEmpty = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setupToolbarBase()
+
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheetLayout.bottomSheet)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
+        // Since savedInstanceState is ALWAYS null
+        // we need another method to be persuaded that
+        // the fragment data was initialized
+        // to prevent unnecessary data refreshing
+        if (!viewModel.isDataInitialized) {
+            when {
+                args.user != null -> viewModel.setUser(args.user!!)
+                args.username != null -> viewModel.getUserProfile(args.username!!)
+                else -> findNavController().navigateUp()
+            }
+            viewModel.isDataInitialized = true
+        }
+
         binding.btnRetry.setOnClickListener {
             viewModel.refreshUserProfile()
         }
-
-        when {
-            args.user != null -> viewModel.setUser(args.user!!)
-            args.username != null -> viewModel.getUserProfile(args.username!!)
-            else -> findNavController().navigateUp()
-        }
-
-        setupTabs()
 
         viewModel.error.observe(viewLifecycleOwner) {
             toggleErrorLayout(isVisible = it)
@@ -52,6 +67,8 @@ class UserDetailsFragment :
         viewModel.user.observe(viewLifecycleOwner) {
             displayUserInfo(it)
         }
+
+        setupTabs()
     }
 
     private fun setupTabs() = with(binding) {
@@ -96,28 +113,41 @@ class UserDetailsFragment :
         txtPhotosAmount.text = user.totalPhotos?.toReadableString()
         txtLikesAmount.text = user.totalLikes?.toReadableString()
         txtCollectionsAmount.text = user.totalCollections?.toReadableString()
-        txtUsername.text = getString(R.string.user_full_name_formatted, user.firstName, user.lastName)
+        txtUsername.text =
+            getString(R.string.user_full_name_formatted, user.firstName, user.lastName)
         user.bio?.let { bio ->
             txtUserBio.apply {
                 visibility = View.VISIBLE
                 text = bio
             }
         }
-    }
 
-    private fun showMoreUserInfo(user: User) {
-        val stringBuilder = StringBuilder().apply {
-            with(user) {
-                location?.let { append(getString(R.string.user_based_in, it)).append("\n") }
-                instagramUsername?.let {
-                    append(getString(R.string.user_instagram_username)).append(
-                        "\n"
-                    )
+        isUserInfoEmpty = user.location.isNullOrBlank() &&
+                user.instagramUsername.isNullOrBlank() &&
+                user.twitterUsername.isNullOrBlank()
+
+        if (!isUserInfoEmpty) {
+            bottomSheetLayout.apply {
+                userLocation.apply {
+                    user.location?.let {
+                        visibility = View.VISIBLE
+                        text = it
+                    }
                 }
-                twitterUsername?.let { append(getString(R.string.user_twitter_username)) }
+                userInstagram.apply {
+                    user.instagramUsername?.let {
+                        visibility = View.VISIBLE
+                        text = it
+                    }
+                }
+                userTwitter.apply {
+                    user.twitterUsername?.let {
+                        visibility = View.VISIBLE
+                        text = it
+                    }
+                }
             }
         }
-        requireContext().showInfoAlertDialogWithoutTitle(stringBuilder.toString())
     }
 
     private fun toggleErrorLayout(isVisible: Boolean) = with(binding) {
@@ -141,6 +171,14 @@ class UserDetailsFragment :
 
     private fun setupToolbarWithUserData(user: User) {
         binding.toolbar.apply {
+            inflateMenu(R.menu.menu_user_profile)
+
+            val userPortfolioItem = menu.findItem(R.id.action_user_portfolio)
+            userPortfolioItem.isVisible = !user.portfolioUrl.isNullOrBlank()
+
+            val userMoreInfoItem = menu.findItem(R.id.action_user_more_info)
+            userMoreInfoItem.isVisible = !isUserInfoEmpty
+
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.action_user_portfolio -> {
@@ -150,7 +188,7 @@ class UserDetailsFragment :
                         true
                     }
                     R.id.action_user_more_info -> {
-                        showMoreUserInfo(user)
+                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
                         true
                     }
                     else -> super.onOptionsItemSelected(item)

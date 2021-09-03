@@ -24,12 +24,13 @@ class AccountFragment : BaseFragment<FragmentAccountBinding>(FragmentAccountBind
 
     private val viewModel: AccountViewModel by viewModels()
 
-    private val resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                viewModel.notifyUserAuthorizationSuccessful()
-            }
+    private val resultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            viewModel.notifyUserAuthorizationSuccessful()
         }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

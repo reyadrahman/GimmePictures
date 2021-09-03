@@ -35,7 +35,7 @@ class AddToCollectionViewModel @Inject constructor(
         description: String?,
         isPrivate: Boolean?,
         photoId: String
-    ): LiveData<BackendResult<Collection>> = liveData {
+    ): LiveData<BackendResult<Collection>> = liveData(viewModelScope.coroutineContext) {
         emit(BackendResult.Loading)
 
         val creationResult = collectionsRepository.createCollection(title, description, isPrivate)

@@ -1,5 +1,6 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.account
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,7 +15,7 @@ class AccountViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _isUserAuthorized = MutableLiveData(authRepository.isAuthorized)
-    val isUserAuthorized get() = _isUserAuthorized
+    val isUserAuthorized: LiveData<Boolean> get() = _isUserAuthorized
 
     val userNickname: String?
         get() = authRepository.userNickname

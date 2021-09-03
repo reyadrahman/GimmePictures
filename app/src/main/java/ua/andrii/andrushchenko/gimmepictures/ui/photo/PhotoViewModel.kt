@@ -1,9 +1,6 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.photo
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.switchMap
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ua.andrii.andrushchenko.gimmepictures.data.auth.AuthRepository
@@ -18,7 +15,7 @@ class PhotoViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _order = MutableLiveData(PhotosPagingSource.Companion.Order.LATEST)
-    val order get() = _order
+    val order: LiveData<PhotosPagingSource.Companion.Order> get() = _order
 
     val photos = order.switchMap { order ->
         photoRepository.getAllPhotos(order).cachedIn(viewModelScope)

@@ -18,16 +18,19 @@ class PhotoDetailsViewModel @Inject constructor(
     private val photoRepository: PhotosRepository
 ) : ViewModel() {
 
+    // Look inside the onViewCreated in PhotoDetailsFragment.kt for description
+    var isDataInitialized = false
+
     val isUserAuthorized get() = authRepository.isAuthorized
 
     private val _authorizedUserNickName: MutableLiveData<String> =
         MutableLiveData(authRepository.userNickname)
 
     private val _photo: MutableLiveData<Photo> = MutableLiveData()
-    val photo get() = _photo
+    val photo: LiveData<Photo> get() = _photo
 
     private val _error: MutableLiveData<Boolean> = MutableLiveData(false)
-    val error get() = _error
+    val error: LiveData<Boolean> get() = _error
 
     private val _currentUserCollectionIds = MutableLiveData<MutableList<String>?>()
     val currentUserCollectionIds: LiveData<MutableList<String>?> = _currentUserCollectionIds

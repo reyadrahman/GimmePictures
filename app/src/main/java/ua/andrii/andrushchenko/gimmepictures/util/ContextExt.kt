@@ -59,6 +59,8 @@ fun Context.toast(@StringRes message: Int, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, duration).show()
 }
 
-fun Context.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
-    Toast.makeText(this, message, duration).show()
+fun Context.toast(message: String?, duration: Int = Toast.LENGTH_SHORT) {
+    message?.let {
+        Toast.makeText(this, it, duration).show()
+    }
 }

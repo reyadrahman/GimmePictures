@@ -16,8 +16,9 @@ import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapte
 import ua.andrii.andrushchenko.gimmepictures.ui.user.UsersAdapter
 import ua.andrii.andrushchenko.gimmepictures.util.setupLinearLayoutManager
 
-class UsersResultsFragment :
-    BaseRecyclerViewFragment<User, ListingLayoutBinding>(ListingLayoutBinding::inflate) {
+class UsersResultsFragment : BaseRecyclerViewFragment<User, ListingLayoutBinding>(
+    ListingLayoutBinding::inflate
+) {
 
     private val viewModel: SearchViewModel by viewModels(ownerProducer = { requireParentFragment() })
 

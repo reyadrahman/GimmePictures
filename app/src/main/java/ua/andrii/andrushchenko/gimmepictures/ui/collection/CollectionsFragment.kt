@@ -20,15 +20,17 @@ import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapte
 import ua.andrii.andrushchenko.gimmepictures.util.setupLinearLayoutManager
 
 @AndroidEntryPoint
-class CollectionsFragment :
-    BaseRecyclerViewFragment<Collection, FragmentCollectionsBinding>(FragmentCollectionsBinding::inflate) {
+class CollectionsFragment : BaseRecyclerViewFragment<Collection, FragmentCollectionsBinding>(
+    FragmentCollectionsBinding::inflate
+) {
 
     private val viewModel: CollectionsViewModel by viewModels()
 
     override val pagedAdapter: BasePagedAdapter<Collection> = CollectionsAdapter { collection ->
-        val direction = CollectionsFragmentDirections.actionNavCollectionsToCollectionDetailsFragment(
-            collection = collection
-        )
+        val direction =
+            CollectionsFragmentDirections.actionNavCollectionsToCollectionDetailsFragment(
+                collection = collection
+            )
         findNavController().navigate(direction)
     }
 
@@ -92,7 +94,7 @@ class CollectionsFragment :
                     R.id.action_search -> {
                         val direction =
                             CollectionsFragmentDirections.actionNavCollectionsToSearchFragment(
-                                null
+                                searchQuery = null
                             )
                         findNavController().navigate(direction)
                     }

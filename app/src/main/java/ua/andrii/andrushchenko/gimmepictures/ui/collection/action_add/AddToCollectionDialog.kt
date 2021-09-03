@@ -24,8 +24,9 @@ import ua.andrii.andrushchenko.gimmepictures.util.setupLinearLayoutManager
 import ua.andrii.andrushchenko.gimmepictures.util.toast
 
 @AndroidEntryPoint
-class AddToCollectionDialog :
-    BaseBottomSheetDialogFragment<BottomSheetAddCollectionBinding>(BottomSheetAddCollectionBinding::inflate) {
+class AddToCollectionDialog : BaseBottomSheetDialogFragment<BottomSheetAddCollectionBinding>(
+    BottomSheetAddCollectionBinding::inflate
+) {
 
     private val viewModel: AddToCollectionViewModel by viewModels()
     private val args: AddToCollectionDialogArgs by navArgs()

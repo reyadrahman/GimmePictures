@@ -24,14 +24,16 @@ import ua.andrii.andrushchenko.gimmepictures.util.showAlertDialogWithRadioButton
 import java.util.*
 
 @AndroidEntryPoint
-class PhotosFragment :
-    BaseRecyclerViewFragment<Photo, FragmentPhotosBinding>(FragmentPhotosBinding::inflate) {
+class PhotosFragment : BaseRecyclerViewFragment<Photo, FragmentPhotosBinding>(
+    FragmentPhotosBinding::inflate
+) {
 
     private val viewModel: PhotoViewModel by viewModels()
 
     override val pagedAdapter: BasePagedAdapter<Photo> = PhotosAdapter { photo ->
-        val direction =
-            PhotosFragmentDirections.actionGlobalPhotoDetailsFragment(photoId = photo.id)
+        val direction = PhotosFragmentDirections.actionGlobalPhotoDetailsFragment(
+            photoId = photo.id
+        )
         findNavController().navigate(direction)
     }
 

@@ -6,7 +6,6 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.FileProvider
@@ -78,12 +77,14 @@ class DownloadWorker @AssistedInject constructor(
                     backendRequest { downloadService.trackDownload(it) }
                 }
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(appContext,
-                        appContext.resources.getString(R.string.download_complete),
-                        Toast.LENGTH_SHORT).show()
+                    appContext.toast(R.string.download_complete)
                 }
             } else {
-                onError(fileName, Exception(appContext.getString(R.string.failed_to_write_to_file)), true)
+                onError(
+                    fileName,
+                    Exception(appContext.getString(R.string.failed_to_write_to_file)),
+                    true
+                )
             }
 
         } catch (e: CancellationException) {
@@ -98,8 +99,12 @@ class DownloadWorker @AssistedInject constructor(
         builder: NotificationCompat.Builder,
         progress: Int
     ) {
-        setForeground(ForegroundInfo(notificationId,
-            notificationHelper.updateProgressNotification(builder, progress).build()))
+        setForeground(
+            ForegroundInfo(
+                notificationId,
+                notificationHelper.updateProgressNotification(builder, progress).build()
+            )
+        )
     }
 
     private fun onError(
@@ -107,7 +112,7 @@ class DownloadWorker @AssistedInject constructor(
         exception: Exception,
         showNotification: Boolean
     ) {
-        Toast.makeText(appContext, exception.message, Toast.LENGTH_SHORT).show()
+        appContext.toast(exception.message)
         if (showNotification) {
             notificationHelper.showDownloadErrorNotification(fileName)
         }
@@ -217,7 +222,6 @@ class DownloadWorker @AssistedInject constructor(
     }
 
     companion object {
-        //private const val TAG = "DownloadWorker"
         const val KEY_INPUT_URL = "KEY_INPUT_URL"
         const val KEY_OUTPUT_FILE_NAME = "KEY_OUTPUT_FILE_NAME"
         const val KEY_PHOTO_ID = "KEY_PHOTO_ID"

@@ -18,8 +18,9 @@ import ua.andrii.andrushchenko.gimmepictures.ui.photo.PhotosAdapter
 import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManager
 
 @AndroidEntryPoint
-class UserPhotosFragment :
-    BaseRecyclerViewFragment<Photo, ListingLayoutBinding>(ListingLayoutBinding::inflate) {
+class UserPhotosFragment : BaseRecyclerViewFragment<Photo, ListingLayoutBinding>(
+    ListingLayoutBinding::inflate
+) {
 
     private val viewModel: UserDetailsViewModel by viewModels(ownerProducer = { requireParentFragment() })
 

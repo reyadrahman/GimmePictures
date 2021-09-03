@@ -1,9 +1,6 @@
 package ua.andrii.andrushchenko.gimmepictures.ui.search
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.switchMap
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ua.andrii.andrushchenko.gimmepictures.data.search.SearchPhotosPagingSource
@@ -16,7 +13,7 @@ class SearchViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _query: MutableLiveData<String> = MutableLiveData()
-    val query get() = _query
+    val query: LiveData<String> get() = _query
 
     // Photo search filter params
     var order = SearchPhotosPagingSource.Companion.Order.RELEVANT

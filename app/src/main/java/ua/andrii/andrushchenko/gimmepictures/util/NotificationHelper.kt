@@ -1,6 +1,5 @@
 package ua.andrii.andrushchenko.gimmepictures.util
 
-import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -69,7 +68,6 @@ class NotificationHelper(private val context: Context) {
         notificationManager.notify(fileName.hashCode(), builder.build())
     }
 
-    @SuppressLint("UnspecifiedImmutableFlag")
     private fun getViewPendingIntent(uri: Uri): PendingIntent {
         val viewIntent = Intent(Intent.ACTION_VIEW).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or
@@ -80,7 +78,12 @@ class NotificationHelper(private val context: Context) {
 
         val chooser = Intent.createChooser(viewIntent, context.getString(R.string.open_with))
 
-        return PendingIntent.getActivity(context, 0, chooser, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        return PendingIntent.getActivity(
+            context,
+            0,
+            chooser,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
     }
 
     fun showDownloadErrorNotification(fileName: String) {
