@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,15 +13,15 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import ua.andrii.andrushchenko.gimmepictures.R
-import ua.andrii.andrushchenko.gimmepictures.data.photos.PhotosPagingSource
 import ua.andrii.andrushchenko.gimmepictures.databinding.FragmentPhotosBinding
 import ua.andrii.andrushchenko.gimmepictures.domain.Photo
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BasePagedAdapter
 import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseRecyclerViewFragment
 import ua.andrii.andrushchenko.gimmepictures.ui.base.RecyclerViewLoadStateAdapter
 import ua.andrii.andrushchenko.gimmepictures.util.CustomTabsHelper
+import ua.andrii.andrushchenko.gimmepictures.util.FragmentCommunicationConstants.CHANGE_PHOTOS_ORDER_REQUEST_KEY
+import ua.andrii.andrushchenko.gimmepictures.util.FragmentCommunicationConstants.NEW_PHOTOS_ORDER
 import ua.andrii.andrushchenko.gimmepictures.util.setupStaggeredGridLayoutManager
-import ua.andrii.andrushchenko.gimmepictures.util.showAlertDialogWithRadioButtons
 import java.util.*
 
 @AndroidEntryPoint
@@ -69,6 +70,13 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo, FragmentPhotosBinding>(
             fabAddPhoto.setOnClickListener {
                 openAddPhotoTab()
             }
+
+            setFragmentResultListener(CHANGE_PHOTOS_ORDER_REQUEST_KEY) { _, bundle ->
+                val orderBy = bundle.getInt(NEW_PHOTOS_ORDER)
+                if (orderBy != viewModel.order.value?.ordinal) {
+                    viewModel.orderPhotosBy(orderBy)
+                }
+            }
         }
 
         rv.apply {
@@ -113,22 +121,11 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo, FragmentPhotosBinding>(
         CustomTabsHelper.openCustomTab(requireContext(), uri)
     }
 
-    private fun showFilterDialog() {
-        val orderOptions = enumValues<PhotosPagingSource.Companion.Order>()
-            .map { getString(it.titleRes) }
-            .toTypedArray()
-
-        val currentSelection = viewModel.order.value?.ordinal ?: 0
-
-        requireContext().showAlertDialogWithRadioButtons(
-            R.string.sort_by,
-            orderOptions,
-            currentSelection
-        ) { dialog, which ->
-            if (which != currentSelection) viewModel.orderPhotosBy(which)
-            dialog.dismiss()
-            scrollRecyclerViewToTop()
-        }
+    private fun showPhotosOrderDialog() {
+        val direction = PhotosFragmentDirections.actionNavPhotosToPhotoOrderSelectionDialog(
+            currentSelection = viewModel.order.value?.ordinal ?: 0
+        )
+        findNavController().navigate(direction)
     }
 
     private fun setupToolbar() {
@@ -144,7 +141,7 @@ class PhotosFragment : BaseRecyclerViewFragment<Photo, FragmentPhotosBinding>(
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.action_sort -> {
-                        showFilterDialog()
+                        showPhotosOrderDialog()
                     }
                     R.id.action_search -> {
                         val direction =

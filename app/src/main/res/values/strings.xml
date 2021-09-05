@@ -24,7 +24,7 @@
 
     <!--Photo fragment-->
     <string name="add_photo">Add photo</string>
-    <string name="sort_by">Sort by</string>
+    <string name="order_by">Order photos by:</string>
     <string name="order_latest">Latest</string>
     <string name="order_oldest">Oldest</string>
     <string name="order_popular">Popular</string>
@@ -147,11 +147,12 @@
     <string name="download_error">Download error</string>
     <string name="cancel">Cancel</string>
     <string name="select_image_quality">Select image size</string>
-    <string name="image_size_raw">Raw size</string>
-    <string name="image_size_full">Full size</string>
-    <string name="image_size_regular">Regular size</string>
-    <string name="image_size_small">Small size</string>
-    <string name="image_size_thumb">Thumb size</string>
+    <string name="image_size_original">Original</string>
+    <string name="image_size_large">Large</string>
+    <string name="image_size_medium">Medium</string>
+    <string name="image_size_small">Small</string>
+    <string name="image_size_thumb">Thumb</string>
+    <string name="download_image_size_selection_prompt">Select download size:</string>
 
     <!--File related-->
     <string name="file_exists_title">File already exists</string>

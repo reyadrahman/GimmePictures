@@ -21,7 +21,7 @@
 
     <!--Photo fragment-->
     <string name="add_photo">Добавить фото</string>
-    <string name="sort_by">Сортировать по</string>
+    <string name="order_by">Упорядочить по:</string>
     <string name="order_latest">Последние</string>
     <string name="order_oldest">Самые старые</string>
     <string name="order_popular">Популярные</string>
@@ -138,11 +138,12 @@
     <string name="download_error">Ошибка загрузки</string>
     <string name="cancel">Отмена</string>
     <string name="select_image_quality">Выберите размер изображения</string>
-    <string name="image_size_raw">Исходный</string>
-    <string name="image_size_full">Полный</string>
-    <string name="image_size_regular">Обычный</string>
-    <string name="image_size_small">Малый</string>
-    <string name="image_size_thumb">Очень маленький</string>
+    <string name="image_size_original">Оригинал</string>
+    <string name="image_size_large">Большой</string>
+    <string name="image_size_medium">Средний</string>
+    <string name="image_size_small">Маленький</string>
+    <string name="image_size_thumb">Иконка</string>
+    <string name="download_image_size_selection_prompt">Выберите размер фото:</string>
 
     <!--File related-->
     <string name="file_exists_title">Такой файл уже существует</string>

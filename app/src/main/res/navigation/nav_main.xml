@@ -19,6 +19,9 @@
         <deepLink
             android:id="@+id/deepLink"
             app:uri="gmpictures://photos-overview" />
+        <action
+            android:id="@+id/action_nav_photos_to_photoOrderSelectionDialog"
+            app:destination="@id/photoOrderSelectionDialog" />
     </fragment>
     <fragment
         android:id="@+id/nav_collections"
@@ -100,6 +103,9 @@
         <action
             android:id="@+id/action_photoDetailsFragment_to_addToCollectionDialog"
             app:destination="@id/addToCollectionDialog" />
+        <action
+            android:id="@+id/action_photoDetailsFragment_to_downloadDialog"
+            app:destination="@id/downloadDialog" />
     </fragment>
     <fragment
         android:id="@+id/userDetailsFragment"
@@ -171,6 +177,24 @@
             android:name="currentUserCollectionIds"
             app:argType="string[]"
             app:nullable="true" />
+    </dialog>
+    <dialog
+        android:id="@+id/downloadDialog"
+        android:name="ua.andrii.andrushchenko.gimmepictures.ui.photo.details.dialogs.DownloadDialog"
+        android:label="bottom_sheet_download_photo"
+        tools:layout="@layout/bottom_sheet_download_photo" >
+        <argument
+            android:name="photo"
+            app:argType="ua.andrii.andrushchenko.gimmepictures.domain.Photo" />
+    </dialog>
+    <dialog
+        android:id="@+id/photoOrderSelectionDialog"
+        android:name="ua.andrii.andrushchenko.gimmepictures.ui.photo.dialogs.PhotoOrderSelectionDialog"
+        android:label="bottom_sheet_photo_order_selection"
+        tools:layout="@layout/bottom_sheet_photo_order_selection" >
+        <argument
+            android:name="currentSelection"
+            app:argType="integer" />
     </dialog>
 
 </navigation>

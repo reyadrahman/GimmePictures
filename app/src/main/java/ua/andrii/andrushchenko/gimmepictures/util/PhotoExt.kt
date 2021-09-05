@@ -6,20 +6,20 @@ import ua.andrii.andrushchenko.gimmepictures.domain.Photo
 import java.util.*
 
 enum class PhotoSize(@StringRes val stringId: Int) {
-    RAW(R.string.image_size_raw),
-    FULL(R.string.image_size_full),
-    REGULAR(R.string.image_size_regular),
+    ORIGINAL(R.string.image_size_original),
+    LARGE(R.string.image_size_large),
+    MEDIUM(R.string.image_size_medium),
     SMALL(R.string.image_size_small),
     THUMB(R.string.image_size_thumb)
 }
 
 fun Photo.getUrlForSize(size: PhotoSize?): String = when (size) {
-    PhotoSize.RAW -> this.urls.raw
-    PhotoSize.FULL -> this.urls.full
-    PhotoSize.REGULAR -> this.urls.regular
+    PhotoSize.ORIGINAL -> this.urls.raw
+    PhotoSize.LARGE -> this.urls.full
+    PhotoSize.MEDIUM -> this.urls.regular
     PhotoSize.SMALL -> this.urls.small
     PhotoSize.THUMB -> this.urls.thumb
-    else -> this.urls.regular
+    else -> this.urls.raw
 }
 
 val Photo.fileName: String

@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/indent_8dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="@string/sort_by"
+                android:text="@string/order_by"
                 android:textSize="16sp" />
 
             <com.google.android.material.button.MaterialButtonToggleGroup
@@ -134,7 +134,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
-                    tools:ignore="LabelFor" />
+                    tools:ignore="LabelFor,SpeakableTextPresentCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatTextView

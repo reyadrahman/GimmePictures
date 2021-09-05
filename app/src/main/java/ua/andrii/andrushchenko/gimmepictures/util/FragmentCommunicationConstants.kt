@@ -6,4 +6,7 @@ object FragmentCommunicationConstants {
 
     const val NEW_COLLECTION_IDS = "NEW_COLLECTION_IDS"
 
+    const val CHANGE_PHOTOS_ORDER_REQUEST_KEY = "CHANGE_PHOTOS_ORDER_REQUEST_KEY"
+
+    const val NEW_PHOTOS_ORDER = "NEW_PHOTOS_ORDER"
 }

@@ -29,7 +29,6 @@ import ua.andrii.andrushchenko.gimmepictures.ui.base.BaseFragment
 import ua.andrii.andrushchenko.gimmepictures.util.*
 import ua.andrii.andrushchenko.gimmepictures.util.FragmentCommunicationConstants.ADD_TO_COLLECTION_REQUEST_KEY
 import ua.andrii.andrushchenko.gimmepictures.util.FragmentCommunicationConstants.NEW_COLLECTION_IDS
-import ua.andrii.andrushchenko.gimmepictures.worker.DownloadWorker
 
 @AndroidEntryPoint
 class PhotoDetailsFragment : BaseFragment<FragmentPhotoDetailsBinding>(
@@ -281,31 +280,13 @@ class PhotoDetailsFragment : BaseFragment<FragmentPhotoDetailsBinding>(
         }
     }
 
-
     private fun downloadPhoto(photo: Photo) {
         if (hasWritePermission()) {
-            val sizeOptions = enumValues<PhotoSize>().map { getString(it.stringId) }.toTypedArray()
-            requireContext().showAlertDialogWithSelectionsList(
-                R.string.select_image_quality,
-                sizeOptions
-            ) { dialog, which ->
-                val photoSize = when (which) {
-                    0 -> PhotoSize.RAW
-                    1 -> PhotoSize.FULL
-                    2 -> PhotoSize.REGULAR
-                    3 -> PhotoSize.SMALL
-                    4 -> PhotoSize.THUMB
-                    else -> PhotoSize.REGULAR
-                }
-                val url = photo.getUrlForSize(photoSize)
-                DownloadWorker.enqueueDownload(
-                    requireContext(),
-                    url,
-                    photo.fileName,
-                    photo.id
+            val direction =
+                PhotoDetailsFragmentDirections.actionPhotoDetailsFragmentToDownloadDialog(
+                    photo
                 )
-                dialog.dismiss()
-            }
+            findNavController().navigate(direction)
         } else {
             requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, requestCode = 0)
         }

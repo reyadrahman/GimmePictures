@@ -180,6 +180,7 @@
             style="@style/GimmePictures.TabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/search_for"
             app:tabTextAppearance="@style/GimmePictures.AppTabTextAppearance" />
 
     </com.google.android.material.appbar.AppBarLayout>

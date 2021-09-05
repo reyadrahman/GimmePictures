@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.photo.details.dialogs.DownloadDialog">
+
+    <View
+        android:id="@+id/tag"
+        android:layout_width="25dp"
+        android:layout_height="3dp"
+        android:layout_margin="@dimen/indent_16dp"
+        android:background="?attr/colorOnSurface"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/download_description"
+        style="@style/TextAppearance.JustNotes.Subtitle2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/indent_16dp"
+        android:layout_marginTop="@dimen/indent_16dp"
+        android:layout_marginEnd="@dimen/indent_16dp"
+        android:text="@string/download_image_size_selection_prompt"
+        app:layout_constraintTop_toBottomOf="@id/tag" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/photo_size_original"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/indent_16dp"
+        android:gravity="center_vertical"
+        android:padding="@dimen/indent_16dp"
+        android:text="@string/image_size_original"
+        app:drawableTint="?attr/colorOnBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/download_description" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/photo_size_large"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="@dimen/indent_16dp"
+        android:text="@string/image_size_large"
+        app:drawableTint="?attr/colorOnBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/photo_size_original" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/photo_size_medium"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="@dimen/indent_16dp"
+        android:text="@string/image_size_medium"
+        app:drawableTint="?attr/colorOnBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/photo_size_large" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/photo_size_small"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="@dimen/indent_16dp"
+        android:text="@string/image_size_small"
+        app:drawableTint="?attr/colorOnBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/photo_size_medium" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

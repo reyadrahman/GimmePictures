@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
 apply plugin: "androidx.navigation.safeargs.kotlin"
+//apply plugin: 'org.jetbrains.kotlin.android.extensions'
 apply plugin: 'dagger.hilt.android.plugin'
 
 android {

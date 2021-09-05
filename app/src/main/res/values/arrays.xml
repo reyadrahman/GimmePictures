@@ -23,9 +23,9 @@
 
     <!--Quality-->
     <string-array name="quality_options">
-        <item>@string/image_size_raw</item>
-        <item>@string/image_size_full</item>
-        <item>@string/image_size_regular</item>
+        <item>@string/image_size_original</item>
+        <item>@string/image_size_large</item>
+        <item>@string/image_size_medium</item>
         <item>@string/image_size_small</item>
         <item>@string/image_size_thumb</item>
     </string-array>
